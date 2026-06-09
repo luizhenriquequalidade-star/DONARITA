@@ -9,12 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- Firebase SDKs (compat) -->
-    <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js">
-    </script>
-
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
@@ -1160,103 +1154,62 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // ==================== FIREBASE INIT ====================
-        const firebaseConfig = {
-            apiKey: "AIzaSyBbhn6_dGhOXjDKcQv2dwGppPsvOw05JUo",
-            authDomain: "donarita.firebaseapp.com",
-            projectId: "donarita",
-            storageBucket: "donarita.firebasestorage.app",
-            messagingSenderId: "97772940970",
-            appId: "1:97772940970:web:a31ecbb0e3bb1f04a6aad3",
-            measurementId: "G-J5PCHGZYTY"
-        };
+        // ==================== DADOS INICIAIS ====================
+        function initData() {
+            if (!localStorage.getItem('sistemaNC_usuarios')) {
+                const usuarios = [
+                    { username: 'qualidade', password: '1304', role: 'admin', createdAt: new Date().toISOString() },
+                    { username: 'operador', password: '1234', role: 'padrao', createdAt: new Date().toISOString() }
+                ];
+                localStorage.setItem('sistemaNC_usuarios', JSON.stringify(usuarios));
+            }
+            if (!localStorage.getItem('sistemaNC_ncs')) {
+                localStorage.setItem('sistemaNC_ncs', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('sistemaNC_nextId')) {
+                localStorage.setItem('sistemaNC_nextId', '1');
+            }
+        }
 
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        function getUsuarios() { return JSON.parse(localStorage.getItem('sistemaNC_usuarios') || '[]'); }
 
-        // ==================== VARIÁVEIS GLOBAIS (cache) ====================
-        let _usuariosCache = [];
-        let _ncsCache = [];
-        let _nextIdCache = 1;
-        let appPronto = false; // controle de inicialização
+        function setUsuarios(u) { localStorage.setItem('sistemaNC_usuarios', JSON.stringify(u)); }
 
-        // ==================== ACESSO AO CACHE ====================
-        function getUsuarios() { return _usuariosCache; }
-        function getNCs() { return _ncsCache; }
+        function getNCs() { return JSON.parse(localStorage.getItem('sistemaNC_ncs') || '[]'); }
+
+        function setNCs(n) { localStorage.setItem('sistemaNC_ncs', JSON.stringify(n)); }
+
+        function getNextId() {
+            const id = parseInt(localStorage.getItem('sistemaNC_nextId') || '1');
+            localStorage.setItem('sistemaNC_nextId', (id + 1).toString());
+            return id;
+        }
+
         function getCurrentUser() { return JSON.parse(localStorage.getItem('sistemaNC_currentUser') || 'null'); }
+
         function setCurrentUser(u) { localStorage.setItem('sistemaNC_currentUser', JSON.stringify(u)); }
 
-        // ==================== INICIALIZAÇÃO DOS DADOS DO FIREBASE ====================
-        async function carregarDadosFirestore() {
-            try {
-                const usuariosSnap = await db.collection('usuarios').get();
-                _usuariosCache = usuariosSnap.docs.map(d => d.data());
+        // ==================== INICIALIZAÇÃO ====================
+        initData();
+        let fotosNovas = [];
+        let fotosExistentes = [];
+        let liveTimers = {};
 
-                const ncsSnap = await db.collection('ncs').orderBy('id').get();
-                _ncsCache = ncsSnap.docs.map(d => d.data());
-
-                const nextIdDoc = await db.collection('config').doc('nextId').get();
-                _nextIdCache = nextIdDoc.exists ? nextIdDoc.data().value : 1;
-
-                // Se não existir usuário admin padrão, criar
-                if (_usuariosCache.length === 0) {
-                    const usuariosPadrao = [
-                        { username: 'qualidade', password: '1304', role: 'admin', createdAt: new Date().toISOString() },
-                        { username: 'operador', password: '1234', role: 'padrao', createdAt: new Date().toISOString() }
-                    ];
-                    const batch = db.batch();
-                    usuariosPadrao.forEach(u => {
-                        const ref = db.collection('usuarios').doc(u.username);
-                        batch.set(ref, u);
-                    });
-                    await batch.commit();
-                    _usuariosCache = usuariosPadrao;
-                }
-
-                if (!nextIdDoc.exists) {
-                    await db.collection('config').doc('nextId').set({ value: 1 });
-                    _nextIdCache = 1;
-                }
-
-                appPronto = true;
-            } catch (error) {
-                console.error('Erro ao carregar dados do Firestore:', error);
-                alert('Não foi possível conectar ao Firebase. Verifique sua conexão e as regras do Firestore.');
-            }
+        const savedUser = getCurrentUser();
+        if (savedUser) {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('appContainer').classList.add('visible');
+            atualizarUIUsuario();
+            navegar('dashboard', document.querySelector('[data-page="dashboard"]'));
         }
 
-        // ==================== OBTENÇÃO DO PRÓXIMO ID (atômico) ====================
-        async function getNextId() {
-            const ref = db.collection('config').doc('nextId');
-            try {
-                const newId = await db.runTransaction(async (transaction) => {
-                    const doc = await transaction.get(ref);
-                    const currentId = doc.exists ? doc.data().value : 1;
-                    transaction.set(ref, { value: currentId + 1 }, { merge: true });
-                    return currentId;
-                });
-                _nextIdCache = newId + 1;
-                return newId;
-            } catch (e) {
-                console.error('Erro ao obter próximo ID:', e);
-                // fallback: usar o cache
-                const id = _nextIdCache;
-                _nextIdCache++;
-                await db.collection('config').doc('nextId').set({ value: _nextIdCache }, { merge: true });
-                return id;
-            }
-        }
-
-        // ==================== LOGIN (síncrono, usa cache) ====================
+        // ==================== LOGIN ====================
         function fazerLogin() {
-            if (!appPronto) {
-                mostrarToast('O sistema ainda está carregando...', 'info');
-                return;
-            }
             const user = document.getElementById('loginUser').value.trim();
             const pass = document.getElementById('loginPass').value.trim();
             const errorEl = document.getElementById('loginError');
-            const found = _usuariosCache.find(u => u.username === user && u.password === pass);
+            const usuarios = getUsuarios();
+            const found = usuarios.find(u => u.username === user && u.password === pass);
             if (found) {
                 setCurrentUser({ username: found.username, role: found.role });
                 document.getElementById('loginScreen').classList.add('hidden');
@@ -1279,9 +1232,11 @@
         });
 
         function logout() {
+            // Limpa todos os intervalos ativos
             Object.values(liveTimers).forEach(clearInterval);
             liveTimers = {};
             localStorage.removeItem('sistemaNC_currentUser');
+            setCurrentUser(null);
             document.getElementById('appContainer').classList.remove('visible');
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('loginUser').value = '';
@@ -1300,7 +1255,11 @@
             document.getElementById('userDisplay').textContent = user.username;
             document.getElementById('userAvatar').textContent = user.username.charAt(0).toUpperCase();
             const navUsuarios = document.getElementById('navUsuarios');
-            navUsuarios.style.display = user.role === 'admin' ? 'flex' : 'none';
+            if (user.role === 'admin') {
+                navUsuarios.style.display = 'flex';
+            } else {
+                navUsuarios.style.display = 'none';
+            }
         }
 
         // ==================== NAVEGAÇÃO ====================
@@ -1366,13 +1325,15 @@
         function ativarCronometrosLista() {
             Object.values(liveTimers).forEach(clearInterval);
             liveTimers = {};
-            _ncsCache.forEach(nc => {
+            const ncs = getNCs();
+            ncs.forEach(nc => {
                 if (nc.status === 'aberto') {
                     const el = document.getElementById('timer-' + nc.id);
                     if (el) {
                         const atualizar = () => {
                             const t = calcularTempoDetalhado(nc);
-                            el.innerHTML = `<span class="live-timer"><i class="fas fa-clock"></i> ${t.texto}</span>`;
+                            el.innerHTML =
+                                `<span class="live-timer"><i class="fas fa-clock"></i> ${t.texto}</span>`;
                         };
                         atualizar();
                         liveTimers[nc.id] = setInterval(atualizar, 1000);
@@ -1382,22 +1343,23 @@
         }
 
         function ativarCronometroDetalhe(ncId) {
-            const nc = _ncsCache.find(n => n.id === ncId);
+            const nc = getNCs().find(n => n.id === ncId);
             if (!nc || nc.status !== 'aberto') return;
             const el = document.getElementById('liveTimerDetalhe');
             if (!el) return;
             if (liveTimers['detalhe']) clearInterval(liveTimers['detalhe']);
             const atualizar = () => {
                 const t = calcularTempoDetalhado(nc);
-                el.innerHTML = `<span class="live-timer" style="font-size:0.9rem;"><i class="fas fa-clock"></i> ${t.texto}</span>`;
+                el.innerHTML =
+                    `<span class="live-timer" style="font-size:0.9rem;"><i class="fas fa-clock"></i> ${t.texto}</span>`;
             };
             atualizar();
             liveTimers['detalhe'] = setInterval(atualizar, 1000);
         }
 
-        // ==================== DASHBOARD ====================
+        // ==================== DASHBOARD (CORRIGIDO) ====================
         function renderDashboard() {
-            const ncs = _ncsCache;
+            const ncs = getNCs();
             const abertas = ncs.filter(n => n.status === 'aberto');
             const resolvidas = ncs.filter(n => n.status === 'resolvido');
             const total = ncs.length;
@@ -1405,6 +1367,7 @@
                 Math.round(abertas.reduce((s, n) => s + calcularDias(n), 0) / abertas.length) :
                 0;
 
+            // Cards de estatísticas
             document.getElementById('statsGrid').innerHTML = `
             <div class="stat-card">
               <div class="stat-icon blue"><i class="fas fa-clipboard-list"></i></div>
@@ -1424,6 +1387,7 @@
             </div>
           `;
 
+            // Gráfico 1: Motivos (AGRUPADOS DINAMICAMENTE)
             const motivosMap = {};
             ncs.forEach(n => {
                 const motivoCurto = (n.motivo || 'Sem motivo').substring(0, 50);
@@ -1453,14 +1417,19 @@
                     options: {
                         responsive: true,
                         plugins: {
-                            legend: { position: 'bottom', labels: { padding: 14, usePointStyle: true, font: { size: 11 } } }
+                            legend: {
+                                position: 'bottom',
+                                labels: { padding: 14, usePointStyle: true, font: { size: 11 } }
+                            }
                         }
                     }
                 });
             } else if (ctx1) {
-                ctx1.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhum motivo registrado</p>';
+                ctx1.parentNode.innerHTML =
+                    '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhum motivo registrado</p>';
             }
 
+            // Gráfico 2: Status
             if (window._chartStatus) window._chartStatus.destroy();
             const ctx2 = document.getElementById('chartStatus');
             if (ctx2) {
@@ -1477,18 +1446,26 @@
                             barThickness: 50
                         }]
                     },
-                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+                    }
                 });
             }
 
+            // Gráfico 3: Dias em aberto (Top 10)
             if (window._chartDias) window._chartDias.destroy();
             const ctx3 = document.getElementById('chartDias');
-            const topAbertas = [...abertas].sort((a, b) => calcularDias(b) - calcularDias(a)).slice(0, 10);
+            const topAbertas = [...abertas]
+                .sort((a, b) => calcularDias(b) - calcularDias(a))
+                .slice(0, 10);
             if (ctx3 && topAbertas.length > 0) {
                 window._chartDias = new Chart(ctx3, {
                     type: 'bar',
                     data: {
-                        labels: topAbertas.map(n => `NC #${n.id} - ${(n.produto || 'N/A').substring(0, 12)}`),
+                        labels: topAbertas.map(n =>
+                            `NC #${n.id} - ${(n.produto || 'N/A').substring(0, 12)}`),
                         datasets: [{
                             label: 'Dias em Aberto',
                             data: topAbertas.map(n => calcularDias(n)),
@@ -1501,21 +1478,30 @@
                         indexAxis: 'y',
                         responsive: true,
                         plugins: { legend: { display: false } },
-                        scales: { x: { beginAtZero: true, title: { display: true, text: 'Dias' }, ticks: { stepSize: 1 } } }
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: { display: true, text: 'Dias' },
+                                ticks: { stepSize: 1 }
+                            }
+                        }
                     }
                 });
             } else if (ctx3) {
-                ctx3.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhuma NC em aberto</p>';
+                ctx3.parentNode.innerHTML =
+                    '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhuma NC em aberto</p>';
             }
         }
 
         // ==================== LISTA DE NCs ====================
         function renderListaNCs() {
+            const ncs = getNCs();
             const filtroStatus = document.getElementById('filtroStatus')?.value || 'todos';
             const filtroPalete = document.getElementById('filtroPalete')?.value || 'todos';
             const filtroBusca = (document.getElementById('filtroBusca')?.value || '').toLowerCase();
 
-            const paletesUnicos = [...new Set(_ncsCache.map(n => n.palete).filter(Boolean))];
+            // Atualizar filtro de paletes dinamicamente
+            const paletesUnicos = [...new Set(ncs.map(n => n.palete).filter(Boolean))];
             const selectPalete = document.getElementById('filtroPalete');
             if (selectPalete) {
                 const currentVal = selectPalete.value;
@@ -1524,7 +1510,7 @@
                 selectPalete.value = paletesUnicos.includes(currentVal) ? currentVal : 'todos';
             }
 
-            let filtradas = _ncsCache;
+            let filtradas = ncs;
             if (filtroStatus !== 'todos') filtradas = filtradas.filter(n => n.status === filtroStatus);
             if (filtroPalete !== 'todos') filtradas = filtradas.filter(n => n.palete === filtroPalete);
             if (filtroBusca) {
@@ -1582,7 +1568,7 @@
             return div.innerHTML;
         }
 
-        // ==================== FORMULÁRIO DE NC ====================
+        // ==================== CRUD DE NCs ====================
         function prepararFormNova() {
             document.getElementById('editNcId').value = '';
             document.getElementById('tituloFormNC').innerHTML = '<i class="fas fa-plus-circle"></i> Nova Não Conformidade';
@@ -1599,14 +1585,74 @@
             document.getElementById('inputFotos').value = '';
         }
 
-        function previewFotos() { /* (mantido igual) */ }
+        function previewFotos() {
+            const files = document.getElementById('inputFotos').files;
+            const totalAtual = fotosNovas.length + fotosExistentes.length;
+            const vagas = 5 - totalAtual;
+            if (files.length > vagas) {
+                mostrarToast(`Máximo de 5 fotos por NC. Você ainda pode adicionar ${vagas} foto(s).`, 'error');
+                document.getElementById('inputFotos').value = '';
+                return;
+            }
+            Array.from(files).forEach(file => {
+                if (fotosNovas.length + fotosExistentes.length >= 5) return;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const maxW = 600;
+                        let w = img.width,
+                            h = img.height;
+                        if (w > maxW) {
+                            h = h * (maxW / w);
+                            w = maxW;
+                        }
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.fillRect(0, 0, w, h);
+                        ctx.drawImage(img, 0, 0, w, h);
+                        fotosNovas.push(canvas.toDataURL('image/jpeg', 0.6));
+                        atualizarPreviews();
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+            document.getElementById('inputFotos').value = '';
+        }
 
-        function atualizarPreviews() { /* (mantido igual) */ }
-        function removerFotoNova(index) { /* (mantido igual) */ }
-        function removerFotoExistente(index) { /* (mantido igual) */ }
-        function renderFotosExistentes() { /* (mantido igual) */ }
+        function atualizarPreviews() {
+            const container = document.getElementById('photoPreviewContainer');
+            container.innerHTML = fotosNovas.map((b64, i) => `
+            <div style="position:relative;display:inline-block;">
+              <img src="${b64}" class="photo-preview" onclick="abrirModalFoto('${b64}')" title="Clique para ampliar">
+              <button onclick="removerFotoNova(${i})" style="position:absolute;top:-8px;right:-8px;background:#b53b3b;color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:0.7rem;line-height:24px;">✕</button>
+            </div>`).join('');
+        }
 
-        async function salvarNC() {
+        function removerFotoNova(index) {
+            fotosNovas.splice(index, 1);
+            atualizarPreviews();
+        }
+
+        function removerFotoExistente(index) {
+            fotosExistentes.splice(index, 1);
+            renderFotosExistentes();
+        }
+
+        function renderFotosExistentes() {
+            const container = document.getElementById('existingPhotosContainer');
+            container.innerHTML = fotosExistentes.map((b64, i) => `
+            <div style="position:relative;display:inline-block;">
+              <img src="${b64}" class="photo-preview" onclick="abrirModalFoto('${b64}')" title="Clique para ampliar">
+              <button onclick="removerFotoExistente(${i})" style="position:absolute;top:-8px;right:-8px;background:#b53b3b;color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:0.7rem;line-height:24px;">✕</button>
+            </div>`).join('');
+        }
+
+        function salvarNC() {
             const editId = document.getElementById('editNcId').value;
             const produto = document.getElementById('ncProduto').value.trim();
             const palete = document.getElementById('ncPalete').value.trim();
@@ -1626,77 +1672,431 @@
 
             const todasFotos = [...fotosExistentes, ...fotosNovas];
 
-            try {
-                if (editId) {
-                    const index = _ncsCache.findIndex(n => n.id === parseInt(editId));
-                    if (index === -1) { mostrarToast('NC não encontrada!', 'error'); return; }
-                    const ncAntiga = { ..._ncsCache[index] };
-                    const alteracoes = [];
-                    if (ncAntiga.produto !== produto) alteracoes.push(`Produto: "${ncAntiga.produto}" → "${produto}"`);
-                    if (ncAntiga.palete !== palete) alteracoes.push(`Palete: "${ncAntiga.palete}" → "${palete}"`);
-                    if (ncAntiga.motivo !== motivo) alteracoes.push('Motivo alterado');
-                    if (ncAntiga.quantidade !== quantidade) alteracoes.push(`Quantidade: ${ncAntiga.quantidade} → ${quantidade}`);
-                    if (ncAntiga.acao !== acao) alteracoes.push('Ação alterada');
-                    if (JSON.stringify(ncAntiga.fotos.sort()) !== JSON.stringify(todasFotos.sort())) alteracoes.push('Fotos atualizadas');
-                    if (alteracoes.length > 0) {
-                        ncAntiga.historico.push({
-                            data: new Date().toISOString(),
-                            usuario: currentUser.username,
-                            acao: 'editou',
-                            detalhes: alteracoes.join('; ')
-                        });
-                    }
-                    ncAntiga.produto = produto;
-                    ncAntiga.palete = palete;
-                    ncAntiga.motivo = motivo;
-                    ncAntiga.quantidade = quantidade;
-                    ncAntiga.acao = acao;
-                    ncAntiga.fotos = todasFotos;
-
-                    await db.collection('ncs').doc(String(ncAntiga.id)).set(ncAntiga);
-                    _ncsCache[index] = ncAntiga;
-                    mostrarToast('Não conformidade #' + editId + ' atualizada!', 'success');
-                } else {
-                    const novoId = await getNextId();
-                    const novaNc = {
-                        id: novoId,
-                        produto,
-                        palete,
-                        motivo,
-                        quantidade,
-                        acao,
-                        fotos: todasFotos,
-                        status: 'aberto',
-                        dataAbertura: new Date().toISOString(),
-                        dataResolucao: null,
-                        criadoPor: currentUser.username,
-                        historico: [{
-                            data: new Date().toISOString(),
-                            usuario: currentUser.username,
-                            acao: 'criou',
-                            detalhes: 'Não conformidade aberta'
-                        }]
-                    };
-                    await db.collection('ncs').doc(String(novoId)).set(novaNc);
-                    _ncsCache.push(novaNc);
-                    mostrarToast('Não conformidade #' + novoId + ' criada!', 'success');
+            if (editId) {
+                const ncs = getNCs();
+                const index = ncs.findIndex(n => n.id === parseInt(editId));
+                if (index === -1) { mostrarToast('NC não encontrada!', 'error'); return; }
+                const ncAntiga = ncs[index];
+                const alteracoes = [];
+                if (ncAntiga.produto !== produto) alteracoes.push(`Produto: "${ncAntiga.produto}" → "${produto}"`);
+                if (ncAntiga.palete !== palete) alteracoes.push(`Palete: "${ncAntiga.palete}" → "${palete}"`);
+                if (ncAntiga.motivo !== motivo) alteracoes.push('Motivo alterado');
+                if (ncAntiga.quantidade !== quantidade) alteracoes.push(
+                    `Quantidade: ${ncAntiga.quantidade} → ${quantidade}`);
+                if (ncAntiga.acao !== acao) alteracoes.push('Ação alterada');
+                if (JSON.stringify(ncAntiga.fotos.sort()) !== JSON.stringify(todasFotos.sort())) alteracoes.push(
+                    'Fotos atualizadas');
+                if (alteracoes.length > 0) {
+                    ncAntiga.historico.push({
+                        data: new Date().toISOString(),
+                        usuario: currentUser.username,
+                        acao: 'editou',
+                        detalhes: alteracoes.join('; ')
+                    });
                 }
+                ncAntiga.produto = produto;
+                ncAntiga.palete = palete;
+                ncAntiga.motivo = motivo;
+                ncAntiga.quantidade = quantidade;
+                ncAntiga.acao = acao;
+                ncAntiga.fotos = todasFotos;
+                ncs[index] = ncAntiga;
+                setNCs(ncs);
+                mostrarToast('Não conformidade #' + editId + ' atualizada com sucesso!', 'success');
+            } else {
+                const novaNc = {
+                    id: getNextId(),
+                    produto,
+                    palete,
+                    motivo,
+                    quantidade,
+                    acao,
+                    fotos: todasFotos,
+                    status: 'aberto',
+                    dataAbertura: new Date().toISOString(),
+                    dataResolucao: null,
+                    criadoPor: currentUser.username,
+                    historico: [{
+                        data: new Date().toISOString(),
+                        usuario: currentUser.username,
+                        acao: 'criou',
+                        detalhes: 'Não conformidade aberta'
+                    }]
+                };
+                const ncs = getNCs();
+                ncs.push(novaNc);
+                setNCs(ncs);
+                mostrarToast('Não conformidade #' + novaNc.id + ' criada com sucesso!', 'success');
+            }
 
-                prepararFormNova();
-                navegar('lista', document.querySelector('[data-page="lista"]'));
-                renderListaNCs();
-                renderDashboard();
-            } catch (error) {
-                console.error('Erro ao salvar NC:', error);
-                mostrarToast('Erro ao salvar. Tente novamente.', 'error');
+            prepararFormNova();
+            navegar('lista', document.querySelector('[data-page="lista"]'));
+            renderListaNCs();
+            renderDashboard();
+        }
+
+        function editarNC(id) {
+            const ncs = getNCs();
+            const nc = ncs.find(n => n.id === id);
+            if (!nc) { mostrarToast('NC não encontrada!', 'error'); return; }
+            document.getElementById('editNcId').value = nc.id;
+            document.getElementById('tituloFormNC').innerHTML =
+                '<i class="fas fa-edit"></i> Editar Não Conformidade #' + nc.id;
+            document.getElementById('subtituloFormNC').textContent = 'Editando registro existente';
+            document.getElementById('ncProduto').value = nc.produto || '';
+            document.getElementById('ncPalete').value = nc.palete || '';
+            document.getElementById('ncMotivo').value = nc.motivo || '';
+            document.getElementById('ncQuantidade').value = nc.quantidade || '';
+            document.getElementById('ncAcao').value = nc.acao || '';
+            fotosNovas = [];
+            fotosExistentes = [...(nc.fotos || [])];
+            document.getElementById('photoPreviewContainer').innerHTML = '';
+            renderFotosExistentes();
+            navegar('nova', document.querySelector('[data-page="nova"]'));
+        }
+
+        function cancelarEdicao() {
+            prepararFormNova();
+            navegar('lista', document.querySelector('[data-page="lista"]'));
+        }
+
+        function excluirNC(id) {
+            const currentUser = getCurrentUser();
+            if (currentUser.role !== 'admin') {
+                mostrarToast('Apenas administradores podem excluir NCs!', 'error');
+                return;
+            }
+            if (!confirm('Tem certeza que deseja excluir a NC #' + id + '? Esta ação é irreversível.')) return;
+            let ncs = getNCs();
+            ncs = ncs.filter(n => n.id !== id);
+            setNCs(ncs);
+            renderListaNCs();
+            renderDashboard();
+            mostrarToast('NC #' + id + ' excluída.', 'info');
+        }
+
+        function resolverNC(id) {
+            const ncs = getNCs();
+            const nc = ncs.find(n => n.id === id);
+            if (!nc) return;
+            nc.status = 'resolvido';
+            nc.dataResolucao = new Date().toISOString();
+            nc.historico.push({
+                data: new Date().toISOString(),
+                usuario: getCurrentUser().username,
+                acao: 'resolveu',
+                detalhes: 'NC marcada como resolvida'
+            });
+            setNCs(ncs);
+            renderListaNCs();
+            renderDashboard();
+            mostrarToast('NC #' + id + ' marcada como resolvida!', 'success');
+        }
+
+        function reabrirNC(id) {
+            const ncs = getNCs();
+            const nc = ncs.find(n => n.id === id);
+            if (!nc) return;
+            nc.status = 'aberto';
+            nc.dataResolucao = null;
+            nc.historico.push({
+                data: new Date().toISOString(),
+                usuario: getCurrentUser().username,
+                acao: 'reabriu',
+                detalhes: 'NC reaberta'
+            });
+            setNCs(ncs);
+            renderListaNCs();
+            renderDashboard();
+            mostrarToast('NC #' + id + ' reaberta.', 'info');
+        }
+
+        // ==================== PÁGINA HTML AUTO-CONTIDA PARA QR CODE ====================
+        function gerarHTMLDetalhesNC(nc) {
+            const aberturaISO = nc.dataAbertura;
+            const status = nc.status;
+            const resolucaoISO = nc.dataResolucao;
+            let tempoHtml = '';
+            if (status === 'aberto') {
+                tempoHtml = `<div class="timer" id="timer">Calculando...</div>`;
+            } else {
+                const dias = Math.floor((new Date(resolucaoISO) - new Date(aberturaISO)) / 86400000);
+                tempoHtml = `<div class="timer" style="color:#2d7a4f;">Duração: ${dias} dia(s)</div>`;
+            }
+
+            return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>NC #${nc.id} · Dona Rita</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f5f7f5; padding: 16px; display: flex; justify-content: center;
+  }
+  .card {
+    background: white; border-radius: 18px; padding: 22px 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.07); max-width: 480px; width: 100%;
+    border: 1px solid #dce5e1;
+  }
+  h2 { font-size: 1.3rem; color: #0b3b2f; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eef2f0; font-size: 0.9rem; }
+  .label { font-weight: 600; color: #5b6b64; min-width: 90px; }
+  .value { font-weight: 500; color: #1e2b26; text-align: right; word-break: break-word; }
+  .badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-weight: 600; font-size: 0.75rem; }
+  .aberto { background: #fce8e8; color: #b53b3b; }
+  .resolvido { background: #e1f0e7; color: #2d7a4f; }
+  .timer { font-size: 1.5rem; font-weight: 700; color: #b53b3b; text-align: center; margin: 18px 0 10px; font-variant-numeric: tabular-nums; }
+  .footer { text-align: center; font-size: 0.7rem; color: #8b9a94; margin-top: 18px; border-top: 1px solid #eef2f0; padding-top: 12px; }
+  .footer i { font-style: normal; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h2>📋 NC #${nc.id}</h2>
+  <div class="row"><span class="label">Produto</span><span class="value">${escapeHtml(nc.produto)}</span></div>
+  <div class="row"><span class="label">Palete</span><span class="value"><strong>${escapeHtml(nc.palete)}</strong></span></div>
+  <div class="row"><span class="label">Motivo</span><span class="value">${escapeHtml(nc.motivo)}</span></div>
+  <div class="row"><span class="label">Quantidade</span><span class="value">${nc.quantidade}</span></div>
+  <div class="row"><span class="label">Ação</span><span class="value">${escapeHtml(nc.acao)}</span></div>
+  <div class="row"><span class="label">Status</span><span class="value"><span class="badge ${status === 'aberto' ? 'aberto' : 'resolvido'}">${status === 'aberto' ? 'Aberto' : 'Resolvido'}</span></span></div>
+  <div class="row"><span class="label">Aberto em</span><span class="value">${new Date(aberturaISO).toLocaleDateString('pt-BR')}</span></div>
+  ${resolucaoISO ? `<div class="row"><span class="label">Resolvido em</span><span class="value">${new Date(resolucaoISO).toLocaleDateString('pt-BR')}</span></div>` : ''}
+  ${tempoHtml}
+  <div class="footer">🔒 Somente leitura · Dona Rita Embalagens</div>
+</div>
+<script>
+  (function() {
+    var abertura = new Date("${aberturaISO}");
+    if (isNaN(abertura.getTime())) return;
+    var timerEl = document.getElementById('timer');
+    if (!timerEl) return;
+    function atualizar() {
+      var agora = new Date();
+      var diff = agora - abertura;
+      if (diff < 0) { timerEl.textContent = '0s'; return; }
+      var s = Math.floor(diff / 1000);
+      var d = Math.floor(s / 86400);
+      var h = Math.floor((s % 86400) / 3600);
+      var m = Math.floor((s % 3600) / 60);
+      var sg = s % 60;
+      timerEl.textContent = (d > 0 ? d + 'd ' : '') +
+        String(h).padStart(2,'0') + 'h ' +
+        String(m).padStart(2,'0') + 'm ' +
+        String(sg).padStart(2,'0') + 's';
+    }
+    atualizar();
+    setInterval(atualizar, 1000);
+  })();
+</script>
+</body>
+</html>`;
+        }
+
+        // ==================== DETALHES COM CRONÔMETRO AO VIVO ====================
+        function verDetalhes(id) {
+            const ncs = getNCs();
+            const nc = ncs.find(n => n.id === id);
+            if (!nc) return;
+            const fotosHtml = (nc.fotos || []).map((f, i) =>
+                `<img src="${f}" class="photo-preview" style="width:120px;height:120px;" onclick="abrirModalFoto('${f}')" title="Clique para ampliar">`
+            ).join('');
+            const historicoHtml = (nc.historico || []).map(h => `
+            <div style="padding:8px 0;border-bottom:1px solid #eef2f0;font-size:0.8rem;">
+              <strong>${new Date(h.data).toLocaleString('pt-BR')}</strong> - 
+              <span style="color:#386e8c;">${h.usuario}</span> 
+              <span style="background:#f0f4f1;padding:2px 8px;border-radius:10px;font-size:0.7rem;">${h.acao}</span><br>
+              <span style="color:#5b6b64;">${h.detalhes}</span>
+            </div>`).join('');
+
+            document.getElementById('detalhesInner').innerHTML = `
+            <h2><i class="fas fa-info-circle"></i> Detalhes da NC #${nc.id}</h2>
+            <div class="detail-row"><strong>Produto:</strong><span>${escapeHtml(nc.produto)}</span></div>
+            <div class="detail-row"><strong>Palete:</strong><span style="font-weight:600;">${escapeHtml(nc.palete)}</span></div>
+            <div class="detail-row"><strong>Motivo:</strong><span>${escapeHtml(nc.motivo)}</span></div>
+            <div class="detail-row"><strong>Quantidade:</strong><span>${nc.quantidade}</span></div>
+            <div class="detail-row"><strong>Ação:</strong><span>${escapeHtml(nc.acao)}</span></div>
+            <div class="detail-row"><strong>Status:</strong><span class="badge ${nc.status === 'aberto' ? 'badge-open' : 'badge-resolved'}">${nc.status === 'aberto' ? 'Aberto' : 'Resolvido'}</span></div>
+            <div class="detail-row"><strong>Tempo:</strong><span id="liveTimerDetalhe">${nc.status === 'aberto' ? calcularTempoDetalhado(nc).texto : calcularDias(nc) + 'd (fechado)'}</span></div>
+            <div class="detail-row"><strong>Aberto em:</strong><span>${new Date(nc.dataAbertura).toLocaleString('pt-BR')}</span></div>
+            ${nc.dataResolucao ? `<div class="detail-row"><strong>Resolvido em:</strong><span>${new Date(nc.dataResolucao).toLocaleString('pt-BR')}</span></div>` : ''}
+            <div class="detail-row"><strong>Criado por:</strong><span>${escapeHtml(nc.criadoPor)}</span></div>
+            <div class="detail-row"><strong>Fotos:</strong><div style="display:flex;gap:8px;flex-wrap:wrap;">${fotosHtml || '<span style="color:#8b9a94;">Nenhuma foto</span>'}</div></div>
+            <div style="margin-top:16px;"><h4 style="margin-bottom:10px;"><i class="fas fa-history"></i> Histórico de Alterações</h4>${historicoHtml || '<p style="color:#8b9a94;">Nenhum histórico registrado.</p>'}</div>
+          `;
+            document.getElementById('modalDetalhes').style.display = 'flex';
+            if (nc.status === 'aberto') ativarCronometroDetalhe(nc.id);
+        }
+
+        function fecharModalDetalhes() {
+            document.getElementById('modalDetalhes').style.display = 'none';
+            if (liveTimers['detalhe']) {
+                clearInterval(liveTimers['detalhe']);
+                delete liveTimers['detalhe'];
             }
         }
 
-        // ... (outras funções async para resolverNC, reabrirNC, excluirNC, etc. – implementadas abaixo)
-        // As funções de manipulação de usuários também serão adaptadas para Firestore.
+        // ==================== MODAL DE FOTO ====================
+        function abrirModalFoto(src) {
+            document.getElementById('modalFotoImg').src = src;
+            document.getElementById('modalFoto').style.display = 'flex';
+        }
 
-        // Por brevidade, vou completar apenas as alterações essenciais no código final.
-        // O arquivo completo final será fornecido no próximo bloco.
+        function fecharModalFoto() {
+            document.getElementById('modalFoto').style.display = 'none';
+        }
+
+        // ==================== IMPRESSÃO COM QR CODE QUE ABRE HTML DETALHADO ====================
+        function imprimirNC(id) {
+            const ncs = getNCs();
+            const nc = ncs.find(n => n.id === id);
+            if (!nc) return;
+            const agora = new Date();
+            const tempo = calcularTempoDetalhado(nc);
+
+            // Gera página HTML completa para o QR Code (somente leitura, com cronômetro ao vivo)
+            const htmlPagina = gerarHTMLDetalhesNC(nc);
+            // Codifica em base64 (compatível com caracteres Unicode)
+            const base64html = btoa(unescape(encodeURIComponent(htmlPagina)));
+            const dataUri = 'data:text/html;base64,' + base64html;
+
+            const printArea = document.getElementById('printArea');
+            printArea.innerHTML = `
+            <div style="display:flex;align-items:center;gap:16px;border-bottom:3px solid #0b3b2f;padding-bottom:16px;margin-bottom:20px;">
+              <div>
+                <h2 style="margin:0;color:#0b3b2f;">🏭 Dona Rita Embalagens</h2>
+                <p style="margin:4px 0 0;color:#5b6b64;">Relatório de Não Conformidade</p>
+              </div>
+              <div style="margin-left:auto;text-align:right;font-size:0.8rem;color:#5b6b64;">
+                <p style="margin:0;">Impresso em: ${agora.toLocaleString('pt-BR')}</p>
+                <p style="margin:2px 0 0;">Por: ${getCurrentUser().username}</p>
+              </div>
+            </div>
+            <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
+              <tr><th style="background:#f6f9f7;padding:10px;text-align:left;">NC #</th><td style="padding:10px;"><strong>${nc.id}</strong></td><th style="background:#f6f9f7;padding:10px;text-align:left;">Status</th><td style="padding:10px;color:${nc.status === 'aberto' ? '#b53b3b' : '#2d7a4f'};font-weight:700;">${nc.status.toUpperCase()}</td></tr>
+              <tr><th style="background:#f6f9f7;padding:10px;text-align:left;">Produto</th><td style="padding:10px;">${escapeHtml(nc.produto)}</td><th style="background:#f6f9f7;padding:10px;text-align:left;">Palete</th><td style="padding:10px;"><strong>${escapeHtml(nc.palete)}</strong></td></tr>
+              <tr><th style="background:#f6f9f7;padding:10px;text-align:left;">Quantidade</th><td style="padding:10px;">${nc.quantidade}</td><th style="background:#f6f9f7;padding:10px;text-align:left;">Tempo decorrido</th><td style="padding:10px;"><strong>${tempo.texto}</strong></td></tr>
+              <tr><th style="background:#f6f9f7;padding:10px;text-align:left;">Data Abertura</th><td style="padding:10px;">${new Date(nc.dataAbertura).toLocaleString('pt-BR')}</td><th style="background:#f6f9f7;padding:10px;text-align:left;">Criado por</th><td style="padding:10px;">${escapeHtml(nc.criadoPor)}</td></tr>
+              <tr><th style="background:#f6f9f7;padding:10px;text-align:left;">Motivo</th><td colspan="3" style="padding:10px;">${escapeHtml(nc.motivo)}</td></tr>
+              <tr><th style="background:#f6f9f7;padding:10px;text-align:left;">Ação</th><td colspan="3" style="padding:10px;">${escapeHtml(nc.acao)}</td></tr>
+              ${nc.dataResolucao ? `<tr><th style="background:#f6f9f7;padding:10px;text-align:left;">Data Resolução</th><td colspan="3" style="padding:10px;">${new Date(nc.dataResolucao).toLocaleString('pt-BR')}</td></tr>` : ''}
+            </table>
+            <div style="text-align:center;margin:20px 0;">
+              <p style="font-weight:600;margin-bottom:8px;">📱 QR Code para consulta detalhada:</p>
+              <div id="qrCodePrintContainer" style="display:inline-block;"></div>
+            </div>
+            ${nc.fotos && nc.fotos.length > 0 ? `
+            <div style="margin-top:16px;">
+              <strong>Fotos:</strong>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+                ${nc.fotos.map(f => `<img src="${f}" style="width:150px;height:150px;object-fit:cover;border-radius:8px;border:1px solid #ddd;">`).join('')}
+              </div>
+            </div>` : ''}
+            <div style="text-align:center;margin-top:24px;font-size:0.75rem;color:#8b9a94;">Dona Rita Embalagens © ${agora.getFullYear()} - Sistema de Controle de Qualidade</div>
+            <div class="no-print" style="text-align:center;margin-top:20px;">
+              <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir Agora</button>
+              <button class="btn btn-outline" onclick="fecharPrint()"><i class="fas fa-times"></i> Fechar</button>
+            </div>
+          `;
+
+            printArea.style.display = 'block';
+            setTimeout(() => {
+                const qrContainer = document.getElementById('qrCodePrintContainer');
+                if (qrContainer && typeof QRCode !== 'undefined') {
+                    qrContainer.innerHTML = '';
+                    new QRCode(qrContainer, {
+                        text: dataUri,
+                        width: 160,
+                        height: 160,
+                        colorDark: '#0b3b2f',
+                        colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.L // maior capacidade
+                    });
+                }
+            }, 200);
+        }
+
+        function fecharPrint() {
+            document.getElementById('printArea').style.display = 'none';
+            document.getElementById('printArea').innerHTML = '';
+        }
+
+        // ==================== USUÁRIOS (ADMIN) ====================
+        function renderUsuarios() {
+            const currentUser = getCurrentUser();
+            if (!currentUser || currentUser.role !== 'admin') {
+                mostrarToast('Acesso restrito a administradores!', 'error');
+                navegar('dashboard', document.querySelector('[data-page="dashboard"]'));
+                return;
+            }
+            const usuarios = getUsuarios();
+            document.getElementById('tbodyUsuarios').innerHTML = usuarios.map(u => `
+            <tr>
+              <td><strong>${escapeHtml(u.username)}</strong></td>
+              <td><span class="badge ${u.role === 'admin' ? 'badge-resolved' : 'badge-open'}">${u.role === 'admin' ? 'Admin' : 'Padrão'}</span></td>
+              <td>${new Date(u.createdAt).toLocaleDateString('pt-BR')}</td>
+              <td>
+                ${u.username !== 'qualidade' ? `<button class="btn btn-sm btn-danger" onclick="excluirUsuario('${u.username}')"><i class="fas fa-trash"></i> Excluir</button>` : '<span style="color:#8b9a94;font-size:0.75rem;">Admin principal</span>'}
+              </td>
+            </tr>`).join('');
+        }
+
+        function criarUsuario() {
+            const currentUser = getCurrentUser();
+            if (!currentUser || currentUser.role !== 'admin') {
+                mostrarToast('Apenas administradores!', 'error');
+                return;
+            }
+            const username = document.getElementById('newUsername').value.trim();
+            const password = document.getElementById('newPassword').value.trim();
+            const role = document.getElementById('newRole').value;
+            if (!username || !password) { mostrarToast('Preencha todos os campos!', 'error'); return; }
+            if (username.length < 3) { mostrarToast('Usuário deve ter pelo menos 3 caracteres!', 'error'); return; }
+            if (password.length < 3) { mostrarToast('Senha deve ter pelo menos 3 caracteres!', 'error'); return; }
+            const usuarios = getUsuarios();
+            if (usuarios.find(u => u.username === username)) { mostrarToast('Usuário já existe!', 'error'); return; }
+            usuarios.push({ username, password, role, createdAt: new Date().toISOString() });
+            setUsuarios(usuarios);
+            document.getElementById('newUsername').value = '';
+            document.getElementById('newPassword').value = '';
+            renderUsuarios();
+            mostrarToast('Usuário "' + username + '" criado com sucesso!', 'success');
+        }
+
+        function excluirUsuario(username) {
+            if (username === 'qualidade') { mostrarToast('Não é possível excluir o admin principal!', 'error'); return; }
+            if (!confirm('Excluir usuário "' + username + '"?')) return;
+            let usuarios = getUsuarios();
+            usuarios = usuarios.filter(u => u.username !== username);
+            setUsuarios(usuarios);
+            renderUsuarios();
+            mostrarToast('Usuário excluído.', 'info');
+        }
+
+        // ==================== EVENTOS DE TECLA ====================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                fecharModalDetalhes();
+                fecharModalFoto();
+                if (document.getElementById('printArea').style.display === 'block') fecharPrint();
+            }
+        });
+
+        // ==================== ATUALIZAÇÃO PERIÓDICA DO DASHBOARD ====================
+        if (savedUser) {
+            renderDashboard();
+            atualizarUIUsuario();
+        }
+
+        setInterval(() => {
+            if (getCurrentUser() && document.getElementById('page-dashboard').classList.contains('active')) {
+                renderDashboard();
+            }
+        }, 60000);
+
+        console.log('✅ Sistema Dona Rita · QR Code com página detalhada e cronômetro ao vivo.');
     </script>
 </body>
 </html>
