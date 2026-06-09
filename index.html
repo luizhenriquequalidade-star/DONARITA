@@ -9,6 +9,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- Firebase SDK (opcional – preparado para futura integração) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js">
+    </script>
+
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
@@ -1251,7 +1257,23 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // ==================== DADOS INICIAIS ====================
+        // ==================== CONFIGURAÇÃO FIREBASE (preparada para futura integração) ====================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBPxsmWcak8prGfCscwdZa679JCV5rKuCA",
+            authDomain: "donarita-3e0e9.firebaseapp.com",
+            projectId: "donarita-3e0e9",
+            storageBucket: "donarita-3e0e9.firebasestorage.app",
+            messagingSenderId: "800738652563",
+            appId: "1:800738652563:web:bd3d2d28dffd03345d7866",
+            measurementId: "G-FKF88ZLYMM"
+        };
+
+        // Inicializa Firebase apenas se desejar usar Firestore no futuro.
+        // Para usar localStorage (modo offline atual), deixe comentado:
+        // firebase.initializeApp(firebaseConfig);
+        // const db = firebase.firestore();
+
+        // ==================== DADOS INICIAIS (localStorage) ====================
         function initData() {
             if (!localStorage.getItem('sistemaNC_usuarios')) {
                 const usuarios = [
@@ -2212,6 +2234,8 @@
         }, 60000);
 
         console.log('✅ Sistema Dona Rita · QR Code com visualização somente leitura ativado.');
+        console.log('📦 Armazenamento: localStorage (dados salvos no navegador)');
+        console.log('🔐 Usuários padrão: qualidade / 1304 (admin) | operador / 1234 (padrão)');
     </script>
 </body>
 </html>
