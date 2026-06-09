@@ -222,6 +222,84 @@
             visibility: visible;
         }
 
+        /* Modo Visitante (QR Code) */
+        #visitanteContainer {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            background: #f5f7f5;
+            overflow-y: auto;
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+        #visitanteContainer.visible {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #visitanteContainer .visitante-card {
+            background: #fff;
+            border-radius: var(--radius-xl);
+            padding: 30px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+        #visitanteContainer .visitante-card h2 {
+            color: var(--primary);
+            margin-bottom: 16px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #visitanteContainer .visitante-card .detail-row {
+            padding: 10px 0;
+            border-bottom: 1px solid #eef2f0;
+            display: flex;
+            gap: 14px;
+            font-size: 0.9rem;
+        }
+        #visitanteContainer .visitante-card .detail-row strong {
+            min-width: 140px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        #visitanteContainer .visitante-card .badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.73rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .badge-open {
+            background: #fce8e8;
+            color: #b53b3b;
+        }
+        .badge-resolved {
+            background: #e1f0e7;
+            color: #2d7a4f;
+        }
+        #visitanteContainer .btn-fechar-visitante {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: #f0f0f0;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        #visitanteContainer .btn-fechar-visitante:hover {
+            background: #e0e0e0;
+        }
+
         /* Sidebar */
         .sidebar {
             width: var(--sidebar-width);
@@ -954,6 +1032,14 @@
         </div>
     </div>
 
+    <!-- ==================== MODO VISITANTE (QR CODE) ==================== -->
+    <div id="visitanteContainer">
+        <div class="visitante-card" id="visitanteCard">
+            <button class="btn-fechar-visitante" onclick="fecharModoVisitante()" title="Fechar"><i class="fas fa-times"></i></button>
+            <div id="visitanteInner"></div>
+        </div>
+    </div>
+
     <!-- ==================== APP CONTAINER ==================== -->
     <div id="appContainer">
         <!-- Sidebar -->
@@ -1147,6 +1233,17 @@
         </div>
     </div>
 
+    <!-- ==================== MODAL DE QR CODE ==================== -->
+    <div id="modalQR" class="modal-overlay" style="display:none;" onclick="fecharModalQR()">
+        <div class="modal" style="text-align:center;" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="fecharModalQR()"><i class="fas fa-times"></i></button>
+            <h3><i class="fas fa-qrcode"></i> QR Code da NC <span id="qrNcIdLabel"></span></h3>
+            <p style="font-size:0.82rem;color:#5b6b64;margin-bottom:12px;">Escaneie para visualizar os detalhes (somente leitura)</p>
+            <div id="qrCodeContainer" style="display:inline-block;padding:16px;background:#fff;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);"></div>
+            <p style="font-size:0.7rem;color:#8b9a94;margin-top:10px;">Este QR Code dá acesso somente à visualização, sem permissão para alterações.</p>
+        </div>
+    </div>
+
     <!-- ==================== ÁREA DE IMPRESSÃO ==================== -->
     <div id="printArea"></div>
 
@@ -1195,12 +1292,93 @@
         let fotosExistentes = [];
         let liveTimers = {};
 
-        const savedUser = getCurrentUser();
-        if (savedUser) {
+        // Verifica se é acesso via QR Code (modo visitante)
+        function verificarModoVisitante() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('view') === 'readonly' && params.get('id')) {
+                const id = parseInt(params.get('id'));
+                if (!isNaN(id)) {
+                    iniciarModoVisitante(id);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function iniciarModoVisitante(id) {
+            const ncs = getNCs();
+            const nc = ncs.find(n => n.id === id);
+            if (!nc) {
+                document.getElementById('visitanteInner').innerHTML = `
+                    <h2><i class="fas fa-exclamation-triangle"></i> NC não encontrada</h2>
+                    <p>A não conformidade #${id} não foi localizada no sistema.</p>
+                    <button class="btn btn-primary" onclick="fecharModoVisitante()"><i class="fas fa-times"></i> Fechar</button>
+                `;
+            } else {
+                const fotosHtml = (nc.fotos || []).map((f, i) =>
+                    `<img src="${f}" class="photo-preview" style="width:120px;height:120px;" onclick="abrirModalFoto('${f}')" title="Clique para ampliar">`
+                ).join('');
+                document.getElementById('visitanteInner').innerHTML = `
+                    <h2><i class="fas fa-info-circle"></i> Detalhes da NC #${nc.id} <span style="font-size:0.7rem;color:#8b9a94;margin-left:8px;">(Visualização)</span></h2>
+                    <div class="detail-row"><strong>Produto:</strong><span>${escapeHtml(nc.produto)}</span></div>
+                    <div class="detail-row"><strong>Palete:</strong><span style="font-weight:600;">${escapeHtml(nc.palete)}</span></div>
+                    <div class="detail-row"><strong>Motivo:</strong><span>${escapeHtml(nc.motivo)}</span></div>
+                    <div class="detail-row"><strong>Quantidade:</strong><span>${nc.quantidade}</span></div>
+                    <div class="detail-row"><strong>Ação:</strong><span>${escapeHtml(nc.acao)}</span></div>
+                    <div class="detail-row"><strong>Status:</strong><span class="badge ${nc.status === 'aberto' ? 'badge-open' : 'badge-resolved'}">${nc.status === 'aberto' ? 'Aberto' : 'Resolvido'}</span></div>
+                    <div class="detail-row"><strong>Tempo:</strong><span id="liveTimerVisitante">${nc.status === 'aberto' ? calcularTempoDetalhado(nc).texto : calcularDias(nc) + 'd (fechado)'}</span></div>
+                    <div class="detail-row"><strong>Aberto em:</strong><span>${new Date(nc.dataAbertura).toLocaleString('pt-BR')}</span></div>
+                    ${nc.dataResolucao ? `<div class="detail-row"><strong>Resolvido em:</strong><span>${new Date(nc.dataResolucao).toLocaleString('pt-BR')}</span></div>` : ''}
+                    <div class="detail-row"><strong>Criado por:</strong><span>${escapeHtml(nc.criadoPor)}</span></div>
+                    <div class="detail-row"><strong>Fotos:</strong><div style="display:flex;gap:8px;flex-wrap:wrap;">${fotosHtml || '<span style="color:#8b9a94;">Nenhuma foto</span>'}</div></div>
+                    <p style="font-size:0.7rem;color:#8b9a94;margin-top:16px;text-align:center;"><i class="fas fa-lock"></i> Modo somente leitura · Nenhuma alteração é permitida</p>
+                `;
+                if (nc.status === 'aberto') {
+                    setTimeout(() => {
+                        const el = document.getElementById('liveTimerVisitante');
+                        if (el) {
+                            if (liveTimers['visitante']) clearInterval(liveTimers['visitante']);
+                            const atualizar = () => {
+                                const t = calcularTempoDetalhado(nc);
+                                el.textContent = t.texto;
+                            };
+                            atualizar();
+                            liveTimers['visitante'] = setInterval(atualizar, 1000);
+                        }
+                    }, 100);
+                }
+            }
+            document.getElementById('visitanteContainer').classList.add('visible');
             document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('appContainer').classList.add('visible');
-            atualizarUIUsuario();
-            navegar('dashboard', document.querySelector('[data-page="dashboard"]'));
+            document.getElementById('appContainer').classList.remove('visible');
+            document.getElementById('printArea').style.display = 'none';
+        }
+
+        function fecharModoVisitante() {
+            document.getElementById('visitanteContainer').classList.remove('visible');
+            if (liveTimers['visitante']) {
+                clearInterval(liveTimers['visitante']);
+                delete liveTimers['visitante'];
+            }
+            // Remove parâmetros da URL e recarrega
+            if (window.history && window.history.replaceState) {
+                const url = window.location.href.split('?')[0];
+                window.history.replaceState({}, document.title, url);
+            }
+            location.reload();
+        }
+
+        // Se for modo visitante, para aqui
+        if (verificarModoVisitante()) {
+            // Não prossegue com o carregamento normal
+        } else {
+            const savedUser = getCurrentUser();
+            if (savedUser) {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('appContainer').classList.add('visible');
+                atualizarUIUsuario();
+                navegar('dashboard', document.querySelector('[data-page="dashboard"]'));
+            }
         }
 
         // ==================== LOGIN ====================
@@ -1232,7 +1410,6 @@
         });
 
         function logout() {
-            // Limpa todos os intervalos ativos
             Object.values(liveTimers).forEach(clearInterval);
             liveTimers = {};
             localStorage.removeItem('sistemaNC_currentUser');
@@ -1357,7 +1534,7 @@
             liveTimers['detalhe'] = setInterval(atualizar, 1000);
         }
 
-        // ==================== DASHBOARD (CORRIGIDO) ====================
+        // ==================== DASHBOARD ====================
         function renderDashboard() {
             const ncs = getNCs();
             const abertas = ncs.filter(n => n.status === 'aberto');
@@ -1367,7 +1544,6 @@
                 Math.round(abertas.reduce((s, n) => s + calcularDias(n), 0) / abertas.length) :
                 0;
 
-            // Cards de estatísticas
             document.getElementById('statsGrid').innerHTML = `
             <div class="stat-card">
               <div class="stat-icon blue"><i class="fas fa-clipboard-list"></i></div>
@@ -1387,7 +1563,6 @@
             </div>
           `;
 
-            // Gráfico 1: Motivos (AGRUPADOS DINAMICAMENTE)
             const motivosMap = {};
             ncs.forEach(n => {
                 const motivoCurto = (n.motivo || 'Sem motivo').substring(0, 50);
@@ -1429,7 +1604,6 @@
                     '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhum motivo registrado</p>';
             }
 
-            // Gráfico 2: Status
             if (window._chartStatus) window._chartStatus.destroy();
             const ctx2 = document.getElementById('chartStatus');
             if (ctx2) {
@@ -1454,7 +1628,6 @@
                 });
             }
 
-            // Gráfico 3: Dias em aberto (Top 10)
             if (window._chartDias) window._chartDias.destroy();
             const ctx3 = document.getElementById('chartDias');
             const topAbertas = [...abertas]
@@ -1500,7 +1673,6 @@
             const filtroPalete = document.getElementById('filtroPalete')?.value || 'todos';
             const filtroBusca = (document.getElementById('filtroBusca')?.value || '').toLowerCase();
 
-            // Atualizar filtro de paletes dinamicamente
             const paletesUnicos = [...new Set(ncs.map(n => n.palete).filter(Boolean))];
             const selectPalete = document.getElementById('filtroPalete');
             if (selectPalete) {
@@ -1550,6 +1722,7 @@
                     <button class="btn btn-sm btn-info" onclick="verDetalhes(${nc.id})" title="Detalhes"><i class="fas fa-eye"></i></button>
                     <button class="btn btn-sm btn-outline" onclick="editarNC(${nc.id})" title="Editar"><i class="fas fa-edit"></i></button>
                     <button class="btn btn-sm btn-accent" onclick="imprimirNC(${nc.id})" title="Imprimir"><i class="fas fa-print"></i></button>
+                    <button class="btn btn-sm btn-primary" onclick="gerarQRCode(${nc.id})" title="QR Code"><i class="fas fa-qrcode"></i></button>
                     ${isAdmin ? `<button class="btn btn-sm btn-danger" onclick="excluirNC(${nc.id})" title="Excluir"><i class="fas fa-trash"></i></button>` : ''}
                     ${nc.status === 'aberto' ?
                       `<button class="btn btn-sm btn-success" onclick="resolverNC(${nc.id})" title="Resolver"><i class="fas fa-check"></i></button>` :
@@ -1811,90 +1984,6 @@
             mostrarToast('NC #' + id + ' reaberta.', 'info');
         }
 
-        // ==================== PÁGINA HTML AUTO-CONTIDA PARA QR CODE ====================
-        function gerarHTMLDetalhesNC(nc) {
-            const aberturaISO = nc.dataAbertura;
-            const status = nc.status;
-            const resolucaoISO = nc.dataResolucao;
-            let tempoHtml = '';
-            if (status === 'aberto') {
-                tempoHtml = `<div class="timer" id="timer">Calculando...</div>`;
-            } else {
-                const dias = Math.floor((new Date(resolucaoISO) - new Date(aberturaISO)) / 86400000);
-                tempoHtml = `<div class="timer" style="color:#2d7a4f;">Duração: ${dias} dia(s)</div>`;
-            }
-
-            return `<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>NC #${nc.id} · Dona Rita</title>
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #f5f7f5; padding: 16px; display: flex; justify-content: center;
-  }
-  .card {
-    background: white; border-radius: 18px; padding: 22px 20px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.07); max-width: 480px; width: 100%;
-    border: 1px solid #dce5e1;
-  }
-  h2 { font-size: 1.3rem; color: #0b3b2f; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-  .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eef2f0; font-size: 0.9rem; }
-  .label { font-weight: 600; color: #5b6b64; min-width: 90px; }
-  .value { font-weight: 500; color: #1e2b26; text-align: right; word-break: break-word; }
-  .badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-weight: 600; font-size: 0.75rem; }
-  .aberto { background: #fce8e8; color: #b53b3b; }
-  .resolvido { background: #e1f0e7; color: #2d7a4f; }
-  .timer { font-size: 1.5rem; font-weight: 700; color: #b53b3b; text-align: center; margin: 18px 0 10px; font-variant-numeric: tabular-nums; }
-  .footer { text-align: center; font-size: 0.7rem; color: #8b9a94; margin-top: 18px; border-top: 1px solid #eef2f0; padding-top: 12px; }
-  .footer i { font-style: normal; }
-</style>
-</head>
-<body>
-<div class="card">
-  <h2>📋 NC #${nc.id}</h2>
-  <div class="row"><span class="label">Produto</span><span class="value">${escapeHtml(nc.produto)}</span></div>
-  <div class="row"><span class="label">Palete</span><span class="value"><strong>${escapeHtml(nc.palete)}</strong></span></div>
-  <div class="row"><span class="label">Motivo</span><span class="value">${escapeHtml(nc.motivo)}</span></div>
-  <div class="row"><span class="label">Quantidade</span><span class="value">${nc.quantidade}</span></div>
-  <div class="row"><span class="label">Ação</span><span class="value">${escapeHtml(nc.acao)}</span></div>
-  <div class="row"><span class="label">Status</span><span class="value"><span class="badge ${status === 'aberto' ? 'aberto' : 'resolvido'}">${status === 'aberto' ? 'Aberto' : 'Resolvido'}</span></span></div>
-  <div class="row"><span class="label">Aberto em</span><span class="value">${new Date(aberturaISO).toLocaleDateString('pt-BR')}</span></div>
-  ${resolucaoISO ? `<div class="row"><span class="label">Resolvido em</span><span class="value">${new Date(resolucaoISO).toLocaleDateString('pt-BR')}</span></div>` : ''}
-  ${tempoHtml}
-  <div class="footer">🔒 Somente leitura · Dona Rita Embalagens</div>
-</div>
-<script>
-  (function() {
-    var abertura = new Date("${aberturaISO}");
-    if (isNaN(abertura.getTime())) return;
-    var timerEl = document.getElementById('timer');
-    if (!timerEl) return;
-    function atualizar() {
-      var agora = new Date();
-      var diff = agora - abertura;
-      if (diff < 0) { timerEl.textContent = '0s'; return; }
-      var s = Math.floor(diff / 1000);
-      var d = Math.floor(s / 86400);
-      var h = Math.floor((s % 86400) / 3600);
-      var m = Math.floor((s % 3600) / 60);
-      var sg = s % 60;
-      timerEl.textContent = (d > 0 ? d + 'd ' : '') +
-        String(h).padStart(2,'0') + 'h ' +
-        String(m).padStart(2,'0') + 'm ' +
-        String(sg).padStart(2,'0') + 's';
-    }
-    atualizar();
-    setInterval(atualizar, 1000);
-  })();
-</script>
-</body>
-</html>`;
-        }
-
         // ==================== DETALHES COM CRONÔMETRO AO VIVO ====================
         function verDetalhes(id) {
             const ncs = getNCs();
@@ -1948,19 +2037,44 @@
             document.getElementById('modalFoto').style.display = 'none';
         }
 
-        // ==================== IMPRESSÃO COM QR CODE QUE ABRE HTML DETALHADO ====================
+        // ==================== QR CODE ====================
+        function gerarQRCode(id) {
+            const ncs = getNCs();
+            const nc = ncs.find(n => n.id === id);
+            if (!nc) { mostrarToast('NC não encontrada!', 'error'); return; }
+            document.getElementById('qrNcIdLabel').textContent = '#' + id;
+            document.getElementById('modalQR').style.display = 'flex';
+            const container = document.getElementById('qrCodeContainer');
+            container.innerHTML = '';
+            const baseUrl = window.location.href.split('?')[0];
+            const qrUrl = baseUrl + '?view=readonly&id=' + id;
+            if (typeof QRCode !== 'undefined') {
+                new QRCode(container, {
+                    text: qrUrl,
+                    width: 200,
+                    height: 200,
+                    colorDark: '#0b3b2f',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            } else {
+                container.innerHTML = '<p style="color:#b53b3b;">Erro ao carregar QRCode.js</p>';
+            }
+        }
+
+        function fecharModalQR() {
+            document.getElementById('modalQR').style.display = 'none';
+        }
+
+        // ==================== IMPRESSÃO COM QR CODE ====================
         function imprimirNC(id) {
             const ncs = getNCs();
             const nc = ncs.find(n => n.id === id);
             if (!nc) return;
             const agora = new Date();
             const tempo = calcularTempoDetalhado(nc);
-
-            // Gera página HTML completa para o QR Code (somente leitura, com cronômetro ao vivo)
-            const htmlPagina = gerarHTMLDetalhesNC(nc);
-            // Codifica em base64 (compatível com caracteres Unicode)
-            const base64html = btoa(unescape(encodeURIComponent(htmlPagina)));
-            const dataUri = 'data:text/html;base64,' + base64html;
+            const baseUrl = window.location.href.split('?')[0];
+            const qrUrl = baseUrl + '?view=readonly&id=' + id;
 
             const printArea = document.getElementById('printArea');
             printArea.innerHTML = `
@@ -1984,7 +2098,7 @@
               ${nc.dataResolucao ? `<tr><th style="background:#f6f9f7;padding:10px;text-align:left;">Data Resolução</th><td colspan="3" style="padding:10px;">${new Date(nc.dataResolucao).toLocaleString('pt-BR')}</td></tr>` : ''}
             </table>
             <div style="text-align:center;margin:20px 0;">
-              <p style="font-weight:600;margin-bottom:8px;">📱 QR Code para consulta detalhada:</p>
+              <p style="font-weight:600;margin-bottom:8px;">📱 QR Code para acesso rápido (somente leitura):</p>
               <div id="qrCodePrintContainer" style="display:inline-block;"></div>
             </div>
             ${nc.fotos && nc.fotos.length > 0 ? `
@@ -2007,12 +2121,12 @@
                 if (qrContainer && typeof QRCode !== 'undefined') {
                     qrContainer.innerHTML = '';
                     new QRCode(qrContainer, {
-                        text: dataUri,
-                        width: 160,
-                        height: 160,
+                        text: qrUrl,
+                        width: 150,
+                        height: 150,
                         colorDark: '#0b3b2f',
                         colorLight: '#ffffff',
-                        correctLevel: QRCode.CorrectLevel.L // maior capacidade
+                        correctLevel: QRCode.CorrectLevel.M
                     });
                 }
             }, 200);
@@ -2080,12 +2194,13 @@
             if (e.key === 'Escape') {
                 fecharModalDetalhes();
                 fecharModalFoto();
+                fecharModalQR();
                 if (document.getElementById('printArea').style.display === 'block') fecharPrint();
             }
         });
 
         // ==================== ATUALIZAÇÃO PERIÓDICA DO DASHBOARD ====================
-        if (savedUser) {
+        if (!verificarModoVisitante() && getCurrentUser()) {
             renderDashboard();
             atualizarUIUsuario();
         }
@@ -2096,7 +2211,7 @@
             }
         }, 60000);
 
-        console.log('✅ Sistema Dona Rita · QR Code com página detalhada e cronômetro ao vivo.');
+        console.log('✅ Sistema Dona Rita · QR Code com visualização somente leitura ativado.');
     </script>
 </body>
 </html>
