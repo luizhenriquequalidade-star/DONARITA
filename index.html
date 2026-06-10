@@ -1391,7 +1391,7 @@
                     </div>
                     <div style="overflow-x:auto;">
                         <table>
-                            <thead><tr><th>ID</th><th>Produto</th><th>Motivo</th><th>Qtd (Cx/It)</th><th>Palete</th><th>Status</th><th>Tempo</th><th>Ações</th></tr></thead>
+                            <thead><tr><th>ID</th><th>Produto</th><th>Motivo</th><th>Quantidades</th><th>Palete</th><th>Status</th><th>Tempo</th><th>Ações</th></tr></thead>
                             <tbody id="tbodyNCs"></tbody>
                         </table>
                     </div>
@@ -1427,6 +1427,12 @@
                         <div class="form-group"><label><i class="fas fa-cubes"></i> Qtd. Itens *</label><input type="number" id="ncQtdItens" placeholder="Total de itens" min="1" step="1"></div>
                     </div>
 
+                    <!-- NOVOS CAMPOS: RETRABALHADAS E DESCARTADA -->
+                    <div class="form-row">
+                        <div class="form-group"><label><i class="fas fa-redo-alt"></i> Qtd. Retrabalhadas</label><input type="number" id="ncQtdRetrabalhadas" placeholder="Quantidade retrabalhada" min="0" step="1" value="0"></div>
+                        <div class="form-group"><label><i class="fas fa-trash-alt"></i> Qtd. Descartada</label><input type="number" id="ncQtdDescartada" placeholder="Quantidade descartada" min="0" step="1" value="0"></div>
+                    </div>
+
                     <div class="form-group"><label><i class="fas fa-tools"></i> O que será feito? *</label><input type="text" id="ncAcao" placeholder="Ação a ser tomada"></div>
 
                     <div class="form-group">
@@ -1455,7 +1461,7 @@
                     <div class="form-group">
                         <label>Tipo *</label>
                         <select id="newRole">
-                            <option value="padrao">Padrão (sem permissão de excluir)</option>
+                            <option value="padrao">Padrão (sem permissão de editar/excluir)</option>
                             <option value="admin">Administrador</option>
                         </select>
                     </div>
@@ -1535,13 +1541,13 @@
 
         // ==================== FUNÇÕES AUXILIARES ====================
         function formatarQuantidade(nc) {
-            const cx = nc.quantidadeCaixas;
-            const it = nc.quantidadeItens;
-            if (cx != null && it != null) return `${cx} cx / ${it} it`;
-            if (cx != null) return `${cx} cx`;
-            if (it != null) return `${it} it`;
-            if (nc.quantidade != null) return `${nc.quantidade} (legado)`;
-            return '-';
+            const partes = [];
+            if (nc.quantidadeCaixas != null && nc.quantidadeCaixas > 0) partes.push(`${nc.quantidadeCaixas} cx`);
+            if (nc.quantidadeItens != null && nc.quantidadeItens > 0) partes.push(`${nc.quantidadeItens} it`);
+            if (nc.quantidadeRetrabalhadas != null && nc.quantidadeRetrabalhadas > 0) partes.push(`${nc.quantidadeRetrabalhadas} ret`);
+            if (nc.quantidadeDescartada != null && nc.quantidadeDescartada > 0) partes.push(`${nc.quantidadeDescartada} desc`);
+            if (partes.length === 0 && nc.quantidade != null) partes.push(`${nc.quantidade} (legado)`);
+            return partes.length > 0 ? partes.join(' / ') : '-';
         }
 
         function escapeHtml(str) {
@@ -1629,6 +1635,8 @@
                     <div class="detail-row"><strong>Motivo:</strong><span>${escapeHtml(nc.motivo)}</span></div>
                     <div class="detail-row"><strong>Qtd. Caixas:</strong><span>${nc.quantidadeCaixas ?? (nc.quantidade || '-')}</span></div>
                     <div class="detail-row"><strong>Qtd. Itens:</strong><span>${nc.quantidadeItens ?? '-'}</span></div>
+                    <div class="detail-row"><strong>Qtd. Retrabalhadas:</strong><span>${nc.quantidadeRetrabalhadas || 0}</span></div>
+                    <div class="detail-row"><strong>Qtd. Descartada:</strong><span>${nc.quantidadeDescartada || 0}</span></div>
                     <div class="detail-row"><strong>Ação:</strong><span>${escapeHtml(nc.acao)}</span></div>
                     <div class="detail-row"><strong>Status:</strong><span class="badge ${nc.status === 'aberto' ? 'badge-open' : 'badge-resolved'}">${nc.status === 'aberto' ? 'Aberto' : 'Resolvido'}</span></div>
                     <div class="detail-row"><strong>Tempo:</strong><span id="liveTimerVisitante">${nc.status === 'aberto' ? calcularTempoDetalhado(nc).texto : calcularDias(nc) + 'd (fechado)'}</span></div>
@@ -1913,7 +1921,7 @@
                         <td>${tempoHtml}</td>
                         <td class="actions-cell">
                             <button class="btn btn-sm btn-info" onclick="verDetalhes('${nc.id}')" title="Detalhes"><i class="fas fa-eye"></i></button>
-                            <button class="btn btn-sm btn-outline" onclick="editarNC('${nc.id}')" title="Editar"><i class="fas fa-edit"></i></button>
+                            ${isAdmin ? `<button class="btn btn-sm btn-outline" onclick="editarNC('${nc.id}')" title="Editar"><i class="fas fa-edit"></i></button>` : ''}
                             <button class="btn btn-sm btn-accent" onclick="imprimirNC('${nc.id}')" title="Imprimir"><i class="fas fa-print"></i></button>
                             <button class="btn btn-sm btn-primary" onclick="gerarQRCode('${nc.id}')" title="QR Code"><i class="fas fa-qrcode"></i></button>
                             ${isAdmin?`<button class="btn btn-sm btn-danger" onclick="excluirNC('${nc.id}')" title="Excluir"><i class="fas fa-trash"></i></button>`:''}
@@ -1930,8 +1938,16 @@
             document.getElementById('editNcId').value = '';
             document.getElementById('tituloFormNC').innerHTML = '<i class="fas fa-plus-circle"></i> Nova Não Conformidade';
             document.getElementById('subtituloFormNC').textContent = 'Preencha os dados abaixo';
-            ['ncProduto', 'ncPalete', 'ncMotivo', 'ncQtdCaixas', 'ncQtdItens', 'ncAcao', 'ncIdManual'].forEach(id => document
-                .getElementById(id).value = '');
+            ['ncProduto', 'ncPalete', 'ncMotivo', 'ncQtdCaixas', 'ncQtdItens', 'ncQtdRetrabalhadas', 'ncQtdDescartada', 'ncAcao', 'ncIdManual'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (id === 'ncQtdRetrabalhadas' || id === 'ncQtdDescartada') {
+                        el.value = '0';
+                    } else {
+                        el.value = '';
+                    }
+                }
+            });
             const campoId = document.getElementById('ncIdManual');
             const grupoId = document.getElementById('grupoIdNC');
             if (campoId) campoId.disabled = false;
@@ -1997,11 +2013,20 @@
 
         async function salvarNC() {
             const editId = document.getElementById('editNcId').value;
+
+            // Verificação de permissão: apenas admin pode editar
+            if (editId && currentUser.role !== 'admin') {
+                mostrarToast('Apenas administradores podem editar registros!', 'error');
+                return;
+            }
+
             const produto = document.getElementById('ncProduto').value.trim();
             const palete = document.getElementById('ncPalete').value.trim();
             const motivo = document.getElementById('ncMotivo').value.trim();
             const qtdCaixas = parseInt(document.getElementById('ncQtdCaixas').value) || 0;
             const qtdItens = parseInt(document.getElementById('ncQtdItens').value) || 0;
+            const qtdRetrabalhadas = parseInt(document.getElementById('ncQtdRetrabalhadas').value) || 0;
+            const qtdDescartada = parseInt(document.getElementById('ncQtdDescartada').value) || 0;
             const acao = document.getElementById('ncAcao').value.trim();
 
             if (!produto || !palete || !motivo || !qtdCaixas || !qtdItens || !acao) {
@@ -2009,7 +2034,7 @@
                 return;
             }
             if (qtdCaixas < 1 || qtdItens < 1) {
-                mostrarToast('Quantidades devem ser maiores que zero!', 'error');
+                mostrarToast('Quantidades de Caixas e Itens devem ser maiores que zero!', 'error');
                 return;
             }
 
@@ -2028,6 +2053,10 @@
                     `Qtd. Caixas: ${ncAntiga.quantidadeCaixas || 0} → ${qtdCaixas}`);
                 if ((ncAntiga.quantidadeItens || 0) !== qtdItens) alteracoes.push(
                     `Qtd. Itens: ${ncAntiga.quantidadeItens || 0} → ${qtdItens}`);
+                if ((ncAntiga.quantidadeRetrabalhadas || 0) !== qtdRetrabalhadas) alteracoes.push(
+                    `Qtd. Retrabalhadas: ${ncAntiga.quantidadeRetrabalhadas || 0} → ${qtdRetrabalhadas}`);
+                if ((ncAntiga.quantidadeDescartada || 0) !== qtdDescartada) alteracoes.push(
+                    `Qtd. Descartada: ${ncAntiga.quantidadeDescartada || 0} → ${qtdDescartada}`);
                 if (ncAntiga.acao !== acao) alteracoes.push('Ação alterada');
                 if (JSON.stringify((ncAntiga.fotos || []).sort()) !== JSON.stringify(todasFotos.sort())) alteracoes.push(
                     'Fotos atualizadas');
@@ -2036,7 +2065,7 @@
                     historico.push({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'editou',
                         detalhes: alteracoes.join('; ') });
                     await docRef.update({ produto, palete, motivo, quantidadeCaixas: qtdCaixas, quantidadeItens: qtdItens,
-                        acao, fotos: todasFotos, historico });
+                        quantidadeRetrabalhadas: qtdRetrabalhadas, quantidadeDescartada: qtdDescartada, acao, fotos: todasFotos, historico });
                 }
                 mostrarToast('NC #' + editId + ' atualizada!', 'success');
             } else {
@@ -2059,6 +2088,8 @@
                     motivo,
                     quantidadeCaixas: qtdCaixas,
                     quantidadeItens: qtdItens,
+                    quantidadeRetrabalhadas: qtdRetrabalhadas,
+                    quantidadeDescartada: qtdDescartada,
                     acao,
                     fotos: todasFotos,
                     status: 'aberto',
@@ -2078,6 +2109,12 @@
         }
 
         async function editarNC(id) {
+            // Verificação de permissão: apenas admin pode editar
+            if (currentUser.role !== 'admin') {
+                mostrarToast('Apenas administradores podem editar registros!', 'error');
+                return;
+            }
+
             const doc = await collNCs.doc(id).get();
             if (!doc.exists) { mostrarToast('NC não encontrada!', 'error'); return; }
             const nc = doc.data();
@@ -2089,6 +2126,8 @@
             document.getElementById('ncMotivo').value = nc.motivo || '';
             document.getElementById('ncQtdCaixas').value = nc.quantidadeCaixas || '';
             document.getElementById('ncQtdItens').value = nc.quantidadeItens || '';
+            document.getElementById('ncQtdRetrabalhadas').value = nc.quantidadeRetrabalhadas || '0';
+            document.getElementById('ncQtdDescartada').value = nc.quantidadeDescartada || '0';
             document.getElementById('ncAcao').value = nc.acao || '';
             const campoId = document.getElementById('ncIdManual');
             const grupoId = document.getElementById('grupoIdNC');
@@ -2152,6 +2191,8 @@
                 <div class="detail-row"><strong>Motivo:</strong><span>${escapeHtml(nc.motivo)}</span></div>
                 <div class="detail-row"><strong>Qtd. Caixas:</strong><span>${nc.quantidadeCaixas ?? (nc.quantidade || '-')}</span></div>
                 <div class="detail-row"><strong>Qtd. Itens:</strong><span>${nc.quantidadeItens ?? '-'}</span></div>
+                <div class="detail-row"><strong>Qtd. Retrabalhadas:</strong><span>${nc.quantidadeRetrabalhadas || 0}</span></div>
+                <div class="detail-row"><strong>Qtd. Descartada:</strong><span>${nc.quantidadeDescartada || 0}</span></div>
                 <div class="detail-row"><strong>Ação:</strong><span>${escapeHtml(nc.acao)}</span></div>
                 <div class="detail-row"><strong>Status:</strong><span class="badge ${nc.status==='aberto'?'badge-open':'badge-resolved'}">${nc.status==='aberto'?'Aberto':'Resolvido'}</span></div>
                 <div class="detail-row"><strong>Tempo:</strong><span id="liveTimerDetalhe">${nc.status==='aberto'?calcularTempoDetalhado(nc).texto:calcularDias(nc)+'d (fechado)'}</span></div>
@@ -2260,6 +2301,14 @@
                             <div class="print-field">
                                 <span class="print-label">📦 QTD. ITENS</span>
                                 <span class="print-value">${nc.quantidadeItens ?? '-'}</span>
+                            </div>
+                            <div class="print-field">
+                                <span class="print-label">🔄 QTD. RETRABALHADAS</span>
+                                <span class="print-value">${nc.quantidadeRetrabalhadas || 0}</span>
+                            </div>
+                            <div class="print-field">
+                                <span class="print-label">🗑️ QTD. DESCARTADA</span>
+                                <span class="print-value">${nc.quantidadeDescartada || 0}</span>
                             </div>
                             <div class="print-field">
                                 <span class="print-label">📅 DATA DE ABERTURA</span>
@@ -2394,7 +2443,7 @@
 
         // Inicia tudo
         init();
-        console.log('✅ Sistema Dona Rita · Firestore ativo. | Impressão otimizada para folha inteira (palete).');
+        console.log('✅ Sistema Dona Rita · Firestore ativo. | Impressão otimizada para folha inteira (palete). | Permissões: apenas admin edita/exclui.');
     </script>
 </body>
 </html>
