@@ -886,17 +886,57 @@
 
         /* Print */
         @media print {
-            body>* {
+            @page {
+                size: A4;
+                margin: 8mm;
+            }
+            body > *:not(#printArea) {
                 display: none !important;
             }
             #printArea {
                 display: block !important;
                 position: static !important;
-                padding: 20px !important;
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+                padding: 0 !important;
+                margin: 0 !important;
                 font-family: 'Inter', sans-serif !important;
+                font-size: 11px;
+                color: #000;
             }
             #printArea .no-print {
                 display: none !important;
+            }
+            #printArea img {
+                max-width: 100px !important;
+                max-height: 100px !important;
+                object-fit: cover;
+                border-radius: 4px;
+            }
+            #printArea table {
+                font-size: 10px;
+                width: 100%;
+                border-collapse: collapse;
+            }
+            #printArea table th {
+                background: #f0f0f0 !important;
+                font-weight: bold;
+                padding: 5px;
+            }
+            #printArea table td {
+                padding: 5px;
+            }
+            #printArea h2 {
+                font-size: 16px;
+                margin: 0 0 5px 0;
+            }
+            #printArea .print-header {
+                margin-bottom: 10px;
+            }
+            #printArea .qr-print {
+                width: 100px !important;
+                height: 100px !important;
             }
         }
         #printArea {
@@ -1911,46 +1951,82 @@
 
         function fecharModalQR() { document.getElementById('modalQR').style.display = 'none'; }
 
-        // ==================== IMPRESSÃO ====================
+        // ==================== IMPRESSÃO (CORRIGIDA) ====================
         async function imprimirNC(id) {
-            const doc = await collNCs.doc(id).get();
-            if (!doc.exists) return;
-            const nc = doc.data();
-            const agora = new Date();
-            const tempo = calcularTempoDetalhado(nc);
-            const baseUrl = window.location.href.split('?')[0];
-            const qrUrl = baseUrl + '?view=readonly&id=' + id;
-            const printArea = document.getElementById('printArea');
-            printArea.innerHTML = `
-                <div style="display:flex;align-items:center;gap:16px;border-bottom:3px solid #0b3b2f;padding-bottom:16px;margin-bottom:20px;">
-                    <div><h2 style="margin:0;color:#0b3b2f;">🏭 Dona Rita Embalagens</h2><p style="margin:4px 0 0;color:#5b6b64;">Relatório de Não Conformidade</p></div>
-                    <div style="margin-left:auto;text-align:right;font-size:0.8rem;color:#5b6b64;"><p style="margin:0;">Impresso em: ${agora.toLocaleString('pt-BR')}</p><p style="margin:2px 0 0;">Por: ${currentUser.username}</p></div>
-                </div>
-                <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
-                    <tr><th style="background:#f6f9f7;padding:10px;">NC #</th><td style="padding:10px;"><strong>${id}</strong></td><th style="background:#f6f9f7;padding:10px;">Status</th><td style="padding:10px;color:${nc.status==='aberto'?'#b53b3b':'#2d7a4f'};font-weight:700;">${nc.status.toUpperCase()}</td></tr>
-                    <tr><th style="background:#f6f9f7;padding:10px;">Produto</th><td style="padding:10px;">${escapeHtml(nc.produto)}</td><th style="background:#f6f9f7;padding:10px;">Palete</th><td style="padding:10px;"><strong>${escapeHtml(nc.palete)}</strong></td></tr>
-                    <tr><th style="background:#f6f9f7;padding:10px;">Qtd. Caixas</th><td style="padding:10px;">${nc.quantidadeCaixas ?? (nc.quantidade || '-')}</td><th style="background:#f6f9f7;padding:10px;">Qtd. Itens</th><td style="padding:10px;">${nc.quantidadeItens ?? '-'}</td></tr>
-                    <tr><th style="background:#f6f9f7;padding:10px;">Tempo</th><td style="padding:10px;"><strong>${tempo.texto}</strong></td><th style="background:#f6f9f7;padding:10px;">Criado por</th><td style="padding:10px;">${escapeHtml(nc.criadoPor)}</td></tr>
-                    <tr><th style="background:#f6f9f7;padding:10px;">Abertura</th><td style="padding:10px;">${new Date(nc.dataAbertura).toLocaleString('pt-BR')}</td><th style="background:#f6f9f7;padding:10px;">Resolução</th><td style="padding:10px;">${nc.dataResolucao?new Date(nc.dataResolucao).toLocaleString('pt-BR'):'Pendente'}</td></tr>
-                    <tr><th style="background:#f6f9f7;padding:10px;">Motivo</th><td colspan="3" style="padding:10px;">${escapeHtml(nc.motivo)}</td></tr>
-                    <tr><th style="background:#f6f9f7;padding:10px;">Ação</th><td colspan="3" style="padding:10px;">${escapeHtml(nc.acao)}</td></tr>
-                </table>
-                <div style="text-align:center;margin:20px 0;"><p style="font-weight:600;">📱 QR Code para acesso rápido:</p><div id="qrCodePrintContainer" style="display:inline-block;"></div></div>
-                ${nc.fotos&&nc.fotos.length?`<div><strong>Fotos:</strong><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">${nc.fotos.map(f=>`<img src="${f}" style="width:150px;height:150px;object-fit:cover;border-radius:8px;border:1px solid #ddd;">`).join('')}</div></div>`:''}
-                <div style="text-align:center;margin-top:24px;font-size:0.75rem;color:#8b9a94;">Dona Rita Embalagens © ${agora.getFullYear()}</div>
-                <div class="no-print" style="text-align:center;margin-top:20px;"><button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir</button><button class="btn btn-outline" onclick="fecharPrint()"><i class="fas fa-times"></i> Fechar</button></div>
-            `;
-            printArea.style.display = 'block';
-            setTimeout(() => {
-                const qrContainer = document.getElementById('qrCodePrintContainer');
-                if (qrContainer && typeof QRCode !== 'undefined') new QRCode(qrContainer, { text: qrUrl, width: 150,
-                    height: 150, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel
-                    .M });
-            }, 200);
+            try {
+                const doc = await collNCs.doc(id).get();
+                if (!doc.exists) {
+                    mostrarToast('NC #' + id + ' não encontrada!', 'error');
+                    return;
+                }
+                const nc = doc.data();
+                const agora = new Date();
+                const tempo = calcularTempoDetalhado(nc);
+                const baseUrl = window.location.href.split('?')[0];
+                const qrUrl = baseUrl + '?view=readonly&id=' + id;
+
+                const printArea = document.getElementById('printArea');
+                // Monta conteúdo otimizado para caber em uma folha
+                printArea.innerHTML = `
+                    <div class="print-header" style="display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #0b3b2f;padding-bottom:8px;margin-bottom:12px;">
+                        <div>
+                            <h2 style="margin:0;font-size:18px;color:#0b3b2f;">🏭 Dona Rita Embalagens</h2>
+                            <p style="margin:2px 0 0;font-size:11px;color:#5b6b64;">Relatório de Não Conformidade</p>
+                        </div>
+                        <div style="text-align:right;font-size:10px;color:#5b6b64;">
+                            <p style="margin:0;">Impresso: ${agora.toLocaleString('pt-BR')}</p>
+                            <p style="margin:2px 0 0;">Por: ${currentUser.username}</p>
+                        </div>
+                    </div>
+                    <table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px;">
+                        <tr><th style="background:#f4f4f4;padding:6px;text-align:left;">NC #</th><td style="padding:6px;"><strong>${id}</strong></td><th style="background:#f4f4f4;padding:6px;">Status</th><td style="padding:6px;color:${nc.status==='aberto'?'#b53b3b':'#2d7a4f'};font-weight:700;">${nc.status.toUpperCase()}</td></tr>
+                        <tr><th style="background:#f4f4f4;padding:6px;">Produto</th><td style="padding:6px;">${escapeHtml(nc.produto)}</td><th style="background:#f4f4f4;padding:6px;">Palete</th><td style="padding:6px;"><strong>${escapeHtml(nc.palete)}</strong></td></tr>
+                        <tr><th style="background:#f4f4f4;padding:6px;">Qtd. Caixas</th><td style="padding:6px;">${nc.quantidadeCaixas ?? (nc.quantidade || '-')}</td><th style="background:#f4f4f4;padding:6px;">Qtd. Itens</th><td style="padding:6px;">${nc.quantidadeItens ?? '-'}</td></tr>
+                        <tr><th style="background:#f4f4f4;padding:6px;">Tempo</th><td style="padding:6px;"><strong>${tempo.texto}</strong></td><th style="background:#f4f4f4;padding:6px;">Criado por</th><td style="padding:6px;">${escapeHtml(nc.criadoPor)}</td></tr>
+                        <tr><th style="background:#f4f4f4;padding:6px;">Abertura</th><td style="padding:6px;">${new Date(nc.dataAbertura).toLocaleString('pt-BR')}</td><th style="background:#f4f4f4;padding:6px;">Resolução</th><td style="padding:6px;">${nc.dataResolucao?new Date(nc.dataResolucao).toLocaleString('pt-BR'):'Pendente'}</td></tr>
+                        <tr><th style="background:#f4f4f4;padding:6px;">Motivo</th><td colspan="3" style="padding:6px;">${escapeHtml(nc.motivo)}</td></tr>
+                        <tr><th style="background:#f4f4f4;padding:6px;">Ação</th><td colspan="3" style="padding:6px;">${escapeHtml(nc.acao)}</td></tr>
+                    </table>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin:10px 0;">
+                        <div>
+                            <p style="font-weight:600;font-size:11px;margin:0 0 4px;">📱 QR Code:</p>
+                            <div id="qrCodePrintContainer" style="width:90px;height:90px;"></div>
+                        </div>
+                        ${nc.fotos&&nc.fotos.length?`<div style="display:flex;gap:4px;flex-wrap:wrap;max-width:60%;">${nc.fotos.map(f=>`<img src="${f}" style="width:80px;height:80px;object-fit:cover;border-radius:4px;border:1px solid #ddd;">`).join('')}</div>`:''}
+                    </div>
+                    <div style="text-align:center;margin-top:12px;font-size:9px;color:#8b9a94;">Dona Rita Embalagens © ${agora.getFullYear()}</div>
+                    <div class="no-print" style="text-align:center;margin-top:15px;">
+                        <button class="btn btn-primary" onclick="window.print()" style="font-size:12px;padding:6px 14px;"><i class="fas fa-print"></i> Imprimir</button>
+                        <button class="btn btn-outline" onclick="fecharPrint()" style="font-size:12px;padding:6px 14px;"><i class="fas fa-times"></i> Fechar</button>
+                    </div>
+                `;
+
+                printArea.style.display = 'block';
+
+                // Gera QR Code após a área estar visível
+                setTimeout(() => {
+                    const qrContainer = document.getElementById('qrCodePrintContainer');
+                    if (qrContainer && typeof QRCode !== 'undefined') {
+                        new QRCode(qrContainer, {
+                            text: qrUrl,
+                            width: 90,
+                            height: 90,
+                            colorDark: '#0b3b2f',
+                            colorLight: '#ffffff',
+                            correctLevel: QRCode.CorrectLevel.M
+                        });
+                    }
+                }, 200);
+            } catch (error) {
+                console.error('Erro ao imprimir:', error);
+                mostrarToast('Erro ao carregar dados para impressão.', 'error');
+            }
         }
 
-        function fecharPrint() { document.getElementById('printArea').style.display = 'none';
-            document.getElementById('printArea').innerHTML = ''; }
+        function fecharPrint() {
+            document.getElementById('printArea').style.display = 'none';
+            document.getElementById('printArea').innerHTML = '';
+        }
 
         // ==================== USUÁRIOS ====================
         async function renderUsuarios() {
@@ -2001,6 +2077,16 @@
             }
         });
 
+        // Limpa a área de impressão após imprimir (opcional)
+        window.addEventListener('afterprint', () => {
+            // Pequeno delay para garantir que o diálogo fechou
+            setTimeout(() => {
+                if (document.getElementById('printArea').style.display === 'block') {
+                    // Não fecha automaticamente para permitir reimpressão, mas podemos limpar após alguns segundos
+                }
+            }, 500);
+        });
+
         // ==================== ATUALIZAÇÃO PERIÓDICA ====================
         setInterval(async () => {
             if (currentUser && document.getElementById('page-dashboard').classList.contains('active')) await
@@ -2009,7 +2095,7 @@
 
         // Inicia tudo
         init();
-        console.log('✅ Sistema Dona Rita · Firestore ativo. | Qtd: Caixas + Itens');
+        console.log('✅ Sistema Dona Rita · Firestore ativo. | Impressão otimizada para 1 folha.');
     </script>
 </body>
 </html>
