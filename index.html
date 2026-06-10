@@ -10,13 +10,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js">
+    </script>
 
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
     <!-- QRCode.js -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
+    </script>
 
     <style>
         :root {
@@ -106,8 +110,14 @@
             animation: slideUp 0.5s ease;
         }
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         #loginScreen .login-logo {
             width: 80px;
@@ -271,8 +281,14 @@
             font-weight: 600;
             letter-spacing: 0.02em;
         }
-        .badge-open { background: #fce8e8; color: #b53b3b; }
-        .badge-resolved { background: #e1f0e7; color: #2d7a4f; }
+        .badge-open {
+            background: #fce8e8;
+            color: #b53b3b;
+        }
+        .badge-resolved {
+            background: #e1f0e7;
+            color: #2d7a4f;
+        }
         #visitanteContainer .btn-fechar-visitante {
             position: absolute;
             top: 14px;
@@ -286,7 +302,9 @@
             font-size: 1rem;
             transition: var(--transition);
         }
-        #visitanteContainer .btn-fechar-visitante:hover { background: #e0e0e0; }
+        #visitanteContainer .btn-fechar-visitante:hover {
+            background: #e0e0e0;
+        }
 
         /* Sidebar */
         .sidebar {
@@ -369,7 +387,12 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             backdrop-filter: blur(4px);
         }
-        .sidebar-nav .nav-item i { width: 20px; text-align: center; font-size: 1.1rem; opacity: 0.9; }
+        .sidebar-nav .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
         .sidebar-footer {
             padding: 18px 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -410,7 +433,9 @@
             width: 100%;
             font-weight: 500;
         }
-        .sidebar-footer .btn-logout:hover { background: rgba(255, 255, 255, 0.15); }
+        .sidebar-footer .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
 
         /* Main */
         .main-content {
@@ -420,14 +445,27 @@
             min-height: 100vh;
             transition: margin-left 0.3s ease;
         }
-        .page { display: none; animation: fadeIn 0.3s ease; }
-        .page.active { display: block; }
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .page.active {
+            display: block;
+        }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .page-header { margin-bottom: 26px; }
+        .page-header {
+            margin-bottom: 26px;
+        }
         .page-header h1 {
             font-size: 1.7rem;
             font-weight: 700;
@@ -437,8 +475,15 @@
             gap: 10px;
             letter-spacing: -0.02em;
         }
-        .page-header h1 i { color: var(--primary-light); font-size: 1.4rem; }
-        .page-header .breadcrumb { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
+        .page-header h1 i {
+            color: var(--primary-light);
+            font-size: 1.4rem;
+        }
+        .page-header .breadcrumb {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
 
         /* Cards */
         .stats-grid {
@@ -459,7 +504,11 @@
             transition: var(--transition);
             border: 1px solid rgba(220, 229, 225, 0.6);
         }
-        .stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: #c8d6cf; }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+            border-color: #c8d6cf;
+        }
         .stat-card .stat-icon {
             width: 52px;
             height: 52px;
@@ -470,10 +519,22 @@
             font-size: 1.4rem;
             flex-shrink: 0;
         }
-        .stat-card .stat-icon.green { background: #e1f0e7; color: #1f6d52; }
-        .stat-card .stat-icon.red { background: #fce8e8; color: #b53b3b; }
-        .stat-card .stat-icon.blue { background: #e2eff7; color: #386e8c; }
-        .stat-card .stat-icon.orange { background: #fcf0e1; color: #b5792a; }
+        .stat-card .stat-icon.green {
+            background: #e1f0e7;
+            color: #1f6d52;
+        }
+        .stat-card .stat-icon.red {
+            background: #fce8e8;
+            color: #b53b3b;
+        }
+        .stat-card .stat-icon.blue {
+            background: #e2eff7;
+            color: #386e8c;
+        }
+        .stat-card .stat-icon.orange {
+            background: #fcf0e1;
+            color: #b5792a;
+        }
         .stat-card .stat-info h3 {
             font-size: 1.9rem;
             font-weight: 700;
@@ -482,7 +543,11 @@
             font-family: 'JetBrains Mono', 'Inter', monospace;
             letter-spacing: -0.03em;
         }
-        .stat-card .stat-info span { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+        .stat-card .stat-info span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
 
         /* Charts */
         .charts-grid {
@@ -491,7 +556,11 @@
             gap: 18px;
             margin-bottom: 26px;
         }
-        @media (max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 900px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
         .chart-card {
             background: var(--surface);
             backdrop-filter: var(--backdrop-blur);
@@ -500,8 +569,15 @@
             box-shadow: var(--shadow-sm);
             border: 1px solid rgba(220, 229, 225, 0.6);
         }
-        .chart-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 14px; color: var(--text); }
-        .chart-card canvas { max-height: 260px; }
+        .chart-card h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 14px;
+            color: var(--text);
+        }
+        .chart-card canvas {
+            max-height: 260px;
+        }
 
         /* Table */
         .table-card {
@@ -521,8 +597,16 @@
             flex-wrap: wrap;
             gap: 12px;
         }
-        .table-card .table-header h3 { font-weight: 600; font-size: 1rem; color: var(--text); }
-        .table-card table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+        .table-card .table-header h3 {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text);
+        }
+        .table-card table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.84rem;
+        }
         .table-card table th {
             background: #f6f9f7;
             padding: 13px 16px;
@@ -534,9 +618,17 @@
             letter-spacing: 0.04em;
             border-bottom: 2px solid var(--border);
         }
-        .table-card table td { padding: 13px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-        .table-card table tbody tr { transition: var(--transition); }
-        .table-card table tbody tr:hover { background: #f9fbfa; }
+        .table-card table td {
+            padding: 13px 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        .table-card table tbody tr {
+            transition: var(--transition);
+        }
+        .table-card table tbody tr:hover {
+            background: #f9fbfa;
+        }
         .badge {
             display: inline-block;
             padding: 5px 14px;
@@ -545,8 +637,14 @@
             font-weight: 600;
             letter-spacing: 0.02em;
         }
-        .badge-open { background: #fce8e8; color: #b53b3b; }
-        .badge-resolved { background: #e1f0e7; color: #2d7a4f; }
+        .badge-open {
+            background: #fce8e8;
+            color: #b53b3b;
+        }
+        .badge-resolved {
+            background: #e1f0e7;
+            color: #2d7a4f;
+        }
         .btn {
             padding: 9px 16px;
             border-radius: 20px;
@@ -562,22 +660,73 @@
             letter-spacing: -0.01em;
             white-space: nowrap;
         }
-        .btn-sm { padding: 6px 11px; font-size: 0.73rem; border-radius: 16px; }
-        .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(11, 59, 47, 0.2); }
-        .btn-primary:hover { background: #0f4d3b; box-shadow: 0 6px 16px rgba(11, 59, 47, 0.3); }
-        .btn-accent { background: var(--accent); color: #1e1e1e; font-weight: 600; }
-        .btn-accent:hover { background: #b88735; }
-        .btn-outline { background: transparent; border: 1.5px solid #cdd6d1; color: var(--text); }
-        .btn-outline:hover { border-color: var(--primary-light); background: #f5f9f7; }
-        .btn-danger { background: var(--danger); color: #fff; }
-        .btn-danger:hover { background: #a13232; }
-        .btn-success { background: var(--success); color: #fff; }
-        .btn-success:hover { background: #256b43; }
-        .btn-info { background: var(--info); color: #fff; }
-        .btn-info:hover { background: #2f5f78; }
-        .actions-cell { display: flex; gap: 5px; flex-wrap: wrap; }
-        .empty-state { text-align: center; padding: 48px; color: var(--text-muted); }
-        .empty-state i { font-size: 2.8rem; margin-bottom: 12px; opacity: 0.5; }
+        .btn-sm {
+            padding: 6px 11px;
+            font-size: 0.73rem;
+            border-radius: 16px;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(11, 59, 47, 0.2);
+        }
+        .btn-primary:hover {
+            background: #0f4d3b;
+            box-shadow: 0 6px 16px rgba(11, 59, 47, 0.3);
+        }
+        .btn-accent {
+            background: var(--accent);
+            color: #1e1e1e;
+            font-weight: 600;
+        }
+        .btn-accent:hover {
+            background: #b88735;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #cdd6d1;
+            color: var(--text);
+        }
+        .btn-outline:hover {
+            border-color: var(--primary-light);
+            background: #f5f9f7;
+        }
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+        .btn-danger:hover {
+            background: #a13232;
+        }
+        .btn-success {
+            background: var(--success);
+            color: #fff;
+        }
+        .btn-success:hover {
+            background: #256b43;
+        }
+        .btn-info {
+            background: var(--info);
+            color: #fff;
+        }
+        .btn-info:hover {
+            background: #2f5f78;
+        }
+        .actions-cell {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 48px;
+            color: var(--text-muted);
+        }
+        .empty-state i {
+            font-size: 2.8rem;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
 
         /* Form */
         .form-card {
@@ -589,7 +738,9 @@
             max-width: 820px;
             border: 1px solid rgba(220, 229, 225, 0.6);
         }
-        .form-group { margin-bottom: 18px; }
+        .form-group {
+            margin-bottom: 18px;
+        }
         .form-group label {
             display: block;
             font-weight: 600;
@@ -619,10 +770,26 @@
             box-shadow: 0 0 0 3px rgba(31, 109, 82, 0.06);
             background: #fff;
         }
-        .form-group textarea { resize: vertical; min-height: 80px; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
-        .photo-preview-container { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        .photo-preview-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
         .photo-preview {
             width: 85px;
             height: 85px;
@@ -632,7 +799,11 @@
             cursor: pointer;
             transition: var(--transition);
         }
-        .photo-preview:hover { border-color: var(--primary-light); transform: scale(1.04); box-shadow: var(--shadow-sm); }
+        .photo-preview:hover {
+            border-color: var(--primary-light);
+            transform: scale(1.04);
+            box-shadow: var(--shadow-sm);
+        }
         .photo-upload-area {
             border: 2px dashed #c8d6cf;
             border-radius: var(--radius);
@@ -642,8 +813,15 @@
             transition: var(--transition);
             background: #fafbfa;
         }
-        .photo-upload-area:hover { border-color: var(--primary-light); background: #f4f9f6; }
-        .photo-upload-area i { font-size: 1.8rem; color: var(--primary-light); margin-bottom: 6px; }
+        .photo-upload-area:hover {
+            border-color: var(--primary-light);
+            background: #f4f9f6;
+        }
+        .photo-upload-area i {
+            font-size: 1.8rem;
+            color: var(--primary-light);
+            margin-bottom: 6px;
+        }
 
         /* Modal */
         .modal-overlay {
@@ -667,7 +845,11 @@
             box-shadow: var(--shadow-lg);
             position: relative;
         }
-        .modal h2 { font-size: 1.3rem; margin-bottom: 16px; color: var(--primary); }
+        .modal h2 {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
         .modal .close-btn {
             position: absolute;
             top: 14px;
@@ -685,20 +867,58 @@
             justify-content: center;
             transition: var(--transition);
         }
-        .modal .close-btn:hover { background: #f0f0f0; color: #333; }
-        .modal .detail-row { padding: 10px 0; border-bottom: 1px solid #eef2f0; display: flex; gap: 14px; font-size: 0.88rem; }
-        .modal .detail-row strong { min-width: 140px; color: var(--text-secondary); font-weight: 600; }
+        .modal .close-btn:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .modal .detail-row {
+            padding: 10px 0;
+            border-bottom: 1px solid #eef2f0;
+            display: flex;
+            gap: 14px;
+            font-size: 0.88rem;
+        }
+        .modal .detail-row strong {
+            min-width: 140px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
 
         /* Print */
         @media print {
-            body>* { display: none !important; }
-            #printArea { display: block !important; position: static !important; padding: 20px !important; font-family: 'Inter', sans-serif !important; }
-            #printArea .no-print { display: none !important; }
+            body>* {
+                display: none !important;
+            }
+            #printArea {
+                display: block !important;
+                position: static !important;
+                padding: 20px !important;
+                font-family: 'Inter', sans-serif !important;
+            }
+            #printArea .no-print {
+                display: none !important;
+            }
         }
-        #printArea { display: none; position: fixed; inset: 0; z-index: 9999; background: #fff; padding: 30px; overflow-y: auto; }
+        #printArea {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #fff;
+            padding: 30px;
+            overflow-y: auto;
+        }
 
         /* Toast */
-        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
         .toast {
             padding: 12px 22px;
             border-radius: 20px;
@@ -710,12 +930,24 @@
             max-width: 400px;
         }
         @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
-        .toast.success { background: #2d7a4f; }
-        .toast.error { background: #b53b3b; }
-        .toast.info { background: #386e8c; }
+        .toast.success {
+            background: #2d7a4f;
+        }
+        .toast.error {
+            background: #b53b3b;
+        }
+        .toast.info {
+            background: #386e8c;
+        }
 
         /* Timer */
         .live-timer {
@@ -731,15 +963,34 @@
             gap: 6px;
             letter-spacing: -0.02em;
         }
-        .live-timer i { font-size: 0.8rem; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .live-timer i {
+            font-size: 0.8rem;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
 
         /* Mobile */
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); }
-            .sidebar.open { transform: translateX(0); }
-            .main-content { margin-left: 0; }
-            .mobile-menu-btn { display: block !important; }
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .mobile-menu-btn {
+                display: block !important;
+            }
         }
         .mobile-menu-btn {
             display: none;
@@ -858,7 +1109,7 @@
                     </div>
                     <div style="overflow-x:auto;">
                         <table>
-                            <thead><tr><th>ID</th><th>Produto</th><th>Motivo</th><th>Qtd</th><th>Palete</th><th>Status</th><th>Tempo</th><th>Ações</th></tr></thead>
+                            <thead><tr><th>ID</th><th>Produto</th><th>Motivo</th><th>Qtd (Cx/It)</th><th>Palete</th><th>Status</th><th>Tempo</th><th>Ações</th></tr></thead>
                             <tbody id="tbodyNCs"></tbody>
                         </table>
                     </div>
@@ -874,15 +1125,28 @@
                 </div>
                 <div class="form-card">
                     <input type="hidden" id="editNcId" value="">
+
+                    <!-- CAMPO PARA ESCOLHER O NÚMERO DA NC (visível apenas ao criar nova) -->
+                    <div class="form-group" id="grupoIdNC">
+                        <label><i class="fas fa-hashtag"></i> Número da NC *</label>
+                        <input type="number" id="ncIdManual" placeholder="Digite o número desejado para a NC" min="1" step="1">
+                        <small style="color:#5b6b64;font-size:0.72rem;display:block;margin-top:4px;">Este número será o identificador único da NC. Certifique-se de que não está em uso.</small>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group"><label><i class="fas fa-box"></i> Produto *</label><input type="text" id="ncProduto" placeholder="Nome do produto"></div>
                         <div class="form-group"><label><i class="fas fa-pallet"></i> Palete (PLT) *</label><input type="text" id="ncPalete" placeholder="Ex: PLT 01"></div>
                     </div>
                     <div class="form-group"><label><i class="fas fa-exclamation-triangle"></i> Motivo da Não Conformidade *</label><textarea id="ncMotivo" placeholder="Descreva o motivo..."></textarea></div>
+
+                    <!-- QUANTIDADES: CAIXAS E ITENS -->
                     <div class="form-row">
-                        <div class="form-group"><label><i class="fas fa-hashtag"></i> Quantidade *</label><input type="number" id="ncQuantidade" placeholder="Quantidade de itens" min="1"></div>
-                        <div class="form-group"><label><i class="fas fa-tools"></i> O que será feito? *</label><input type="text" id="ncAcao" placeholder="Ação a ser tomada"></div>
+                        <div class="form-group"><label><i class="fas fa-boxes"></i> Qtd. Caixas *</label><input type="number" id="ncQtdCaixas" placeholder="Número de caixas" min="1" step="1"></div>
+                        <div class="form-group"><label><i class="fas fa-cubes"></i> Qtd. Itens *</label><input type="number" id="ncQtdItens" placeholder="Total de itens" min="1" step="1"></div>
                     </div>
+
+                    <div class="form-group"><label><i class="fas fa-tools"></i> O que será feito? *</label><input type="text" id="ncAcao" placeholder="Ação a ser tomada"></div>
+
                     <div class="form-group">
                         <label><i class="fas fa-camera"></i> Fotos (até 5)</label>
                         <div class="photo-upload-area" onclick="document.getElementById('inputFotos').click()"><i class="fas fa-cloud-upload-alt"></i><p>Clique para adicionar fotos</p></div>
@@ -987,6 +1251,23 @@
         let liveTimers = {};
         window._lastNcs = [];
 
+        // ==================== FUNÇÕES AUXILIARES ====================
+        function formatarQuantidade(nc) {
+            const cx = nc.quantidadeCaixas;
+            const it = nc.quantidadeItens;
+            if (cx != null && it != null) return `${cx} cx / ${it} it`;
+            if (cx != null) return `${cx} cx`;
+            if (it != null) return `${it} it`;
+            if (nc.quantidade != null) return `${nc.quantidade} (legado)`;
+            return '-';
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str || '';
+            return div.innerHTML;
+        }
+
         // ==================== FUNÇÕES DO FIREBASE ====================
         async function getUsuarios() {
             const snapshot = await collUsuarios.get();
@@ -1006,17 +1287,6 @@
             const snapshot = await collNCs.orderBy('dataAbertura', 'desc').get();
             window._lastNcs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             return window._lastNcs;
-        }
-
-        async function salvarNC(nc) {
-            if (nc.id) {
-                await collNCs.doc(nc.id).set(nc, { merge: true });
-            } else {
-                const docRef = await collNCs.add(nc);
-                nc.id = docRef.id;
-                await collNCs.doc(docRef.id).set({ id: docRef.id }, { merge: true });
-            }
-            return nc;
         }
 
         async function excluirNCFirestore(id) {
@@ -1067,13 +1337,16 @@
                     <button class="btn btn-primary" onclick="fecharModoVisitante()"><i class="fas fa-times"></i> Fechar</button>
                 `;
             } else {
-                const fotosHtml = (nc.fotos || []).map(f => `<img src="${f}" class="photo-preview" style="width:120px;height:120px;" onclick="abrirModalFoto('${f}')">`).join('');
+                const fotosHtml = (nc.fotos || []).map(f =>
+                    `<img src="${f}" class="photo-preview" style="width:120px;height:120px;" onclick="abrirModalFoto('${f}')">`
+                ).join('');
                 document.getElementById('visitanteInner').innerHTML = `
                     <h2><i class="fas fa-info-circle"></i> Detalhes da NC #${nc.id}</h2>
                     <div class="detail-row"><strong>Produto:</strong><span>${escapeHtml(nc.produto)}</span></div>
                     <div class="detail-row"><strong>Palete:</strong><span>${escapeHtml(nc.palete)}</span></div>
                     <div class="detail-row"><strong>Motivo:</strong><span>${escapeHtml(nc.motivo)}</span></div>
-                    <div class="detail-row"><strong>Quantidade:</strong><span>${nc.quantidade}</span></div>
+                    <div class="detail-row"><strong>Qtd. Caixas:</strong><span>${nc.quantidadeCaixas ?? (nc.quantidade || '-')}</span></div>
+                    <div class="detail-row"><strong>Qtd. Itens:</strong><span>${nc.quantidadeItens ?? '-'}</span></div>
                     <div class="detail-row"><strong>Ação:</strong><span>${escapeHtml(nc.acao)}</span></div>
                     <div class="detail-row"><strong>Status:</strong><span class="badge ${nc.status === 'aberto' ? 'badge-open' : 'badge-resolved'}">${nc.status === 'aberto' ? 'Aberto' : 'Resolvido'}</span></div>
                     <div class="detail-row"><strong>Tempo:</strong><span id="liveTimerVisitante">${nc.status === 'aberto' ? calcularTempoDetalhado(nc).texto : calcularDias(nc) + 'd (fechado)'}</span></div>
@@ -1088,7 +1361,8 @@
                         const el = document.getElementById('liveTimerVisitante');
                         if (el) {
                             if (liveTimers['visitante']) clearInterval(liveTimers['visitante']);
-                            const atualizar = () => { const t = calcularTempoDetalhado(nc); el.textContent = t.texto; };
+                            const atualizar = () => { const t = calcularTempoDetalhado(nc);
+                                el.textContent = t.texto; };
                             atualizar();
                             liveTimers['visitante'] = setInterval(atualizar, 1000);
                         }
@@ -1102,7 +1376,8 @@
 
         function fecharModoVisitante() {
             document.getElementById('visitanteContainer').classList.remove('visible');
-            if (liveTimers['visitante']) { clearInterval(liveTimers['visitante']); delete liveTimers['visitante']; }
+            if (liveTimers['visitante']) { clearInterval(liveTimers['visitante']);
+                delete liveTimers['visitante']; }
             window.location.href = window.location.href.split('?')[0];
         }
 
@@ -1130,8 +1405,10 @@
             }
         }
 
-        document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') fazerLogin(); });
-        document.getElementById('loginUser').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('loginPass').focus(); });
+        document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter')
+                fazerLogin(); });
+        document.getElementById('loginUser').addEventListener('keydown', e => { if (e.key === 'Enter') document
+                .getElementById('loginPass').focus(); });
 
         function logout() {
             Object.values(liveTimers).forEach(clearInterval);
@@ -1143,7 +1420,8 @@
             document.getElementById('loginUser').value = '';
             document.getElementById('loginPass').value = '';
             document.getElementById('loginError').textContent = '';
-            fotosNovas = []; fotosExistentes = [];
+            fotosNovas = [];
+            fotosExistentes = [];
             document.getElementById('photoPreviewContainer').innerHTML = '';
             document.getElementById('existingPhotosContainer').innerHTML = '';
             document.getElementById('editNcId').value = '';
@@ -1165,7 +1443,8 @@
             if (btn) btn.classList.add('active');
 
             if (page === 'dashboard') await renderDashboard();
-            if (page === 'lista') { await renderListaNCs(); ativarCronometrosLista(); }
+            if (page === 'lista') { await renderListaNCs();
+                ativarCronometrosLista(); }
             if (page === 'usuarios') await renderUsuarios();
             if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
         }
@@ -1179,7 +1458,8 @@
             toast.className = 'toast ' + tipo;
             toast.textContent = msg;
             container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; }, 2800);
+            setTimeout(() => { toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s'; }, 2800);
             setTimeout(() => toast.remove(), 3200);
         }
 
@@ -1215,7 +1495,9 @@
                 if (nc.status === 'aberto') {
                     const el = document.getElementById('timer-' + nc.id);
                     if (el) {
-                        const atualizar = () => { const t = calcularTempoDetalhado(nc); el.innerHTML = `<span class="live-timer"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
+                        const atualizar = () => { const t = calcularTempoDetalhado(nc);
+                            el.innerHTML =
+                            `<span class="live-timer"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
                         atualizar();
                         liveTimers[nc.id] = setInterval(atualizar, 1000);
                     }
@@ -1229,7 +1511,9 @@
             const el = document.getElementById('liveTimerDetalhe');
             if (!el) return;
             if (liveTimers['detalhe']) clearInterval(liveTimers['detalhe']);
-            const atualizar = () => { const t = calcularTempoDetalhado(nc); el.innerHTML = `<span class="live-timer" style="font-size:0.9rem;"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
+            const atualizar = () => { const t = calcularTempoDetalhado(nc);
+                el.innerHTML =
+                `<span class="live-timer" style="font-size:0.9rem;"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
             atualizar();
             liveTimers['detalhe'] = setInterval(atualizar, 1000);
         }
@@ -1240,7 +1524,8 @@
             const abertas = ncs.filter(n => n.status === 'aberto');
             const resolvidas = ncs.filter(n => n.status === 'resolvido');
             const total = ncs.length;
-            const diasMedio = abertas.length ? Math.round(abertas.reduce((s, n) => s + calcularDias(n), 0) / abertas.length) : 0;
+            const diasMedio = abertas.length ? Math.round(abertas.reduce((s, n) => s + calcularDias(n), 0) / abertas
+            .length) : 0;
 
             document.getElementById('statsGrid').innerHTML = `
                 <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-clipboard-list"></i></div><div class="stat-info"><h3>${total}</h3><span>Total de NCs</span></div></div>
@@ -1250,28 +1535,39 @@
             `;
 
             const motivosMap = {};
-            ncs.forEach(n => { const curto = (n.motivo || 'Sem motivo').substring(0, 50); motivosMap[curto] = (motivosMap[curto] || 0) + 1; });
+            ncs.forEach(n => { const curto = (n.motivo || 'Sem motivo').substring(0, 50);
+                motivosMap[curto] = (motivosMap[curto] || 0) + 1; });
             const motivosLabels = Object.keys(motivosMap);
             const motivosData = Object.values(motivosMap);
-            const coresMotivos = ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a', '#2d7a4f', '#5b3a6e', '#2f5f78', '#a65d3d'];
+            const coresMotivos = ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a', '#2d7a4f', '#5b3a6e',
+                '#2f5f78', '#a65d3d'
+            ];
 
             if (window._chartMotivos) window._chartMotivos.destroy();
             const ctx1 = document.getElementById('chartMotivos');
             if (ctx1 && motivosLabels.length > 0) {
                 window._chartMotivos = new Chart(ctx1, {
                     type: 'doughnut',
-                    data: { labels: motivosLabels, datasets: [{ data: motivosData, backgroundColor: coresMotivos.slice(0, motivosLabels.length), borderWidth: 2, borderColor: '#fff' }] },
-                    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 14, usePointStyle: true, font: { size: 11 } } } } }
+                    data: { labels: motivosLabels, datasets: [{ data: motivosData, backgroundColor: coresMotivos.slice(
+                                0, motivosLabels.length), borderWidth: 2, borderColor: '#fff' }] },
+                    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 14,
+                                usePointStyle: true, font: { size: 11 } } } } }
                 });
-            } else if (ctx1) ctx1.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhum motivo registrado</p>';
+            } else if (ctx1) ctx1.parentNode.innerHTML =
+                '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhum motivo registrado</p>';
 
             if (window._chartStatus) window._chartStatus.destroy();
             const ctx2 = document.getElementById('chartStatus');
             if (ctx2) {
                 window._chartStatus = new Chart(ctx2, {
                     type: 'bar',
-                    data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ label: 'Quantidade', data: [abertas.length, resolvidas.length], backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8, borderWidth: 0, barThickness: 50 }] },
-                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                    data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ label: 'Quantidade', data: [abertas.length,
+                                resolvidas.length
+                            ], backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8,
+                            borderWidth: 0, barThickness: 50
+                        }] },
+                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true,
+                                ticks: { stepSize: 1 } } } }
                 });
             }
 
@@ -1281,10 +1577,14 @@
             if (ctx3 && topAbertas.length > 0) {
                 window._chartDias = new Chart(ctx3, {
                     type: 'bar',
-                    data: { labels: topAbertas.map(n => `NC #${n.id} - ${(n.produto || 'N/A').substring(0, 12)}`), datasets: [{ label: 'Dias em Aberto', data: topAbertas.map(n => calcularDias(n)), backgroundColor: '#c8963e', borderRadius: 6, borderWidth: 0 }] },
-                    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, title: { display: true, text: 'Dias' }, ticks: { stepSize: 1 } } } }
+                    data: { labels: topAbertas.map(n => `NC #${n.id} - ${(n.produto || 'N/A').substring(0, 12)}`),
+                        datasets: [{ label: 'Dias em Aberto', data: topAbertas.map(n => calcularDias(n)),
+                            backgroundColor: '#c8963e', borderRadius: 6, borderWidth: 0 }] },
+                    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: {
+                                beginAtZero: true, title: { display: true, text: 'Dias' }, ticks: { stepSize: 1 } } } }
                 });
-            } else if (ctx3) ctx3.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhuma NC em aberto</p>';
+            } else if (ctx3) ctx3.parentNode.innerHTML =
+                '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhuma NC em aberto</p>';
         }
 
         // ==================== LISTA DE NCs ====================
@@ -1298,29 +1598,34 @@
             const selectPalete = document.getElementById('filtroPalete');
             if (selectPalete) {
                 const currentVal = selectPalete.value;
-                selectPalete.innerHTML = '<option value="todos">Todos os Paletes</option>' + paletesUnicos.map(p => `<option value="${p}">${p}</option>`).join('');
+                selectPalete.innerHTML = '<option value="todos">Todos os Paletes</option>' + paletesUnicos.map(p =>
+                    `<option value="${p}">${p}</option>`).join('');
                 selectPalete.value = paletesUnicos.includes(currentVal) ? currentVal : 'todos';
             }
 
             let filtradas = ncs;
             if (filtroStatus !== 'todos') filtradas = filtradas.filter(n => n.status === filtroStatus);
             if (filtroPalete !== 'todos') filtradas = filtradas.filter(n => n.palete === filtroPalete);
-            if (filtroBusca) filtradas = filtradas.filter(n => (n.produto||'').toLowerCase().includes(filtroBusca) || (n.motivo||'').toLowerCase().includes(filtroBusca) || (n.palete||'').toLowerCase().includes(filtroBusca) || String(n.id).includes(filtroBusca));
+            if (filtroBusca) filtradas = filtradas.filter(n => (n.produto || '').toLowerCase().includes(filtroBusca) || (n
+                .motivo || '').toLowerCase().includes(filtroBusca) || (n.palete || '').toLowerCase().includes(
+                filtroBusca) || String(n.id).includes(filtroBusca));
 
             const tbody = document.getElementById('tbodyNCs');
             const empty = document.getElementById('emptyLista');
             const isAdmin = currentUser && currentUser.role === 'admin';
 
-            if (filtradas.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; }
-            else {
+            if (filtradas.length === 0) { tbody.innerHTML = '';
+                empty.style.display = 'block'; } else {
                 empty.style.display = 'none';
                 tbody.innerHTML = filtradas.map(nc => {
-                    const tempoHtml = nc.status === 'aberto' ? `<span id="timer-${nc.id}">${calcularTempoDetalhado(nc).texto}</span>` : `<span style="color:#8b9a94;">${calcularDias(nc)}d (fechado)</span>`;
+                    const tempoHtml = nc.status === 'aberto' ?
+                        `<span id="timer-${nc.id}">${calcularTempoDetalhado(nc).texto}</span>` :
+                        `<span style="color:#8b9a94;">${calcularDias(nc)}d (fechado)</span>`;
                     return `<tr>
                         <td><strong>#${nc.id}</strong></td>
                         <td>${escapeHtml(nc.produto || '-')}</td>
                         <td>${escapeHtml((nc.motivo||'').substring(0,40))}${(nc.motivo||'').length>40?'...':''}</td>
-                        <td>${nc.quantidade||'-'}</td>
+                        <td>${formatarQuantidade(nc)}</td>
                         <td><span style="background:#e9f3ef;padding:3px 10px;border-radius:12px;font-weight:600;font-size:0.78rem;">${escapeHtml(nc.palete||'-')}</span></td>
                         <td><span class="badge ${nc.status==='aberto'?'badge-open':'badge-resolved'}">${nc.status==='aberto'?'Aberto':'Resolvido'}</span></td>
                         <td>${tempoHtml}</td>
@@ -1338,15 +1643,19 @@
             ativarCronometrosLista();
         }
 
-        function escapeHtml(str) { const div = document.createElement('div'); div.textContent = str || ''; return div.innerHTML; }
-
         // ==================== CRUD DE NCs ====================
         function prepararFormNova() {
             document.getElementById('editNcId').value = '';
             document.getElementById('tituloFormNC').innerHTML = '<i class="fas fa-plus-circle"></i> Nova Não Conformidade';
             document.getElementById('subtituloFormNC').textContent = 'Preencha os dados abaixo';
-            ['ncProduto','ncPalete','ncMotivo','ncQuantidade','ncAcao'].forEach(id => document.getElementById(id).value = '');
-            fotosNovas = []; fotosExistentes = [];
+            ['ncProduto', 'ncPalete', 'ncMotivo', 'ncQtdCaixas', 'ncQtdItens', 'ncAcao', 'ncIdManual'].forEach(id => document
+                .getElementById(id).value = '');
+            const campoId = document.getElementById('ncIdManual');
+            const grupoId = document.getElementById('grupoIdNC');
+            if (campoId) campoId.disabled = false;
+            if (grupoId) grupoId.style.display = 'block';
+            fotosNovas = [];
+            fotosExistentes = [];
             document.getElementById('photoPreviewContainer').innerHTML = '';
             document.getElementById('existingPhotosContainer').innerHTML = '';
             document.getElementById('inputFotos').value = '';
@@ -1356,18 +1665,28 @@
             const files = document.getElementById('inputFotos').files;
             const totalAtual = fotosNovas.length + fotosExistentes.length;
             const vagas = 5 - totalAtual;
-            if (files.length > vagas) { mostrarToast(`Máximo de 5 fotos. Você ainda pode adicionar ${vagas}.`,'error'); document.getElementById('inputFotos').value = ''; return; }
+            if (files.length > vagas) { mostrarToast(`Máximo de 5 fotos. Você ainda pode adicionar ${vagas}.`, 'error');
+                document.getElementById('inputFotos').value = ''; return; }
             Array.from(files).forEach(file => {
                 if (fotosNovas.length + fotosExistentes.length >= 5) return;
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const img = new Image();
                     img.onload = function() {
-                        const canvas = document.createElement('canvas'); const maxW = 600; let w = img.width, h = img.height;
-                        if (w > maxW) { h = h * (maxW / w); w = maxW; }
-                        canvas.width = w; canvas.height = h;
-                        const ctx = canvas.getContext('2d'); ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0,0,w,h); ctx.drawImage(img,0,0,w,h);
-                        fotosNovas.push(canvas.toDataURL('image/jpeg', 0.6)); atualizarPreviews();
+                        const canvas = document.createElement('canvas');
+                        const maxW = 600;
+                        let w = img.width,
+                            h = img.height;
+                        if (w > maxW) { h = h * (maxW / w);
+                            w = maxW; }
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.fillRect(0, 0, w, h);
+                        ctx.drawImage(img, 0, 0, w, h);
+                        fotosNovas.push(canvas.toDataURL('image/jpeg', 0.6));
+                        atualizarPreviews();
                     };
                     img.src = e.target.result;
                 };
@@ -1377,14 +1696,21 @@
         }
 
         function atualizarPreviews() {
-            document.getElementById('photoPreviewContainer').innerHTML = fotosNovas.map((b64,i) => `<div style="position:relative;display:inline-block;"><img src="${b64}" class="photo-preview" onclick="abrirModalFoto('${b64}')"><button onclick="removerFotoNova(${i})" style="position:absolute;top:-8px;right:-8px;background:#b53b3b;color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:0.7rem;line-height:24px;">✕</button></div>`).join('');
+            document.getElementById('photoPreviewContainer').innerHTML = fotosNovas.map((b64, i) =>
+                `<div style="position:relative;display:inline-block;"><img src="${b64}" class="photo-preview" onclick="abrirModalFoto('${b64}')"><button onclick="removerFotoNova(${i})" style="position:absolute;top:-8px;right:-8px;background:#b53b3b;color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:0.7rem;line-height:24px;">✕</button></div>`
+                ).join('');
         }
 
-        function removerFotoNova(index) { fotosNovas.splice(index,1); atualizarPreviews(); }
-        function removerFotoExistente(index) { fotosExistentes.splice(index,1); renderFotosExistentes(); }
+        function removerFotoNova(index) { fotosNovas.splice(index, 1);
+            atualizarPreviews(); }
+
+        function removerFotoExistente(index) { fotosExistentes.splice(index, 1);
+            renderFotosExistentes(); }
 
         function renderFotosExistentes() {
-            document.getElementById('existingPhotosContainer').innerHTML = fotosExistentes.map((b64,i) => `<div style="position:relative;display:inline-block;"><img src="${b64}" class="photo-preview" onclick="abrirModalFoto('${b64}')"><button onclick="removerFotoExistente(${i})" style="position:absolute;top:-8px;right:-8px;background:#b53b3b;color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:0.7rem;line-height:24px;">✕</button></div>`).join('');
+            document.getElementById('existingPhotosContainer').innerHTML = fotosExistentes.map((b64, i) =>
+                `<div style="position:relative;display:inline-block;"><img src="${b64}" class="photo-preview" onclick="abrirModalFoto('${b64}')"><button onclick="removerFotoExistente(${i})" style="position:absolute;top:-8px;right:-8px;background:#b53b3b;color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:0.7rem;line-height:24px;">✕</button></div>`
+                ).join('');
         }
 
         async function salvarNC() {
@@ -1392,37 +1718,76 @@
             const produto = document.getElementById('ncProduto').value.trim();
             const palete = document.getElementById('ncPalete').value.trim();
             const motivo = document.getElementById('ncMotivo').value.trim();
-            const quantidade = parseInt(document.getElementById('ncQuantidade').value) || 0;
+            const qtdCaixas = parseInt(document.getElementById('ncQtdCaixas').value) || 0;
+            const qtdItens = parseInt(document.getElementById('ncQtdItens').value) || 0;
             const acao = document.getElementById('ncAcao').value.trim();
 
-            if (!produto || !palete || !motivo || !quantidade || !acao) { mostrarToast('Preencha todos os campos obrigatórios!','error'); return; }
-            if (quantidade < 1) { mostrarToast('Quantidade deve ser maior que zero!','error'); return; }
+            if (!produto || !palete || !motivo || !qtdCaixas || !qtdItens || !acao) {
+                mostrarToast('Preencha todos os campos obrigatórios!', 'error');
+                return;
+            }
+            if (qtdCaixas < 1 || qtdItens < 1) {
+                mostrarToast('Quantidades devem ser maiores que zero!', 'error');
+                return;
+            }
 
             const todasFotos = [...fotosExistentes, ...fotosNovas];
 
             if (editId) {
                 const docRef = collNCs.doc(editId);
                 const doc = await docRef.get();
-                if (!doc.exists) { mostrarToast('NC não encontrada!','error'); return; }
+                if (!doc.exists) { mostrarToast('NC não encontrada!', 'error'); return; }
                 const ncAntiga = doc.data();
                 const alteracoes = [];
                 if (ncAntiga.produto !== produto) alteracoes.push(`Produto: "${ncAntiga.produto}" → "${produto}"`);
                 if (ncAntiga.palete !== palete) alteracoes.push(`Palete: "${ncAntiga.palete}" → "${palete}"`);
                 if (ncAntiga.motivo !== motivo) alteracoes.push('Motivo alterado');
-                if (ncAntiga.quantidade !== quantidade) alteracoes.push(`Quantidade: ${ncAntiga.quantidade} → ${quantidade}`);
+                if ((ncAntiga.quantidadeCaixas || 0) !== qtdCaixas) alteracoes.push(
+                    `Qtd. Caixas: ${ncAntiga.quantidadeCaixas || 0} → ${qtdCaixas}`);
+                if ((ncAntiga.quantidadeItens || 0) !== qtdItens) alteracoes.push(
+                    `Qtd. Itens: ${ncAntiga.quantidadeItens || 0} → ${qtdItens}`);
                 if (ncAntiga.acao !== acao) alteracoes.push('Ação alterada');
-                if (JSON.stringify((ncAntiga.fotos||[]).sort()) !== JSON.stringify(todasFotos.sort())) alteracoes.push('Fotos atualizadas');
+                if (JSON.stringify((ncAntiga.fotos || []).sort()) !== JSON.stringify(todasFotos.sort())) alteracoes.push(
+                    'Fotos atualizadas');
                 if (alteracoes.length > 0) {
                     const historico = ncAntiga.historico || [];
-                    historico.push({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'editou', detalhes: alteracoes.join('; ') });
-                    await docRef.update({ produto, palete, motivo, quantidade, acao, fotos: todasFotos, historico });
+                    historico.push({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'editou',
+                        detalhes: alteracoes.join('; ') });
+                    await docRef.update({ produto, palete, motivo, quantidadeCaixas: qtdCaixas, quantidadeItens: qtdItens,
+                        acao, fotos: todasFotos, historico });
                 }
-                mostrarToast('NC #' + editId + ' atualizada!','success');
+                mostrarToast('NC #' + editId + ' atualizada!', 'success');
             } else {
-                const novaNc = { produto, palete, motivo, quantidade, acao, fotos: todasFotos, status: 'aberto', dataAbertura: new Date().toISOString(), dataResolucao: null, criadoPor: currentUser.username, historico: [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou', detalhes: 'Não conformidade aberta' }] };
-                const docRef = await collNCs.add(novaNc);
-                await collNCs.doc(docRef.id).set({ id: docRef.id }, { merge: true });
-                mostrarToast('NC #' + docRef.id + ' criada!','success');
+                const idManualRaw = document.getElementById('ncIdManual').value.trim();
+                if (!idManualRaw) { mostrarToast('Informe o número da NC!', 'error'); return; }
+                const idManual = parseInt(idManualRaw, 10);
+                if (isNaN(idManual) || idManual < 1 || String(idManual) !== idManualRaw) {
+                    mostrarToast('Número da NC inválido! Use apenas números inteiros positivos.', 'error');
+                    return;
+                }
+                const docExistente = await collNCs.doc(String(idManual)).get();
+                if (docExistente.exists) {
+                    mostrarToast(`A NC #${idManual} já existe! Escolha outro número.`, 'error');
+                    return;
+                }
+                const novaNc = {
+                    id: String(idManual),
+                    produto,
+                    palete,
+                    motivo,
+                    quantidadeCaixas: qtdCaixas,
+                    quantidadeItens: qtdItens,
+                    acao,
+                    fotos: todasFotos,
+                    status: 'aberto',
+                    dataAbertura: new Date().toISOString(),
+                    dataResolucao: null,
+                    criadoPor: currentUser.username,
+                    historico: [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou',
+                        detalhes: 'Não conformidade aberta' }]
+                };
+                await collNCs.doc(String(idManual)).set(novaNc);
+                mostrarToast('NC #' + idManual + ' criada!', 'success');
             }
 
             prepararFormNova();
@@ -1432,7 +1797,7 @@
 
         async function editarNC(id) {
             const doc = await collNCs.doc(id).get();
-            if (!doc.exists) { mostrarToast('NC não encontrada!','error'); return; }
+            if (!doc.exists) { mostrarToast('NC não encontrada!', 'error'); return; }
             const nc = doc.data();
             document.getElementById('editNcId').value = id;
             document.getElementById('tituloFormNC').innerHTML = '<i class="fas fa-edit"></i> Editar Não Conformidade #' + id;
@@ -1440,34 +1805,51 @@
             document.getElementById('ncProduto').value = nc.produto || '';
             document.getElementById('ncPalete').value = nc.palete || '';
             document.getElementById('ncMotivo').value = nc.motivo || '';
-            document.getElementById('ncQuantidade').value = nc.quantidade || '';
+            document.getElementById('ncQtdCaixas').value = nc.quantidadeCaixas || '';
+            document.getElementById('ncQtdItens').value = nc.quantidadeItens || '';
             document.getElementById('ncAcao').value = nc.acao || '';
-            fotosNovas = []; fotosExistentes = [...(nc.fotos || [])];
+            const campoId = document.getElementById('ncIdManual');
+            const grupoId = document.getElementById('grupoIdNC');
+            if (campoId) {
+                campoId.value = id;
+                campoId.disabled = true;
+            }
+            if (grupoId) grupoId.style.display = 'block';
+            fotosNovas = [];
+            fotosExistentes = [...(nc.fotos || [])];
             document.getElementById('photoPreviewContainer').innerHTML = '';
             renderFotosExistentes();
             navegar('nova', document.querySelector('[data-page="nova"]'));
         }
 
-        function cancelarEdicao() { prepararFormNova(); navegar('lista', document.querySelector('[data-page="lista"]')); }
+        function cancelarEdicao() { prepararFormNova();
+            navegar('lista', document.querySelector('[data-page="lista"]')); }
 
         async function excluirNC(id) {
-            if (currentUser.role !== 'admin') { mostrarToast('Apenas administradores podem excluir!','error'); return; }
+            if (currentUser.role !== 'admin') { mostrarToast('Apenas administradores podem excluir!', 'error'); return; }
             if (!confirm('Excluir NC #' + id + '?')) return;
             await collNCs.doc(id).delete();
-            await renderListaNCs(); await renderDashboard();
-            mostrarToast('NC #' + id + ' excluída.','info');
+            await renderListaNCs();
+            await renderDashboard();
+            mostrarToast('NC #' + id + ' excluída.', 'info');
         }
 
         async function resolverNC(id) {
-            await collNCs.doc(id).update({ status: 'resolvido', dataResolucao: new Date().toISOString(), historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'resolveu', detalhes: 'NC marcada como resolvida' }) });
-            await renderListaNCs(); await renderDashboard();
-            mostrarToast('NC #' + id + ' resolvida!','success');
+            await collNCs.doc(id).update({ status: 'resolvido', dataResolucao: new Date().toISOString(), historico: firebase
+                    .firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username,
+                        acao: 'resolveu', detalhes: 'NC marcada como resolvida' }) });
+            await renderListaNCs();
+            await renderDashboard();
+            mostrarToast('NC #' + id + ' resolvida!', 'success');
         }
 
         async function reabrirNC(id) {
-            await collNCs.doc(id).update({ status: 'aberto', dataResolucao: null, historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'reabriu', detalhes: 'NC reaberta' }) });
-            await renderListaNCs(); await renderDashboard();
-            mostrarToast('NC #' + id + ' reaberta.','info');
+            await collNCs.doc(id).update({ status: 'aberto', dataResolucao: null, historico: firebase.firestore.FieldValue
+                    .arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'reabriu',
+                        detalhes: 'NC reaberta' }) });
+            await renderListaNCs();
+            await renderDashboard();
+            mostrarToast('NC #' + id + ' reaberta.', 'info');
         }
 
         // ==================== DETALHES ====================
@@ -1475,14 +1857,19 @@
             const doc = await collNCs.doc(id).get();
             if (!doc.exists) return;
             const nc = doc.data();
-            const fotosHtml = (nc.fotos||[]).map(f => `<img src="${f}" class="photo-preview" style="width:120px;height:120px;" onclick="abrirModalFoto('${f}')">`).join('');
-            const historicoHtml = (nc.historico||[]).map(h => `<div style="padding:8px 0;border-bottom:1px solid #eef2f0;font-size:0.8rem;"><strong>${new Date(h.data).toLocaleString('pt-BR')}</strong> - <span style="color:#386e8c;">${h.usuario}</span> <span style="background:#f0f4f1;padding:2px 8px;border-radius:10px;font-size:0.7rem;">${h.acao}</span><br><span style="color:#5b6b64;">${h.detalhes}</span></div>`).join('');
+            const fotosHtml = (nc.fotos || []).map(f =>
+                `<img src="${f}" class="photo-preview" style="width:120px;height:120px;" onclick="abrirModalFoto('${f}')">`
+                ).join('');
+            const historicoHtml = (nc.historico || []).map(h =>
+                `<div style="padding:8px 0;border-bottom:1px solid #eef2f0;font-size:0.8rem;"><strong>${new Date(h.data).toLocaleString('pt-BR')}</strong> - <span style="color:#386e8c;">${h.usuario}</span> <span style="background:#f0f4f1;padding:2px 8px;border-radius:10px;font-size:0.7rem;">${h.acao}</span><br><span style="color:#5b6b64;">${h.detalhes}</span></div>`
+                ).join('');
             document.getElementById('detalhesInner').innerHTML = `
                 <h2><i class="fas fa-info-circle"></i> Detalhes da NC #${id}</h2>
                 <div class="detail-row"><strong>Produto:</strong><span>${escapeHtml(nc.produto)}</span></div>
                 <div class="detail-row"><strong>Palete:</strong><span>${escapeHtml(nc.palete)}</span></div>
                 <div class="detail-row"><strong>Motivo:</strong><span>${escapeHtml(nc.motivo)}</span></div>
-                <div class="detail-row"><strong>Quantidade:</strong><span>${nc.quantidade}</span></div>
+                <div class="detail-row"><strong>Qtd. Caixas:</strong><span>${nc.quantidadeCaixas ?? (nc.quantidade || '-')}</span></div>
+                <div class="detail-row"><strong>Qtd. Itens:</strong><span>${nc.quantidadeItens ?? '-'}</span></div>
                 <div class="detail-row"><strong>Ação:</strong><span>${escapeHtml(nc.acao)}</span></div>
                 <div class="detail-row"><strong>Status:</strong><span class="badge ${nc.status==='aberto'?'badge-open':'badge-resolved'}">${nc.status==='aberto'?'Aberto':'Resolvido'}</span></div>
                 <div class="detail-row"><strong>Tempo:</strong><span id="liveTimerDetalhe">${nc.status==='aberto'?calcularTempoDetalhado(nc).texto:calcularDias(nc)+'d (fechado)'}</span></div>
@@ -1498,25 +1885,30 @@
 
         function fecharModalDetalhes() {
             document.getElementById('modalDetalhes').style.display = 'none';
-            if (liveTimers['detalhe']) { clearInterval(liveTimers['detalhe']); delete liveTimers['detalhe']; }
+            if (liveTimers['detalhe']) { clearInterval(liveTimers['detalhe']);
+                delete liveTimers['detalhe']; }
         }
 
-        function abrirModalFoto(src) { document.getElementById('modalFotoImg').src = src; document.getElementById('modalFoto').style.display = 'flex'; }
+        function abrirModalFoto(src) { document.getElementById('modalFotoImg').src = src;
+            document.getElementById('modalFoto').style.display = 'flex'; }
+
         function fecharModalFoto() { document.getElementById('modalFoto').style.display = 'none'; }
 
         // ==================== QR CODE ====================
         async function gerarQRCode(id) {
             const doc = await collNCs.doc(id).get();
-            if (!doc.exists) { mostrarToast('NC não encontrada!','error'); return; }
+            if (!doc.exists) { mostrarToast('NC não encontrada!', 'error'); return; }
             document.getElementById('qrNcIdLabel').textContent = '#' + id;
             document.getElementById('modalQR').style.display = 'flex';
             const container = document.getElementById('qrCodeContainer');
             container.innerHTML = '';
             const baseUrl = window.location.href.split('?')[0];
             const qrUrl = baseUrl + '?view=readonly&id=' + id;
-            if (typeof QRCode !== 'undefined') new QRCode(container, { text: qrUrl, width: 200, height: 200, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+            if (typeof QRCode !== 'undefined') new QRCode(container, { text: qrUrl, width: 200, height: 200,
+                colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
             else container.innerHTML = '<p style="color:#b53b3b;">Erro ao carregar QRCode.js</p>';
         }
+
         function fecharModalQR() { document.getElementById('modalQR').style.display = 'none'; }
 
         // ==================== IMPRESSÃO ====================
@@ -1537,11 +1929,11 @@
                 <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
                     <tr><th style="background:#f6f9f7;padding:10px;">NC #</th><td style="padding:10px;"><strong>${id}</strong></td><th style="background:#f6f9f7;padding:10px;">Status</th><td style="padding:10px;color:${nc.status==='aberto'?'#b53b3b':'#2d7a4f'};font-weight:700;">${nc.status.toUpperCase()}</td></tr>
                     <tr><th style="background:#f6f9f7;padding:10px;">Produto</th><td style="padding:10px;">${escapeHtml(nc.produto)}</td><th style="background:#f6f9f7;padding:10px;">Palete</th><td style="padding:10px;"><strong>${escapeHtml(nc.palete)}</strong></td></tr>
-                    <tr><th style="background:#f6f9f7;padding:10px;">Quantidade</th><td style="padding:10px;">${nc.quantidade}</td><th style="background:#f6f9f7;padding:10px;">Tempo</th><td style="padding:10px;"><strong>${tempo.texto}</strong></td></tr>
-                    <tr><th style="background:#f6f9f7;padding:10px;">Abertura</th><td style="padding:10px;">${new Date(nc.dataAbertura).toLocaleString('pt-BR')}</td><th style="background:#f6f9f7;padding:10px;">Criado por</th><td style="padding:10px;">${escapeHtml(nc.criadoPor)}</td></tr>
+                    <tr><th style="background:#f6f9f7;padding:10px;">Qtd. Caixas</th><td style="padding:10px;">${nc.quantidadeCaixas ?? (nc.quantidade || '-')}</td><th style="background:#f6f9f7;padding:10px;">Qtd. Itens</th><td style="padding:10px;">${nc.quantidadeItens ?? '-'}</td></tr>
+                    <tr><th style="background:#f6f9f7;padding:10px;">Tempo</th><td style="padding:10px;"><strong>${tempo.texto}</strong></td><th style="background:#f6f9f7;padding:10px;">Criado por</th><td style="padding:10px;">${escapeHtml(nc.criadoPor)}</td></tr>
+                    <tr><th style="background:#f6f9f7;padding:10px;">Abertura</th><td style="padding:10px;">${new Date(nc.dataAbertura).toLocaleString('pt-BR')}</td><th style="background:#f6f9f7;padding:10px;">Resolução</th><td style="padding:10px;">${nc.dataResolucao?new Date(nc.dataResolucao).toLocaleString('pt-BR'):'Pendente'}</td></tr>
                     <tr><th style="background:#f6f9f7;padding:10px;">Motivo</th><td colspan="3" style="padding:10px;">${escapeHtml(nc.motivo)}</td></tr>
                     <tr><th style="background:#f6f9f7;padding:10px;">Ação</th><td colspan="3" style="padding:10px;">${escapeHtml(nc.acao)}</td></tr>
-                    ${nc.dataResolucao?`<tr><th style="background:#f6f9f7;padding:10px;">Resolução</th><td colspan="3" style="padding:10px;">${new Date(nc.dataResolucao).toLocaleString('pt-BR')}</td></tr>`:''}
                 </table>
                 <div style="text-align:center;margin:20px 0;"><p style="font-weight:600;">📱 QR Code para acesso rápido:</p><div id="qrCodePrintContainer" style="display:inline-block;"></div></div>
                 ${nc.fotos&&nc.fotos.length?`<div><strong>Fotos:</strong><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">${nc.fotos.map(f=>`<img src="${f}" style="width:150px;height:150px;object-fit:cover;border-radius:8px;border:1px solid #ddd;">`).join('')}</div></div>`:''}
@@ -1551,15 +1943,19 @@
             printArea.style.display = 'block';
             setTimeout(() => {
                 const qrContainer = document.getElementById('qrCodePrintContainer');
-                if (qrContainer && typeof QRCode !== 'undefined') new QRCode(qrContainer, { text: qrUrl, width: 150, height: 150, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+                if (qrContainer && typeof QRCode !== 'undefined') new QRCode(qrContainer, { text: qrUrl, width: 150,
+                    height: 150, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel
+                    .M });
             }, 200);
         }
 
-        function fecharPrint() { document.getElementById('printArea').style.display = 'none'; document.getElementById('printArea').innerHTML = ''; }
+        function fecharPrint() { document.getElementById('printArea').style.display = 'none';
+            document.getElementById('printArea').innerHTML = ''; }
 
         // ==================== USUÁRIOS ====================
         async function renderUsuarios() {
-            if (!currentUser || currentUser.role !== 'admin') { mostrarToast('Acesso restrito!','error'); navegar('dashboard'); return; }
+            if (!currentUser || currentUser.role !== 'admin') { mostrarToast('Acesso restrito!', 'error');
+                navegar('dashboard'); return; }
             const usuarios = await getUsuarios();
             document.getElementById('tbodyUsuarios').innerHTML = usuarios.map(u => `
                 <tr>
@@ -1571,44 +1967,49 @@
         }
 
         async function criarUsuario() {
-            if (!currentUser || currentUser.role !== 'admin') { mostrarToast('Apenas administradores!','error'); return; }
+            if (!currentUser || currentUser.role !== 'admin') { mostrarToast('Apenas administradores!', 'error'); return; }
             const username = document.getElementById('newUsername').value.trim();
             const password = document.getElementById('newPassword').value.trim();
             const role = document.getElementById('newRole').value;
-            if (!username || !password) { mostrarToast('Preencha todos os campos!','error'); return; }
-            if (username.length < 3 || password.length < 3) { mostrarToast('Usuário e senha devem ter pelo menos 3 caracteres.','error'); return; }
+            if (!username || !password) { mostrarToast('Preencha todos os campos!', 'error'); return; }
+            if (username.length < 3 || password.length < 3) { mostrarToast(
+                    'Usuário e senha devem ter pelo menos 3 caracteres.', 'error'); return; }
             const usuarios = await getUsuarios();
-            if (usuarios.find(u => u.username === username)) { mostrarToast('Usuário já existe!','error'); return; }
+            if (usuarios.find(u => u.username === username)) { mostrarToast('Usuário já existe!', 'error'); return; }
             await criarUsuarioFirestore(username, password, role);
-            document.getElementById('newUsername').value = ''; document.getElementById('newPassword').value = '';
+            document.getElementById('newUsername').value = '';
+            document.getElementById('newPassword').value = '';
             await renderUsuarios();
-            mostrarToast('Usuário "' + username + '" criado!','success');
+            mostrarToast('Usuário "' + username + '" criado!', 'success');
         }
 
         async function excluirUsuario(username) {
-            if (username === 'qualidade') { mostrarToast('Não é possível excluir o admin principal!','error'); return; }
+            if (username === 'qualidade') { mostrarToast('Não é possível excluir o admin principal!', 'error'); return; }
             if (!confirm('Excluir usuário "' + username + '"?')) return;
             await excluirUsuarioFirestore(username);
             await renderUsuarios();
-            mostrarToast('Usuário excluído.','info');
+            mostrarToast('Usuário excluído.', 'info');
         }
 
         // ==================== EVENTOS ====================
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
-                fecharModalDetalhes(); fecharModalFoto(); fecharModalQR();
+                fecharModalDetalhes();
+                fecharModalFoto();
+                fecharModalQR();
                 if (document.getElementById('printArea').style.display === 'block') fecharPrint();
             }
         });
 
         // ==================== ATUALIZAÇÃO PERIÓDICA ====================
         setInterval(async () => {
-            if (currentUser && document.getElementById('page-dashboard').classList.contains('active')) await renderDashboard();
+            if (currentUser && document.getElementById('page-dashboard').classList.contains('active')) await
+                renderDashboard();
         }, 60000);
 
         // Inicia tudo
         init();
-        console.log('✅ Sistema Dona Rita · Firestore ativo.');
+        console.log('✅ Sistema Dona Rita · Firestore ativo. | Qtd: Caixas + Itens');
     </script>
 </body>
 </html>
