@@ -535,6 +535,10 @@
             background: #fcf0e1;
             color: #b5792a;
         }
+        .stat-card .stat-icon.purple {
+            background: #f0e6f6;
+            color: #7b4b9a;
+        }
         .stat-card .stat-info h3 {
             font-size: 1.9rem;
             font-weight: 700;
@@ -884,7 +888,42 @@
             font-weight: 600;
         }
 
-        /* Print - OTIMIZADO PARA FOLHA INTEIRA (PALETE) */
+        /* Filtros do relatório */
+        .filtro-relatorio {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-end;
+            margin-bottom: 24px;
+        }
+        .filtro-relatorio .form-group {
+            margin-bottom: 0;
+            min-width: 160px;
+        }
+        .filtro-relatorio .form-group label {
+            font-size: 0.72rem;
+        }
+        .filtro-relatorio .form-group input,
+        .filtro-relatorio .form-group select {
+            padding: 9px 12px;
+            font-size: 0.82rem;
+        }
+
+        /* Área de relatório (pré-impressão) */
+        #relatorioPrintArea {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+            border: 1px solid #ccc;
+        }
+        #relatorioPrintArea .print-sheet {
+            max-width: 100%;
+        }
+
+        /* Print - OTIMIZADO PARA FOLHA INTEIRA (PALETE) E RELATÓRIO */
         @media print {
             @page {
                 size: A4;
@@ -899,10 +938,11 @@
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
-            body>*:not(#printArea) {
+            body>*:not(#printArea):not(#relatorioPrintArea) {
                 display: none !important;
             }
-            #printArea {
+            #printArea,
+            #relatorioPrintArea {
                 display: block !important;
                 position: static !important;
                 width: 100% !important;
@@ -915,10 +955,14 @@
                 font-size: 15px !important;
                 color: #000 !important;
                 background: #fff !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
             }
-            #printArea .no-print {
+            #printArea .no-print,
+            #relatorioPrintArea .no-print {
                 display: none !important;
             }
+            #relatorioPrintArea .print-sheet,
             #printArea .print-sheet {
                 width: 100%;
                 min-height: 100vh;
@@ -927,6 +971,7 @@
                 padding: 8mm 10mm;
                 box-sizing: border-box;
             }
+            #relatorioPrintArea .print-header,
             #printArea .print-header {
                 border-bottom: 4px solid #0b3b2f !important;
                 padding-bottom: 12px !important;
@@ -937,6 +982,7 @@
                 flex-wrap: wrap !important;
                 gap: 10px !important;
             }
+            #relatorioPrintArea .print-header h2,
             #printArea .print-header h2 {
                 font-size: 26px !important;
                 font-weight: 800 !important;
@@ -944,6 +990,7 @@
                 margin: 0 !important;
                 letter-spacing: -0.02em !important;
             }
+            #relatorioPrintArea .print-header .print-badge,
             #printArea .print-header .print-badge {
                 font-size: 20px !important;
                 font-weight: 800 !important;
@@ -953,29 +1000,23 @@
                 text-transform: uppercase !important;
                 letter-spacing: 0.04em !important;
             }
-            #printArea .print-header .badge-print-open {
-                background: #ffe0e0 !important;
-                color: #c00 !important;
-                border: 3px solid #c00 !important;
-            }
-            #printArea .print-header .badge-print-resolved {
-                background: #d4f0d4 !important;
-                color: #0a5c0a !important;
-                border: 3px solid #0a5c0a !important;
-            }
+            #relatorioPrintArea .print-grid,
             #printArea .print-grid {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr !important;
                 gap: 12px 24px !important;
                 margin-bottom: 16px !important;
             }
+            #relatorioPrintArea .print-grid .print-field,
             #printArea .print-grid .print-field {
                 padding: 10px 0 !important;
                 border-bottom: 2px dashed #ccc !important;
             }
+            #relatorioPrintArea .print-grid .print-field.full-width,
             #printArea .print-grid .print-field.full-width {
                 grid-column: 1 / -1 !important;
             }
+            #relatorioPrintArea .print-grid .print-field .print-label,
             #printArea .print-grid .print-field .print-label {
                 font-size: 13px !important;
                 font-weight: 700 !important;
@@ -985,60 +1026,20 @@
                 margin-bottom: 4px !important;
                 display: block !important;
             }
+            #relatorioPrintArea .print-grid .print-field .print-value,
             #printArea .print-grid .print-field .print-value {
                 font-size: 18px !important;
                 font-weight: 700 !important;
                 color: #111 !important;
                 word-break: break-word !important;
             }
-            #printArea .print-grid .print-field .print-value.highlight {
-                font-size: 24px !important;
-                color: #0b3b2f !important;
-                background: #f0faf5 !important;
-                padding: 4px 12px !important;
-                border-radius: 8px !important;
-                display: inline-block !important;
-            }
+            #relatorioPrintArea .print-fotos-section,
             #printArea .print-fotos-section {
                 margin-top: 14px !important;
                 border-top: 3px solid #0b3b2f !important;
                 padding-top: 14px !important;
             }
-            #printArea .print-fotos-section h3 {
-                font-size: 18px !important;
-                font-weight: 700 !important;
-                margin: 0 0 10px 0 !important;
-                color: #0b3b2f !important;
-            }
-            #printArea .print-fotos-grid {
-                display: flex !important;
-                flex-wrap: wrap !important;
-                gap: 10px !important;
-            }
-            #printArea .print-fotos-grid img {
-                width: 130px !important;
-                height: 130px !important;
-                object-fit: cover !important;
-                border-radius: 8px !important;
-                border: 3px solid #ddd !important;
-            }
-            #printArea .print-qr-section {
-                margin-top: 14px !important;
-                display: flex !important;
-                align-items: center !important;
-                gap: 16px !important;
-                border-top: 3px solid #0b3b2f !important;
-                padding-top: 14px !important;
-            }
-            #printArea .print-qr-section .qr-print {
-                width: 110px !important;
-                height: 110px !important;
-            }
-            #printArea .print-qr-section .qr-info {
-                font-size: 13px !important;
-                color: #555 !important;
-                flex: 1 !important;
-            }
+            #relatorioPrintArea .print-footer,
             #printArea .print-footer {
                 margin-top: auto !important;
                 padding-top: 14px !important;
@@ -1046,6 +1047,10 @@
                 font-size: 12px !important;
                 color: #888 !important;
                 border-top: 2px solid #eee !important;
+            }
+            #relatorioPrintArea canvas {
+                max-width: 100% !important;
+                height: auto !important;
             }
         }
         #printArea {
@@ -1158,138 +1163,6 @@
             cursor: pointer;
             box-shadow: var(--shadow);
         }
-
-        /* Estilos para a área de impressão na tela (antes de imprimir) */
-        #printArea .print-sheet {
-            max-width: 210mm;
-            margin: 0 auto;
-            background: #fff;
-            padding: 8mm 10mm;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
-            color: #000;
-        }
-        #printArea .print-header {
-            border-bottom: 4px solid #0b3b2f;
-            padding-bottom: 12px;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        #printArea .print-header h2 {
-            font-size: 26px;
-            font-weight: 800;
-            color: #0b3b2f;
-            margin: 0;
-            letter-spacing: -0.02em;
-        }
-        #printArea .print-header .print-badge {
-            font-size: 20px;
-            font-weight: 800;
-            padding: 8px 22px;
-            border-radius: 30px;
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-        #printArea .badge-print-open {
-            background: #ffe0e0;
-            color: #c00;
-            border: 3px solid #c00;
-        }
-        #printArea .badge-print-resolved {
-            background: #d4f0d4;
-            color: #0a5c0a;
-            border: 3px solid #0a5c0a;
-        }
-        #printArea .print-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px 24px;
-            margin-bottom: 16px;
-        }
-        #printArea .print-grid .print-field {
-            padding: 10px 0;
-            border-bottom: 2px dashed #ccc;
-        }
-        #printArea .print-grid .print-field.full-width {
-            grid-column: 1 / -1;
-        }
-        #printArea .print-grid .print-field .print-label {
-            font-size: 13px;
-            font-weight: 700;
-            color: #555;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            margin-bottom: 4px;
-            display: block;
-        }
-        #printArea .print-grid .print-field .print-value {
-            font-size: 18px;
-            font-weight: 700;
-            color: #111;
-            word-break: break-word;
-        }
-        #printArea .print-grid .print-field .print-value.highlight {
-            font-size: 24px;
-            color: #0b3b2f;
-            background: #f0faf5;
-            padding: 4px 12px;
-            border-radius: 8px;
-            display: inline-block;
-        }
-        #printArea .print-fotos-section {
-            margin-top: 14px;
-            border-top: 3px solid #0b3b2f;
-            padding-top: 14px;
-        }
-        #printArea .print-fotos-section h3 {
-            font-size: 18px;
-            font-weight: 700;
-            margin: 0 0 10px 0;
-            color: #0b3b2f;
-        }
-        #printArea .print-fotos-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        #printArea .print-fotos-grid img {
-            width: 130px;
-            height: 130px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 3px solid #ddd;
-        }
-        #printArea .print-qr-section {
-            margin-top: 14px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            border-top: 3px solid #0b3b2f;
-            padding-top: 14px;
-        }
-        #printArea .print-qr-section .qr-print {
-            width: 110px;
-            height: 110px;
-        }
-        #printArea .print-qr-section .qr-info {
-            font-size: 13px;
-            color: #555;
-            flex: 1;
-        }
-        #printArea .print-footer {
-            margin-top: auto;
-            padding-top: 14px;
-            text-align: center;
-            font-size: 12px;
-            color: #888;
-            border-top: 2px solid #eee;
-        }
     </style>
 </head>
 <body>
@@ -1341,6 +1214,7 @@
                 <button class="nav-item active" data-page="dashboard" onclick="navegar('dashboard', this)"><i class="fas fa-chart-pie"></i> Dashboard</button>
                 <button class="nav-item" data-page="lista" onclick="navegar('lista', this)"><i class="fas fa-clipboard-list"></i> Não Conformidades</button>
                 <button class="nav-item" data-page="nova" onclick="prepararFormNova(); navegar('nova', this);"><i class="fas fa-plus-circle"></i> Nova NC</button>
+                <button class="nav-item" data-page="relatorio" id="navRelatorios" style="display:none;" onclick="navegar('relatorio', this)"><i class="fas fa-file-alt"></i> Relatórios</button>
                 <button class="nav-item" data-page="usuarios" id="navUsuarios" onclick="navegar('usuarios', this)" style="display:none;"><i class="fas fa-users-cog"></i> Usuários</button>
             </nav>
             <div class="sidebar-footer">
@@ -1407,34 +1281,25 @@
                 </div>
                 <div class="form-card">
                     <input type="hidden" id="editNcId" value="">
-
-                    <!-- CAMPO PARA ESCOLHER O NÚMERO DA NC (visível apenas ao criar nova) -->
                     <div class="form-group" id="grupoIdNC">
                         <label><i class="fas fa-hashtag"></i> Número da NC *</label>
                         <input type="number" id="ncIdManual" placeholder="Digite o número desejado para a NC" min="1" step="1">
-                        <small style="color:#5b6b64;font-size:0.72rem;display:block;margin-top:4px;">Este número será o identificador único da NC. Certifique-se de que não está em uso.</small>
+                        <small style="color:#5b6b64;font-size:0.72rem;display:block;margin-top:4px;">Este número será o identificador único da NC.</small>
                     </div>
-
                     <div class="form-row">
                         <div class="form-group"><label><i class="fas fa-box"></i> Produto *</label><input type="text" id="ncProduto" placeholder="Nome do produto"></div>
                         <div class="form-group"><label><i class="fas fa-pallet"></i> Palete (PLT) *</label><input type="text" id="ncPalete" placeholder="Ex: PLT 01"></div>
                     </div>
                     <div class="form-group"><label><i class="fas fa-exclamation-triangle"></i> Motivo da Não Conformidade *</label><textarea id="ncMotivo" placeholder="Descreva o motivo..."></textarea></div>
-
-                    <!-- QUANTIDADES: CAIXAS E ITENS -->
                     <div class="form-row">
                         <div class="form-group"><label><i class="fas fa-boxes"></i> Qtd. Caixas *</label><input type="number" id="ncQtdCaixas" placeholder="Número de caixas" min="1" step="1"></div>
                         <div class="form-group"><label><i class="fas fa-cubes"></i> Qtd. Itens *</label><input type="number" id="ncQtdItens" placeholder="Total de itens" min="1" step="1"></div>
                     </div>
-
-                    <!-- NOVOS CAMPOS: RETRABALHADAS E DESCARTADA -->
                     <div class="form-row">
                         <div class="form-group"><label><i class="fas fa-redo-alt"></i> Qtd. Retrabalhadas</label><input type="number" id="ncQtdRetrabalhadas" placeholder="Quantidade retrabalhada" min="0" step="1" value="0"></div>
                         <div class="form-group"><label><i class="fas fa-trash-alt"></i> Qtd. Descartada</label><input type="number" id="ncQtdDescartada" placeholder="Quantidade descartada" min="0" step="1" value="0"></div>
                     </div>
-
                     <div class="form-group"><label><i class="fas fa-tools"></i> O que será feito? *</label><input type="text" id="ncAcao" placeholder="Ação a ser tomada"></div>
-
                     <div class="form-group">
                         <label><i class="fas fa-camera"></i> Fotos (até 5)</label>
                         <div class="photo-upload-area" onclick="document.getElementById('inputFotos').click()"><i class="fas fa-cloud-upload-alt"></i><p>Clique para adicionar fotos</p></div>
@@ -1447,6 +1312,42 @@
                         <button class="btn btn-outline" onclick="cancelarEdicao()"><i class="fas fa-times"></i> Cancelar</button>
                     </div>
                 </div>
+            </div>
+
+            <!-- PÁGINA: RELATÓRIO GERENCIAL (APENAS ADMIN) -->
+            <div class="page" id="page-relatorio">
+                <div class="page-header">
+                    <h1><i class="fas fa-file-alt"></i> Relatório Gerencial</h1>
+                    <p class="breadcrumb">Geração de relatórios de não conformidades por período</p>
+                </div>
+                <div class="filtro-relatorio">
+                    <div class="form-group">
+                        <label>Período</label>
+                        <select id="relatorioPeriodo" onchange="atualizarPeriodoRelatorio()">
+                            <option value="diario">Diário (hoje)</option>
+                            <option value="semanal">Semanal (últimos 7 dias)</option>
+                            <option value="mensal" selected>Mensal (últimos 30 dias)</option>
+                            <option value="personalizado">Personalizado</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="grupoDataInicio" style="display:none;">
+                        <label>Data Início</label>
+                        <input type="date" id="relatorioDataInicio">
+                    </div>
+                    <div class="form-group" id="grupoDataFim" style="display:none;">
+                        <label>Data Fim</label>
+                        <input type="date" id="relatorioDataFim">
+                    </div>
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-primary" onclick="gerarRelatorio()"><i class="fas fa-chart-bar"></i> Gerar Relatório</button>
+                    </div>
+                </div>
+                <!-- Área onde o relatório será exibido (prévia e impressão) -->
+                <div id="relatorioPrintArea">
+                    <div class="print-sheet" id="relatorioConteudo"></div>
+                </div>
+                <div id="relatorioVazio" class="empty-state" style="display:none;"><i class="fas fa-chart-bar"></i><p>Selecione o período e clique em "Gerar Relatório".</p></div>
             </div>
 
             <!-- PÁGINA: USUÁRIOS (ADMIN) -->
@@ -1503,7 +1404,7 @@
         </div>
     </div>
 
-    <!-- ==================== ÁREA DE IMPRESSÃO ==================== -->
+    <!-- ==================== ÁREA DE IMPRESSÃO (NC INDIVIDUAL) ==================== -->
     <div id="printArea"></div>
 
     <!-- ==================== TOAST CONTAINER ==================== -->
@@ -1521,7 +1422,6 @@
             appId: "1:606762500444:web:4c24632e04d96e3a658199"
         };
 
-        // Inicializa Firebase e Firestore
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         db.enablePersistence().catch((err) => {
@@ -1538,6 +1438,8 @@
         let fotosExistentes = [];
         let liveTimers = {};
         window._lastNcs = [];
+        window._chartRelatorioMotivos = null;
+        window._chartRelatorioStatus = null;
 
         // ==================== FUNÇÕES AUXILIARES ====================
         function formatarQuantidade(nc) {
@@ -1583,18 +1485,13 @@
 
         // ==================== INICIALIZAÇÃO ====================
         async function init() {
-            // Cria usuários padrão se coleção estiver vazia
             const usuariosExistentes = await getUsuarios();
             if (usuariosExistentes.length === 0) {
                 await criarUsuarioFirestore('qualidade', '1304', 'admin');
                 await criarUsuarioFirestore('operador', '1234', 'padrao');
                 console.log('✅ Usuários padrão criados.');
             }
-
-            // Verifica modo visitante
             if (verificarModoVisitante()) return;
-
-            // Restaura sessão
             const savedUser = localStorage.getItem('sistemaNC_currentUser');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
@@ -1677,7 +1574,6 @@
             const pass = document.getElementById('loginPass').value.trim();
             const errorEl = document.getElementById('loginError');
             if (!user || !pass) { errorEl.textContent = 'Preencha todos os campos.'; return; }
-
             const usuarios = await getUsuarios();
             const found = usuarios.find(u => u.username === user && u.password === pass);
             if (found) {
@@ -1722,6 +1618,7 @@
             document.getElementById('userDisplay').textContent = currentUser.username;
             document.getElementById('userAvatar').textContent = currentUser.username.charAt(0).toUpperCase();
             document.getElementById('navUsuarios').style.display = currentUser.role === 'admin' ? 'flex' : 'none';
+            document.getElementById('navRelatorios').style.display = currentUser.role === 'admin' ? 'flex' : 'none';
         }
 
         // ==================== NAVEGAÇÃO ====================
@@ -1735,6 +1632,15 @@
             if (page === 'dashboard') await renderDashboard();
             if (page === 'lista') { await renderListaNCs();
                 ativarCronometrosLista(); }
+            if (page === 'relatorio') {
+                if (currentUser.role !== 'admin') {
+                    mostrarToast('Apenas administradores podem acessar relatórios!', 'error');
+                    navegar('dashboard', document.querySelector('[data-page="dashboard"]'));
+                    return;
+                }
+                document.getElementById('relatorioPrintArea').style.display = 'none';
+                document.getElementById('relatorioVazio').style.display = 'block';
+            }
             if (page === 'usuarios') await renderUsuarios();
             if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
         }
@@ -2013,13 +1919,10 @@
 
         async function salvarNC() {
             const editId = document.getElementById('editNcId').value;
-
-            // Verificação de permissão: apenas admin pode editar
             if (editId && currentUser.role !== 'admin') {
                 mostrarToast('Apenas administradores podem editar registros!', 'error');
                 return;
             }
-
             const produto = document.getElementById('ncProduto').value.trim();
             const palete = document.getElementById('ncPalete').value.trim();
             const motivo = document.getElementById('ncMotivo').value.trim();
@@ -2028,7 +1931,6 @@
             const qtdRetrabalhadas = parseInt(document.getElementById('ncQtdRetrabalhadas').value) || 0;
             const qtdDescartada = parseInt(document.getElementById('ncQtdDescartada').value) || 0;
             const acao = document.getElementById('ncAcao').value.trim();
-
             if (!produto || !palete || !motivo || !qtdCaixas || !qtdItens || !acao) {
                 mostrarToast('Preencha todos os campos obrigatórios!', 'error');
                 return;
@@ -2037,9 +1939,7 @@
                 mostrarToast('Quantidades de Caixas e Itens devem ser maiores que zero!', 'error');
                 return;
             }
-
             const todasFotos = [...fotosExistentes, ...fotosNovas];
-
             if (editId) {
                 const docRef = collNCs.doc(editId);
                 const doc = await docRef.get();
@@ -2073,7 +1973,7 @@
                 if (!idManualRaw) { mostrarToast('Informe o número da NC!', 'error'); return; }
                 const idManual = parseInt(idManualRaw, 10);
                 if (isNaN(idManual) || idManual < 1 || String(idManual) !== idManualRaw) {
-                    mostrarToast('Número da NC inválido! Use apenas números inteiros positivos.', 'error');
+                    mostrarToast('Número da NC inválido!', 'error');
                     return;
                 }
                 const docExistente = await collNCs.doc(String(idManual)).get();
@@ -2102,19 +2002,16 @@
                 await collNCs.doc(String(idManual)).set(novaNc);
                 mostrarToast('NC #' + idManual + ' criada!', 'success');
             }
-
             prepararFormNova();
             await navegar('lista', document.querySelector('[data-page="lista"]'));
             await renderDashboard();
         }
 
         async function editarNC(id) {
-            // Verificação de permissão: apenas admin pode editar
             if (currentUser.role !== 'admin') {
                 mostrarToast('Apenas administradores podem editar registros!', 'error');
                 return;
             }
-
             const doc = await collNCs.doc(id).get();
             if (!doc.exists) { mostrarToast('NC não encontrada!', 'error'); return; }
             const nc = doc.data();
@@ -2234,7 +2131,7 @@
 
         function fecharModalQR() { document.getElementById('modalQR').style.display = 'none'; }
 
-        // ==================== IMPRESSÃO OTIMIZADA PARA FOLHA INTEIRA (PALETE) ====================
+        // ==================== IMPRESSÃO NC INDIVIDUAL ====================
         async function imprimirNC(id) {
             try {
                 const doc = await collNCs.doc(id).get();
@@ -2247,132 +2144,49 @@
                 const tempo = calcularTempoDetalhado(nc);
                 const baseUrl = window.location.href.split('?')[0];
                 const qrUrl = baseUrl + '?view=readonly&id=' + id;
-
                 const statusBadgeClass = nc.status === 'aberto' ? 'badge-print-open' : 'badge-print-resolved';
                 const statusTexto = nc.status === 'aberto' ? 'ABERTO' : 'RESOLVIDO';
-
                 const fotosHtml = (nc.fotos && nc.fotos.length > 0) ?
-                    `<div class="print-fotos-section">
-                        <h3>📸 FOTOS DA NÃO CONFORMIDADE</h3>
-                        <div class="print-fotos-grid">
-                            ${nc.fotos.map(f => `<img src="${f}" alt="Foto da NC">`).join('')}
-                        </div>
-                    </div>` :
+                    `<div class="print-fotos-section"><h3>📸 FOTOS DA NÃO CONFORMIDADE</h3><div class="print-fotos-grid">${nc.fotos.map(f => `<img src="${f}" alt="Foto da NC">`).join('')}</div></div>` :
                     '';
-
                 const printArea = document.getElementById('printArea');
                 printArea.innerHTML = `
                     <div class="print-sheet">
-                        <!-- CABEÇALHO GRANDE -->
                         <div class="print-header">
-                            <div>
-                                <h2>🏭 DONA RITA EMBALAGENS</h2>
-                                <p style="font-size:14px;color:#555;margin:4px 0 0;">Relatório de Não Conformidade</p>
-                            </div>
-                            <div style="text-align:right;">
-                                <span class="print-badge ${statusBadgeClass}">${statusTexto}</span>
-                                <p style="font-size:13px;color:#555;margin:8px 0 0;">Impresso: ${agora.toLocaleString('pt-BR')}</p>
-                                <p style="font-size:13px;color:#555;margin:2px 0 0;">Por: ${escapeHtml(currentUser.username)}</p>
-                            </div>
+                            <div><h2>🏭 DONA RITA EMBALAGENS</h2><p style="font-size:14px;color:#555;margin:4px 0 0;">Relatório de Não Conformidade</p></div>
+                            <div style="text-align:right;"><span class="print-badge ${statusBadgeClass}">${statusTexto}</span><p style="font-size:13px;color:#555;margin:8px 0 0;">Impresso: ${agora.toLocaleString('pt-BR')}</p><p style="font-size:13px;color:#555;margin:2px 0 0;">Por: ${escapeHtml(currentUser.username)}</p></div>
                         </div>
-
-                        <!-- GRID DE INFORMAÇÕES - OCUPA A FOLHA -->
                         <div class="print-grid">
-                            <div class="print-field">
-                                <span class="print-label">🔢 NÚMERO DA NC</span>
-                                <span class="print-value highlight">#${id}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">📦 PRODUTO</span>
-                                <span class="print-value highlight">${escapeHtml(nc.produto)}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">🏷️ PALETE (PLT)</span>
-                                <span class="print-value highlight">${escapeHtml(nc.palete)}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">⏱️ TEMPO EM ABERTO</span>
-                                <span class="print-value" style="color:#b55a1e;font-size:22px;">${tempo.texto}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">📦 QTD. CAIXAS</span>
-                                <span class="print-value">${nc.quantidadeCaixas ?? (nc.quantidade || '-')}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">📦 QTD. ITENS</span>
-                                <span class="print-value">${nc.quantidadeItens ?? '-'}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">🔄 QTD. RETRABALHADAS</span>
-                                <span class="print-value">${nc.quantidadeRetrabalhadas || 0}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">🗑️ QTD. DESCARTADA</span>
-                                <span class="print-value">${nc.quantidadeDescartada || 0}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">📅 DATA DE ABERTURA</span>
-                                <span class="print-value">${new Date(nc.dataAbertura).toLocaleString('pt-BR')}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">${nc.dataResolucao ? '✅ DATA DE RESOLUÇÃO' : '⏳ STATUS'}</span>
-                                <span class="print-value">${nc.dataResolucao ? new Date(nc.dataResolucao).toLocaleString('pt-BR') : 'Pendente'}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">👤 CRIADO POR</span>
-                                <span class="print-value">${escapeHtml(nc.criadoPor)}</span>
-                            </div>
-                            <div class="print-field full-width">
-                                <span class="print-label">⚠️ MOTIVO DA NÃO CONFORMIDADE</span>
-                                <span class="print-value" style="font-size:18px;line-height:1.4;">${escapeHtml(nc.motivo)}</span>
-                            </div>
-                            <div class="print-field full-width">
-                                <span class="print-label">🔧 AÇÃO A SER TOMADA</span>
-                                <span class="print-value" style="font-size:18px;line-height:1.4;">${escapeHtml(nc.acao)}</span>
-                            </div>
+                            <div class="print-field"><span class="print-label">🔢 NÚMERO DA NC</span><span class="print-value highlight">#${id}</span></div>
+                            <div class="print-field"><span class="print-label">📦 PRODUTO</span><span class="print-value highlight">${escapeHtml(nc.produto)}</span></div>
+                            <div class="print-field"><span class="print-label">🏷️ PALETE (PLT)</span><span class="print-value highlight">${escapeHtml(nc.palete)}</span></div>
+                            <div class="print-field"><span class="print-label">⏱️ TEMPO EM ABERTO</span><span class="print-value" style="color:#b55a1e;font-size:22px;">${tempo.texto}</span></div>
+                            <div class="print-field"><span class="print-label">📦 QTD. CAIXAS</span><span class="print-value">${nc.quantidadeCaixas ?? (nc.quantidade || '-')}</span></div>
+                            <div class="print-field"><span class="print-label">📦 QTD. ITENS</span><span class="print-value">${nc.quantidadeItens ?? '-'}</span></div>
+                            <div class="print-field"><span class="print-label">🔄 QTD. RETRABALHADAS</span><span class="print-value">${nc.quantidadeRetrabalhadas || 0}</span></div>
+                            <div class="print-field"><span class="print-label">🗑️ QTD. DESCARTADA</span><span class="print-value">${nc.quantidadeDescartada || 0}</span></div>
+                            <div class="print-field"><span class="print-label">📅 DATA DE ABERTURA</span><span class="print-value">${new Date(nc.dataAbertura).toLocaleString('pt-BR')}</span></div>
+                            <div class="print-field"><span class="print-label">${nc.dataResolucao ? '✅ DATA DE RESOLUÇÃO' : '⏳ STATUS'}</span><span class="print-value">${nc.dataResolucao ? new Date(nc.dataResolucao).toLocaleString('pt-BR') : 'Pendente'}</span></div>
+                            <div class="print-field"><span class="print-label">👤 CRIADO POR</span><span class="print-value">${escapeHtml(nc.criadoPor)}</span></div>
+                            <div class="print-field full-width"><span class="print-label">⚠️ MOTIVO DA NÃO CONFORMIDADE</span><span class="print-value" style="font-size:18px;line-height:1.4;">${escapeHtml(nc.motivo)}</span></div>
+                            <div class="print-field full-width"><span class="print-label">🔧 AÇÃO A SER TOMADA</span><span class="print-value" style="font-size:18px;line-height:1.4;">${escapeHtml(nc.acao)}</span></div>
                         </div>
-
                         ${fotosHtml}
-
-                        <!-- QR CODE + RODAPÉ -->
-                        <div class="print-qr-section">
-                            <div id="qrCodePrintContainer" class="qr-print"></div>
-                            <div class="qr-info">
-                                <strong style="font-size:15px;">📱 Escaneie o QR Code</strong>
-                                <p style="margin:4px 0;font-size:13px;">Para acessar os detalhes completos desta NC, escaneie o código ao lado com a câmera do seu celular.</p>
-                                <p style="font-size:11px;color:#999;">NC #${id} · Dona Rita Embalagens</p>
-                            </div>
-                        </div>
-
-                        <div class="print-footer">
-                            Dona Rita Embalagens © ${agora.getFullYear()} · Documento gerado em ${agora.toLocaleString('pt-BR')}
-                        </div>
-
-                        <!-- BOTÕES (não aparecem na impressão) -->
+                        <div class="print-qr-section"><div id="qrCodePrintContainer" class="qr-print"></div><div class="qr-info"><strong style="font-size:15px;">📱 Escaneie o QR Code</strong><p style="margin:4px 0;font-size:13px;">Para acessar os detalhes completos desta NC.</p></div></div>
+                        <div class="print-footer">Dona Rita Embalagens © ${agora.getFullYear()} · Documento gerado em ${agora.toLocaleString('pt-BR')}</div>
                         <div class="no-print" style="text-align:center;margin-top:20px;padding-top:16px;border-top:2px dashed #ccc;">
                             <button class="btn btn-primary" onclick="window.print()" style="font-size:14px;padding:10px 24px;margin:0 6px;"><i class="fas fa-print"></i> Imprimir Agora</button>
                             <button class="btn btn-outline" onclick="fecharPrint()" style="font-size:14px;padding:10px 24px;margin:0 6px;"><i class="fas fa-times"></i> Fechar</button>
                         </div>
-                    </div>
-                `;
-
+                    </div>`;
                 printArea.style.display = 'block';
-                // Rola para a área de impressão
                 printArea.scrollIntoView({ behavior: 'smooth' });
-
-                // Gera QR Code após a área estar visível
                 setTimeout(() => {
                     const qrContainer = document.getElementById('qrCodePrintContainer');
                     if (qrContainer && typeof QRCode !== 'undefined') {
                         qrContainer.innerHTML = '';
-                        new QRCode(qrContainer, {
-                            text: qrUrl,
-                            width: 110,
-                            height: 110,
-                            colorDark: '#0b3b2f',
-                            colorLight: '#ffffff',
-                            correctLevel: QRCode.CorrectLevel.M
-                        });
+                        new QRCode(qrContainer, { text: qrUrl, width: 110, height: 110, colorDark: '#0b3b2f',
+                            colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
                     }
                 }, 300);
             } catch (error) {
@@ -2384,6 +2198,165 @@
         function fecharPrint() {
             document.getElementById('printArea').style.display = 'none';
             document.getElementById('printArea').innerHTML = '';
+        }
+
+        // ==================== RELATÓRIO GERENCIAL ====================
+        function atualizarPeriodoRelatorio() {
+            const periodo = document.getElementById('relatorioPeriodo').value;
+            document.getElementById('grupoDataInicio').style.display = periodo === 'personalizado' ? 'block' : 'none';
+            document.getElementById('grupoDataFim').style.display = periodo === 'personalizado' ? 'block' : 'none';
+        }
+
+        function obterIntervaloDatas() {
+            const periodo = document.getElementById('relatorioPeriodo').value;
+            const hoje = new Date();
+            hoje.setHours(23, 59, 59, 999);
+            let inicio, fim;
+            switch (periodo) {
+                case 'diario':
+                    inicio = new Date(hoje);
+                    inicio.setHours(0, 0, 0, 0);
+                    fim = new Date(hoje);
+                    break;
+                case 'semanal':
+                    fim = new Date(hoje);
+                    inicio = new Date(hoje);
+                    inicio.setDate(inicio.getDate() - 6);
+                    inicio.setHours(0, 0, 0, 0);
+                    break;
+                case 'mensal':
+                    fim = new Date(hoje);
+                    inicio = new Date(hoje);
+                    inicio.setDate(inicio.getDate() - 29);
+                    inicio.setHours(0, 0, 0, 0);
+                    break;
+                case 'personalizado':
+                    const dataInicio = document.getElementById('relatorioDataInicio').value;
+                    const dataFim = document.getElementById('relatorioDataFim').value;
+                    if (!dataInicio || !dataFim) {
+                        mostrarToast('Selecione as datas de início e fim.', 'error');
+                        return null;
+                    }
+                    inicio = new Date(dataInicio + 'T00:00:00');
+                    fim = new Date(dataFim + 'T23:59:59');
+                    break;
+                default:
+                    inicio = new Date(hoje);
+                    inicio.setDate(inicio.getDate() - 29);
+                    inicio.setHours(0, 0, 0, 0);
+                    fim = new Date(hoje);
+            }
+            return { inicio, fim };
+        }
+
+        function formatarDataBr(data) {
+            return data.toLocaleDateString('pt-BR');
+        }
+
+        async function gerarRelatorio() {
+            if (currentUser.role !== 'admin') {
+                mostrarToast('Apenas administradores podem gerar relatórios!', 'error');
+                return;
+            }
+            const intervalo = obterIntervaloDatas();
+            if (!intervalo) return;
+            const { inicio, fim } = intervalo;
+            const ncs = await getNCs();
+            const filtradas = ncs.filter(nc => {
+                const dataAbertura = new Date(nc.dataAbertura);
+                return dataAbertura >= inicio && dataAbertura <= fim;
+            });
+            const abertas = filtradas.filter(n => n.status === 'aberto').length;
+            const resolvidas = filtradas.filter(n => n.status === 'resolvido').length;
+            const total = filtradas.length;
+            const totalRetrabalhadas = filtradas.reduce((s, n) => s + (parseInt(n.quantidadeRetrabalhadas) || 0), 0);
+            const totalDescartada = filtradas.reduce((s, n) => s + (parseInt(n.quantidadeDescartada) || 0), 0);
+            const motivosMap = {};
+            filtradas.forEach(n => { const curto = (n.motivo || 'Sem motivo').substring(0, 50);
+                motivosMap[curto] = (motivosMap[curto] || 0) + 1; });
+            const motivosLabels = Object.keys(motivosMap);
+            const motivosData = Object.values(motivosMap);
+            const periodoTexto = document.getElementById('relatorioPeriodo').options[document.getElementById(
+                'relatorioPeriodo').selectedIndex].text;
+            const agora = new Date();
+            const conteudo = document.getElementById('relatorioConteudo');
+            conteudo.innerHTML = `
+                <div class="print-header">
+                    <div>
+                        <h2>🏭 DONA RITA EMBALAGENS</h2>
+                        <p style="font-size:14px;color:#555;margin:4px 0 0;">Relatório Gerencial de Não Conformidades</p>
+                        <p style="font-size:12px;color:#777;">Período: ${periodoTexto} (${formatarDataBr(inicio)} a ${formatarDataBr(fim)})</p>
+                    </div>
+                    <div style="text-align:right;">
+                        <span class="print-badge" style="background:#0b3b2f;color:#fff;border:3px solid #0b3b2f;">${total} NCs</span>
+                        <p style="font-size:13px;color:#555;margin:8px 0 0;">Gerado: ${agora.toLocaleString('pt-BR')}</p>
+                        <p style="font-size:13px;color:#555;">Por: ${escapeHtml(currentUser.username)}</p>
+                    </div>
+                </div>
+                <div class="stats-grid" style="margin-bottom:18px;">
+                    <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-clipboard-list"></i></div><div class="stat-info"><h3>${total}</h3><span>Total de NCs</span></div></div>
+                    <div class="stat-card"><div class="stat-icon red"><i class="fas fa-exclamation-circle"></i></div><div class="stat-info"><h3>${abertas}</h3><span>NCs Abertas</span></div></div>
+                    <div class="stat-card"><div class="stat-icon green"><i class="fas fa-check-circle"></i></div><div class="stat-info"><h3>${resolvidas}</h3><span>NCs Resolvidas</span></div></div>
+                    <div class="stat-card"><div class="stat-icon orange"><i class="fas fa-redo-alt"></i></div><div class="stat-info"><h3>${totalRetrabalhadas}</h3><span>Retrabalhadas</span></div></div>
+                    <div class="stat-card"><div class="stat-icon purple"><i class="fas fa-trash-alt"></i></div><div class="stat-info"><h3>${totalDescartada}</h3><span>Descartadas</span></div></div>
+                </div>
+                <div class="charts-grid">
+                    <div class="chart-card"><h3><i class="fas fa-tags"></i> NCs por Motivo</h3><canvas id="chartRelatorioMotivos"></canvas></div>
+                    <div class="chart-card"><h3><i class="fas fa-chart-bar"></i> Status das NCs</h3><canvas id="chartRelatorioStatus"></canvas></div>
+                </div>
+                <div class="table-card" style="margin-top:10px;">
+                    <div class="table-header"><h3>Resumo das Não Conformidades</h3></div>
+                    <table>
+                        <thead><tr><th>Motivo</th><th>Quantidade</th></tr></thead>
+                        <tbody>${motivosLabels.map((label,i) => `<tr><td>${escapeHtml(label)}</td><td><strong>${motivosData[i]}</strong></td></tr>`).join('') || '<tr><td colspan="2">Nenhum registro</td></tr>'}</tbody>
+                    </table>
+                </div>
+                <div class="print-footer" style="margin-top:16px;">Dona Rita Embalagens © ${agora.getFullYear()} · Relatório gerencial</div>
+                <div class="no-print" style="text-align:center;margin-top:20px;padding-top:16px;border-top:2px dashed #ccc;">
+                    <button class="btn btn-primary" onclick="window.print()" style="font-size:14px;padding:10px 24px;margin:0 6px;"><i class="fas fa-print"></i> Imprimir / Salvar PDF</button>
+                    <button class="btn btn-outline" onclick="fecharRelatorio()" style="font-size:14px;padding:10px 24px;margin:0 6px;"><i class="fas fa-times"></i> Fechar</button>
+                </div>
+            `;
+            document.getElementById('relatorioPrintArea').style.display = 'block';
+            document.getElementById('relatorioVazio').style.display = 'none';
+            document.getElementById('relatorioPrintArea').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                if (window._chartRelatorioMotivos) window._chartRelatorioMotivos.destroy();
+                const ctxM = document.getElementById('chartRelatorioMotivos');
+                if (ctxM && motivosLabels.length > 0) {
+                    window._chartRelatorioMotivos = new Chart(ctxM, {
+                        type: 'doughnut',
+                        data: { labels: motivosLabels, datasets: [{ data: motivosData,
+                                backgroundColor: ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a',
+                                    '#b5792a', '#2d7a4f', '#5b3a6e', '#2f5f78', '#a65d3d'
+                                ].slice(0, motivosLabels.length), borderWidth: 2, borderColor: '#fff' }] },
+                        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 10,
+                                    usePointStyle: true } } } }
+                    });
+                }
+                if (window._chartRelatorioStatus) window._chartRelatorioStatus.destroy();
+                const ctxS = document.getElementById('chartRelatorioStatus');
+                if (ctxS) {
+                    window._chartRelatorioStatus = new Chart(ctxS, {
+                        type: 'bar',
+                        data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ data: [abertas,
+                                resolvidas], backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8,
+                                borderWidth: 0
+                            }] },
+                        options: { responsive: true, plugins: { legend: { display: false } },
+                            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                    });
+                }
+            }, 200);
+        }
+
+        function fecharRelatorio() {
+            document.getElementById('relatorioPrintArea').style.display = 'none';
+            document.getElementById('relatorioVazio').style.display = 'block';
+            if (window._chartRelatorioMotivos) { window._chartRelatorioMotivos.destroy();
+                window._chartRelatorioMotivos = null; }
+            if (window._chartRelatorioStatus) { window._chartRelatorioStatus.destroy();
+                window._chartRelatorioStatus = null; }
         }
 
         // ==================== USUÁRIOS ====================
@@ -2432,18 +2405,17 @@
                 fecharModalFoto();
                 fecharModalQR();
                 if (document.getElementById('printArea').style.display === 'block') fecharPrint();
+                if (document.getElementById('relatorioPrintArea').style.display === 'block') fecharRelatorio();
             }
         });
 
-        // ==================== ATUALIZAÇÃO PERIÓDICA ====================
         setInterval(async () => {
             if (currentUser && document.getElementById('page-dashboard').classList.contains('active')) await
                 renderDashboard();
         }, 60000);
 
-        // Inicia tudo
         init();
-        console.log('✅ Sistema Dona Rita · Firestore ativo. | Impressão otimizada para folha inteira (palete). | Permissões: apenas admin edita/exclui.');
+        console.log('✅ Sistema Dona Rita · Firestore ativo. | Relatório gerencial (admin) com gráficos, métricas e exportação PDF em folha inteira.');
     </script>
 </body>
 </html>
