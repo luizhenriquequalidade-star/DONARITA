@@ -6,7 +6,7 @@
     <title>Dona Rita · Controle de Não Conformidades (Firestore)</title>
 
     <!-- Fontes e Ícones -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Firebase SDKs -->
@@ -884,13 +884,22 @@
             font-weight: 600;
         }
 
-        /* Print */
+        /* Print - OTIMIZADO PARA FOLHA INTEIRA (PALETE) */
         @media print {
             @page {
                 size: A4;
-                margin: 8mm;
+                margin: 6mm;
             }
-            body > *:not(#printArea) {
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            body>*:not(#printArea) {
                 display: none !important;
             }
             #printArea {
@@ -898,45 +907,145 @@
                 position: static !important;
                 width: 100% !important;
                 height: auto !important;
+                min-height: 100vh !important;
                 overflow: visible !important;
                 padding: 0 !important;
                 margin: 0 !important;
-                font-family: 'Inter', sans-serif !important;
-                font-size: 11px;
-                color: #000;
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+                font-size: 15px !important;
+                color: #000 !important;
+                background: #fff !important;
             }
             #printArea .no-print {
                 display: none !important;
             }
-            #printArea img {
-                max-width: 100px !important;
-                max-height: 100px !important;
-                object-fit: cover;
-                border-radius: 4px;
-            }
-            #printArea table {
-                font-size: 10px;
+            #printArea .print-sheet {
                 width: 100%;
-                border-collapse: collapse;
-            }
-            #printArea table th {
-                background: #f0f0f0 !important;
-                font-weight: bold;
-                padding: 5px;
-            }
-            #printArea table td {
-                padding: 5px;
-            }
-            #printArea h2 {
-                font-size: 16px;
-                margin: 0 0 5px 0;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                padding: 8mm 10mm;
+                box-sizing: border-box;
             }
             #printArea .print-header {
-                margin-bottom: 10px;
+                border-bottom: 4px solid #0b3b2f !important;
+                padding-bottom: 12px !important;
+                margin-bottom: 18px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                flex-wrap: wrap !important;
+                gap: 10px !important;
             }
-            #printArea .qr-print {
-                width: 100px !important;
-                height: 100px !important;
+            #printArea .print-header h2 {
+                font-size: 26px !important;
+                font-weight: 800 !important;
+                color: #0b3b2f !important;
+                margin: 0 !important;
+                letter-spacing: -0.02em !important;
+            }
+            #printArea .print-header .print-badge {
+                font-size: 20px !important;
+                font-weight: 800 !important;
+                padding: 8px 22px !important;
+                border-radius: 30px !important;
+                display: inline-block !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.04em !important;
+            }
+            #printArea .print-header .badge-print-open {
+                background: #ffe0e0 !important;
+                color: #c00 !important;
+                border: 3px solid #c00 !important;
+            }
+            #printArea .print-header .badge-print-resolved {
+                background: #d4f0d4 !important;
+                color: #0a5c0a !important;
+                border: 3px solid #0a5c0a !important;
+            }
+            #printArea .print-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 12px 24px !important;
+                margin-bottom: 16px !important;
+            }
+            #printArea .print-grid .print-field {
+                padding: 10px 0 !important;
+                border-bottom: 2px dashed #ccc !important;
+            }
+            #printArea .print-grid .print-field.full-width {
+                grid-column: 1 / -1 !important;
+            }
+            #printArea .print-grid .print-field .print-label {
+                font-size: 13px !important;
+                font-weight: 700 !important;
+                color: #555 !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.04em !important;
+                margin-bottom: 4px !important;
+                display: block !important;
+            }
+            #printArea .print-grid .print-field .print-value {
+                font-size: 18px !important;
+                font-weight: 700 !important;
+                color: #111 !important;
+                word-break: break-word !important;
+            }
+            #printArea .print-grid .print-field .print-value.highlight {
+                font-size: 24px !important;
+                color: #0b3b2f !important;
+                background: #f0faf5 !important;
+                padding: 4px 12px !important;
+                border-radius: 8px !important;
+                display: inline-block !important;
+            }
+            #printArea .print-fotos-section {
+                margin-top: 14px !important;
+                border-top: 3px solid #0b3b2f !important;
+                padding-top: 14px !important;
+            }
+            #printArea .print-fotos-section h3 {
+                font-size: 18px !important;
+                font-weight: 700 !important;
+                margin: 0 0 10px 0 !important;
+                color: #0b3b2f !important;
+            }
+            #printArea .print-fotos-grid {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 10px !important;
+            }
+            #printArea .print-fotos-grid img {
+                width: 130px !important;
+                height: 130px !important;
+                object-fit: cover !important;
+                border-radius: 8px !important;
+                border: 3px solid #ddd !important;
+            }
+            #printArea .print-qr-section {
+                margin-top: 14px !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 16px !important;
+                border-top: 3px solid #0b3b2f !important;
+                padding-top: 14px !important;
+            }
+            #printArea .print-qr-section .qr-print {
+                width: 110px !important;
+                height: 110px !important;
+            }
+            #printArea .print-qr-section .qr-info {
+                font-size: 13px !important;
+                color: #555 !important;
+                flex: 1 !important;
+            }
+            #printArea .print-footer {
+                margin-top: auto !important;
+                padding-top: 14px !important;
+                text-align: center !important;
+                font-size: 12px !important;
+                color: #888 !important;
+                border-top: 2px solid #eee !important;
             }
         }
         #printArea {
@@ -945,8 +1054,9 @@
             inset: 0;
             z-index: 9999;
             background: #fff;
-            padding: 30px;
+            padding: 20px;
             overflow-y: auto;
+            font-family: 'Inter', sans-serif;
         }
 
         /* Toast */
@@ -1047,6 +1157,138 @@
             font-size: 1.2rem;
             cursor: pointer;
             box-shadow: var(--shadow);
+        }
+
+        /* Estilos para a área de impressão na tela (antes de imprimir) */
+        #printArea .print-sheet {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: #fff;
+            padding: 8mm 10mm;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            color: #000;
+        }
+        #printArea .print-header {
+            border-bottom: 4px solid #0b3b2f;
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        #printArea .print-header h2 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0b3b2f;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+        #printArea .print-header .print-badge {
+            font-size: 20px;
+            font-weight: 800;
+            padding: 8px 22px;
+            border-radius: 30px;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        #printArea .badge-print-open {
+            background: #ffe0e0;
+            color: #c00;
+            border: 3px solid #c00;
+        }
+        #printArea .badge-print-resolved {
+            background: #d4f0d4;
+            color: #0a5c0a;
+            border: 3px solid #0a5c0a;
+        }
+        #printArea .print-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 24px;
+            margin-bottom: 16px;
+        }
+        #printArea .print-grid .print-field {
+            padding: 10px 0;
+            border-bottom: 2px dashed #ccc;
+        }
+        #printArea .print-grid .print-field.full-width {
+            grid-column: 1 / -1;
+        }
+        #printArea .print-grid .print-field .print-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 4px;
+            display: block;
+        }
+        #printArea .print-grid .print-field .print-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111;
+            word-break: break-word;
+        }
+        #printArea .print-grid .print-field .print-value.highlight {
+            font-size: 24px;
+            color: #0b3b2f;
+            background: #f0faf5;
+            padding: 4px 12px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        #printArea .print-fotos-section {
+            margin-top: 14px;
+            border-top: 3px solid #0b3b2f;
+            padding-top: 14px;
+        }
+        #printArea .print-fotos-section h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: #0b3b2f;
+        }
+        #printArea .print-fotos-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        #printArea .print-fotos-grid img {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 3px solid #ddd;
+        }
+        #printArea .print-qr-section {
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-top: 3px solid #0b3b2f;
+            padding-top: 14px;
+        }
+        #printArea .print-qr-section .qr-print {
+            width: 110px;
+            height: 110px;
+        }
+        #printArea .print-qr-section .qr-info {
+            font-size: 13px;
+            color: #555;
+            flex: 1;
+        }
+        #printArea .print-footer {
+            margin-top: auto;
+            padding-top: 14px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            border-top: 2px solid #eee;
         }
     </style>
 </head>
@@ -1951,7 +2193,7 @@
 
         function fecharModalQR() { document.getElementById('modalQR').style.display = 'none'; }
 
-        // ==================== IMPRESSÃO (CORRIGIDA) ====================
+        // ==================== IMPRESSÃO OTIMIZADA PARA FOLHA INTEIRA (PALETE) ====================
         async function imprimirNC(id) {
             try {
                 const doc = await collNCs.doc(id).get();
@@ -1965,58 +2207,125 @@
                 const baseUrl = window.location.href.split('?')[0];
                 const qrUrl = baseUrl + '?view=readonly&id=' + id;
 
+                const statusBadgeClass = nc.status === 'aberto' ? 'badge-print-open' : 'badge-print-resolved';
+                const statusTexto = nc.status === 'aberto' ? 'ABERTO' : 'RESOLVIDO';
+
+                const fotosHtml = (nc.fotos && nc.fotos.length > 0) ?
+                    `<div class="print-fotos-section">
+                        <h3>📸 FOTOS DA NÃO CONFORMIDADE</h3>
+                        <div class="print-fotos-grid">
+                            ${nc.fotos.map(f => `<img src="${f}" alt="Foto da NC">`).join('')}
+                        </div>
+                    </div>` :
+                    '';
+
                 const printArea = document.getElementById('printArea');
-                // Monta conteúdo otimizado para caber em uma folha
                 printArea.innerHTML = `
-                    <div class="print-header" style="display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #0b3b2f;padding-bottom:8px;margin-bottom:12px;">
-                        <div>
-                            <h2 style="margin:0;font-size:18px;color:#0b3b2f;">🏭 Dona Rita Embalagens</h2>
-                            <p style="margin:2px 0 0;font-size:11px;color:#5b6b64;">Relatório de Não Conformidade</p>
+                    <div class="print-sheet">
+                        <!-- CABEÇALHO GRANDE -->
+                        <div class="print-header">
+                            <div>
+                                <h2>🏭 DONA RITA EMBALAGENS</h2>
+                                <p style="font-size:14px;color:#555;margin:4px 0 0;">Relatório de Não Conformidade</p>
+                            </div>
+                            <div style="text-align:right;">
+                                <span class="print-badge ${statusBadgeClass}">${statusTexto}</span>
+                                <p style="font-size:13px;color:#555;margin:8px 0 0;">Impresso: ${agora.toLocaleString('pt-BR')}</p>
+                                <p style="font-size:13px;color:#555;margin:2px 0 0;">Por: ${escapeHtml(currentUser.username)}</p>
+                            </div>
                         </div>
-                        <div style="text-align:right;font-size:10px;color:#5b6b64;">
-                            <p style="margin:0;">Impresso: ${agora.toLocaleString('pt-BR')}</p>
-                            <p style="margin:2px 0 0;">Por: ${currentUser.username}</p>
+
+                        <!-- GRID DE INFORMAÇÕES - OCUPA A FOLHA -->
+                        <div class="print-grid">
+                            <div class="print-field">
+                                <span class="print-label">🔢 NÚMERO DA NC</span>
+                                <span class="print-value highlight">#${id}</span>
+                            </div>
+                            <div class="print-field">
+                                <span class="print-label">📦 PRODUTO</span>
+                                <span class="print-value highlight">${escapeHtml(nc.produto)}</span>
+                            </div>
+                            <div class="print-field">
+                                <span class="print-label">🏷️ PALETE (PLT)</span>
+                                <span class="print-value highlight">${escapeHtml(nc.palete)}</span>
+                            </div>
+                            <div class="print-field">
+                                <span class="print-label">⏱️ TEMPO EM ABERTO</span>
+                                <span class="print-value" style="color:#b55a1e;font-size:22px;">${tempo.texto}</span>
+                            </div>
+                            <div class="print-field">
+                                <span class="print-label">📦 QTD. CAIXAS</span>
+                                <span class="print-value">${nc.quantidadeCaixas ?? (nc.quantidade || '-')}</span>
+                            </div>
+                            <div class="print-field">
+                                <span class="print-label">📦 QTD. ITENS</span>
+                                <span class="print-value">${nc.quantidadeItens ?? '-'}</span>
+                            </div>
+                            <div class="print-field">
+                                <span class="print-label">📅 DATA DE ABERTURA</span>
+                                <span class="print-value">${new Date(nc.dataAbertura).toLocaleString('pt-BR')}</span>
+                            </div>
+                            <div class="print-field">
+                                <span class="print-label">${nc.dataResolucao ? '✅ DATA DE RESOLUÇÃO' : '⏳ STATUS'}</span>
+                                <span class="print-value">${nc.dataResolucao ? new Date(nc.dataResolucao).toLocaleString('pt-BR') : 'Pendente'}</span>
+                            </div>
+                            <div class="print-field">
+                                <span class="print-label">👤 CRIADO POR</span>
+                                <span class="print-value">${escapeHtml(nc.criadoPor)}</span>
+                            </div>
+                            <div class="print-field full-width">
+                                <span class="print-label">⚠️ MOTIVO DA NÃO CONFORMIDADE</span>
+                                <span class="print-value" style="font-size:18px;line-height:1.4;">${escapeHtml(nc.motivo)}</span>
+                            </div>
+                            <div class="print-field full-width">
+                                <span class="print-label">🔧 AÇÃO A SER TOMADA</span>
+                                <span class="print-value" style="font-size:18px;line-height:1.4;">${escapeHtml(nc.acao)}</span>
+                            </div>
                         </div>
-                    </div>
-                    <table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px;">
-                        <tr><th style="background:#f4f4f4;padding:6px;text-align:left;">NC #</th><td style="padding:6px;"><strong>${id}</strong></td><th style="background:#f4f4f4;padding:6px;">Status</th><td style="padding:6px;color:${nc.status==='aberto'?'#b53b3b':'#2d7a4f'};font-weight:700;">${nc.status.toUpperCase()}</td></tr>
-                        <tr><th style="background:#f4f4f4;padding:6px;">Produto</th><td style="padding:6px;">${escapeHtml(nc.produto)}</td><th style="background:#f4f4f4;padding:6px;">Palete</th><td style="padding:6px;"><strong>${escapeHtml(nc.palete)}</strong></td></tr>
-                        <tr><th style="background:#f4f4f4;padding:6px;">Qtd. Caixas</th><td style="padding:6px;">${nc.quantidadeCaixas ?? (nc.quantidade || '-')}</td><th style="background:#f4f4f4;padding:6px;">Qtd. Itens</th><td style="padding:6px;">${nc.quantidadeItens ?? '-'}</td></tr>
-                        <tr><th style="background:#f4f4f4;padding:6px;">Tempo</th><td style="padding:6px;"><strong>${tempo.texto}</strong></td><th style="background:#f4f4f4;padding:6px;">Criado por</th><td style="padding:6px;">${escapeHtml(nc.criadoPor)}</td></tr>
-                        <tr><th style="background:#f4f4f4;padding:6px;">Abertura</th><td style="padding:6px;">${new Date(nc.dataAbertura).toLocaleString('pt-BR')}</td><th style="background:#f4f4f4;padding:6px;">Resolução</th><td style="padding:6px;">${nc.dataResolucao?new Date(nc.dataResolucao).toLocaleString('pt-BR'):'Pendente'}</td></tr>
-                        <tr><th style="background:#f4f4f4;padding:6px;">Motivo</th><td colspan="3" style="padding:6px;">${escapeHtml(nc.motivo)}</td></tr>
-                        <tr><th style="background:#f4f4f4;padding:6px;">Ação</th><td colspan="3" style="padding:6px;">${escapeHtml(nc.acao)}</td></tr>
-                    </table>
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin:10px 0;">
-                        <div>
-                            <p style="font-weight:600;font-size:11px;margin:0 0 4px;">📱 QR Code:</p>
-                            <div id="qrCodePrintContainer" style="width:90px;height:90px;"></div>
+
+                        ${fotosHtml}
+
+                        <!-- QR CODE + RODAPÉ -->
+                        <div class="print-qr-section">
+                            <div id="qrCodePrintContainer" class="qr-print"></div>
+                            <div class="qr-info">
+                                <strong style="font-size:15px;">📱 Escaneie o QR Code</strong>
+                                <p style="margin:4px 0;font-size:13px;">Para acessar os detalhes completos desta NC, escaneie o código ao lado com a câmera do seu celular.</p>
+                                <p style="font-size:11px;color:#999;">NC #${id} · Dona Rita Embalagens</p>
+                            </div>
                         </div>
-                        ${nc.fotos&&nc.fotos.length?`<div style="display:flex;gap:4px;flex-wrap:wrap;max-width:60%;">${nc.fotos.map(f=>`<img src="${f}" style="width:80px;height:80px;object-fit:cover;border-radius:4px;border:1px solid #ddd;">`).join('')}</div>`:''}
-                    </div>
-                    <div style="text-align:center;margin-top:12px;font-size:9px;color:#8b9a94;">Dona Rita Embalagens © ${agora.getFullYear()}</div>
-                    <div class="no-print" style="text-align:center;margin-top:15px;">
-                        <button class="btn btn-primary" onclick="window.print()" style="font-size:12px;padding:6px 14px;"><i class="fas fa-print"></i> Imprimir</button>
-                        <button class="btn btn-outline" onclick="fecharPrint()" style="font-size:12px;padding:6px 14px;"><i class="fas fa-times"></i> Fechar</button>
+
+                        <div class="print-footer">
+                            Dona Rita Embalagens © ${agora.getFullYear()} · Documento gerado em ${agora.toLocaleString('pt-BR')}
+                        </div>
+
+                        <!-- BOTÕES (não aparecem na impressão) -->
+                        <div class="no-print" style="text-align:center;margin-top:20px;padding-top:16px;border-top:2px dashed #ccc;">
+                            <button class="btn btn-primary" onclick="window.print()" style="font-size:14px;padding:10px 24px;margin:0 6px;"><i class="fas fa-print"></i> Imprimir Agora</button>
+                            <button class="btn btn-outline" onclick="fecharPrint()" style="font-size:14px;padding:10px 24px;margin:0 6px;"><i class="fas fa-times"></i> Fechar</button>
+                        </div>
                     </div>
                 `;
 
                 printArea.style.display = 'block';
+                // Rola para a área de impressão
+                printArea.scrollIntoView({ behavior: 'smooth' });
 
                 // Gera QR Code após a área estar visível
                 setTimeout(() => {
                     const qrContainer = document.getElementById('qrCodePrintContainer');
                     if (qrContainer && typeof QRCode !== 'undefined') {
+                        qrContainer.innerHTML = '';
                         new QRCode(qrContainer, {
                             text: qrUrl,
-                            width: 90,
-                            height: 90,
+                            width: 110,
+                            height: 110,
                             colorDark: '#0b3b2f',
                             colorLight: '#ffffff',
                             correctLevel: QRCode.CorrectLevel.M
                         });
                     }
-                }, 200);
+                }, 300);
             } catch (error) {
                 console.error('Erro ao imprimir:', error);
                 mostrarToast('Erro ao carregar dados para impressão.', 'error');
@@ -2077,16 +2386,6 @@
             }
         });
 
-        // Limpa a área de impressão após imprimir (opcional)
-        window.addEventListener('afterprint', () => {
-            // Pequeno delay para garantir que o diálogo fechou
-            setTimeout(() => {
-                if (document.getElementById('printArea').style.display === 'block') {
-                    // Não fecha automaticamente para permitir reimpressão, mas podemos limpar após alguns segundos
-                }
-            }, 500);
-        });
-
         // ==================== ATUALIZAÇÃO PERIÓDICA ====================
         setInterval(async () => {
             if (currentUser && document.getElementById('page-dashboard').classList.contains('active')) await
@@ -2095,7 +2394,7 @@
 
         // Inicia tudo
         init();
-        console.log('✅ Sistema Dona Rita · Firestore ativo. | Impressão otimizada para 1 folha.');
+        console.log('✅ Sistema Dona Rita · Firestore ativo. | Impressão otimizada para folha inteira (palete).');
     </script>
 </body>
 </html>
