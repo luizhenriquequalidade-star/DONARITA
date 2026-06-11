@@ -909,30 +909,155 @@
             font-size: 0.82rem;
         }
 
-        /* Área de relatório (pré-impressão) – movida para fora do app */
+        /* Área de impressão (NC individual) e Relatório Gerencial */
+        #printArea,
         #relatorioPrintArea {
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 9998;
+            z-index: 9999;
             background: #fff;
-            padding: 20px;
             overflow-y: auto;
             font-family: 'Inter', sans-serif;
-            border: none;
-            border-radius: 0;
-            box-shadow: none;
         }
 
-        /* ========== PRINT - OTIMIZADO PARA FOLHA INTEIRA (CABER TUDO) ========== */
+        /* ========== ESTILOS GLOBAIS PARA FOLHA DE IMPRESSÃO (pré-visualização em tela) ========== */
+        .print-sheet {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 4mm 5mm;
+            box-sizing: border-box;
+            background: #fff;
+            color: #000;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .print-header {
+            border-bottom: 3px solid #0b3b2f;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .print-header h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0b3b2f;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+        .print-badge {
+            display: inline-block;
+            font-size: 15px;
+            font-weight: 800;
+            padding: 5px 16px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .badge-print-open {
+            background: #fce8e8;
+            color: #b53b3b;
+            border: 2px solid #b53b3b;
+        }
+        .badge-print-resolved {
+            background: #e1f0e7;
+            color: #2d7a4f;
+            border: 2px solid #2d7a4f;
+        }
+        .print-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 14px;
+            margin-bottom: 12px;
+        }
+        .print-field {
+            padding: 6px 0;
+            border-bottom: 1px dashed #ccc;
+        }
+        .print-field.full-width {
+            grid-column: 1 / -1;
+        }
+        .print-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 2px;
+            display: block;
+        }
+        .print-value {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111;
+            word-break: break-word;
+        }
+        .print-value.highlight {
+            font-size: 18px;
+            font-weight: 800;
+        }
+        .print-fotos-section {
+            margin-top: 8px;
+            border-top: 2px solid #0b3b2f;
+            padding-top: 8px;
+        }
+        .print-fotos-section h3 {
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #0b3b2f;
+        }
+        .print-fotos-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .print-fotos-grid img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        .print-qr-section {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 12px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .print-qr-section .qr-print {
+            flex-shrink: 0;
+        }
+        .print-qr-section .qr-info {
+            font-size: 13px;
+            color: #333;
+        }
+        .print-footer {
+            margin-top: auto;
+            padding-top: 8px;
+            text-align: center;
+            font-size: 10px;
+            color: #888;
+            border-top: 1px solid #ddd;
+        }
+
+        /* ========== AJUSTES EXCLUSIVOS PARA IMPRESSÃO (OCUPAR FOLHA INTEIRA) ========== */
         @media print {
             @page {
                 size: A4;
-                margin: 4mm;
+                margin: 0;
             }
 
-            html,
-            body {
+            html, body {
                 width: 100%;
                 height: 100%;
                 margin: 0;
@@ -944,7 +1069,7 @@
             }
 
             /* Esconde tudo fora da área de impressão */
-            body>*:not(#printArea):not(#relatorioPrintArea) {
+            body > *:not(#printArea):not(#relatorioPrintArea) {
                 display: none !important;
             }
 
@@ -953,14 +1078,10 @@
                 display: block !important;
                 position: static !important;
                 width: 100% !important;
-                height: auto !important;
-                min-height: 100vh !important;
+                height: 100vh !important;
                 overflow: visible !important;
                 padding: 0 !important;
                 margin: 0 !important;
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-                font-size: 12px !important;
-                color: #000 !important;
                 background: #fff !important;
                 box-shadow: none !important;
                 border-radius: 0 !important;
@@ -971,262 +1092,46 @@
                 display: none !important;
             }
 
-            /* Sheet base */
+            /* Ajustes finos de fonte e espaçamento para caber no papel */
             #relatorioPrintArea .print-sheet,
             #printArea .print-sheet {
-                width: 100%;
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-                padding: 4mm 5mm;
-                box-sizing: border-box;
-            }
-
-            /* Cabeçalho */
-            #relatorioPrintArea .print-header,
-            #printArea .print-header {
-                border-bottom: 3px solid #0b3b2f !important;
-                padding-bottom: 6px !important;
-                margin-bottom: 8px !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: space-between !important;
-                flex-wrap: wrap !important;
-                gap: 6px !important;
+                padding: 2mm 3mm !important;
+                min-height: 100vh !important;
             }
 
             #relatorioPrintArea .print-header h2,
             #printArea .print-header h2 {
-                font-size: 18px !important;
-                font-weight: 800 !important;
-                color: #0b3b2f !important;
-                margin: 0 !important;
-                letter-spacing: -0.02em !important;
+                font-size: 16px !important;
             }
 
-            #relatorioPrintArea .print-header .print-badge,
-            #printArea .print-header .print-badge {
-                font-size: 14px !important;
-                font-weight: 800 !important;
-                padding: 4px 14px !important;
-                border-radius: 20px !important;
-                display: inline-block !important;
-                text-transform: uppercase !important;
-                letter-spacing: 0.04em !important;
-            }
-
-            /* Grid de campos */
             #relatorioPrintArea .print-grid,
             #printArea .print-grid {
-                display: grid !important;
-                grid-template-columns: 1fr 1fr !important;
-                gap: 4px 12px !important;
-                margin-bottom: 8px !important;
+                gap: 2px 8px !important;
             }
 
-            #relatorioPrintArea .print-grid .print-field,
-            #printArea .print-grid .print-field {
-                padding: 4px 0 !important;
-                border-bottom: 1px dashed #ccc !important;
-            }
-
-            #relatorioPrintArea .print-grid .print-field.full-width,
-            #printArea .print-grid .print-field.full-width {
-                grid-column: 1 / -1 !important;
-            }
-
-            #relatorioPrintArea .print-grid .print-field .print-label,
-            #printArea .print-grid .print-field .print-label {
-                font-size: 9px !important;
-                font-weight: 700 !important;
-                color: #555 !important;
-                text-transform: uppercase !important;
-                letter-spacing: 0.04em !important;
-                margin-bottom: 1px !important;
-                display: block !important;
-            }
-
-            #relatorioPrintArea .print-grid .print-field .print-value,
-            #printArea .print-grid .print-field .print-value {
+            #relatorioPrintArea .print-value,
+            #printArea .print-value {
                 font-size: 13px !important;
-                font-weight: 700 !important;
-                color: #111 !important;
-                word-break: break-word !important;
             }
 
-            /* Fotos na impressão */
-            #relatorioPrintArea .print-fotos-section,
-            #printArea .print-fotos-section {
-                margin-top: 6px !important;
-                border-top: 2px solid #0b3b2f !important;
-                padding-top: 6px !important;
-            }
-
-            #relatorioPrintArea .print-fotos-section h3,
-            #printArea .print-fotos-section h3 {
-                font-size: 12px !important;
-                margin-bottom: 4px !important;
-            }
-
-            #relatorioPrintArea .print-fotos-grid,
-            #printArea .print-fotos-grid {
-                display: flex !important;
-                flex-wrap: wrap !important;
-                gap: 4px !important;
+            #relatorioPrintArea .print-value.highlight,
+            #printArea .print-value.highlight {
+                font-size: 15px !important;
             }
 
             #relatorioPrintArea .print-fotos-grid img,
             #printArea .print-fotos-grid img {
                 width: 80px !important;
                 height: 80px !important;
-                object-fit: cover !important;
-                border: 1px solid #ccc !important;
-                border-radius: 4px !important;
-                page-break-inside: avoid !important;
-            }
-
-            /* QR Code na impressão */
-            #relatorioPrintArea .print-qr-section,
-            #printArea .print-qr-section {
-                display: flex !important;
-                align-items: center !important;
-                gap: 12px !important;
-                margin-top: 8px !important;
-                padding: 8px !important;
-                border: 1px solid #ddd !important;
-                border-radius: 8px !important;
-                page-break-inside: avoid !important;
-            }
-
-            #relatorioPrintArea .print-qr-section .qr-print,
-            #printArea .print-qr-section .qr-print {
-                flex-shrink: 0 !important;
-            }
-
-            #relatorioPrintArea .print-qr-section .qr-info,
-            #printArea .print-qr-section .qr-info {
-                font-size: 11px !important;
-            }
-
-            /* Rodapé */
-            #relatorioPrintArea .print-footer,
-            #printArea .print-footer {
-                margin-top: auto !important;
-                padding-top: 6px !important;
-                text-align: center !important;
-                font-size: 9px !important;
-                color: #888 !important;
-                border-top: 1px solid #ddd !important;
-            }
-
-            /* Estatísticas em grid reduzido */
-            #relatorioPrintArea .stats-grid,
-            #printArea .stats-grid {
-                display: grid !important;
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
-                gap: 6px !important;
-                margin-bottom: 8px !important;
-            }
-
-            #relatorioPrintArea .stat-card,
-            #printArea .stat-card {
-                padding: 8px 10px !important;
-                gap: 8px !important;
-                border-radius: 8px !important;
-                box-shadow: none !important;
-                border: 1px solid #ddd !important;
-                background: #fff !important;
-            }
-
-            #relatorioPrintArea .stat-card .stat-icon,
-            #printArea .stat-card .stat-icon {
-                width: 32px !important;
-                height: 32px !important;
-                font-size: 0.9rem !important;
-                border-radius: 6px !important;
-            }
-
-            #relatorioPrintArea .stat-card .stat-info h3,
-            #printArea .stat-card .stat-info h3 {
-                font-size: 1.2rem !important;
-            }
-
-            #relatorioPrintArea .stat-card .stat-info span,
-            #printArea .stat-card .stat-info span {
-                font-size: 0.65rem !important;
-            }
-
-            /* Charts */
-            #relatorioPrintArea .charts-grid,
-            #printArea .charts-grid {
-                display: grid !important;
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
-                margin-bottom: 8px !important;
-            }
-
-            #relatorioPrintArea .chart-card,
-            #printArea .chart-card {
-                padding: 10px !important;
-                border-radius: 8px !important;
-                box-shadow: none !important;
-                border: 1px solid #ddd !important;
-                background: #fff !important;
-            }
-
-            #relatorioPrintArea .chart-card h3,
-            #printArea .chart-card h3 {
-                font-size: 11px !important;
-                margin-bottom: 6px !important;
-            }
-
-            #relatorioPrintArea .chart-card canvas,
-            #printArea .chart-card canvas {
-                max-height: 160px !important;
-            }
-
-            /* Tabelas */
-            #relatorioPrintArea .table-card,
-            #printArea .table-card {
-                box-shadow: none !important;
-                border: 1px solid #ddd !important;
-                border-radius: 8px !important;
-                margin-top: 6px !important;
-            }
-
-            #relatorioPrintArea .table-card .table-header,
-            #printArea .table-card .table-header {
-                padding: 8px 12px !important;
-            }
-
-            #relatorioPrintArea .table-card .table-header h3,
-            #printArea .table-card .table-header h3 {
-                font-size: 12px !important;
-            }
-
-            #relatorioPrintArea .table-card table,
-            #printArea .table-card table {
-                font-size: 10px !important;
-            }
-
-            #relatorioPrintArea .table-card table th,
-            #printArea .table-card table th {
-                padding: 6px 8px !important;
-                font-size: 8px !important;
-            }
-
-            #relatorioPrintArea .table-card table td,
-            #printArea .table-card table td {
-                padding: 6px 8px !important;
             }
 
             /* Evita quebras dentro de elementos importantes */
             #relatorioPrintArea .print-header,
             #printArea .print-header,
-            #relatorioPrintArea .stats-grid,
-            #printArea .stats-grid,
             #relatorioPrintArea .print-grid,
-            #printArea .print-grid {
+            #printArea .print-grid,
+            #relatorioPrintArea .print-qr-section,
+            #printArea .print-qr-section {
                 page-break-inside: avoid !important;
             }
 
@@ -1237,32 +1142,17 @@
                 height: auto !important;
             }
 
-            /* Ajuste extra se ainda estiver grande: reduz fonte global */
+            /* Ajuste extra para telas menores que A4 (ex: impressoras térmicas) */
             @media print and (max-height: 800px) {
                 #relatorioPrintArea,
                 #printArea {
                     font-size: 10px !important;
                 }
-                #relatorioPrintArea .print-grid .print-value,
-                #printArea .print-grid .print-value {
-                    font-size: 11px !important;
-                }
                 #relatorioPrintArea .print-header h2,
                 #printArea .print-header h2 {
-                    font-size: 16px !important;
+                    font-size: 14px !important;
                 }
             }
-        }
-
-        #printArea {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: #fff;
-            padding: 20px;
-            overflow-y: auto;
-            font-family: 'Inter', sans-serif;
         }
 
         /* Toast */
@@ -1286,24 +1176,12 @@
             max-width: 400px;
         }
         @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
         }
-        .toast.success {
-            background: #2d7a4f;
-        }
-        .toast.error {
-            background: #b53b3b;
-        }
-        .toast.info {
-            background: #386e8c;
-        }
+        .toast.success { background: #2d7a4f; }
+        .toast.error { background: #b53b3b; }
+        .toast.info { background: #386e8c; }
 
         /* Timer */
         .live-timer {
@@ -1324,13 +1202,8 @@
             animation: pulse 1.5s infinite;
         }
         @keyframes pulse {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         /* Mobile */
@@ -1363,29 +1236,6 @@
             font-size: 1.2rem;
             cursor: pointer;
             box-shadow: var(--shadow);
-        }
-
-        /* Badges de status para impressão */
-        .badge-print-open {
-            background: #fce8e8 !important;
-            color: #b53b3b !important;
-            border: 2px solid #b53b3b !important;
-        }
-        .badge-print-resolved {
-            background: #e1f0e7 !important;
-            color: #2d7a4f !important;
-            border: 2px solid #2d7a4f !important;
-        }
-
-        /* Destaque na impressão */
-        .print-value.highlight {
-            font-size: 15px !important;
-            font-weight: 800 !important;
-        }
-        @media print {
-            .print-value.highlight {
-                font-size: 14px !important;
-            }
         }
     </style>
 </head>
@@ -1671,10 +1521,8 @@
             const partes = [];
             if (nc.quantidadeCaixas != null && nc.quantidadeCaixas > 0) partes.push(`${nc.quantidadeCaixas} cx`);
             if (nc.quantidadeItens != null && nc.quantidadeItens > 0) partes.push(`${nc.quantidadeItens} it`);
-            if (nc.quantidadeRetrabalhadas != null && nc.quantidadeRetrabalhadas > 0) partes.push(
-                `${nc.quantidadeRetrabalhadas} ret`);
-            if (nc.quantidadeDescartada != null && nc.quantidadeDescartada > 0) partes.push(
-            `${nc.quantidadeDescartada} desc`);
+            if (nc.quantidadeRetrabalhadas != null && nc.quantidadeRetrabalhadas > 0) partes.push(`${nc.quantidadeRetrabalhadas} ret`);
+            if (nc.quantidadeDescartada != null && nc.quantidadeDescartada > 0) partes.push(`${nc.quantidadeDescartada} desc`);
             if (partes.length === 0 && nc.quantidade != null) partes.push(`${nc.quantidade} (legado)`);
             return partes.length > 0 ? partes.join(' / ') : '-';
         }
@@ -1775,8 +1623,7 @@
                         const el = document.getElementById('liveTimerVisitante');
                         if (el) {
                             if (liveTimers['visitante']) clearInterval(liveTimers['visitante']);
-                            const atualizar = () => { const t = calcularTempoDetalhado(nc);
-                                el.textContent = t.texto; };
+                            const atualizar = () => { const t = calcularTempoDetalhado(nc); el.textContent = t.texto; };
                             atualizar();
                             liveTimers['visitante'] = setInterval(atualizar, 1000);
                         }
@@ -1790,8 +1637,7 @@
 
         function fecharModoVisitante() {
             document.getElementById('visitanteContainer').classList.remove('visible');
-            if (liveTimers['visitante']) { clearInterval(liveTimers['visitante']);
-                delete liveTimers['visitante']; }
+            if (liveTimers['visitante']) { clearInterval(liveTimers['visitante']); delete liveTimers['visitante']; }
             window.location.href = window.location.href.split('?')[0];
         }
 
@@ -1818,10 +1664,8 @@
             }
         }
 
-        document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') fazerLogin
-        (); });
-        document.getElementById('loginUser').addEventListener('keydown', e => { if (e.key === 'Enter') document
-                .getElementById('loginPass').focus(); });
+        document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') fazerLogin(); });
+        document.getElementById('loginUser').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('loginPass').focus(); });
 
         function logout() {
             Object.values(liveTimers).forEach(clearInterval);
@@ -1857,8 +1701,7 @@
             if (btn) btn.classList.add('active');
 
             if (page === 'dashboard') await renderDashboard();
-            if (page === 'lista') { await renderListaNCs();
-                ativarCronometrosLista(); }
+            if (page === 'lista') { await renderListaNCs(); ativarCronometrosLista(); }
             if (page === 'relatorio') {
                 if (currentUser.role !== 'admin') {
                     mostrarToast('Apenas administradores podem acessar relatórios!', 'error');
@@ -1881,8 +1724,7 @@
             toast.className = 'toast ' + tipo;
             toast.textContent = msg;
             container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.3s'; }, 2800);
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; }, 2800);
             setTimeout(() => toast.remove(), 3200);
         }
 
@@ -1918,9 +1760,7 @@
                 if (nc.status === 'aberto') {
                     const el = document.getElementById('timer-' + nc.id);
                     if (el) {
-                        const atualizar = () => { const t = calcularTempoDetalhado(nc);
-                            el.innerHTML =
-                                `<span class="live-timer"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
+                        const atualizar = () => { const t = calcularTempoDetalhado(nc); el.innerHTML = `<span class="live-timer"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
                         atualizar();
                         liveTimers[nc.id] = setInterval(atualizar, 1000);
                     }
@@ -1934,9 +1774,7 @@
             const el = document.getElementById('liveTimerDetalhe');
             if (!el) return;
             if (liveTimers['detalhe']) clearInterval(liveTimers['detalhe']);
-            const atualizar = () => { const t = calcularTempoDetalhado(nc);
-                el.innerHTML =
-                    `<span class="live-timer" style="font-size:0.9rem;"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
+            const atualizar = () => { const t = calcularTempoDetalhado(nc); el.innerHTML = `<span class="live-timer" style="font-size:0.9rem;"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
             atualizar();
             liveTimers['detalhe'] = setInterval(atualizar, 1000);
         }
@@ -1947,8 +1785,7 @@
             const abertas = ncs.filter(n => n.status === 'aberto');
             const resolvidas = ncs.filter(n => n.status === 'resolvido');
             const total = ncs.length;
-            const diasMedio = abertas.length ? Math.round(abertas.reduce((s, n) => s + calcularDias(n), 0) / abertas
-            .length) : 0;
+            const diasMedio = abertas.length ? Math.round(abertas.reduce((s, n) => s + calcularDias(n), 0) / abertas.length) : 0;
 
             document.getElementById('statsGrid').innerHTML = `
                 <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-clipboard-list"></i></div><div class="stat-info"><h3>${total}</h3><span>Total de NCs</span></div></div>
@@ -1958,38 +1795,28 @@
             `;
 
             const motivosMap = {};
-            ncs.forEach(n => { const curto = (n.motivo || 'Sem motivo').substring(0, 50);
-                motivosMap[curto] = (motivosMap[curto] || 0) + 1; });
+            ncs.forEach(n => { const curto = (n.motivo || 'Sem motivo').substring(0, 50); motivosMap[curto] = (motivosMap[curto] || 0) + 1; });
             const motivosLabels = Object.keys(motivosMap);
             const motivosData = Object.values(motivosMap);
-            const coresMotivos = ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a', '#2d7a4f', '#5b3a6e',
-                '#2f5f78', '#a65d3d'
-            ];
+            const coresMotivos = ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a', '#2d7a4f', '#5b3a6e', '#2f5f78', '#a65d3d'];
 
             if (window._chartMotivos) window._chartMotivos.destroy();
             const ctx1 = document.getElementById('chartMotivos');
             if (ctx1 && motivosLabels.length > 0) {
                 window._chartMotivos = new Chart(ctx1, {
                     type: 'doughnut',
-                    data: { labels: motivosLabels, datasets: [{ data: motivosData, backgroundColor: coresMotivos
-                            .slice(0, motivosLabels.length), borderWidth: 2, borderColor: '#fff' }] },
-                    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 14,
-                                usePointStyle: true, font: { size: 11 } } } } }
+                    data: { labels: motivosLabels, datasets: [{ data: motivosData, backgroundColor: coresMotivos.slice(0, motivosLabels.length), borderWidth: 2, borderColor: '#fff' }] },
+                    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 14, usePointStyle: true, font: { size: 11 } } } } }
                 });
-            } else if (ctx1) ctx1.parentNode.innerHTML =
-                '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhum motivo registrado</p>';
+            } else if (ctx1) ctx1.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhum motivo registrado</p>';
 
             if (window._chartStatus) window._chartStatus.destroy();
             const ctx2 = document.getElementById('chartStatus');
             if (ctx2) {
                 window._chartStatus = new Chart(ctx2, {
                     type: 'bar',
-                    data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ label: 'Quantidade', data: [abertas
-                            .length, resolvidas.length], backgroundColor: ['#b53b3b', '#2d7a4f'],
-                            borderRadius: 8, borderWidth: 0, barThickness: 50
-                        }] },
-                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero:
-                                true, ticks: { stepSize: 1 } } } }
+                    data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ label: 'Quantidade', data: [abertas.length, resolvidas.length], backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8, borderWidth: 0, barThickness: 50 }] },
+                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
                 });
             }
 
@@ -1999,14 +1826,10 @@
             if (ctx3 && topAbertas.length > 0) {
                 window._chartDias = new Chart(ctx3, {
                     type: 'bar',
-                    data: { labels: topAbertas.map(n => `NC #${n.id} - ${(n.produto || 'N/A').substring(0, 12)}`),
-                        datasets: [{ label: 'Dias em Aberto', data: topAbertas.map(n => calcularDias(n)),
-                            backgroundColor: '#c8963e', borderRadius: 6, borderWidth: 0 }] },
-                    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } },
-                        scales: { x: { beginAtZero: true, title: { display: true, text: 'Dias' }, ticks: { stepSize: 1 } } } }
+                    data: { labels: topAbertas.map(n => `NC #${n.id} - ${(n.produto || 'N/A').substring(0, 12)}`), datasets: [{ label: 'Dias em Aberto', data: topAbertas.map(n => calcularDias(n)), backgroundColor: '#c8963e', borderRadius: 6, borderWidth: 0 }] },
+                    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, title: { display: true, text: 'Dias' }, ticks: { stepSize: 1 } } } }
                 });
-            } else if (ctx3) ctx3.parentNode.innerHTML =
-                '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhuma NC em aberto</p>';
+            } else if (ctx3) ctx3.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhuma NC em aberto</p>';
         }
 
         // ==================== LISTA DE NCs ====================
@@ -2020,24 +1843,20 @@
             const selectPalete = document.getElementById('filtroPalete');
             if (selectPalete) {
                 const currentVal = selectPalete.value;
-                selectPalete.innerHTML = '<option value="todos">Todos os Paletes</option>' + paletesUnicos.map(p =>
-                    `<option value="${p}">${p}</option>`).join('');
+                selectPalete.innerHTML = '<option value="todos">Todos os Paletes</option>' + paletesUnicos.map(p => `<option value="${p}">${p}</option>`).join('');
                 selectPalete.value = paletesUnicos.includes(currentVal) ? currentVal : 'todos';
             }
 
             let filtradas = ncs;
             if (filtroStatus !== 'todos') filtradas = filtradas.filter(n => n.status === filtroStatus);
             if (filtroPalete !== 'todos') filtradas = filtradas.filter(n => n.palete === filtroPalete);
-            if (filtroBusca) filtradas = filtradas.filter(n => (n.produto || '').toLowerCase().includes(filtroBusca) || (n
-                .motivo || '').toLowerCase().includes(filtroBusca) || (n.palete || '').toLowerCase().includes(
-                filtroBusca) || String(n.id).includes(filtroBusca));
+            if (filtroBusca) filtradas = filtradas.filter(n => (n.produto || '').toLowerCase().includes(filtroBusca) || (n.motivo || '').toLowerCase().includes(filtroBusca) || (n.palete || '').toLowerCase().includes(filtroBusca) || String(n.id).includes(filtroBusca));
 
             const tbody = document.getElementById('tbodyNCs');
             const empty = document.getElementById('emptyLista');
             const isAdmin = currentUser && currentUser.role === 'admin';
 
-            if (filtradas.length === 0) { tbody.innerHTML = '';
-                empty.style.display = 'block'; } else {
+            if (filtradas.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; } else {
                 empty.style.display = 'none';
                 tbody.innerHTML = filtradas.map(nc => {
                     const tempoHtml = nc.status === 'aberto' ?
@@ -2070,9 +1889,7 @@
             document.getElementById('editNcId').value = '';
             document.getElementById('tituloFormNC').innerHTML = '<i class="fas fa-plus-circle"></i> Nova Não Conformidade';
             document.getElementById('subtituloFormNC').textContent = 'Preencha os dados abaixo';
-            ['ncProduto', 'ncPalete', 'ncMotivo', 'ncQtdCaixas', 'ncQtdItens', 'ncQtdRetrabalhadas', 'ncQtdDescartada',
-                'ncAcao', 'ncIdManual'
-            ].forEach(id => {
+            ['ncProduto', 'ncPalete', 'ncMotivo', 'ncQtdCaixas', 'ncQtdItens', 'ncQtdRetrabalhadas', 'ncQtdDescartada', 'ncAcao', 'ncIdManual'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
                     if (id === 'ncQtdRetrabalhadas' || id === 'ncQtdDescartada') {
@@ -2097,8 +1914,7 @@
             const files = document.getElementById('inputFotos').files;
             const totalAtual = fotosNovas.length + fotosExistentes.length;
             const vagas = 5 - totalAtual;
-            if (files.length > vagas) { mostrarToast(`Máximo de 5 fotos. Você ainda pode adicionar ${vagas}.`, 'error');
-                document.getElementById('inputFotos').value = ''; return; }
+            if (files.length > vagas) { mostrarToast(`Máximo de 5 fotos. Você ainda pode adicionar ${vagas}.`, 'error'); document.getElementById('inputFotos').value = ''; return; }
             Array.from(files).forEach(file => {
                 if (fotosNovas.length + fotosExistentes.length >= 5) return;
                 const reader = new FileReader();
@@ -2107,10 +1923,8 @@
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
                         const maxW = 600;
-                        let w = img.width,
-                            h = img.height;
-                        if (w > maxW) { h = h * (maxW / w);
-                            w = maxW; }
+                        let w = img.width, h = img.height;
+                        if (w > maxW) { h = h * (maxW / w); w = maxW; }
                         canvas.width = w;
                         canvas.height = h;
                         const ctx = canvas.getContext('2d');
@@ -2133,11 +1947,9 @@
             ).join('');
         }
 
-        function removerFotoNova(index) { fotosNovas.splice(index, 1);
-            atualizarPreviews(); }
+        function removerFotoNova(index) { fotosNovas.splice(index, 1); atualizarPreviews(); }
 
-        function removerFotoExistente(index) { fotosExistentes.splice(index, 1);
-            renderFotosExistentes(); }
+        function removerFotoExistente(index) { fotosExistentes.splice(index, 1); renderFotosExistentes(); }
 
         function renderFotosExistentes() {
             document.getElementById('existingPhotosContainer').innerHTML = fotosExistentes.map((b64, i) =>
@@ -2177,24 +1989,16 @@
                 if (ncAntiga.produto !== produto) alteracoes.push(`Produto: "${ncAntiga.produto}" → "${produto}"`);
                 if (ncAntiga.palete !== palete) alteracoes.push(`Palete: "${ncAntiga.palete}" → "${palete}"`);
                 if (ncAntiga.motivo !== motivo) alteracoes.push('Motivo alterado');
-                if ((ncAntiga.quantidadeCaixas || 0) !== qtdCaixas) alteracoes.push(
-                    `Qtd. Caixas: ${ncAntiga.quantidadeCaixas || 0} → ${qtdCaixas}`);
-                if ((ncAntiga.quantidadeItens || 0) !== qtdItens) alteracoes.push(
-                    `Qtd. Itens: ${ncAntiga.quantidadeItens || 0} → ${qtdItens}`);
-                if ((ncAntiga.quantidadeRetrabalhadas || 0) !== qtdRetrabalhadas) alteracoes.push(
-                    `Qtd. Retrabalhadas: ${ncAntiga.quantidadeRetrabalhadas || 0} → ${qtdRetrabalhadas}`);
-                if ((ncAntiga.quantidadeDescartada || 0) !== qtdDescartada) alteracoes.push(
-                    `Qtd. Descartada: ${ncAntiga.quantidadeDescartada || 0} → ${qtdDescartada}`);
+                if ((ncAntiga.quantidadeCaixas || 0) !== qtdCaixas) alteracoes.push(`Qtd. Caixas: ${ncAntiga.quantidadeCaixas || 0} → ${qtdCaixas}`);
+                if ((ncAntiga.quantidadeItens || 0) !== qtdItens) alteracoes.push(`Qtd. Itens: ${ncAntiga.quantidadeItens || 0} → ${qtdItens}`);
+                if ((ncAntiga.quantidadeRetrabalhadas || 0) !== qtdRetrabalhadas) alteracoes.push(`Qtd. Retrabalhadas: ${ncAntiga.quantidadeRetrabalhadas || 0} → ${qtdRetrabalhadas}`);
+                if ((ncAntiga.quantidadeDescartada || 0) !== qtdDescartada) alteracoes.push(`Qtd. Descartada: ${ncAntiga.quantidadeDescartada || 0} → ${qtdDescartada}`);
                 if (ncAntiga.acao !== acao) alteracoes.push('Ação alterada');
-                if (JSON.stringify((ncAntiga.fotos || []).sort()) !== JSON.stringify(todasFotos.sort())) alteracoes.push(
-                    'Fotos atualizadas');
+                if (JSON.stringify((ncAntiga.fotos || []).sort()) !== JSON.stringify(todasFotos.sort())) alteracoes.push('Fotos atualizadas');
                 if (alteracoes.length > 0) {
                     const historico = ncAntiga.historico || [];
-                    historico.push({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'editou',
-                        detalhes: alteracoes.join('; ') });
-                    await docRef.update({ produto, palete, motivo, quantidadeCaixas: qtdCaixas,
-                        quantidadeItens: qtdItens, quantidadeRetrabalhadas: qtdRetrabalhadas,
-                        quantidadeDescartada: qtdDescartada, acao, fotos: todasFotos, historico });
+                    historico.push({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'editou', detalhes: alteracoes.join('; ') });
+                    await docRef.update({ produto, palete, motivo, quantidadeCaixas: qtdCaixas, quantidadeItens: qtdItens, quantidadeRetrabalhadas: qtdRetrabalhadas, quantidadeDescartada: qtdDescartada, acao, fotos: todasFotos, historico });
                 }
                 mostrarToast('NC #' + editId + ' atualizada!', 'success');
             } else {
@@ -2225,8 +2029,7 @@
                     dataAbertura: new Date().toISOString(),
                     dataResolucao: null,
                     criadoPor: currentUser.username,
-                    historico: [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou',
-                        detalhes: 'Não conformidade aberta' }]
+                    historico: [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou', detalhes: 'Não conformidade aberta' }]
                 };
                 await collNCs.doc(String(idManual)).set(novaNc);
                 mostrarToast('NC #' + idManual + ' criada!', 'success');
@@ -2245,8 +2048,7 @@
             if (!doc.exists) { mostrarToast('NC não encontrada!', 'error'); return; }
             const nc = doc.data();
             document.getElementById('editNcId').value = id;
-            document.getElementById('tituloFormNC').innerHTML = '<i class="fas fa-edit"></i> Editar Não Conformidade #' +
-                id;
+            document.getElementById('tituloFormNC').innerHTML = '<i class="fas fa-edit"></i> Editar Não Conformidade #' + id;
             document.getElementById('subtituloFormNC').textContent = 'Editando registro existente';
             document.getElementById('ncProduto').value = nc.produto || '';
             document.getElementById('ncPalete').value = nc.palete || '';
@@ -2270,8 +2072,7 @@
             navegar('nova', document.querySelector('[data-page="nova"]'));
         }
 
-        function cancelarEdicao() { prepararFormNova();
-            navegar('lista', document.querySelector('[data-page="lista"]')); }
+        function cancelarEdicao() { prepararFormNova(); navegar('lista', document.querySelector('[data-page="lista"]')); }
 
         async function excluirNC(id) {
             if (currentUser.role !== 'admin') { mostrarToast('Apenas administradores podem excluir!', 'error'); return; }
@@ -2283,18 +2084,14 @@
         }
 
         async function resolverNC(id) {
-            await collNCs.doc(id).update({ status: 'resolvido', dataResolucao: new Date().toISOString(),
-                historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(),
-                    usuario: currentUser.username, acao: 'resolveu', detalhes: 'NC marcada como resolvida' }) });
+            await collNCs.doc(id).update({ status: 'resolvido', dataResolucao: new Date().toISOString(), historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'resolveu', detalhes: 'NC marcada como resolvida' }) });
             await renderListaNCs();
             await renderDashboard();
             mostrarToast('NC #' + id + ' resolvida!', 'success');
         }
 
         async function reabrirNC(id) {
-            await collNCs.doc(id).update({ status: 'aberto', dataResolucao: null, historico: firebase.firestore
-                    .FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username,
-                        acao: 'reabriu', detalhes: 'NC reaberta' }) });
+            await collNCs.doc(id).update({ status: 'aberto', dataResolucao: null, historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'reabriu', detalhes: 'NC reaberta' }) });
             await renderListaNCs();
             await renderDashboard();
             mostrarToast('NC #' + id + ' reaberta.', 'info');
@@ -2305,12 +2102,8 @@
             const doc = await collNCs.doc(id).get();
             if (!doc.exists) return;
             const nc = doc.data();
-            const fotosHtml = (nc.fotos || []).map(f =>
-                `<img src="${f}" class="photo-preview" style="width:120px;height:120px;" onclick="abrirModalFoto('${f}')">`
-                ).join('');
-            const historicoHtml = (nc.historico || []).map(h =>
-                `<div style="padding:8px 0;border-bottom:1px solid #eef2f0;font-size:0.8rem;"><strong>${new Date(h.data).toLocaleString('pt-BR')}</strong> - <span style="color:#386e8c;">${h.usuario}</span> <span style="background:#f0f4f1;padding:2px 8px;border-radius:10px;font-size:0.7rem;">${h.acao}</span><br><span style="color:#5b6b64;">${h.detalhes}</span></div>`
-                ).join('');
+            const fotosHtml = (nc.fotos || []).map(f => `<img src="${f}" class="photo-preview" style="width:120px;height:120px;" onclick="abrirModalFoto('${f}')">`).join('');
+            const historicoHtml = (nc.historico || []).map(h => `<div style="padding:8px 0;border-bottom:1px solid #eef2f0;font-size:0.8rem;"><strong>${new Date(h.data).toLocaleString('pt-BR')}</strong> - <span style="color:#386e8c;">${h.usuario}</span> <span style="background:#f0f4f1;padding:2px 8px;border-radius:10px;font-size:0.7rem;">${h.acao}</span><br><span style="color:#5b6b64;">${h.detalhes}</span></div>`).join('');
             document.getElementById('detalhesInner').innerHTML = `
                 <h2><i class="fas fa-info-circle"></i> Detalhes da NC #${id}</h2>
                 <div class="detail-row"><strong>Produto:</strong><span>${escapeHtml(nc.produto)}</span></div>
@@ -2335,13 +2128,10 @@
 
         function fecharModalDetalhes() {
             document.getElementById('modalDetalhes').style.display = 'none';
-            if (liveTimers['detalhe']) { clearInterval(liveTimers['detalhe']);
-                delete liveTimers['detalhe']; }
+            if (liveTimers['detalhe']) { clearInterval(liveTimers['detalhe']); delete liveTimers['detalhe']; }
         }
 
-        function abrirModalFoto(src) { document.getElementById('modalFotoImg').src = src;
-            document.getElementById('modalFoto').style.display = 'flex'; }
-
+        function abrirModalFoto(src) { document.getElementById('modalFotoImg').src = src; document.getElementById('modalFoto').style.display = 'flex'; }
         function fecharModalFoto() { document.getElementById('modalFoto').style.display = 'none'; }
 
         // ==================== QR CODE ====================
@@ -2354,14 +2144,13 @@
             container.innerHTML = '';
             const baseUrl = window.location.href.split('?')[0];
             const qrUrl = baseUrl + '?view=readonly&id=' + id;
-            if (typeof QRCode !== 'undefined') new QRCode(container, { text: qrUrl, width: 200, height: 200,
-                colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+            if (typeof QRCode !== 'undefined') new QRCode(container, { text: qrUrl, width: 200, height: 200, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
             else container.innerHTML = '<p style="color:#b53b3b;">Erro ao carregar QRCode.js</p>';
         }
 
         function fecharModalQR() { document.getElementById('modalQR').style.display = 'none'; }
 
-        // ==================== IMPRESSÃO NC INDIVIDUAL ====================
+        // ==================== IMPRESSÃO NC INDIVIDUAL (OCUPA TODA A FOLHA) ====================
         async function imprimirNC(id) {
             try {
                 const doc = await collNCs.doc(id).get();
@@ -2377,8 +2166,7 @@
                 const statusBadgeClass = nc.status === 'aberto' ? 'badge-print-open' : 'badge-print-resolved';
                 const statusTexto = nc.status === 'aberto' ? 'ABERTO' : 'RESOLVIDO';
                 const fotosHtml = (nc.fotos && nc.fotos.length > 0) ?
-                    `<div class="print-fotos-section"><h3>📸 FOTOS DA NÃO CONFORMIDADE</h3><div class="print-fotos-grid">${nc.fotos.map(f => `<img src="${f}" alt="Foto da NC">`).join('')}</div></div>` :
-                    '';
+                    `<div class="print-fotos-section"><h3>📸 FOTOS DA NÃO CONFORMIDADE</h3><div class="print-fotos-grid">${nc.fotos.map(f => `<img src="${f}" alt="Foto da NC">`).join('')}</div></div>` : '';
                 const printArea = document.getElementById('printArea');
                 printArea.innerHTML = `
                     <div class="print-sheet">
@@ -2415,8 +2203,7 @@
                     const qrContainer = document.getElementById('qrCodePrintContainer');
                     if (qrContainer && typeof QRCode !== 'undefined') {
                         qrContainer.innerHTML = '';
-                        new QRCode(qrContainer, { text: qrUrl, width: 110, height: 110, colorDark: '#0b3b2f',
-                            colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+                        new QRCode(qrContainer, { text: qrUrl, width: 110, height: 110, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
                     }
                 }, 300);
             } catch (error) {
@@ -2476,9 +2263,7 @@
             return { inicio, fim };
         }
 
-        function formatarDataBr(data) {
-            return data.toLocaleDateString('pt-BR');
-        }
+        function formatarDataBr(data) { return data.toLocaleDateString('pt-BR'); }
 
         async function gerarRelatorio() {
             if (currentUser.role !== 'admin') {
@@ -2499,12 +2284,10 @@
             const totalRetrabalhadas = filtradas.reduce((s, n) => s + (parseInt(n.quantidadeRetrabalhadas) || 0), 0);
             const totalDescartada = filtradas.reduce((s, n) => s + (parseInt(n.quantidadeDescartada) || 0), 0);
             const motivosMap = {};
-            filtradas.forEach(n => { const curto = (n.motivo || 'Sem motivo').substring(0, 50);
-                motivosMap[curto] = (motivosMap[curto] || 0) + 1; });
+            filtradas.forEach(n => { const curto = (n.motivo || 'Sem motivo').substring(0, 50); motivosMap[curto] = (motivosMap[curto] || 0) + 1; });
             const motivosLabels = Object.keys(motivosMap);
             const motivosData = Object.values(motivosMap);
-            const periodoTexto = document.getElementById('relatorioPeriodo').options[document.getElementById(
-                'relatorioPeriodo').selectedIndex].text;
+            const periodoTexto = document.getElementById('relatorioPeriodo').options[document.getElementById('relatorioPeriodo').selectedIndex].text;
             const agora = new Date();
             const conteudo = document.getElementById('relatorioConteudo');
             conteudo.innerHTML = `
@@ -2554,13 +2337,8 @@
                 if (ctxM && motivosLabels.length > 0) {
                     window._chartRelatorioMotivos = new Chart(ctxM, {
                         type: 'doughnut',
-                        data: { labels: motivosLabels, datasets: [{ data: motivosData,
-                                backgroundColor: ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a',
-                                    '#b5792a', '#2d7a4f', '#5b3a6e', '#2f5f78', '#a65d3d'
-                                ].slice(0, motivosLabels.length), borderWidth: 2, borderColor: '#fff'
-                            }] },
-                        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 10,
-                                    usePointStyle: true } } } }
+                        data: { labels: motivosLabels, datasets: [{ data: motivosData, backgroundColor: ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a', '#2d7a4f', '#5b3a6e', '#2f5f78', '#a65d3d'].slice(0, motivosLabels.length), borderWidth: 2, borderColor: '#fff' }] },
+                        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 10, usePointStyle: true } } } }
                     });
                 }
                 if (window._chartRelatorioStatus) window._chartRelatorioStatus.destroy();
@@ -2568,11 +2346,8 @@
                 if (ctxS) {
                     window._chartRelatorioStatus = new Chart(ctxS, {
                         type: 'bar',
-                        data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ data: [abertas, resolvidas],
-                                backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8, borderWidth: 0
-                            }] },
-                        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero:
-                                    true, ticks: { stepSize: 1 } } } }
+                        data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ data: [abertas, resolvidas], backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8, borderWidth: 0 }] },
+                        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
                     });
                 }
             }, 200);
@@ -2582,16 +2357,13 @@
             document.getElementById('relatorioPrintArea').style.display = 'none';
             document.getElementById('appContainer').style.display = 'flex';
             document.getElementById('relatorioVazio').style.display = 'block';
-            if (window._chartRelatorioMotivos) { window._chartRelatorioMotivos.destroy();
-                window._chartRelatorioMotivos = null; }
-            if (window._chartRelatorioStatus) { window._chartRelatorioStatus.destroy();
-                window._chartRelatorioStatus = null; }
+            if (window._chartRelatorioMotivos) { window._chartRelatorioMotivos.destroy(); window._chartRelatorioMotivos = null; }
+            if (window._chartRelatorioStatus) { window._chartRelatorioStatus.destroy(); window._chartRelatorioStatus = null; }
         }
 
         // ==================== USUÁRIOS ====================
         async function renderUsuarios() {
-            if (!currentUser || currentUser.role !== 'admin') { mostrarToast('Acesso restrito!', 'error');
-                navegar('dashboard'); return; }
+            if (!currentUser || currentUser.role !== 'admin') { mostrarToast('Acesso restrito!', 'error'); navegar('dashboard'); return; }
             const usuarios = await getUsuarios();
             document.getElementById('tbodyUsuarios').innerHTML = usuarios.map(u => `
                 <tr>
@@ -2608,8 +2380,7 @@
             const password = document.getElementById('newPassword').value.trim();
             const role = document.getElementById('newRole').value;
             if (!username || !password) { mostrarToast('Preencha todos os campos!', 'error'); return; }
-            if (username.length < 3 || password.length < 3) { mostrarToast(
-                    'Usuário e senha devem ter pelo menos 3 caracteres.', 'error'); return; }
+            if (username.length < 3 || password.length < 3) { mostrarToast('Usuário e senha devem ter pelo menos 3 caracteres.', 'error'); return; }
             const usuarios = await getUsuarios();
             if (usuarios.find(u => u.username === username)) { mostrarToast('Usuário já existe!', 'error'); return; }
             await criarUsuarioFirestore(username, password, role);
@@ -2639,13 +2410,11 @@
         });
 
         setInterval(async () => {
-            if (currentUser && document.getElementById('page-dashboard').classList.contains('active')) await
-                renderDashboard();
+            if (currentUser && document.getElementById('page-dashboard').classList.contains('active')) await renderDashboard();
         }, 60000);
 
         init();
-        console.log(
-            '✅ Sistema Dona Rita · Firestore ativo. | Impressão otimizada para folha inteira (PDF A4 sem quebras).');
+        console.log('✅ Sistema Dona Rita · Firestore ativo. | Impressão otimizada para folha inteira (PDF A4 sem quebras).');
     </script>
 </body>
 </html>
