@@ -40,6 +40,8 @@
             --success: #2d7a4f;
             --warning: #b5792a;
             --info: #386e8c;
+            --whatsapp: #25D366;
+            --whatsapp-dark: #1da851;
             --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.04);
             --shadow: 0 8px 24px rgba(0, 0, 0, 0.07), 0 2px 6px rgba(0, 0, 0, 0.04);
@@ -715,6 +717,17 @@
         }
         .btn-info:hover {
             background: #2f5f78;
+        }
+        .btn-whatsapp {
+            background: var(--whatsapp);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+            font-weight: 600;
+        }
+        .btn-whatsapp:hover {
+            background: var(--whatsapp-dark);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+            transform: translateY(-1px);
         }
         .actions-cell {
             display: flex;
@@ -1957,6 +1970,7 @@
                             ${isAdmin ? `<button class="btn btn-sm btn-outline" onclick="editarNC('${nc.id}')" title="Editar"><i class="fas fa-edit"></i></button>` : ''}
                             <button class="btn btn-sm btn-accent" onclick="imprimirNC('${nc.id}')" title="Imprimir"><i class="fas fa-print"></i></button>
                             <button class="btn btn-sm btn-primary" onclick="gerarQRCode('${nc.id}')" title="QR Code"><i class="fas fa-qrcode"></i></button>
+                            <button class="btn btn-sm btn-whatsapp" onclick="enviarAlertaWhatsApp('${nc.id}')" title="Enviar alerta via WhatsApp"><i class="fab fa-whatsapp"></i> Alerta</button>
                             ${isAdmin?`<button class="btn btn-sm btn-danger" onclick="excluirNC('${nc.id}')" title="Excluir"><i class="fas fa-trash"></i></button>`:''}
                             ${nc.status==='aberto'?`<button class="btn btn-sm btn-success" onclick="resolverNC('${nc.id}')" title="Resolver"><i class="fas fa-check"></i></button>`:`<button class="btn btn-sm btn-outline" onclick="reabrirNC('${nc.id}')" title="Reabrir"><i class="fas fa-undo"></i></button>`}
                         </td>
@@ -1964,6 +1978,58 @@
                 }).join('');
             }
             ativarCronometrosLista();
+        }
+
+        // ==================== ALERTA WHATSAPP ====================
+        function enviarAlertaWhatsApp(id) {
+            const nc = window._lastNcs.find(n => n.id === id);
+            if (!nc) {
+                mostrarToast('NC não encontrada para gerar alerta!', 'error');
+                return;
+            }
+            const tempo = nc.status === 'aberto' ? calcularTempoDetalhado(nc).texto : `${calcularDias(nc)}d (fechado)`;
+            const dataAbertura = new Date(nc.dataAbertura).toLocaleString('pt-BR');
+            const qtdCaixas = nc.quantidadeCaixas ?? (nc.quantidade || 0);
+            const qtdItens = nc.quantidadeItens ?? 0;
+            const qtdRetrabalhadas = nc.quantidadeRetrabalhadas || 0;
+            const qtdDescartada = nc.quantidadeDescartada || 0;
+
+            let mensagem = `🚨 *ALERTA DE RETRABALHO - NÃO CONFORMIDADE* 🚨\n\n`;
+            mensagem += `🏭 *Dona Rita Embalagens*\n\n`;
+            mensagem += `━━━━━━━━━━━━━━━━━━━━\n`;
+            mensagem += `📋 *Nº da NC:* #${nc.id}\n`;
+            mensagem += `📦 *Produto:* ${nc.produto}\n`;
+            mensagem += `🏷️ *Palete:* ${nc.palete}\n`;
+            mensagem += `⚠️ *Motivo:* ${nc.motivo}\n`;
+            mensagem += `━━━━━━━━━━━━━━━━━━━━\n`;
+            mensagem += `📊 *Quantidades:*\n`;
+            mensagem += `• Caixas: ${qtdCaixas}\n`;
+            mensagem += `• Itens: ${qtdItens}\n`;
+            mensagem += `• Retrabalhadas: ${qtdRetrabalhadas}\n`;
+            mensagem += `• Descartada: ${qtdDescartada}\n`;
+            mensagem += `━━━━━━━━━━━━━━━━━━━━\n`;
+            mensagem += `🔧 *Ação:* ${nc.acao}\n`;
+            mensagem += `⏱️ *Tempo em aberto:* ${tempo}\n`;
+            mensagem += `📅 *Aberto em:* ${dataAbertura}\n`;
+            mensagem += `👤 *Criado por:* ${nc.criadoPor}\n`;
+            if (nc.dataResolucao) {
+                mensagem += `✅ *Resolvido em:* ${new Date(nc.dataResolucao).toLocaleString('pt-BR')}\n`;
+            }
+            mensagem += `━━━━━━━━━━━━━━━━━━━━\n`;
+            mensagem += `🔄 *STATUS: RETRABALHO NECESSÁRIO*\n`;
+            mensagem += `━━━━━━━━━━━━━━━━━━━━\n`;
+            mensagem += `📎 *Acesse os detalhes:* ${window.location.href.split('?')[0]}?view=readonly&id=${nc.id}`;
+
+            const textoEncoded = encodeURIComponent(mensagem);
+            const isMobile = /Android|iPhone|iPad|iPod|webOS/i.test(navigator.userAgent);
+            let url;
+            if (isMobile) {
+                url = `whatsapp://send?text=${textoEncoded}`;
+            } else {
+                url = `https://web.whatsapp.com/send?text=${textoEncoded}`;
+            }
+            window.open(url, '_blank');
+            mostrarToast('📱 Abrindo WhatsApp... escolha o contato para enviar o alerta.', 'info');
         }
 
         // ==================== CRUD DE NCs ====================
@@ -2188,6 +2254,11 @@
             const historicoHtml = (nc.historico || []).map(h => `<div style="padding:8px 0;border-bottom:1px solid #eef2f0;font-size:0.8rem;"><strong>${new Date(h.data).toLocaleString('pt-BR')}</strong> - <span style="color:#386e8c;">${h.usuario}</span> <span style="background:#f0f4f1;padding:2px 8px;border-radius:10px;font-size:0.7rem;">${h.acao}</span><br><span style="color:#5b6b64;">${h.detalhes}</span></div>`).join('');
             document.getElementById('detalhesInner').innerHTML = `
                 <h2><i class="fas fa-info-circle"></i> Detalhes da NC #${id}</h2>
+                <div style="margin-bottom:16px;">
+                    <button class="btn btn-whatsapp" onclick="enviarAlertaWhatsApp('${id}')" style="font-size:0.85rem;padding:10px 20px;">
+                        <i class="fab fa-whatsapp"></i> Enviar Alerta de Retrabalho
+                    </button>
+                </div>
                 <div class="detail-row"><strong>Produto:</strong><span>${escapeHtml(nc.produto)}</span></div>
                 <div class="detail-row"><strong>Palete:</strong><span>${escapeHtml(nc.palete)}</span></div>
                 <div class="detail-row"><strong>Motivo:</strong><span>${escapeHtml(nc.motivo)}</span></div>
@@ -2554,7 +2625,7 @@
         }, 60000);
 
         init();
-        console.log('✅ Sistema Dona Rita · Firestore ativo. | Impressão otimizada para folha inteira (PDF A4 sem quebras).');
+        console.log('✅ Sistema Dona Rita · Firestore ativo. | Impressão otimizada para folha inteira (PDF A4 sem quebras). | Alerta WhatsApp integrado.');
     </script>
 </body>
 </html>
