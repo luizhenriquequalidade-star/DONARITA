@@ -1050,11 +1050,11 @@
             border-top: 1px solid #ddd;
         }
 
-        /* ========== AJUSTES EXCLUSIVOS PARA IMPRESSÃO (OCUPAR FOLHA INTEIRA) ========== */
+        /* ========== AJUSTES EXCLUSIVOS PARA IMPRESSÃO (OCUPAR FOLHA INTEIRA - UMA PÁGINA) ========== */
         @media print {
             @page {
                 size: A4;
-                margin: 5mm;
+                margin: 2mm;
             }
 
             html, body {
@@ -1079,7 +1079,7 @@
                 display: block !important;
                 position: static !important;
                 width: 100% !important;
-                min-height: 100vh !important;
+                min-height: 0 !important;
                 height: auto !important;
                 overflow: visible !important;
                 padding: 0 !important;
@@ -1095,97 +1095,126 @@
                 display: none !important;
             }
 
-            /* Ajustes finos de fonte e espaçamento para caber no papel */
+            /* Ajustes finos para compactar o conteúdo em uma folha */
             #relatorioPrintArea .print-sheet,
             #printArea .print-sheet {
-                padding: 8mm 10mm !important;
-                min-height: 100vh !important;
+                padding: 3mm 5mm !important;
+                min-height: 0 !important;
                 width: 100% !important;
-                font-size: 15px !important;
-                line-height: 1.6 !important;
+                font-size: 10px !important;
+                line-height: 1.2 !important;
+            }
+
+            #relatorioPrintArea .print-header,
+            #printArea .print-header {
+                padding-bottom: 4px !important;
+                margin-bottom: 6px !important;
+                border-bottom-width: 2px !important;
             }
 
             #relatorioPrintArea .print-header h2,
             #printArea .print-header h2 {
-                font-size: 24px !important;
+                font-size: 15px !important;
                 letter-spacing: -0.02em !important;
             }
 
             #relatorioPrintArea .print-header p,
             #printArea .print-header p {
-                font-size: 13px !important;
+                font-size: 9px !important;
+                margin: 1px 0 0 !important;
+            }
+
+            #relatorioPrintArea .print-badge,
+            #printArea .print-badge {
+                font-size: 10px !important;
+                padding: 2px 8px !important;
             }
 
             #relatorioPrintArea .print-grid,
             #printArea .print-grid {
-                gap: 6px 24px !important;
-                margin-bottom: 18px !important;
+                gap: 2px 10px !important;
+                margin-bottom: 6px !important;
+            }
+
+            #relatorioPrintArea .print-field,
+            #printArea .print-field {
+                padding: 2px 0 !important;
             }
 
             #relatorioPrintArea .print-label,
             #printArea .print-label {
-                font-size: 11px !important;
-                margin-bottom: 3px !important;
+                font-size: 7px !important;
+                margin-bottom: 1px !important;
             }
 
             #relatorioPrintArea .print-value,
             #printArea .print-value {
-                font-size: 17px !important;
+                font-size: 11px !important;
                 font-weight: 700 !important;
             }
 
             #relatorioPrintArea .print-value.highlight,
             #printArea .print-value.highlight {
-                font-size: 22px !important;
+                font-size: 13px !important;
                 font-weight: 800 !important;
             }
 
             #relatorioPrintArea .print-fotos-section,
             #printArea .print-fotos-section {
-                margin-top: 14px !important;
-                padding-top: 12px !important;
+                margin-top: 6px !important;
+                padding-top: 4px !important;
+                border-top-width: 1px !important;
             }
 
             #relatorioPrintArea .print-fotos-section h3,
             #printArea .print-fotos-section h3 {
-                font-size: 16px !important;
-                margin-bottom: 10px !important;
+                font-size: 10px !important;
+                margin-bottom: 4px !important;
             }
 
             #relatorioPrintArea .print-fotos-grid,
             #printArea .print-fotos-grid {
-                gap: 10px !important;
+                gap: 4px !important;
             }
 
             #relatorioPrintArea .print-fotos-grid img,
             #printArea .print-fotos-grid img {
-                width: 130px !important;
-                height: 130px !important;
-                border-radius: 8px !important;
+                width: 60px !important;
+                height: 60px !important;
+                border-radius: 4px !important;
             }
 
             #relatorioPrintArea .print-qr-section,
             #printArea .print-qr-section {
-                margin-top: 18px !important;
-                padding: 16px !important;
-                gap: 24px !important;
+                margin-top: 6px !important;
+                padding: 6px !important;
+                gap: 10px !important;
+            }
+
+            #relatorioPrintArea .print-qr-section .qr-print img,
+            #printArea .print-qr-section .qr-print img,
+            #relatorioPrintArea .print-qr-section .qr-print canvas,
+            #printArea .print-qr-section .qr-print canvas {
+                width: 60px !important;
+                height: 60px !important;
             }
 
             #relatorioPrintArea .print-qr-section .qr-info strong,
             #printArea .print-qr-section .qr-info strong {
-                font-size: 16px !important;
+                font-size: 11px !important;
             }
 
             #relatorioPrintArea .print-qr-section .qr-info p,
             #printArea .print-qr-section .qr-info p {
-                font-size: 14px !important;
+                font-size: 9px !important;
+                margin: 1px 0 !important;
             }
 
             #relatorioPrintArea .print-footer,
             #printArea .print-footer {
-                font-size: 11px !important;
-                padding-top: 14px !important;
-                margin-top: 20px !important;
+                font-size: 7px !important;
+                padding-top: 4px !important;
+                margin-top: 6px !important;
             }
 
             /* Evita quebras dentro de elementos importantes */
@@ -1205,32 +1234,6 @@
             #printArea img {
                 max-width: 100% !important;
                 height: auto !important;
-            }
-
-            /* Ajuste extra para telas menores que A4 (ex: impressoras térmicas) */
-            @media print and (max-height: 800px) {
-                #relatorioPrintArea .print-sheet,
-                #printArea .print-sheet {
-                    padding: 4mm 6mm !important;
-                    font-size: 12px !important;
-                }
-                #relatorioPrintArea .print-header h2,
-                #printArea .print-header h2 {
-                    font-size: 18px !important;
-                }
-                #relatorioPrintArea .print-value,
-                #printArea .print-value {
-                    font-size: 13px !important;
-                }
-                #relatorioPrintArea .print-value.highlight,
-                #printArea .print-value.highlight {
-                    font-size: 16px !important;
-                }
-                #relatorioPrintArea .print-fotos-grid img,
-                #printArea .print-fotos-grid img {
-                    width: 90px !important;
-                    height: 90px !important;
-                }
             }
         }
 
@@ -2340,7 +2343,7 @@
                     const qrContainer = document.getElementById('qrCodePrintContainer');
                     if (qrContainer && typeof QRCode !== 'undefined') {
                         qrContainer.innerHTML = '';
-                        new QRCode(qrContainer, { text: qrUrl, width: 130, height: 130, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+                        new QRCode(qrContainer, { text: qrUrl, width: 80, height: 80, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
                     }
                 }, 300);
             } catch (error) {
