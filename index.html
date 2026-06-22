@@ -74,7 +74,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Login */
         #loginScreen {
             position: fixed;
             inset: 0;
@@ -216,7 +215,6 @@
             font-weight: 500;
         }
 
-        /* App */
         #appContainer {
             display: flex;
             width: 100%;
@@ -230,7 +228,6 @@
             visibility: visible;
         }
 
-        /* Modo Visitante (QR Code) */
         #visitanteContainer {
             display: none;
             position: fixed;
@@ -308,7 +305,6 @@
             background: #e0e0e0;
         }
 
-        /* Sidebar */
         .sidebar {
             width: var(--sidebar-width);
             background: linear-gradient(180deg, #0b3628 0%, #0f4533 100%);
@@ -439,7 +435,6 @@
             background: rgba(255, 255, 255, 0.15);
         }
 
-        /* Main */
         .main-content {
             margin-left: var(--sidebar-width);
             flex: 1;
@@ -487,7 +482,6 @@
             margin-top: 2px;
         }
 
-        /* Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -541,6 +535,10 @@
             background: #f0e6f6;
             color: #7b4b9a;
         }
+        .stat-card .stat-icon.teal {
+            background: #d9f2f0;
+            color: #1a6b63;
+        }
         .stat-card .stat-info h3 {
             font-size: 1.9rem;
             font-weight: 700;
@@ -555,7 +553,6 @@
             font-weight: 500;
         }
 
-        /* Charts */
         .charts-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -585,7 +582,6 @@
             max-height: 260px;
         }
 
-        /* Table */
         .table-card {
             background: var(--surface);
             backdrop-filter: var(--backdrop-blur);
@@ -650,6 +646,22 @@
         .badge-resolved {
             background: #e1f0e7;
             color: #2d7a4f;
+        }
+        .badge-pendente {
+            background: #fef3e6;
+            color: #b5792a;
+        }
+        .badge-concluido {
+            background: #e1f0e7;
+            color: #2d7a4f;
+        }
+        .badge-assinado {
+            background: #d9f2f0;
+            color: #1a6b63;
+        }
+        .badge-nao-assinado {
+            background: #fce8e8;
+            color: #b53b3b;
         }
         .btn {
             padding: 9px 16px;
@@ -729,6 +741,16 @@
             box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
             transform: translateY(-1px);
         }
+        .btn-assinar {
+            background: #1a6b63;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(26, 107, 99, 0.3);
+        }
+        .btn-assinar:hover {
+            background: #145750;
+            box-shadow: 0 6px 18px rgba(26, 107, 99, 0.4);
+        }
         .actions-cell {
             display: flex;
             gap: 5px;
@@ -745,7 +767,6 @@
             opacity: 0.5;
         }
 
-        /* Form */
         .form-card {
             background: var(--surface);
             backdrop-filter: var(--backdrop-blur);
@@ -840,7 +861,75 @@
             margin-bottom: 6px;
         }
 
-        /* Modal */
+        .pessoa-card {
+            background: #f9fbfa;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            position: relative;
+            transition: var(--transition);
+        }
+        .pessoa-card:hover {
+            border-color: #bcc9c2;
+            box-shadow: var(--shadow-xs);
+        }
+        .pessoa-card .pessoa-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .pessoa-card .pessoa-numero {
+            background: var(--primary);
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        .pessoa-card .btn-remover-pessoa {
+            background: #fce8e8;
+            border: none;
+            color: #b53b3b;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+        .pessoa-card .btn-remover-pessoa:hover {
+            background: #f5c8c8;
+        }
+        .assinatura-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 16px;
+        }
+        .assinatura-status.assinado {
+            background: #d9f2f0;
+            color: #1a6b63;
+        }
+        .assinatura-status.pendente {
+            background: #fef3e6;
+            color: #b5792a;
+        }
+        .assinatura-status i {
+            font-size: 1rem;
+        }
+
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -901,7 +990,6 @@
             font-weight: 600;
         }
 
-        /* Filtros do relatório */
         .filtro-relatorio {
             display: flex;
             flex-wrap: wrap;
@@ -922,9 +1010,9 @@
             font-size: 0.82rem;
         }
 
-        /* Área de impressão (NC individual) e Relatório Gerencial */
         #printArea,
-        #relatorioPrintArea {
+        #relatorioPrintArea,
+        #planoPrintArea {
             display: none;
             position: fixed;
             inset: 0;
@@ -934,7 +1022,6 @@
             font-family: 'Inter', sans-serif;
         }
 
-        /* ========== ESTILOS GLOBAIS PARA FOLHA DE IMPRESSÃO (pré-visualização em tela) ========== */
         .print-sheet {
             width: 100%;
             min-height: 100vh;
@@ -982,6 +1069,16 @@
             background: #e1f0e7;
             color: #2d7a4f;
             border: 2px solid #2d7a4f;
+        }
+        .badge-print-concluido {
+            background: #e1f0e7;
+            color: #2d7a4f;
+            border: 2px solid #2d7a4f;
+        }
+        .badge-print-pendente {
+            background: #fef3e6;
+            color: #b5792a;
+            border: 2px solid #b5792a;
         }
         .print-grid {
             display: grid;
@@ -1063,14 +1160,48 @@
             border-top: 1px solid #ddd;
         }
 
-        /* ========== AJUSTES EXCLUSIVOS PARA IMPRESSÃO (OCUPAR FOLHA INTEIRA - UMA PÁGINA) ========== */
+        .print-pessoas-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 12px;
+        }
+        .print-pessoas-table th {
+            background: #f0f4f1;
+            padding: 8px 10px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            border: 1px solid #dce5e1;
+        }
+        .print-pessoas-table td {
+            padding: 8px 10px;
+            border: 1px solid #dce5e1;
+            vertical-align: top;
+        }
+        .print-pessoas-table .assinatura-linha {
+            height: 50px;
+            text-align: center;
+            font-style: italic;
+            color: #888;
+            font-size: 10px;
+        }
+        .print-pessoas-table .assinatura-linha.assinado-print {
+            color: #1a6b63;
+            font-weight: 700;
+            font-style: normal;
+            font-size: 11px;
+        }
+
         @media print {
             @page {
                 size: A4;
                 margin: 2mm;
             }
-
-            html, body {
+            html,
+            body {
                 width: 100%;
                 height: 100%;
                 margin: 0;
@@ -1081,14 +1212,12 @@
                 line-height: 1.5;
                 background: #fff !important;
             }
-
-            /* Esconde tudo fora da área de impressão */
-            body > *:not(#printArea):not(#relatorioPrintArea) {
+            body>*:not(#printArea):not(#relatorioPrintArea):not(#planoPrintArea) {
                 display: none !important;
             }
-
             #printArea,
-            #relatorioPrintArea {
+            #relatorioPrintArea,
+            #planoPrintArea {
                 display: block !important;
                 position: static !important;
                 width: 100% !important;
@@ -1102,108 +1231,101 @@
                 border-radius: 0 !important;
                 page-break-after: avoid;
             }
-
             #printArea .no-print,
-            #relatorioPrintArea .no-print {
+            #relatorioPrintArea .no-print,
+            #planoPrintArea .no-print {
                 display: none !important;
             }
-
-            /* Ajustes finos para compactar o conteúdo em uma folha */
             #relatorioPrintArea .print-sheet,
-            #printArea .print-sheet {
+            #printArea .print-sheet,
+            #planoPrintArea .print-sheet {
                 padding: 3mm 5mm !important;
                 min-height: 0 !important;
                 width: 100% !important;
                 font-size: 10px !important;
                 line-height: 1.2 !important;
             }
-
             #relatorioPrintArea .print-header,
-            #printArea .print-header {
+            #printArea .print-header,
+            #planoPrintArea .print-header {
                 padding-bottom: 4px !important;
                 margin-bottom: 6px !important;
                 border-bottom-width: 2px !important;
             }
-
             #relatorioPrintArea .print-header h2,
-            #printArea .print-header h2 {
+            #printArea .print-header h2,
+            #planoPrintArea .print-header h2 {
                 font-size: 15px !important;
                 letter-spacing: -0.02em !important;
             }
-
             #relatorioPrintArea .print-header p,
-            #printArea .print-header p {
+            #printArea .print-header p,
+            #planoPrintArea .print-header p {
                 font-size: 9px !important;
                 margin: 1px 0 0 !important;
             }
-
             #relatorioPrintArea .print-badge,
-            #printArea .print-badge {
+            #printArea .print-badge,
+            #planoPrintArea .print-badge {
                 font-size: 10px !important;
                 padding: 2px 8px !important;
             }
-
             #relatorioPrintArea .print-grid,
-            #printArea .print-grid {
+            #printArea .print-grid,
+            #planoPrintArea .print-grid {
                 gap: 2px 10px !important;
                 margin-bottom: 6px !important;
             }
-
             #relatorioPrintArea .print-field,
-            #printArea .print-field {
+            #printArea .print-field,
+            #planoPrintArea .print-field {
                 padding: 2px 0 !important;
             }
-
             #relatorioPrintArea .print-label,
-            #printArea .print-label {
+            #printArea .print-label,
+            #planoPrintArea .print-label {
                 font-size: 7px !important;
                 margin-bottom: 1px !important;
             }
-
             #relatorioPrintArea .print-value,
-            #printArea .print-value {
+            #printArea .print-value,
+            #planoPrintArea .print-value {
                 font-size: 11px !important;
                 font-weight: 700 !important;
             }
-
             #relatorioPrintArea .print-value.highlight,
-            #printArea .print-value.highlight {
+            #printArea .print-value.highlight,
+            #planoPrintArea .print-value.highlight {
                 font-size: 13px !important;
                 font-weight: 800 !important;
             }
-
             #relatorioPrintArea .print-fotos-section,
             #printArea .print-fotos-section {
                 margin-top: 6px !important;
                 padding-top: 4px !important;
                 border-top-width: 1px !important;
             }
-
             #relatorioPrintArea .print-fotos-section h3,
             #printArea .print-fotos-section h3 {
                 font-size: 10px !important;
                 margin-bottom: 4px !important;
             }
-
             #relatorioPrintArea .print-fotos-grid,
             #printArea .print-fotos-grid {
                 gap: 4px !important;
             }
-
             #relatorioPrintArea .print-fotos-grid img,
             #printArea .print-fotos-grid img {
                 width: 60px !important;
                 height: 60px !important;
                 border-radius: 4px !important;
             }
-
             #relatorioPrintArea .print-qr-section,
             #printArea .print-qr-section {
                 margin-top: 6px !important;
                 padding: 6px !important;
                 gap: 10px !important;
             }
-
             #relatorioPrintArea .print-qr-section .qr-print img,
             #printArea .print-qr-section .qr-print img,
             #relatorioPrintArea .print-qr-section .qr-print canvas,
@@ -1211,46 +1333,56 @@
                 width: 60px !important;
                 height: 60px !important;
             }
-
             #relatorioPrintArea .print-qr-section .qr-info strong,
             #printArea .print-qr-section .qr-info strong {
                 font-size: 11px !important;
             }
-
             #relatorioPrintArea .print-qr-section .qr-info p,
             #printArea .print-qr-section .qr-info p {
                 font-size: 9px !important;
                 margin: 1px 0 !important;
             }
-
             #relatorioPrintArea .print-footer,
-            #printArea .print-footer {
+            #printArea .print-footer,
+            #planoPrintArea .print-footer {
                 font-size: 7px !important;
                 padding-top: 4px !important;
                 margin-top: 6px !important;
             }
-
-            /* Evita quebras dentro de elementos importantes */
             #relatorioPrintArea .print-header,
             #printArea .print-header,
+            #planoPrintArea .print-header,
             #relatorioPrintArea .print-grid,
             #printArea .print-grid,
+            #planoPrintArea .print-grid,
             #relatorioPrintArea .print-qr-section,
             #printArea .print-qr-section,
             #relatorioPrintArea .print-fotos-section,
             #printArea .print-fotos-section {
                 page-break-inside: avoid !important;
             }
-
-            /* Garante que imagens não estourem */
             #relatorioPrintArea img,
-            #printArea img {
+            #printArea img,
+            #planoPrintArea img {
                 max-width: 100% !important;
                 height: auto !important;
             }
+            #planoPrintArea .print-pessoas-table {
+                font-size: 8px !important;
+            }
+            #planoPrintArea .print-pessoas-table th {
+                font-size: 7px !important;
+                padding: 4px 5px !important;
+            }
+            #planoPrintArea .print-pessoas-table td {
+                padding: 4px 5px !important;
+            }
+            #planoPrintArea .print-pessoas-table .assinatura-linha {
+                height: 30px !important;
+                font-size: 7px !important;
+            }
         }
 
-        /* Toast */
         .toast-container {
             position: fixed;
             top: 20px;
@@ -1271,14 +1403,25 @@
             max-width: 400px;
         }
         @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
-        .toast.success { background: #2d7a4f; }
-        .toast.error { background: #b53b3b; }
-        .toast.info { background: #386e8c; }
+        .toast.success {
+            background: #2d7a4f;
+        }
+        .toast.error {
+            background: #b53b3b;
+        }
+        .toast.info {
+            background: #386e8c;
+        }
 
-        /* Timer */
         .live-timer {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
@@ -1297,11 +1440,15 @@
             animation: pulse 1.5s infinite;
         }
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
         }
 
-        /* Mobile */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -1331,6 +1478,20 @@
             font-size: 1.2rem;
             cursor: pointer;
             box-shadow: var(--shadow);
+        }
+
+        .highlight-box {
+            background: #fefdf6;
+            border: 2px solid #e8d58b;
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin: 12px 0;
+            font-size: 0.85rem;
+            color: #6b5a1e;
+        }
+        .highlight-box i {
+            color: #c8963e;
+            margin-right: 6px;
         }
     </style>
 </head>
@@ -1383,6 +1544,7 @@
                 <button class="nav-item active" data-page="dashboard" onclick="navegar('dashboard', this)"><i class="fas fa-chart-pie"></i> Dashboard</button>
                 <button class="nav-item" data-page="lista" onclick="navegar('lista', this)"><i class="fas fa-clipboard-list"></i> Não Conformidades</button>
                 <button class="nav-item" data-page="nova" onclick="prepararFormNova(); navegar('nova', this);"><i class="fas fa-plus-circle"></i> Nova NC</button>
+                <button class="nav-item" data-page="planos" id="navPlanos" onclick="navegar('planos', this)"><i class="fas fa-tasks"></i> Planos de Ação</button>
                 <button class="nav-item" data-page="relatorio" id="navRelatorios" style="display:none;" onclick="navegar('relatorio', this)"><i class="fas fa-file-alt"></i> Relatórios</button>
                 <button class="nav-item" data-page="usuarios" id="navUsuarios" onclick="navegar('usuarios', this)" style="display:none;"><i class="fas fa-users-cog"></i> Usuários</button>
             </nav>
@@ -1483,6 +1645,55 @@
                 </div>
             </div>
 
+            <!-- PÁGINA: PLANOS DE AÇÃO -->
+            <div class="page" id="page-planos">
+                <div class="page-header">
+                    <h1><i class="fas fa-tasks"></i> Planos de Ação</h1>
+                    <p class="breadcrumb" id="breadcrumbPlanos">Gestão de planos de ação para NCs abertas</p>
+                </div>
+                <div class="table-card" id="tabelaPlanosCard">
+                    <div class="table-header">
+                        <h3 id="tituloTabelaPlanos">NCs Abertas e Planos de Ação</h3>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table>
+                            <thead><tr><th>NC</th><th>Produto</th><th>Motivo</th><th>Plano de Ação</th><th>Status</th><th>Ações</th></tr></thead>
+                            <tbody id="tbodyPlanos"></tbody>
+                        </table>
+                    </div>
+                    <div class="empty-state" id="emptyPlanos" style="display:none;"><i class="fas fa-tasks"></i><p>Nenhuma NC aberta encontrada.</p></div>
+                </div>
+            </div>
+
+            <!-- PÁGINA: FORMULÁRIO PLANO DE AÇÃO -->
+            <div class="page" id="page-novo-plano">
+                <div class="page-header">
+                    <h1 id="tituloFormPlano"><i class="fas fa-tasks"></i> Plano de Ação</h1>
+                    <p class="breadcrumb" id="subtituloFormPlano">Criar novo plano de ação</p>
+                </div>
+                <div class="form-card" style="max-width:900px;">
+                    <input type="hidden" id="editPlanoId" value="">
+                    <input type="hidden" id="planoNcId" value="">
+                    <div class="form-group">
+                        <label><i class="fas fa-hashtag"></i> NC Referente</label>
+                        <input type="text" id="planoNcInfo" disabled style="background:#f0f4f1;font-weight:600;">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-file-alt"></i> Resumo da Reunião / Pauta *</label>
+                        <textarea id="planoResumo" placeholder="Descreva o resumo da reunião, pauta discutida e encaminhamentos..." style="min-height:120px;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-users"></i> Pessoas Envolvidas</label>
+                        <div id="containerPessoas"></div>
+                        <button class="btn btn-outline" onclick="adicionarPessoa()" style="margin-top:8px;"><i class="fas fa-user-plus"></i> Adicionar Pessoa</button>
+                    </div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
+                        <button class="btn btn-primary" onclick="salvarPlanoAcao()"><i class="fas fa-save"></i> Salvar Plano de Ação</button>
+                        <button class="btn btn-outline" onclick="cancelarPlano()"><i class="fas fa-arrow-left"></i> Voltar</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- PÁGINA: RELATÓRIO GERENCIAL (APENAS ADMIN) -->
             <div class="page" id="page-relatorio">
                 <div class="page-header">
@@ -1549,6 +1760,11 @@
         <div class="print-sheet" id="relatorioConteudo"></div>
     </div>
 
+    <!-- ==================== ÁREA DE IMPRESSÃO PLANO DE AÇÃO ==================== -->
+    <div id="planoPrintArea">
+        <div class="print-sheet" id="planoPrintConteudo"></div>
+    </div>
+
     <!-- ==================== MODAIS ==================== -->
     <div id="modalFoto" class="modal-overlay" style="display:none;" onclick="fecharModalFoto()">
         <div class="modal" style="text-align:center;background:transparent;box-shadow:none;max-width:90vw;" onclick="event.stopPropagation()">
@@ -1571,6 +1787,14 @@
             <p style="font-size:0.82rem;color:#5b6b64;margin-bottom:12px;">Escaneie para visualizar os detalhes (somente leitura)</p>
             <div id="qrCodeContainer" style="display:inline-block;padding:16px;background:#fff;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);"></div>
             <p style="font-size:0.7rem;color:#8b9a94;margin-top:10px;">Este QR Code dá acesso somente à visualização, sem permissão para alterações.</p>
+        </div>
+    </div>
+
+    <!-- Modal Visualizar Plano de Ação -->
+    <div id="modalVerPlano" class="modal-overlay" style="display:none;" onclick="fecharModalVerPlano()">
+        <div class="modal" style="max-width:850px;" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="fecharModalVerPlano()"><i class="fas fa-times"></i></button>
+            <div id="verPlanoInner"></div>
         </div>
     </div>
 
@@ -1601,24 +1825,28 @@
 
         const collNCs = db.collection('ncs');
         const collUsuarios = db.collection('usuarios');
+        const collPlanos = db.collection('planos_acao');
 
         // ==================== VARIÁVEIS GLOBAIS ====================
         let currentUser = null;
         let fotosNovas = [];
         let fotosExistentes = [];
         let liveTimers = {};
+        let pessoasPlano = [];
         window._lastNcs = [];
         window._chartRelatorioMotivos = null;
         window._chartRelatorioStatus = null;
-        window._chartRelatorioCaixasMotivo = null; // NOVO: gráfico de caixas por motivo
+        window._chartRelatorioCaixasMotivo = null;
 
         // ==================== FUNÇÕES AUXILIARES ====================
         function formatarQuantidade(nc) {
             const partes = [];
             if (nc.quantidadeCaixas != null && nc.quantidadeCaixas > 0) partes.push(`${nc.quantidadeCaixas} cx`);
             if (nc.quantidadeItens != null && nc.quantidadeItens > 0) partes.push(`${nc.quantidadeItens} it`);
-            if (nc.quantidadeRetrabalhadas != null && nc.quantidadeRetrabalhadas > 0) partes.push(`${nc.quantidadeRetrabalhadas} ret`);
-            if (nc.quantidadeDescartada != null && nc.quantidadeDescartada > 0) partes.push(`${nc.quantidadeDescartada} desc`);
+            if (nc.quantidadeRetrabalhadas != null && nc.quantidadeRetrabalhadas > 0) partes.push(
+                `${nc.quantidadeRetrabalhadas} ret`);
+            if (nc.quantidadeDescartada != null && nc.quantidadeDescartada > 0) partes.push(
+            `${nc.quantidadeDescartada} desc`);
             if (partes.length === 0 && nc.quantidade != null) partes.push(`${nc.quantidade} (legado)`);
             return partes.length > 0 ? partes.join(' / ') : '-';
         }
@@ -1627,6 +1855,16 @@
             const div = document.createElement('div');
             div.textContent = str || '';
             return div.innerHTML;
+        }
+
+        function formatarDataISO(isoStr) {
+            if (!isoStr) return '-';
+            return new Date(isoStr).toLocaleString('pt-BR');
+        }
+
+        function formatarDataISOcurta(isoStr) {
+            if (!isoStr) return '-';
+            return new Date(isoStr).toLocaleDateString('pt-BR');
         }
 
         // ==================== FUNÇÕES DO FIREBASE ====================
@@ -1652,6 +1890,11 @@
 
         async function excluirNCFirestore(id) {
             await collNCs.doc(id).delete();
+        }
+
+        async function getPlanosAcao() {
+            const snapshot = await collPlanos.orderBy('dataCriacao', 'desc').get();
+            return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         }
 
         // ==================== INICIALIZAÇÃO ====================
@@ -1719,7 +1962,8 @@
                         const el = document.getElementById('liveTimerVisitante');
                         if (el) {
                             if (liveTimers['visitante']) clearInterval(liveTimers['visitante']);
-                            const atualizar = () => { const t = calcularTempoDetalhado(nc); el.textContent = t.texto; };
+                            const atualizar = () => { const t = calcularTempoDetalhado(nc);
+                                el.textContent = t.texto; };
                             atualizar();
                             liveTimers['visitante'] = setInterval(atualizar, 1000);
                         }
@@ -1733,7 +1977,8 @@
 
         function fecharModoVisitante() {
             document.getElementById('visitanteContainer').classList.remove('visible');
-            if (liveTimers['visitante']) { clearInterval(liveTimers['visitante']); delete liveTimers['visitante']; }
+            if (liveTimers['visitante']) { clearInterval(liveTimers['visitante']);
+                delete liveTimers['visitante']; }
             window.location.href = window.location.href.split('?')[0];
         }
 
@@ -1760,8 +2005,10 @@
             }
         }
 
-        document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') fazerLogin(); });
-        document.getElementById('loginUser').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('loginPass').focus(); });
+        document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') fazerLogin
+            (); });
+        document.getElementById('loginUser').addEventListener('keydown', e => { if (e.key === 'Enter') document
+                .getElementById('loginPass').focus(); });
 
         function logout() {
             Object.values(liveTimers).forEach(clearInterval);
@@ -1775,17 +2022,21 @@
             document.getElementById('loginError').textContent = '';
             fotosNovas = [];
             fotosExistentes = [];
+            pessoasPlano = [];
             document.getElementById('photoPreviewContainer').innerHTML = '';
             document.getElementById('existingPhotosContainer').innerHTML = '';
             document.getElementById('editNcId').value = '';
+            document.getElementById('editPlanoId').value = '';
         }
 
         function atualizarUIUsuario() {
             if (!currentUser) return;
             document.getElementById('userDisplay').textContent = currentUser.username;
             document.getElementById('userAvatar').textContent = currentUser.username.charAt(0).toUpperCase();
-            document.getElementById('navUsuarios').style.display = currentUser.role === 'admin' ? 'flex' : 'none';
-            document.getElementById('navRelatorios').style.display = currentUser.role === 'admin' ? 'flex' : 'none';
+            const isAdmin = currentUser.role === 'admin';
+            document.getElementById('navUsuarios').style.display = isAdmin ? 'flex' : 'none';
+            document.getElementById('navRelatorios').style.display = isAdmin ? 'flex' : 'none';
+            document.getElementById('navPlanos').style.display = 'flex';
         }
 
         // ==================== NAVEGAÇÃO ====================
@@ -1797,7 +2048,9 @@
             if (btn) btn.classList.add('active');
 
             if (page === 'dashboard') await renderDashboard();
-            if (page === 'lista') { await renderListaNCs(); ativarCronometrosLista(); }
+            if (page === 'lista') { await renderListaNCs();
+                ativarCronometrosLista(); }
+            if (page === 'planos') await renderPlanosAcao();
             if (page === 'relatorio') {
                 if (currentUser.role !== 'admin') {
                     mostrarToast('Apenas administradores podem acessar relatórios!', 'error');
@@ -1820,7 +2073,8 @@
             toast.className = 'toast ' + tipo;
             toast.textContent = msg;
             container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; }, 2800);
+            setTimeout(() => { toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s'; }, 2800);
             setTimeout(() => toast.remove(), 3200);
         }
 
@@ -1856,7 +2110,9 @@
                 if (nc.status === 'aberto') {
                     const el = document.getElementById('timer-' + nc.id);
                     if (el) {
-                        const atualizar = () => { const t = calcularTempoDetalhado(nc); el.innerHTML = `<span class="live-timer"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
+                        const atualizar = () => { const t = calcularTempoDetalhado(nc);
+                            el.innerHTML =
+                                `<span class="live-timer"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
                         atualizar();
                         liveTimers[nc.id] = setInterval(atualizar, 1000);
                     }
@@ -1870,7 +2126,9 @@
             const el = document.getElementById('liveTimerDetalhe');
             if (!el) return;
             if (liveTimers['detalhe']) clearInterval(liveTimers['detalhe']);
-            const atualizar = () => { const t = calcularTempoDetalhado(nc); el.innerHTML = `<span class="live-timer" style="font-size:0.9rem;"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
+            const atualizar = () => { const t = calcularTempoDetalhado(nc);
+                el.innerHTML =
+                    `<span class="live-timer" style="font-size:0.9rem;"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
             atualizar();
             liveTimers['detalhe'] = setInterval(atualizar, 1000);
         }
@@ -1881,38 +2139,56 @@
             const abertas = ncs.filter(n => n.status === 'aberto');
             const resolvidas = ncs.filter(n => n.status === 'resolvido');
             const total = ncs.length;
-            const diasMedio = abertas.length ? Math.round(abertas.reduce((s, n) => s + calcularDias(n), 0) / abertas.length) : 0;
+            const diasMedio = abertas.length ? Math.round(abertas.reduce((s, n) => s + calcularDias(n), 0) / abertas
+                .length) : 0;
+            const planos = await getPlanosAcao();
+            const planosPendentes = planos.filter(p => p.status === 'aberto').length;
+            const planosConcluidos = planos.filter(p => p.status === 'concluido').length;
 
             document.getElementById('statsGrid').innerHTML = `
                 <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-clipboard-list"></i></div><div class="stat-info"><h3>${total}</h3><span>Total de NCs</span></div></div>
                 <div class="stat-card"><div class="stat-icon red"><i class="fas fa-exclamation-circle"></i></div><div class="stat-info"><h3>${abertas.length}</h3><span>NCs Abertas</span></div></div>
                 <div class="stat-card"><div class="stat-icon green"><i class="fas fa-check-circle"></i></div><div class="stat-info"><h3>${resolvidas.length}</h3><span>NCs Resolvidas</span></div></div>
                 <div class="stat-card"><div class="stat-icon orange"><i class="fas fa-clock"></i></div><div class="stat-info"><h3>${diasMedio}</h3><span>Média de Dias Abertos</span></div></div>
+                <div class="stat-card"><div class="stat-icon teal"><i class="fas fa-tasks"></i></div><div class="stat-info"><h3>${planosPendentes}</h3><span>Planos Pendentes</span></div></div>
+                <div class="stat-card"><div class="stat-icon purple"><i class="fas fa-clipboard-check"></i></div><div class="stat-info"><h3>${planosConcluidos}</h3><span>Planos Concluídos</span></div></div>
             `;
 
             const motivosMap = {};
-            ncs.forEach(n => { const curto = (n.motivo || 'Sem motivo').substring(0, 50); motivosMap[curto] = (motivosMap[curto] || 0) + 1; });
+            ncs.forEach(n => { const curto = (n.motivo || 'Sem motivo').substring(0, 50);
+                motivosMap[curto] = (motivosMap[curto] || 0) + 1; });
             const motivosLabels = Object.keys(motivosMap);
             const motivosData = Object.values(motivosMap);
-            const coresMotivos = ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a', '#2d7a4f', '#5b3a6e', '#2f5f78', '#a65d3d'];
+            const coresMotivos = ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a', '#2d7a4f',
+                '#5b3a6e', '#2f5f78', '#a65d3d'
+            ];
 
             if (window._chartMotivos) window._chartMotivos.destroy();
             const ctx1 = document.getElementById('chartMotivos');
             if (ctx1 && motivosLabels.length > 0) {
                 window._chartMotivos = new Chart(ctx1, {
                     type: 'doughnut',
-                    data: { labels: motivosLabels, datasets: [{ data: motivosData, backgroundColor: coresMotivos.slice(0, motivosLabels.length), borderWidth: 2, borderColor: '#fff' }] },
-                    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 14, usePointStyle: true, font: { size: 11 } } } } }
+                    data: { labels: motivosLabels, datasets: [{ data: motivosData,
+                            backgroundColor: coresMotivos.slice(0, motivosLabels.length), borderWidth: 2,
+                            borderColor: '#fff' }] },
+                    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 14,
+                                usePointStyle: true, font: { size: 11 } } } } }
                 });
-            } else if (ctx1) ctx1.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhum motivo registrado</p>';
+            } else if (ctx1) ctx1.parentNode.innerHTML =
+                '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhum motivo registrado</p>';
 
             if (window._chartStatus) window._chartStatus.destroy();
             const ctx2 = document.getElementById('chartStatus');
             if (ctx2) {
                 window._chartStatus = new Chart(ctx2, {
                     type: 'bar',
-                    data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ label: 'Quantidade', data: [abertas.length, resolvidas.length], backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8, borderWidth: 0, barThickness: 50 }] },
-                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                    data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ label: 'Quantidade', data: [abertas
+                                .length, resolvidas.length
+                            ], backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8,
+                            borderWidth: 0, barThickness: 50
+                        }] },
+                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true,
+                                ticks: { stepSize: 1 } } } }
                 });
             }
 
@@ -1922,10 +2198,15 @@
             if (ctx3 && topAbertas.length > 0) {
                 window._chartDias = new Chart(ctx3, {
                     type: 'bar',
-                    data: { labels: topAbertas.map(n => `NC #${n.id} - ${(n.produto || 'N/A').substring(0, 12)}`), datasets: [{ label: 'Dias em Aberto', data: topAbertas.map(n => calcularDias(n)), backgroundColor: '#c8963e', borderRadius: 6, borderWidth: 0 }] },
-                    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, title: { display: true, text: 'Dias' }, ticks: { stepSize: 1 } } } }
+                    data: { labels: topAbertas.map(n => `NC #${n.id} - ${(n.produto || 'N/A').substring(0, 12)}`),
+                        datasets: [{ label: 'Dias em Aberto', data: topAbertas.map(n => calcularDias(n)),
+                            backgroundColor: '#c8963e', borderRadius: 6, borderWidth: 0 }] },
+                    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } },
+                        scales: { x: { beginAtZero: true, title: { display: true, text: 'Dias' },
+                                ticks: { stepSize: 1 } } } }
                 });
-            } else if (ctx3) ctx3.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhuma NC em aberto</p>';
+            } else if (ctx3) ctx3.parentNode.innerHTML =
+                '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhuma NC em aberto</p>';
         }
 
         // ==================== LISTA DE NCs ====================
@@ -1939,20 +2220,24 @@
             const selectPalete = document.getElementById('filtroPalete');
             if (selectPalete) {
                 const currentVal = selectPalete.value;
-                selectPalete.innerHTML = '<option value="todos">Todos os Paletes</option>' + paletesUnicos.map(p => `<option value="${p}">${p}</option>`).join('');
+                selectPalete.innerHTML = '<option value="todos">Todos os Paletes</option>' + paletesUnicos.map(p =>
+                    `<option value="${p}">${p}</option>`).join('');
                 selectPalete.value = paletesUnicos.includes(currentVal) ? currentVal : 'todos';
             }
 
             let filtradas = ncs;
             if (filtroStatus !== 'todos') filtradas = filtradas.filter(n => n.status === filtroStatus);
             if (filtroPalete !== 'todos') filtradas = filtradas.filter(n => n.palete === filtroPalete);
-            if (filtroBusca) filtradas = filtradas.filter(n => (n.produto || '').toLowerCase().includes(filtroBusca) || (n.motivo || '').toLowerCase().includes(filtroBusca) || (n.palete || '').toLowerCase().includes(filtroBusca) || String(n.id).includes(filtroBusca));
+            if (filtroBusca) filtradas = filtradas.filter(n => (n.produto || '').toLowerCase().includes(filtroBusca) || (
+                n.motivo || '').toLowerCase().includes(filtroBusca) || (n.palete || '').toLowerCase().includes(
+                filtroBusca) || String(n.id).includes(filtroBusca));
 
             const tbody = document.getElementById('tbodyNCs');
             const empty = document.getElementById('emptyLista');
             const isAdmin = currentUser && currentUser.role === 'admin';
 
-            if (filtradas.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; } else {
+            if (filtradas.length === 0) { tbody.innerHTML = '';
+                empty.style.display = 'block'; } else {
                 empty.style.display = 'none';
                 tbody.innerHTML = filtradas.map(nc => {
                     const tempoHtml = nc.status === 'aberto' ?
@@ -1988,7 +2273,8 @@
                 mostrarToast('NC não encontrada para gerar alerta!', 'error');
                 return;
             }
-            const tempo = nc.status === 'aberto' ? calcularTempoDetalhado(nc).texto : `${calcularDias(nc)}d (fechado)`;
+            const tempo = nc.status === 'aberto' ? calcularTempoDetalhado(nc).texto :
+                `${calcularDias(nc)}d (fechado)`;
             const dataAbertura = new Date(nc.dataAbertura).toLocaleString('pt-BR');
             const qtdCaixas = nc.quantidadeCaixas ?? (nc.quantidade || 0);
             const qtdItens = nc.quantidadeItens ?? 0;
@@ -2019,7 +2305,8 @@
             mensagem += `━━━━━━━━━━━━━━━━━━━━\n`;
             mensagem += `🔄 *STATUS: RETRABALHO NECESSÁRIO*\n`;
             mensagem += `━━━━━━━━━━━━━━━━━━━━\n`;
-            mensagem += `📎 *Acesse os detalhes:* ${window.location.href.split('?')[0]}?view=readonly&id=${nc.id}`;
+            mensagem +=
+                `📎 *Acesse os detalhes:* ${window.location.href.split('?')[0]}?view=readonly&id=${nc.id}`;
 
             const textoEncoded = encodeURIComponent(mensagem);
             const isMobile = /Android|iPhone|iPad|iPod|webOS/i.test(navigator.userAgent);
@@ -2038,7 +2325,9 @@
             document.getElementById('editNcId').value = '';
             document.getElementById('tituloFormNC').innerHTML = '<i class="fas fa-plus-circle"></i> Nova Não Conformidade';
             document.getElementById('subtituloFormNC').textContent = 'Preencha os dados abaixo';
-            ['ncProduto', 'ncPalete', 'ncMotivo', 'ncQtdCaixas', 'ncQtdItens', 'ncQtdRetrabalhadas', 'ncQtdDescartada', 'ncAcao', 'ncIdManual'].forEach(id => {
+            ['ncProduto', 'ncPalete', 'ncMotivo', 'ncQtdCaixas', 'ncQtdItens', 'ncQtdRetrabalhadas',
+                'ncQtdDescartada', 'ncAcao', 'ncIdManual'
+            ].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
                     if (id === 'ncQtdRetrabalhadas' || id === 'ncQtdDescartada') {
@@ -2063,7 +2352,9 @@
             const files = document.getElementById('inputFotos').files;
             const totalAtual = fotosNovas.length + fotosExistentes.length;
             const vagas = 5 - totalAtual;
-            if (files.length > vagas) { mostrarToast(`Máximo de 5 fotos. Você ainda pode adicionar ${vagas}.`, 'error'); document.getElementById('inputFotos').value = ''; return; }
+            if (files.length > vagas) { mostrarToast(
+                    `Máximo de 5 fotos. Você ainda pode adicionar ${vagas}.`, 'error');
+                document.getElementById('inputFotos').value = ''; return; }
             Array.from(files).forEach(file => {
                 if (fotosNovas.length + fotosExistentes.length >= 5) return;
                 const reader = new FileReader();
@@ -2072,8 +2363,10 @@
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
                         const maxW = 600;
-                        let w = img.width, h = img.height;
-                        if (w > maxW) { h = h * (maxW / w); w = maxW; }
+                        let w = img.width,
+                            h = img.height;
+                        if (w > maxW) { h = h * (maxW / w);
+                            w = maxW; }
                         canvas.width = w;
                         canvas.height = h;
                         const ctx = canvas.getContext('2d');
@@ -2096,9 +2389,11 @@
             ).join('');
         }
 
-        function removerFotoNova(index) { fotosNovas.splice(index, 1); atualizarPreviews(); }
+        function removerFotoNova(index) { fotosNovas.splice(index, 1);
+            atualizarPreviews(); }
 
-        function removerFotoExistente(index) { fotosExistentes.splice(index, 1); renderFotosExistentes(); }
+        function removerFotoExistente(index) { fotosExistentes.splice(index, 1);
+            renderFotosExistentes(); }
 
         function renderFotosExistentes() {
             document.getElementById('existingPhotosContainer').innerHTML = fotosExistentes.map((b64, i) =>
@@ -2135,19 +2430,28 @@
                 if (!doc.exists) { mostrarToast('NC não encontrada!', 'error'); return; }
                 const ncAntiga = doc.data();
                 const alteracoes = [];
-                if (ncAntiga.produto !== produto) alteracoes.push(`Produto: "${ncAntiga.produto}" → "${produto}"`);
+                if (ncAntiga.produto !== produto) alteracoes.push(
+                    `Produto: "${ncAntiga.produto}" → "${produto}"`);
                 if (ncAntiga.palete !== palete) alteracoes.push(`Palete: "${ncAntiga.palete}" → "${palete}"`);
                 if (ncAntiga.motivo !== motivo) alteracoes.push('Motivo alterado');
-                if ((ncAntiga.quantidadeCaixas || 0) !== qtdCaixas) alteracoes.push(`Qtd. Caixas: ${ncAntiga.quantidadeCaixas || 0} → ${qtdCaixas}`);
-                if ((ncAntiga.quantidadeItens || 0) !== qtdItens) alteracoes.push(`Qtd. Itens: ${ncAntiga.quantidadeItens || 0} → ${qtdItens}`);
-                if ((ncAntiga.quantidadeRetrabalhadas || 0) !== qtdRetrabalhadas) alteracoes.push(`Qtd. Retrabalhadas: ${ncAntiga.quantidadeRetrabalhadas || 0} → ${qtdRetrabalhadas}`);
-                if ((ncAntiga.quantidadeDescartada || 0) !== qtdDescartada) alteracoes.push(`Qtd. Descartada: ${ncAntiga.quantidadeDescartada || 0} → ${qtdDescartada}`);
+                if ((ncAntiga.quantidadeCaixas || 0) !== qtdCaixas) alteracoes.push(
+                    `Qtd. Caixas: ${ncAntiga.quantidadeCaixas || 0} → ${qtdCaixas}`);
+                if ((ncAntiga.quantidadeItens || 0) !== qtdItens) alteracoes.push(
+                    `Qtd. Itens: ${ncAntiga.quantidadeItens || 0} → ${qtdItens}`);
+                if ((ncAntiga.quantidadeRetrabalhadas || 0) !== qtdRetrabalhadas) alteracoes.push(
+                    `Qtd. Retrabalhadas: ${ncAntiga.quantidadeRetrabalhadas || 0} → ${qtdRetrabalhadas}`);
+                if ((ncAntiga.quantidadeDescartada || 0) !== qtdDescartada) alteracoes.push(
+                    `Qtd. Descartada: ${ncAntiga.quantidadeDescartada || 0} → ${qtdDescartada}`);
                 if (ncAntiga.acao !== acao) alteracoes.push('Ação alterada');
-                if (JSON.stringify((ncAntiga.fotos || []).sort()) !== JSON.stringify(todasFotos.sort())) alteracoes.push('Fotos atualizadas');
+                if (JSON.stringify((ncAntiga.fotos || []).sort()) !== JSON.stringify(todasFotos.sort()))
+                    alteracoes.push('Fotos atualizadas');
                 if (alteracoes.length > 0) {
                     const historico = ncAntiga.historico || [];
-                    historico.push({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'editou', detalhes: alteracoes.join('; ') });
-                    await docRef.update({ produto, palete, motivo, quantidadeCaixas: qtdCaixas, quantidadeItens: qtdItens, quantidadeRetrabalhadas: qtdRetrabalhadas, quantidadeDescartada: qtdDescartada, acao, fotos: todasFotos, historico });
+                    historico.push({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'editou',
+                        detalhes: alteracoes.join('; ') });
+                    await docRef.update({ produto, palete, motivo, quantidadeCaixas: qtdCaixas, quantidadeItens: qtdItens,
+                        quantidadeRetrabalhadas: qtdRetrabalhadas, quantidadeDescartada: qtdDescartada,
+                        acao, fotos: todasFotos, historico });
                 }
                 mostrarToast('NC #' + editId + ' atualizada!', 'success');
             } else {
@@ -2178,7 +2482,8 @@
                     dataAbertura: new Date().toISOString(),
                     dataResolucao: null,
                     criadoPor: currentUser.username,
-                    historico: [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou', detalhes: 'Não conformidade aberta' }]
+                    historico: [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou',
+                        detalhes: 'Não conformidade aberta' }]
                 };
                 await collNCs.doc(String(idManual)).set(novaNc);
                 mostrarToast('NC #' + idManual + ' criada!', 'success');
@@ -2197,7 +2502,8 @@
             if (!doc.exists) { mostrarToast('NC não encontrada!', 'error'); return; }
             const nc = doc.data();
             document.getElementById('editNcId').value = id;
-            document.getElementById('tituloFormNC').innerHTML = '<i class="fas fa-edit"></i> Editar Não Conformidade #' + id;
+            document.getElementById('tituloFormNC').innerHTML = '<i class="fas fa-edit"></i> Editar Não Conformidade #' +
+                id;
             document.getElementById('subtituloFormNC').textContent = 'Editando registro existente';
             document.getElementById('ncProduto').value = nc.produto || '';
             document.getElementById('ncPalete').value = nc.palete || '';
@@ -2221,7 +2527,8 @@
             navegar('nova', document.querySelector('[data-page="nova"]'));
         }
 
-        function cancelarEdicao() { prepararFormNova(); navegar('lista', document.querySelector('[data-page="lista"]')); }
+        function cancelarEdicao() { prepararFormNova();
+            navegar('lista', document.querySelector('[data-page="lista"]')); }
 
         async function excluirNC(id) {
             if (currentUser.role !== 'admin') { mostrarToast('Apenas administradores podem excluir!', 'error'); return; }
@@ -2233,14 +2540,18 @@
         }
 
         async function resolverNC(id) {
-            await collNCs.doc(id).update({ status: 'resolvido', dataResolucao: new Date().toISOString(), historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'resolveu', detalhes: 'NC marcada como resolvida' }) });
+            await collNCs.doc(id).update({ status: 'resolvido', dataResolucao: new Date().toISOString(), historico: firebase
+                    .firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username,
+                        acao: 'resolveu', detalhes: 'NC marcada como resolvida' }) });
             await renderListaNCs();
             await renderDashboard();
             mostrarToast('NC #' + id + ' resolvida!', 'success');
         }
 
         async function reabrirNC(id) {
-            await collNCs.doc(id).update({ status: 'aberto', dataResolucao: null, historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'reabriu', detalhes: 'NC reaberta' }) });
+            await collNCs.doc(id).update({ status: 'aberto', dataResolucao: null, historico: firebase.firestore
+                    .FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username,
+                        acao: 'reabriu', detalhes: 'NC reaberta' }) });
             await renderListaNCs();
             await renderDashboard();
             mostrarToast('NC #' + id + ' reaberta.', 'info');
@@ -2251,8 +2562,12 @@
             const doc = await collNCs.doc(id).get();
             if (!doc.exists) return;
             const nc = doc.data();
-            const fotosHtml = (nc.fotos || []).map(f => `<img src="${f}" class="photo-preview" style="width:120px;height:120px;" onclick="abrirModalFoto('${f}')">`).join('');
-            const historicoHtml = (nc.historico || []).map(h => `<div style="padding:8px 0;border-bottom:1px solid #eef2f0;font-size:0.8rem;"><strong>${new Date(h.data).toLocaleString('pt-BR')}</strong> - <span style="color:#386e8c;">${h.usuario}</span> <span style="background:#f0f4f1;padding:2px 8px;border-radius:10px;font-size:0.7rem;">${h.acao}</span><br><span style="color:#5b6b64;">${h.detalhes}</span></div>`).join('');
+            const fotosHtml = (nc.fotos || []).map(f =>
+                `<img src="${f}" class="photo-preview" style="width:120px;height:120px;" onclick="abrirModalFoto('${f}')">`
+                ).join('');
+            const historicoHtml = (nc.historico || []).map(h =>
+                `<div style="padding:8px 0;border-bottom:1px solid #eef2f0;font-size:0.8rem;"><strong>${new Date(h.data).toLocaleString('pt-BR')}</strong> - <span style="color:#386e8c;">${h.usuario}</span> <span style="background:#f0f4f1;padding:2px 8px;border-radius:10px;font-size:0.7rem;">${h.acao}</span><br><span style="color:#5b6b64;">${h.detalhes}</span></div>`
+            ).join('');
             document.getElementById('detalhesInner').innerHTML = `
                 <h2><i class="fas fa-info-circle"></i> Detalhes da NC #${id}</h2>
                 <div style="margin-bottom:16px;">
@@ -2282,10 +2597,13 @@
 
         function fecharModalDetalhes() {
             document.getElementById('modalDetalhes').style.display = 'none';
-            if (liveTimers['detalhe']) { clearInterval(liveTimers['detalhe']); delete liveTimers['detalhe']; }
+            if (liveTimers['detalhe']) { clearInterval(liveTimers['detalhe']);
+                delete liveTimers['detalhe']; }
         }
 
-        function abrirModalFoto(src) { document.getElementById('modalFotoImg').src = src; document.getElementById('modalFoto').style.display = 'flex'; }
+        function abrirModalFoto(src) { document.getElementById('modalFotoImg').src = src;
+            document.getElementById('modalFoto').style.display = 'flex'; }
+
         function fecharModalFoto() { document.getElementById('modalFoto').style.display = 'none'; }
 
         // ==================== QR CODE ====================
@@ -2298,20 +2616,18 @@
             container.innerHTML = '';
             const baseUrl = window.location.href.split('?')[0];
             const qrUrl = baseUrl + '?view=readonly&id=' + id;
-            if (typeof QRCode !== 'undefined') new QRCode(container, { text: qrUrl, width: 200, height: 200, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+            if (typeof QRCode !== 'undefined') new QRCode(container, { text: qrUrl, width: 200, height: 200,
+                colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
             else container.innerHTML = '<p style="color:#b53b3b;">Erro ao carregar QRCode.js</p>';
         }
 
         function fecharModalQR() { document.getElementById('modalQR').style.display = 'none'; }
 
-        // ==================== IMPRESSÃO NC INDIVIDUAL (OCUPA TODA A FOLHA) ====================
+        // ==================== IMPRESSÃO NC INDIVIDUAL ====================
         async function imprimirNC(id) {
             try {
                 const doc = await collNCs.doc(id).get();
-                if (!doc.exists) {
-                    mostrarToast('NC #' + id + ' não encontrada!', 'error');
-                    return;
-                }
+                if (!doc.exists) { mostrarToast('NC #' + id + ' não encontrada!', 'error'); return; }
                 const nc = doc.data();
                 const agora = new Date();
                 const tempo = calcularTempoDetalhado(nc);
@@ -2320,93 +2636,36 @@
                 const statusBadgeClass = nc.status === 'aberto' ? 'badge-print-open' : 'badge-print-resolved';
                 const statusTexto = nc.status === 'aberto' ? 'ABERTO' : 'RESOLVIDO';
                 const fotosHtml = (nc.fotos && nc.fotos.length > 0) ?
-                    `<div class="print-fotos-section"><h3>📸 FOTOS DA NÃO CONFORMIDADE</h3><div class="print-fotos-grid">${nc.fotos.map(f => `<img src="${f}" alt="Foto da NC">`).join('')}</div></div>` : '';
+                    `<div class="print-fotos-section"><h3>📸 FOTOS DA NÃO CONFORMIDADE</h3><div class="print-fotos-grid">${nc.fotos.map(f => `<img src="${f}" alt="Foto da NC">`).join('')}</div></div>` :
+                    '';
                 const printArea = document.getElementById('printArea');
                 printArea.innerHTML = `
                     <div class="print-sheet">
                         <div class="print-header">
-                            <div>
-                                <h2>🏭 DONA RITA EMBALAGENS</h2>
-                                <p style="font-size:14px;color:#555;margin:4px 0 0;">Relatório de Não Conformidade</p>
-                            </div>
-                            <div style="text-align:right;">
-                                <span class="print-badge ${statusBadgeClass}">${statusTexto}</span>
-                                <p style="font-size:13px;color:#555;margin:8px 0 0;">Impresso: ${agora.toLocaleString('pt-BR')}</p>
-                                <p style="font-size:13px;color:#555;margin:2px 0 0;">Por: ${escapeHtml(currentUser.username)}</p>
-                            </div>
+                            <div><h2>🏭 DONA RITA EMBALAGENS</h2><p style="font-size:14px;color:#555;margin:4px 0 0;">Relatório de Não Conformidade</p></div>
+                            <div style="text-align:right;"><span class="print-badge ${statusBadgeClass}">${statusTexto}</span><p style="font-size:13px;color:#555;margin:8px 0 0;">Impresso: ${agora.toLocaleString('pt-BR')}</p><p style="font-size:13px;color:#555;margin:2px 0 0;">Por: ${escapeHtml(currentUser.username)}</p></div>
                         </div>
                         <div class="print-grid">
-                            <div class="print-field">
-                                <span class="print-label">🔢 NÚMERO DA NC</span>
-                                <span class="print-value highlight">#${id}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">📦 PRODUTO</span>
-                                <span class="print-value highlight">${escapeHtml(nc.produto)}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">🏷️ PALETE (PLT)</span>
-                                <span class="print-value highlight">${escapeHtml(nc.palete)}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">⏱️ TEMPO EM ABERTO</span>
-                                <span class="print-value" style="color:#b55a1e;font-size:22px;font-weight:800;">${tempo.texto}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">📦 QTD. CAIXAS</span>
-                                <span class="print-value">${nc.quantidadeCaixas ?? (nc.quantidade || '-')}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">📦 QTD. ITENS</span>
-                                <span class="print-value">${nc.quantidadeItens ?? '-'}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">🔄 QTD. RETRABALHADAS</span>
-                                <span class="print-value">${nc.quantidadeRetrabalhadas || 0}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">🗑️ QTD. DESCARTADA</span>
-                                <span class="print-value">${nc.quantidadeDescartada || 0}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">📅 DATA DE ABERTURA</span>
-                                <span class="print-value">${new Date(nc.dataAbertura).toLocaleString('pt-BR')}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">${nc.dataResolucao ? '✅ DATA DE RESOLUÇÃO' : '⏳ STATUS'}</span>
-                                <span class="print-value">${nc.dataResolucao ? new Date(nc.dataResolucao).toLocaleString('pt-BR') : 'Pendente'}</span>
-                            </div>
-                            <div class="print-field">
-                                <span class="print-label">👤 CRIADO POR</span>
-                                <span class="print-value">${escapeHtml(nc.criadoPor)}</span>
-                            </div>
-                            <div class="print-field full-width">
-                                <span class="print-label">⚠️ MOTIVO DA NÃO CONFORMIDADE</span>
-                                <span class="print-value" style="font-size:19px;line-height:1.5;">${escapeHtml(nc.motivo)}</span>
-                            </div>
-                            <div class="print-field full-width">
-                                <span class="print-label">🔧 AÇÃO A SER TOMADA</span>
-                                <span class="print-value" style="font-size:19px;line-height:1.5;">${escapeHtml(nc.acao)}</span>
-                            </div>
+                            <div class="print-field"><span class="print-label">🔢 NÚMERO DA NC</span><span class="print-value highlight">#${id}</span></div>
+                            <div class="print-field"><span class="print-label">📦 PRODUTO</span><span class="print-value highlight">${escapeHtml(nc.produto)}</span></div>
+                            <div class="print-field"><span class="print-label">🏷️ PALETE (PLT)</span><span class="print-value highlight">${escapeHtml(nc.palete)}</span></div>
+                            <div class="print-field"><span class="print-label">⏱️ TEMPO EM ABERTO</span><span class="print-value" style="color:#b55a1e;font-size:22px;font-weight:800;">${tempo.texto}</span></div>
+                            <div class="print-field"><span class="print-label">📦 QTD. CAIXAS</span><span class="print-value">${nc.quantidadeCaixas ?? (nc.quantidade || '-')}</span></div>
+                            <div class="print-field"><span class="print-label">📦 QTD. ITENS</span><span class="print-value">${nc.quantidadeItens ?? '-'}</span></div>
+                            <div class="print-field"><span class="print-label">🔄 QTD. RETRABALHADAS</span><span class="print-value">${nc.quantidadeRetrabalhadas || 0}</span></div>
+                            <div class="print-field"><span class="print-label">🗑️ QTD. DESCARTADA</span><span class="print-value">${nc.quantidadeDescartada || 0}</span></div>
+                            <div class="print-field"><span class="print-label">📅 DATA DE ABERTURA</span><span class="print-value">${new Date(nc.dataAbertura).toLocaleString('pt-BR')}</span></div>
+                            <div class="print-field"><span class="print-label">${nc.dataResolucao ? '✅ DATA DE RESOLUÇÃO' : '⏳ STATUS'}</span><span class="print-value">${nc.dataResolucao ? new Date(nc.dataResolucao).toLocaleString('pt-BR') : 'Pendente'}</span></div>
+                            <div class="print-field"><span class="print-label">👤 CRIADO POR</span><span class="print-value">${escapeHtml(nc.criadoPor)}</span></div>
+                            <div class="print-field full-width"><span class="print-label">⚠️ MOTIVO DA NÃO CONFORMIDADE</span><span class="print-value" style="font-size:19px;line-height:1.5;">${escapeHtml(nc.motivo)}</span></div>
+                            <div class="print-field full-width"><span class="print-label">🔧 AÇÃO A SER TOMADA</span><span class="print-value" style="font-size:19px;line-height:1.5;">${escapeHtml(nc.acao)}</span></div>
                         </div>
                         ${fotosHtml}
-                        <div class="print-qr-section">
-                            <div id="qrCodePrintContainer" class="qr-print"></div>
-                            <div class="qr-info">
-                                <strong style="font-size:15px;">📱 Escaneie o QR Code</strong>
-                                <p style="margin:4px 0;font-size:13px;">Para acessar os detalhes completos desta NC.</p>
-                            </div>
-                        </div>
-                        <div class="print-footer">
-                            Dona Rita Embalagens © ${agora.getFullYear()} · Documento gerado em ${agora.toLocaleString('pt-BR')}
-                        </div>
+                        <div class="print-qr-section"><div id="qrCodePrintContainer" class="qr-print"></div><div class="qr-info"><strong style="font-size:15px;">📱 Escaneie o QR Code</strong><p style="margin:4px 0;font-size:13px;">Para acessar os detalhes completos desta NC.</p></div></div>
+                        <div class="print-footer">Dona Rita Embalagens © ${agora.getFullYear()} · Documento gerado em ${agora.toLocaleString('pt-BR')}</div>
                         <div class="no-print" style="text-align:center;margin-top:24px;padding-top:18px;border-top:2px dashed #ccc;">
-                            <button class="btn btn-primary" onclick="window.print()" style="font-size:14px;padding:10px 24px;margin:0 6px;">
-                                <i class="fas fa-print"></i> Imprimir Agora
-                            </button>
-                            <button class="btn btn-outline" onclick="fecharPrint()" style="font-size:14px;padding:10px 24px;margin:0 6px;">
-                                <i class="fas fa-times"></i> Fechar
-                            </button>
+                            <button class="btn btn-primary" onclick="window.print()" style="font-size:14px;padding:10px 24px;margin:0 6px;"><i class="fas fa-print"></i> Imprimir Agora</button>
+                            <button class="btn btn-outline" onclick="fecharPrint()" style="font-size:14px;padding:10px 24px;margin:0 6px;"><i class="fas fa-times"></i> Fechar</button>
                         </div>
                     </div>`;
                 printArea.style.display = 'block';
@@ -2415,7 +2674,8 @@
                     const qrContainer = document.getElementById('qrCodePrintContainer');
                     if (qrContainer && typeof QRCode !== 'undefined') {
                         qrContainer.innerHTML = '';
-                        new QRCode(qrContainer, { text: qrUrl, width: 80, height: 80, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+                        new QRCode(qrContainer, { text: qrUrl, width: 80, height: 80, colorDark: '#0b3b2f',
+                            colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
                     }
                 }, 300);
             } catch (error) {
@@ -2427,6 +2687,533 @@
         function fecharPrint() {
             document.getElementById('printArea').style.display = 'none';
             document.getElementById('printArea').innerHTML = '';
+        }
+
+        // ==================== PLANOS DE AÇÃO ====================
+        async function renderPlanosAcao() {
+            const isAdmin = currentUser && currentUser.role === 'admin';
+            const ncs = await getNCs();
+            const planos = await getPlanosAcao();
+            const ncsAbertas = ncs.filter(n => n.status === 'aberto');
+            const tbody = document.getElementById('tbodyPlanos');
+            const empty = document.getElementById('emptyPlanos');
+            const titulo = document.getElementById('tituloTabelaPlanos');
+            const breadcrumb = document.getElementById('breadcrumbPlanos');
+
+            if (isAdmin) {
+                titulo.textContent = 'NCs Abertas e Planos de Ação';
+                breadcrumb.textContent = 'Gerencie os planos de ação para cada NC aberta';
+            } else {
+                titulo.textContent = 'Meus Planos de Ação Pendentes';
+                breadcrumb.textContent = 'Visualize e assine os planos onde você foi designado';
+            }
+
+            let itensParaMostrar;
+            if (isAdmin) {
+                itensParaMostrar = ncsAbertas.map(nc => {
+                    const planoExistente = planos.find(p => p.ncId === nc.id);
+                    return { nc, plano: planoExistente || null };
+                });
+            } else {
+                const meusPlanos = planos.filter(p => p.pessoas && p.pessoas.some(pess => pess.username ===
+                    currentUser.username));
+                const ncsIds = meusPlanos.map(p => p.ncId);
+                const ncsRelacionadas = ncs.filter(n => ncsIds.includes(n.id));
+                itensParaMostrar = meusPlanos.map(plano => {
+                    const nc = ncsRelacionadas.find(n => n.id === plano.ncId) || {
+                        id: plano.ncId,
+                        produto: plano.ncProduto || 'N/A',
+                        motivo: plano.ncMotivo || 'N/A',
+                        palete: plano.ncPalete || 'N/A'
+                    };
+                    return { nc, plano };
+                });
+            }
+
+            if (itensParaMostrar.length === 0) {
+                tbody.innerHTML = '';
+                empty.style.display = 'block';
+            } else {
+                empty.style.display = 'none';
+                tbody.innerHTML = itensParaMostrar.map(item => {
+                    const nc = item.nc;
+                    const plano = item.plano;
+                    let statusPlanoHtml = '';
+                    let acoesHtml = '';
+
+                    if (plano) {
+                        const totalPessoas = (plano.pessoas || []).length;
+                        const assinadas = (plano.pessoas || []).filter(p => p.assinado).length;
+                        if (plano.status === 'concluido') {
+                            statusPlanoHtml =
+                                '<span class="badge badge-concluido">✅ Concluído</span>';
+                        } else {
+                            statusPlanoHtml =
+                                `<span class="badge badge-pendente">⏳ Pendente (${assinadas}/${totalPessoas} assinaturas)</span>`;
+                        }
+                        if (isAdmin) {
+                            acoesHtml = `
+                                <button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i> Ver</button>
+                                <button class="btn btn-sm btn-accent" onclick="imprimirPlanoAcao('${plano.id}')"><i class="fas fa-print"></i> Imprimir</button>
+                                <button class="btn btn-sm btn-outline" onclick="editarPlanoAcao('${plano.id}')"><i class="fas fa-edit"></i> Editar</button>
+                                <button class="btn btn-sm btn-danger" onclick="excluirPlanoAcao('${plano.id}')"><i class="fas fa-trash"></i></button>
+                            `;
+                        } else {
+                            const minhaPessoa = (plano.pessoas || []).find(p => p.username === currentUser
+                                .username);
+                            if (minhaPessoa && !minhaPessoa.assinado) {
+                                acoesHtml = `
+                                    <button class="btn btn-sm btn-assinar" onclick="assinarPlanoAcao('${plano.id}')"><i class="fas fa-signature"></i> Assinar</button>
+                                    <button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i> Ver</button>
+                                `;
+                            } else if (minhaPessoa && minhaPessoa.assinado) {
+                                acoesHtml = `
+                                    <span class="assinatura-status assinado"><i class="fas fa-check-circle"></i> Assinado</span>
+                                    <button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i> Ver</button>
+                                `;
+                            } else {
+                                acoesHtml =
+                                    `<button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i> Ver</button>`;
+                            }
+                        }
+                    } else {
+                        statusPlanoHtml = '<span class="badge badge-nao-assinado">⚠️ Sem plano</span>';
+                        if (isAdmin) {
+                            acoesHtml =
+                                `<button class="btn btn-sm btn-primary" onclick="criarPlanoParaNC('${nc.id}')"><i class="fas fa-plus"></i> Criar Plano</button>`;
+                        } else {
+                            acoesHtml =
+                            '<span style="color:#8b9a94;font-size:0.75rem;">Aguardando plano</span>';
+                        }
+                    }
+
+                    return `<tr>
+                        <td><strong>#${nc.id}</strong></td>
+                        <td>${escapeHtml(nc.produto || '-')}</td>
+                        <td>${escapeHtml((nc.motivo||'').substring(0,40))}${(nc.motivo||'').length>40?'...':''}</td>
+                        <td>${plano ? escapeHtml((plano.resumoReuniao||'').substring(0,50))+'...' : '-'}</td>
+                        <td>${statusPlanoHtml}</td>
+                        <td class="actions-cell">${acoesHtml}</td>
+                    </tr>`;
+                }).join('');
+            }
+        }
+
+        async function criarPlanoParaNC(ncId) {
+            if (currentUser.role !== 'admin') {
+                mostrarToast('Apenas administradores podem criar planos de ação!', 'error');
+                return;
+            }
+            const doc = await collNCs.doc(ncId).get();
+            if (!doc.exists) { mostrarToast('NC não encontrada!', 'error'); return; }
+            const nc = doc.data();
+            document.getElementById('editPlanoId').value = '';
+            document.getElementById('planoNcId').value = ncId;
+            document.getElementById('planoNcInfo').value =
+                `NC #${ncId} - ${nc.produto} - ${nc.palete} - ${(nc.motivo||'').substring(0,40)}`;
+            document.getElementById('planoResumo').value = '';
+            document.getElementById('tituloFormPlano').innerHTML =
+                '<i class="fas fa-tasks"></i> Novo Plano de Ação';
+            document.getElementById('subtituloFormPlano').textContent = `Criando plano para NC #${ncId}`;
+            pessoasPlano = [];
+            renderPessoasPlano();
+            navegar('novo-plano', document.querySelector('[data-page="planos"]'));
+        }
+
+        async function editarPlanoAcao(planoId) {
+            if (currentUser.role !== 'admin') {
+                mostrarToast('Apenas administradores podem editar planos!', 'error');
+                return;
+            }
+            const doc = await collPlanos.doc(planoId).get();
+            if (!doc.exists) { mostrarToast('Plano não encontrado!', 'error'); return; }
+            const plano = doc.data();
+            document.getElementById('editPlanoId').value = planoId;
+            document.getElementById('planoNcId').value = plano.ncId;
+            document.getElementById('planoNcInfo').value =
+                `NC #${plano.ncId} - ${plano.ncProduto || ''} - ${plano.ncPalete || ''}`;
+            document.getElementById('planoResumo').value = plano.resumoReuniao || '';
+            document.getElementById('tituloFormPlano').innerHTML =
+                '<i class="fas fa-edit"></i> Editar Plano de Ação';
+            document.getElementById('subtituloFormPlano').textContent = `Editando plano para NC #${plano.ncId}`;
+            pessoasPlano = JSON.parse(JSON.stringify(plano.pessoas || []));
+            renderPessoasPlano();
+            navegar('novo-plano', document.querySelector('[data-page="planos"]'));
+        }
+
+        function cancelarPlano() {
+            pessoasPlano = [];
+            document.getElementById('editPlanoId').value = '';
+            document.getElementById('planoNcId').value = '';
+            document.getElementById('planoResumo').value = '';
+            document.getElementById('containerPessoas').innerHTML = '';
+            navegar('planos', document.querySelector('[data-page="planos"]'));
+        }
+
+        function adicionarPessoa() {
+            pessoasPlano.push({
+                username: '',
+                acao: '',
+                prazo: '',
+                assinado: false,
+                dataAssinatura: null,
+                justificativa: ''
+            });
+            renderPessoasPlano();
+        }
+
+        function removerPessoa(index) {
+            pessoasPlano.splice(index, 1);
+            renderPessoasPlano();
+        }
+
+        async function renderPessoasPlano() {
+            const container = document.getElementById('containerPessoas');
+            const usuarios = await getUsuarios();
+            const usernames = usuarios.map(u => u.username);
+
+            if (pessoasPlano.length === 0) {
+                container.innerHTML =
+                    '<p style="color:#8b9a94;text-align:center;padding:20px;">Nenhuma pessoa adicionada. Clique em "Adicionar Pessoa".</p>';
+                return;
+            }
+
+            container.innerHTML = pessoasPlano.map((pessoa, i) => {
+                const options = usernames.map(u =>
+                    `<option value="${u}" ${pessoa.username === u ? 'selected' : ''}>${u}</option>`).join(
+                    '');
+                const statusAssinatura = pessoa.assinado ?
+                    '<span class="assinatura-status assinado"><i class="fas fa-check-circle"></i> Assinado</span>' :
+                    '<span class="assinatura-status pendente"><i class="fas fa-clock"></i> Pendente</span>';
+                const dataAssinatura = pessoa.dataAssinatura ?
+                    `<br><small style="color:#1a6b63;">Assinado em: ${formatarDataISO(pessoa.dataAssinatura)}</small>` :
+                    '';
+                const justificativa = pessoa.justificativa ?
+                    `<br><small style="color:#b5792a;"><i class="fas fa-exclamation-triangle"></i> Justificativa: ${escapeHtml(pessoa.justificativa)}</small>` :
+                    '';
+
+                return `
+                <div class="pessoa-card">
+                    <div class="pessoa-header">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <div class="pessoa-numero">${i + 1}</div>
+                            <div>${statusAssinatura}${dataAssinatura}${justificativa}</div>
+                        </div>
+                        <button class="btn-remover-pessoa" onclick="removerPessoa(${i})" title="Remover pessoa"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Usuário *</label>
+                            <select onchange="pessoasPlano[${i}].username = this.value" ${pessoa.assinado ? 'disabled' : ''}>
+                                <option value="">Selecione...</option>
+                                ${options}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Prazo *</label>
+                            <input type="date" value="${pessoa.prazo || ''}" onchange="pessoasPlano[${i}].prazo = this.value" ${pessoa.assinado ? 'disabled' : ''}>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ação / O que deve fazer *</label>
+                        <textarea placeholder="Descreva a ação que esta pessoa deve executar..." onchange="pessoasPlano[${i}].acao = this.value" ${pessoa.assinado ? 'disabled' : ''}>${escapeHtml(pessoa.acao || '')}</textarea>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        async function salvarPlanoAcao() {
+            if (currentUser.role !== 'admin') {
+                mostrarToast('Apenas administradores podem salvar planos!', 'error');
+                return;
+            }
+            const editId = document.getElementById('editPlanoId').value;
+            const ncId = document.getElementById('planoNcId').value;
+            const resumoReuniao = document.getElementById('planoResumo').value.trim();
+
+            if (!ncId || !resumoReuniao) {
+                mostrarToast('Preencha o resumo da reunião!', 'error');
+                return;
+            }
+            if (pessoasPlano.length === 0) {
+                mostrarToast('Adicione pelo menos uma pessoa envolvida!', 'error');
+                return;
+            }
+            for (let i = 0; i < pessoasPlano.length; i++) {
+                const p = pessoasPlano[i];
+                if (!p.username || !p.acao || !p.prazo) {
+                    mostrarToast(`Preencha todos os campos da pessoa ${i + 1}!`, 'error');
+                    return;
+                }
+            }
+
+            const ncDoc = await collNCs.doc(ncId).get();
+            if (!ncDoc.exists) { mostrarToast('NC referenciada não encontrada!', 'error'); return; }
+            const nc = ncDoc.data();
+
+            const dadosPlano = {
+                ncId: ncId,
+                ncProduto: nc.produto || '',
+                ncMotivo: nc.motivo || '',
+                ncPalete: nc.palete || '',
+                resumoReuniao: resumoReuniao,
+                pessoas: pessoasPlano.map(p => ({
+                    username: p.username,
+                    acao: p.acao,
+                    prazo: p.prazo,
+                    assinado: p.assinado || false,
+                    dataAssinatura: p.dataAssinatura || null,
+                    justificativa: p.justificativa || ''
+                })),
+                status: 'aberto',
+                criadoPor: currentUser.username,
+                historico: []
+            };
+
+            if (editId) {
+                const planoDoc = await collPlanos.doc(editId).get();
+                if (!planoDoc.exists) { mostrarToast('Plano não encontrado!', 'error'); return; }
+                const planoAntigo = planoDoc.data();
+                const historico = planoAntigo.historico || [];
+                historico.push({
+                    data: new Date().toISOString(),
+                    usuario: currentUser.username,
+                    acao: 'editou',
+                    detalhes: 'Plano de ação atualizado'
+                });
+                dadosPlano.historico = historico;
+                dadosPlano.dataCriacao = planoAntigo.dataCriacao || new Date().toISOString();
+                dadosPlano.status = planoAntigo.status;
+                await collPlanos.doc(editId).update(dadosPlano);
+                mostrarToast('Plano de ação atualizado!', 'success');
+            } else {
+                dadosPlano.dataCriacao = new Date().toISOString();
+                dadosPlano.historico = [{
+                    data: new Date().toISOString(),
+                    usuario: currentUser.username,
+                    acao: 'criou',
+                    detalhes: 'Plano de ação criado'
+                }];
+                await collPlanos.add(dadosPlano);
+                mostrarToast('Plano de ação criado!', 'success');
+            }
+
+            pessoasPlano = [];
+            document.getElementById('editPlanoId').value = '';
+            document.getElementById('planoNcId').value = '';
+            document.getElementById('planoResumo').value = '';
+            document.getElementById('containerPessoas').innerHTML = '';
+            await navegar('planos', document.querySelector('[data-page="planos"]'));
+            await renderDashboard();
+        }
+
+        async function verPlanoAcao(planoId) {
+            const doc = await collPlanos.doc(planoId).get();
+            if (!doc.exists) { mostrarToast('Plano não encontrado!', 'error'); return; }
+            const plano = doc.data();
+            const isAdmin = currentUser && currentUser.role === 'admin';
+            const minhaPessoa = (plano.pessoas || []).find(p => p.username === currentUser.username);
+
+            const pessoasHtml = (plano.pessoas || []).map((p, i) => {
+                const statusAssinatura = p.assinado ?
+                    '<span class="assinatura-status assinado"><i class="fas fa-check-circle"></i> Assinado em ' +
+                    formatarDataISO(p.dataAssinatura) + '</span>' :
+                    '<span class="assinatura-status pendente"><i class="fas fa-clock"></i> Pendente</span>';
+                const justificativa = p.justificativa ?
+                    `<div style="margin-top:6px;padding:8px;background:#fef9f0;border-radius:8px;font-size:0.8rem;"><i class="fas fa-exclamation-triangle" style="color:#b5792a;"></i> <strong>Justificativa de atraso:</strong> ${escapeHtml(p.justificativa)}</div>` :
+                    '';
+                return `
+                <div class="pessoa-card">
+                    <div class="pessoa-header">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <div class="pessoa-numero">${i + 1}</div>
+                            <strong>${escapeHtml(p.username)}</strong>
+                            ${statusAssinatura}
+                        </div>
+                    </div>
+                    <div style="margin-top:8px;">
+                        <p><strong>📋 Ação:</strong> ${escapeHtml(p.acao)}</p>
+                        <p><strong>📅 Prazo:</strong> ${formatarDataISOcurta(p.prazo)}</p>
+                        ${justificativa}
+                    </div>
+                </div>`;
+            }).join('');
+
+            document.getElementById('verPlanoInner').innerHTML = `
+                <h2><i class="fas fa-tasks"></i> Plano de Ação - NC #${plano.ncId}</h2>
+                <div class="detail-row"><strong>Produto:</strong><span>${escapeHtml(plano.ncProduto)}</span></div>
+                <div class="detail-row"><strong>Palete:</strong><span>${escapeHtml(plano.ncPalete)}</span></div>
+                <div class="detail-row"><strong>Motivo NC:</strong><span>${escapeHtml(plano.ncMotivo)}</span></div>
+                <div class="detail-row"><strong>Status:</strong><span class="badge ${plano.status==='concluido'?'badge-concluido':'badge-pendente'}">${plano.status==='concluido'?'Concluído':'Pendente'}</span></div>
+                <div class="detail-row"><strong>Criado por:</strong><span>${escapeHtml(plano.criadoPor)}</span></div>
+                <div class="detail-row"><strong>Criado em:</strong><span>${formatarDataISO(plano.dataCriacao)}</span></div>
+                <div style="margin-top:14px;">
+                    <h4><i class="fas fa-file-alt"></i> Resumo da Reunião</h4>
+                    <p style="white-space:pre-wrap;background:#f9fbfa;padding:14px;border-radius:10px;border:1px solid #dce5e1;">${escapeHtml(plano.resumoReuniao)}</p>
+                </div>
+                <div style="margin-top:14px;">
+                    <h4><i class="fas fa-users"></i> Pessoas Envolvidas</h4>
+                    ${pessoasHtml}
+                </div>
+                <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+                    ${isAdmin ? `<button class="btn btn-accent" onclick="fecharModalVerPlano(); imprimirPlanoAcao('${planoId}')"><i class="fas fa-print"></i> Imprimir</button>
+                    <button class="btn btn-outline" onclick="fecharModalVerPlano(); editarPlanoAcao('${planoId}')"><i class="fas fa-edit"></i> Editar</button>` : ''}
+                    ${minhaPessoa && !minhaPessoa.assinado ? `<button class="btn btn-assinar" onclick="fecharModalVerPlano(); assinarPlanoAcao('${planoId}')"><i class="fas fa-signature"></i> Assinar</button>` : ''}
+                    <button class="btn btn-outline" onclick="fecharModalVerPlano()"><i class="fas fa-times"></i> Fechar</button>
+                </div>
+            `;
+            document.getElementById('modalVerPlano').style.display = 'flex';
+        }
+
+        function fecharModalVerPlano() {
+            document.getElementById('modalVerPlano').style.display = 'none';
+        }
+
+        async function assinarPlanoAcao(planoId) {
+            const doc = await collPlanos.doc(planoId).get();
+            if (!doc.exists) { mostrarToast('Plano não encontrado!', 'error'); return; }
+            const plano = doc.data();
+            const pessoaIndex = (plano.pessoas || []).findIndex(p => p.username === currentUser.username);
+            if (pessoaIndex === -1) {
+                mostrarToast('Você não está designado neste plano!', 'error');
+                return;
+            }
+            if (plano.pessoas[pessoaIndex].assinado) {
+                mostrarToast('Você já assinou este plano!', 'info');
+                return;
+            }
+
+            // Perguntar se está dentro do prazo ou se precisa de justificativa
+            const prazo = new Date(plano.pessoas[pessoaIndex].prazo + 'T23:59:59');
+            const agora = new Date();
+            let justificativa = '';
+            if (agora > prazo) {
+                justificativa = prompt(
+                    '⏰ O prazo já expirou! Por favor, justifique o motivo do atraso antes de assinar:');
+                if (!justificativa || justificativa.trim() === '') {
+                    mostrarToast('É necessário informar a justificativa para assinar com atraso.', 'error');
+                    return;
+                }
+            }
+
+            const confirmacao = confirm(
+                'Você confirma que concorda com as ações descritas neste plano de ação? Esta assinatura eletrônica registra sua concordância.'
+                );
+            if (!confirmacao) return;
+
+            const pessoasAtualizadas = [...plano.pessoas];
+            pessoasAtualizadas[pessoaIndex] = {
+                ...pessoasAtualizadas[pessoaIndex],
+                assinado: true,
+                dataAssinatura: new Date().toISOString(),
+                justificativa: justificativa
+            };
+
+            const todasAssinadas = pessoasAtualizadas.every(p => p.assinado);
+            const historico = plano.historico || [];
+            historico.push({
+                data: new Date().toISOString(),
+                usuario: currentUser.username,
+                acao: 'assinou',
+                detalhes: justificativa ? `Assinou com atraso. Justificativa: ${justificativa}` : 'Assinou o plano de ação'
+            });
+
+            await collPlanos.doc(planoId).update({
+                pessoas: pessoasAtualizadas,
+                status: todasAssinadas ? 'concluido' : 'aberto',
+                historico: historico
+            });
+
+            mostrarToast('✅ Assinatura registrada com sucesso!', 'success');
+            await renderPlanosAcao();
+            await renderDashboard();
+        }
+
+        async function excluirPlanoAcao(planoId) {
+            if (currentUser.role !== 'admin') {
+                mostrarToast('Apenas administradores podem excluir planos!', 'error');
+                return;
+            }
+            if (!confirm('Tem certeza que deseja excluir este plano de ação? Esta ação não pode ser desfeita.')) return;
+            await collPlanos.doc(planoId).delete();
+            await renderPlanosAcao();
+            await renderDashboard();
+            mostrarToast('Plano de ação excluído.', 'info');
+        }
+
+        async function imprimirPlanoAcao(planoId) {
+            try {
+                const doc = await collPlanos.doc(planoId).get();
+                if (!doc.exists) { mostrarToast('Plano não encontrado!', 'error'); return; }
+                const plano = doc.data();
+                const agora = new Date();
+                const statusBadgeClass = plano.status === 'concluido' ? 'badge-print-concluido' :
+                    'badge-print-pendente';
+                const statusTexto = plano.status === 'concluido' ? 'CONCLUÍDO' : 'PENDENTE';
+                const totalPessoas = (plano.pessoas || []).length;
+                const assinadas = (plano.pessoas || []).filter(p => p.assinado).length;
+
+                const pessoasTabelaHtml = (plano.pessoas || []).map((p, i) => `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td><strong>${escapeHtml(p.username)}</strong></td>
+                        <td>${escapeHtml(p.acao)}</td>
+                        <td>${formatarDataISOcurta(p.prazo)}</td>
+                        <td>${p.assinado ? '✅ Assinado em ' + formatarDataISOcurta(p.dataAssinatura) : '⏳ Pendente'}</td>
+                        <td>${p.justificativa ? escapeHtml(p.justificativa) : '-'}</td>
+                        <td class="assinatura-linha ${p.assinado ? 'assinado-print' : ''}">${p.assinado ? 'ASSINATURA ELETRÔNICA REGISTRADA' : '___________________________'}</td>
+                    </tr>
+                `).join('');
+
+                const printArea = document.getElementById('planoPrintArea');
+                const conteudo = document.getElementById('planoPrintConteudo');
+                conteudo.innerHTML = `
+                    <div class="print-header">
+                        <div>
+                            <h2>🏭 DONA RITA EMBALAGENS</h2>
+                            <p style="font-size:14px;color:#555;margin:4px 0 0;">Plano de Ação - Não Conformidade</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <span class="print-badge ${statusBadgeClass}">${statusTexto}</span>
+                            <p style="font-size:13px;color:#555;margin:8px 0 0;">Assinaturas: ${assinadas}/${totalPessoas}</p>
+                            <p style="font-size:13px;color:#555;">Impresso: ${agora.toLocaleString('pt-BR')}</p>
+                        </div>
+                    </div>
+                    <div class="print-grid">
+                        <div class="print-field"><span class="print-label">🔢 NÚMERO DA NC</span><span class="print-value highlight">#${plano.ncId}</span></div>
+                        <div class="print-field"><span class="print-label">📦 PRODUTO</span><span class="print-value highlight">${escapeHtml(plano.ncProduto)}</span></div>
+                        <div class="print-field"><span class="print-label">🏷️ PALETE</span><span class="print-value">${escapeHtml(plano.ncPalete)}</span></div>
+                        <div class="print-field"><span class="print-label">📅 DATA DO PLANO</span><span class="print-value">${formatarDataISO(plano.dataCriacao)}</span></div>
+                        <div class="print-field full-width"><span class="print-label">⚠️ MOTIVO DA NÃO CONFORMIDADE</span><span class="print-value">${escapeHtml(plano.ncMotivo)}</span></div>
+                        <div class="print-field full-width"><span class="print-label">📋 RESUMO DA REUNIÃO / PAUTA</span><span class="print-value" style="white-space:pre-wrap;font-size:15px;line-height:1.5;">${escapeHtml(plano.resumoReuniao)}</span></div>
+                    </div>
+                    <div style="margin-top:12px;">
+                        <h3 style="font-size:15px;color:#0b3b2f;margin-bottom:8px;">👥 PESSOAS ENVOLVIDAS E AÇÕES</h3>
+                        <table class="print-pessoas-table">
+                            <thead><tr><th>#</th><th>Responsável</th><th>Ação Designada</th><th>Prazo</th><th>Status</th><th>Justificativa</th><th>Assinatura</th></tr></thead>
+                            <tbody>${pessoasTabelaHtml}</tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top:12px;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#555;">
+                        <p><strong>📌 Termo de Compromisso:</strong> Ao assinar este documento, cada responsável concorda com as ações designadas e se compromete a executá-las dentro do prazo estipulado. O não cumprimento do prazo exige justificativa formal registrada neste documento.</p>
+                    </div>
+                    <div class="print-footer">Dona Rita Embalagens © ${agora.getFullYear()} · Plano de Ação gerado em ${agora.toLocaleString('pt-BR')} · Criado por: ${escapeHtml(plano.criadoPor)}</div>
+                    <div class="no-print" style="text-align:center;margin-top:20px;padding-top:16px;border-top:2px dashed #ccc;">
+                        <button class="btn btn-primary" onclick="window.print()" style="font-size:14px;padding:10px 24px;margin:0 6px;"><i class="fas fa-print"></i> Imprimir Agora</button>
+                        <button class="btn btn-outline" onclick="fecharPlanoPrint()" style="font-size:14px;padding:10px 24px;margin:0 6px;"><i class="fas fa-times"></i> Fechar</button>
+                    </div>
+                `;
+                printArea.style.display = 'block';
+                printArea.scrollIntoView({ behavior: 'smooth' });
+            } catch (error) {
+                console.error('Erro ao imprimir plano:', error);
+                mostrarToast('Erro ao carregar plano para impressão.', 'error');
+            }
+        }
+
+        function fecharPlanoPrint() {
+            document.getElementById('planoPrintArea').style.display = 'none';
+            document.getElementById('planoPrintConteudo').innerHTML = '';
         }
 
         // ==================== RELATÓRIO GERENCIAL ====================
@@ -2462,7 +3249,8 @@
                 case 'personalizado':
                     const dataInicio = document.getElementById('relatorioDataInicio').value;
                     const dataFim = document.getElementById('relatorioDataFim').value;
-                    if (!dataInicio || !dataFim) { mostrarToast('Selecione as datas de início e fim.', 'error'); return null; }
+                    if (!dataInicio || !dataFim) { mostrarToast('Selecione as datas de início e fim.',
+                        'error'); return null; }
                     inicio = new Date(dataInicio + 'T00:00:00');
                     fim = new Date(dataFim + 'T23:59:59');
                     break;
@@ -2496,7 +3284,6 @@
             const totalRetrabalhadas = filtradas.reduce((s, n) => s + (parseInt(n.quantidadeRetrabalhadas) || 0), 0);
             const totalDescartada = filtradas.reduce((s, n) => s + (parseInt(n.quantidadeDescartada) || 0), 0);
 
-            // ---------- NOVO: Agrupamento detalhado por motivo ----------
             const motivoAgrupado = {};
             filtradas.forEach(nc => {
                 const curto = (nc.motivo || 'Sem motivo').substring(0, 50);
@@ -2509,28 +3296,22 @@
                 motivoAgrupado[curto].retrabalhadas += parseInt(nc.quantidadeRetrabalhadas) || 0;
                 motivoAgrupado[curto].descartada += parseInt(nc.quantidadeDescartada) || 0;
             });
-            const motivosDetalhados = Object.keys(motivoAgrupado).sort((a, b) => motivoAgrupado[b].caixas - motivoAgrupado[a].caixas);
-            // ----------------------------------------------------------
+            const motivosDetalhados = Object.keys(motivoAgrupado).sort((a, b) => motivoAgrupado[b].caixas - motivoAgrupado[a]
+                .caixas);
 
             const motivosMap = {};
-            filtradas.forEach(n => { const curto = (n.motivo || 'Sem motivo').substring(0, 50); motivosMap[curto] = (motivosMap[curto] || 0) + 1; });
+            filtradas.forEach(n => { const curto = (n.motivo || 'Sem motivo').substring(0, 50);
+                motivosMap[curto] = (motivosMap[curto] || 0) + 1; });
             const motivosLabels = Object.keys(motivosMap);
             const motivosData = Object.values(motivosMap);
-            const periodoTexto = document.getElementById('relatorioPeriodo').options[document.getElementById('relatorioPeriodo').selectedIndex].text;
+            const periodoTexto = document.getElementById('relatorioPeriodo').options[document.getElementById(
+                'relatorioPeriodo').selectedIndex].text;
             const agora = new Date();
             const conteudo = document.getElementById('relatorioConteudo');
             conteudo.innerHTML = `
                 <div class="print-header">
-                    <div>
-                        <h2>🏭 DONA RITA EMBALAGENS</h2>
-                        <p style="font-size:14px;color:#555;margin:4px 0 0;">Relatório Gerencial de Não Conformidades</p>
-                        <p style="font-size:12px;color:#777;">Período: ${periodoTexto} (${formatarDataBr(inicio)} a ${formatarDataBr(fim)})</p>
-                    </div>
-                    <div style="text-align:right;">
-                        <span class="print-badge" style="background:#0b3b2f;color:#fff;border:3px solid #0b3b2f;">${total} NCs</span>
-                        <p style="font-size:13px;color:#555;margin:8px 0 0;">Gerado: ${agora.toLocaleString('pt-BR')}</p>
-                        <p style="font-size:13px;color:#555;">Por: ${escapeHtml(currentUser.username)}</p>
-                    </div>
+                    <div><h2>🏭 DONA RITA EMBALAGENS</h2><p style="font-size:14px;color:#555;margin:4px 0 0;">Relatório Gerencial de Não Conformidades</p><p style="font-size:12px;color:#777;">Período: ${periodoTexto} (${formatarDataBr(inicio)} a ${formatarDataBr(fim)})</p></div>
+                    <div style="text-align:right;"><span class="print-badge" style="background:#0b3b2f;color:#fff;border:3px solid #0b3b2f;">${total} NCs</span><p style="font-size:13px;color:#555;margin:8px 0 0;">Gerado: ${agora.toLocaleString('pt-BR')}</p><p style="font-size:13px;color:#555;">Por: ${escapeHtml(currentUser.username)}</p></div>
                 </div>
                 <div class="stats-grid" style="margin-bottom:18px;">
                     <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-clipboard-list"></i></div><div class="stat-info"><h3>${total}</h3><span>Total de NCs</span></div></div>
@@ -2543,26 +3324,13 @@
                     <div class="chart-card"><h3><i class="fas fa-tags"></i> NCs por Motivo</h3><canvas id="chartRelatorioMotivos"></canvas></div>
                     <div class="chart-card"><h3><i class="fas fa-chart-bar"></i> Status das NCs</h3><canvas id="chartRelatorioStatus"></canvas></div>
                 </div>
-                <!-- NOVO GRÁFICO: Caixas por Motivo -->
-                <div class="chart-card" style="margin-top:18px;">
-                    <h3><i class="fas fa-boxes"></i> Quantidade de Caixas por Motivo</h3>
-                    <canvas id="chartRelatorioCaixasMotivo"></canvas>
-                </div>
-                <!-- NOVA TABELA DETALHADA -->
+                <div class="chart-card" style="margin-top:18px;"><h3><i class="fas fa-boxes"></i> Quantidade de Caixas por Motivo</h3><canvas id="chartRelatorioCaixasMotivo"></canvas></div>
                 <div class="table-card" style="margin-top:18px;">
                     <div class="table-header"><h3><i class="fas fa-table"></i> Detalhamento por Motivo</h3></div>
                     <div style="overflow-x:auto;">
                         <table>
                             <thead><tr><th>Motivo</th><th>Total NCs</th><th>Total Caixas</th><th>Total Itens</th><th>Total Retrabalhadas</th><th>Total Descartada</th></tr></thead>
-                            <tbody>${motivosDetalhados.length ? motivosDetalhados.map(mot => `
-                                <tr>
-                                    <td><strong>${escapeHtml(mot)}</strong></td>
-                                    <td><span class="badge" style="background:#e2eff7;color:#386e8c;">${motivoAgrupado[mot].ncs}</span></td>
-                                    <td><strong>${motivoAgrupado[mot].caixas}</strong> cx</td>
-                                    <td>${motivoAgrupado[mot].itens} it</td>
-                                    <td>${motivoAgrupado[mot].retrabalhadas} ret</td>
-                                    <td>${motivoAgrupado[mot].descartada} desc</td>
-                                </tr>`).join('') : '<tr><td colspan="6">Nenhum registro no período</td></tr>'}</tbody>
+                            <tbody>${motivosDetalhados.length ? motivosDetalhados.map(mot => `<tr><td><strong>${escapeHtml(mot)}</strong></td><td><span class="badge" style="background:#e2eff7;color:#386e8c;">${motivoAgrupado[mot].ncs}</span></td><td><strong>${motivoAgrupado[mot].caixas}</strong> cx</td><td>${motivoAgrupado[mot].itens} it</td><td>${motivoAgrupado[mot].retrabalhadas} ret</td><td>${motivoAgrupado[mot].descartada} desc</td></tr>`).join('') : '<tr><td colspan="6">Nenhum registro no período</td></tr>'}</tbody>
                         </table>
                     </div>
                 </div>
@@ -2577,53 +3345,46 @@
             document.getElementById('relatorioVazio').style.display = 'none';
             document.getElementById('relatorioPrintArea').scrollIntoView({ behavior: 'smooth' });
 
-            // Renderização dos gráficos (incluindo o novo)
             setTimeout(() => {
-                // Gráfico de pizza (motivos)
                 if (window._chartRelatorioMotivos) window._chartRelatorioMotivos.destroy();
                 const ctxM = document.getElementById('chartRelatorioMotivos');
                 if (ctxM && motivosLabels.length > 0) {
                     window._chartRelatorioMotivos = new Chart(ctxM, {
                         type: 'doughnut',
-                        data: { labels: motivosLabels, datasets: [{ data: motivosData, backgroundColor: ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a', '#2d7a4f', '#5b3a6e', '#2f5f78', '#a65d3d'].slice(0, motivosLabels.length), borderWidth: 2, borderColor: '#fff' }] },
-                        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 10, usePointStyle: true } } } }
+                        data: { labels: motivosLabels, datasets: [{ data: motivosData, backgroundColor: [
+                                '#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a',
+                                '#2d7a4f', '#5b3a6e', '#2f5f78', '#a65d3d'
+                            ].slice(0, motivosLabels.length), borderWidth: 2,
+                            borderColor: '#fff' }] },
+                        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 10,
+                                    usePointStyle: true } } } }
                     });
                 }
-                // Gráfico de barras (status)
                 if (window._chartRelatorioStatus) window._chartRelatorioStatus.destroy();
                 const ctxS = document.getElementById('chartRelatorioStatus');
                 if (ctxS) {
                     window._chartRelatorioStatus = new Chart(ctxS, {
                         type: 'bar',
-                        data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ data: [abertas, resolvidas], backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8, borderWidth: 0 }] },
-                        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                        data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ data: [abertas,
+                                resolvidas], backgroundColor: ['#b53b3b', '#2d7a4f'],
+                                borderRadius: 8, borderWidth: 0 }] },
+                        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true,
+                                    ticks: { stepSize: 1 } } } }
                     });
                 }
-                // NOVO GRÁFICO: Caixas por Motivo
                 if (window._chartRelatorioCaixasMotivo) window._chartRelatorioCaixasMotivo.destroy();
                 const ctxC = document.getElementById('chartRelatorioCaixasMotivo');
                 if (ctxC && motivosDetalhados.length > 0) {
                     const caixasData = motivosDetalhados.map(m => motivoAgrupado[m].caixas);
                     window._chartRelatorioCaixasMotivo = new Chart(ctxC, {
                         type: 'bar',
-                        data: {
-                            labels: motivosDetalhados,
-                            datasets: [{
-                                label: 'Total de Caixas',
-                                data: caixasData,
-                                backgroundColor: '#1f6d52',
-                                borderRadius: 6,
-                                borderWidth: 0
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: { legend: { display: false } },
-                            scales: {
-                                y: { beginAtZero: true, title: { display: true, text: 'Caixas' }, ticks: { stepSize: 1 } },
-                                x: { ticks: { autoSkip: false, maxRotation: 45, minRotation: 0 } }
-                            }
-                        }
+                        data: { labels: motivosDetalhados, datasets: [{ label: 'Total de Caixas',
+                                data: caixasData, backgroundColor: '#1f6d52', borderRadius: 6,
+                                borderWidth: 0 }] },
+                        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true,
+                                    title: { display: true, text: 'Caixas' },
+                                ticks: { stepSize: 1 } }, x: { ticks: { autoSkip: false, maxRotation: 45,
+                                    minRotation: 0 } } } }
                     });
                 }
             }, 200);
@@ -2633,14 +3394,18 @@
             document.getElementById('relatorioPrintArea').style.display = 'none';
             document.getElementById('appContainer').style.display = 'flex';
             document.getElementById('relatorioVazio').style.display = 'block';
-            if (window._chartRelatorioMotivos) { window._chartRelatorioMotivos.destroy(); window._chartRelatorioMotivos = null; }
-            if (window._chartRelatorioStatus) { window._chartRelatorioStatus.destroy(); window._chartRelatorioStatus = null; }
-            if (window._chartRelatorioCaixasMotivo) { window._chartRelatorioCaixasMotivo.destroy(); window._chartRelatorioCaixasMotivo = null; }
+            if (window._chartRelatorioMotivos) { window._chartRelatorioMotivos.destroy();
+                window._chartRelatorioMotivos = null; }
+            if (window._chartRelatorioStatus) { window._chartRelatorioStatus.destroy();
+                window._chartRelatorioStatus = null; }
+            if (window._chartRelatorioCaixasMotivo) { window._chartRelatorioCaixasMotivo.destroy();
+                window._chartRelatorioCaixasMotivo = null; }
         }
 
         // ==================== USUÁRIOS ====================
         async function renderUsuarios() {
-            if (!currentUser || currentUser.role !== 'admin') { mostrarToast('Acesso restrito!', 'error'); navegar('dashboard'); return; }
+            if (!currentUser || currentUser.role !== 'admin') { mostrarToast('Acesso restrito!', 'error');
+                navegar('dashboard'); return; }
             const usuarios = await getUsuarios();
             document.getElementById('tbodyUsuarios').innerHTML = usuarios.map(u => `
                 <tr>
@@ -2657,7 +3422,8 @@
             const password = document.getElementById('newPassword').value.trim();
             const role = document.getElementById('newRole').value;
             if (!username || !password) { mostrarToast('Preencha todos os campos!', 'error'); return; }
-            if (username.length < 3 || password.length < 3) { mostrarToast('Usuário e senha devem ter pelo menos 3 caracteres.', 'error'); return; }
+            if (username.length < 3 || password.length < 3) { mostrarToast(
+                    'Usuário e senha devem ter pelo menos 3 caracteres.', 'error'); return; }
             const usuarios = await getUsuarios();
             if (usuarios.find(u => u.username === username)) { mostrarToast('Usuário já existe!', 'error'); return; }
             await criarUsuarioFirestore(username, password, role);
@@ -2681,17 +3447,24 @@
                 fecharModalDetalhes();
                 fecharModalFoto();
                 fecharModalQR();
+                fecharModalVerPlano();
                 if (document.getElementById('printArea').style.display === 'block') fecharPrint();
-                if (document.getElementById('relatorioPrintArea').style.display === 'block') fecharRelatorio();
+                if (document.getElementById('relatorioPrintArea').style.display === 'block')
+            fecharRelatorio();
+                if (document.getElementById('planoPrintArea').style.display === 'block')
+            fecharPlanoPrint();
             }
         });
 
         setInterval(async () => {
-            if (currentUser && document.getElementById('page-dashboard').classList.contains('active')) await renderDashboard();
+            if (currentUser && document.getElementById('page-dashboard').classList.contains('active')) await
+                renderDashboard();
         }, 60000);
 
         init();
-        console.log('✅ Sistema Dona Rita · Firestore ativo. | Impressão otimizada para folha inteira (PDF A4 sem quebras). | Alerta WhatsApp integrado. | Dashboard de Caixas por Motivo adicionado.');
+        console.log(
+            '✅ Sistema Dona Rita · Firestore ativo. | Planos de Ação integrados. | ⚠️ ATUALIZE AS RULES DO FIREBASE: adicione match /planos_acao/{document=**} { allow read, write: if true; }'
+            );
     </script>
 </body>
 </html>
