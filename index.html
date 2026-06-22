@@ -1610,6 +1610,7 @@
         window._lastNcs = [];
         window._chartRelatorioMotivos = null;
         window._chartRelatorioStatus = null;
+        window._chartRelatorioCaixasMotivo = null; // NOVO: gráfico de caixas por motivo
 
         // ==================== FUNÇÕES AUXILIARES ====================
         function formatarQuantidade(nc) {
@@ -2494,6 +2495,23 @@
             const total = filtradas.length;
             const totalRetrabalhadas = filtradas.reduce((s, n) => s + (parseInt(n.quantidadeRetrabalhadas) || 0), 0);
             const totalDescartada = filtradas.reduce((s, n) => s + (parseInt(n.quantidadeDescartada) || 0), 0);
+
+            // ---------- NOVO: Agrupamento detalhado por motivo ----------
+            const motivoAgrupado = {};
+            filtradas.forEach(nc => {
+                const curto = (nc.motivo || 'Sem motivo').substring(0, 50);
+                if (!motivoAgrupado[curto]) {
+                    motivoAgrupado[curto] = { ncs: 0, caixas: 0, itens: 0, retrabalhadas: 0, descartada: 0 };
+                }
+                motivoAgrupado[curto].ncs += 1;
+                motivoAgrupado[curto].caixas += parseInt(nc.quantidadeCaixas) || 0;
+                motivoAgrupado[curto].itens += parseInt(nc.quantidadeItens) || 0;
+                motivoAgrupado[curto].retrabalhadas += parseInt(nc.quantidadeRetrabalhadas) || 0;
+                motivoAgrupado[curto].descartada += parseInt(nc.quantidadeDescartada) || 0;
+            });
+            const motivosDetalhados = Object.keys(motivoAgrupado).sort((a, b) => motivoAgrupado[b].caixas - motivoAgrupado[a].caixas);
+            // ----------------------------------------------------------
+
             const motivosMap = {};
             filtradas.forEach(n => { const curto = (n.motivo || 'Sem motivo').substring(0, 50); motivosMap[curto] = (motivosMap[curto] || 0) + 1; });
             const motivosLabels = Object.keys(motivosMap);
@@ -2525,12 +2543,28 @@
                     <div class="chart-card"><h3><i class="fas fa-tags"></i> NCs por Motivo</h3><canvas id="chartRelatorioMotivos"></canvas></div>
                     <div class="chart-card"><h3><i class="fas fa-chart-bar"></i> Status das NCs</h3><canvas id="chartRelatorioStatus"></canvas></div>
                 </div>
-                <div class="table-card" style="margin-top:10px;">
-                    <div class="table-header"><h3>Resumo das Não Conformidades</h3></div>
-                    <table>
-                        <thead><tr><th>Motivo</th><th>Quantidade</th></tr></thead>
-                        <tbody>${motivosLabels.map((label,i) => `<tr><td>${escapeHtml(label)}</td><td><strong>${motivosData[i]}</strong></td></tr>`).join('') || '<tr><td colspan="2">Nenhum registro</td></tr>'}</tbody>
-                    </table>
+                <!-- NOVO GRÁFICO: Caixas por Motivo -->
+                <div class="chart-card" style="margin-top:18px;">
+                    <h3><i class="fas fa-boxes"></i> Quantidade de Caixas por Motivo</h3>
+                    <canvas id="chartRelatorioCaixasMotivo"></canvas>
+                </div>
+                <!-- NOVA TABELA DETALHADA -->
+                <div class="table-card" style="margin-top:18px;">
+                    <div class="table-header"><h3><i class="fas fa-table"></i> Detalhamento por Motivo</h3></div>
+                    <div style="overflow-x:auto;">
+                        <table>
+                            <thead><tr><th>Motivo</th><th>Total NCs</th><th>Total Caixas</th><th>Total Itens</th><th>Total Retrabalhadas</th><th>Total Descartada</th></tr></thead>
+                            <tbody>${motivosDetalhados.length ? motivosDetalhados.map(mot => `
+                                <tr>
+                                    <td><strong>${escapeHtml(mot)}</strong></td>
+                                    <td><span class="badge" style="background:#e2eff7;color:#386e8c;">${motivoAgrupado[mot].ncs}</span></td>
+                                    <td><strong>${motivoAgrupado[mot].caixas}</strong> cx</td>
+                                    <td>${motivoAgrupado[mot].itens} it</td>
+                                    <td>${motivoAgrupado[mot].retrabalhadas} ret</td>
+                                    <td>${motivoAgrupado[mot].descartada} desc</td>
+                                </tr>`).join('') : '<tr><td colspan="6">Nenhum registro no período</td></tr>'}</tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="print-footer" style="margin-top:16px;">Dona Rita Embalagens © ${agora.getFullYear()} · Relatório gerencial</div>
                 <div class="no-print" style="text-align:center;margin-top:20px;padding-top:16px;border-top:2px dashed #ccc;">
@@ -2542,7 +2576,10 @@
             document.getElementById('appContainer').style.display = 'none';
             document.getElementById('relatorioVazio').style.display = 'none';
             document.getElementById('relatorioPrintArea').scrollIntoView({ behavior: 'smooth' });
+
+            // Renderização dos gráficos (incluindo o novo)
             setTimeout(() => {
+                // Gráfico de pizza (motivos)
                 if (window._chartRelatorioMotivos) window._chartRelatorioMotivos.destroy();
                 const ctxM = document.getElementById('chartRelatorioMotivos');
                 if (ctxM && motivosLabels.length > 0) {
@@ -2552,6 +2589,7 @@
                         options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 10, usePointStyle: true } } } }
                     });
                 }
+                // Gráfico de barras (status)
                 if (window._chartRelatorioStatus) window._chartRelatorioStatus.destroy();
                 const ctxS = document.getElementById('chartRelatorioStatus');
                 if (ctxS) {
@@ -2559,6 +2597,33 @@
                         type: 'bar',
                         data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ data: [abertas, resolvidas], backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8, borderWidth: 0 }] },
                         options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                    });
+                }
+                // NOVO GRÁFICO: Caixas por Motivo
+                if (window._chartRelatorioCaixasMotivo) window._chartRelatorioCaixasMotivo.destroy();
+                const ctxC = document.getElementById('chartRelatorioCaixasMotivo');
+                if (ctxC && motivosDetalhados.length > 0) {
+                    const caixasData = motivosDetalhados.map(m => motivoAgrupado[m].caixas);
+                    window._chartRelatorioCaixasMotivo = new Chart(ctxC, {
+                        type: 'bar',
+                        data: {
+                            labels: motivosDetalhados,
+                            datasets: [{
+                                label: 'Total de Caixas',
+                                data: caixasData,
+                                backgroundColor: '#1f6d52',
+                                borderRadius: 6,
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                y: { beginAtZero: true, title: { display: true, text: 'Caixas' }, ticks: { stepSize: 1 } },
+                                x: { ticks: { autoSkip: false, maxRotation: 45, minRotation: 0 } }
+                            }
+                        }
                     });
                 }
             }, 200);
@@ -2570,6 +2635,7 @@
             document.getElementById('relatorioVazio').style.display = 'block';
             if (window._chartRelatorioMotivos) { window._chartRelatorioMotivos.destroy(); window._chartRelatorioMotivos = null; }
             if (window._chartRelatorioStatus) { window._chartRelatorioStatus.destroy(); window._chartRelatorioStatus = null; }
+            if (window._chartRelatorioCaixasMotivo) { window._chartRelatorioCaixasMotivo.destroy(); window._chartRelatorioCaixasMotivo = null; }
         }
 
         // ==================== USUÁRIOS ====================
@@ -2625,7 +2691,7 @@
         }, 60000);
 
         init();
-        console.log('✅ Sistema Dona Rita · Firestore ativo. | Impressão otimizada para folha inteira (PDF A4 sem quebras). | Alerta WhatsApp integrado.');
+        console.log('✅ Sistema Dona Rita · Firestore ativo. | Impressão otimizada para folha inteira (PDF A4 sem quebras). | Alerta WhatsApp integrado. | Dashboard de Caixas por Motivo adicionado.');
     </script>
 </body>
 </html>
