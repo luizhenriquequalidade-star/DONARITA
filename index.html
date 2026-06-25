@@ -10,12 +10,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js">
+    </script>
 
     <!-- Chart.js + QRCode.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
+    </script>
 
     <style>
         :root {
@@ -50,7 +54,11 @@
             --backdrop-blur: blur(12px);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -76,7 +84,11 @@
             flex-direction: column;
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
-        #loginScreen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        #loginScreen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
         #loginScreen .login-bg-pattern {
             position: absolute;
             inset: 0;
@@ -98,8 +110,14 @@
             animation: slideUp 0.5s ease;
         }
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .login-logo {
             width: 80px;
@@ -114,12 +132,43 @@
             color: #fff;
             box-shadow: 0 12px 28px rgba(11, 59, 47, 0.3);
         }
-        #loginScreen h2 { font-size: 1.6rem; font-weight: 700; color: var(--primary); margin-bottom: 2px; letter-spacing: -0.02em; }
-        #loginScreen .login-subtitle { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 28px; font-weight: 500; }
-        #loginScreen .input-group { margin-bottom: 16px; text-align: left; }
-        #loginScreen .input-group label { font-weight: 600; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 0.03em; }
-        #loginScreen .input-group .input-icon { position: relative; }
-        #loginScreen .input-group .input-icon i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #b0bdb8; font-size: 0.95rem; }
+        #loginScreen h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 2px;
+            letter-spacing: -0.02em;
+        }
+        #loginScreen .login-subtitle {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            margin-bottom: 28px;
+            font-weight: 500;
+        }
+        #loginScreen .input-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+        #loginScreen .input-group label {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        #loginScreen .input-group .input-icon {
+            position: relative;
+        }
+        #loginScreen .input-group .input-icon i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #b0bdb8;
+            font-size: 0.95rem;
+        }
         #loginScreen .input-group input {
             width: 100%;
             padding: 13px 14px 13px 40px;
@@ -130,7 +179,12 @@
             transition: var(--transition);
             background: #fafbfa;
         }
-        #loginScreen .input-group input:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(31, 109, 82, 0.08); background: #fff; }
+        #loginScreen .input-group input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(31, 109, 82, 0.08);
+            background: #fff;
+        }
         .btn-login {
             width: 100%;
             padding: 14px;
@@ -147,8 +201,18 @@
             font-family: 'Inter', sans-serif;
             box-shadow: 0 6px 16px rgba(11, 59, 47, 0.2);
         }
-        .btn-login:hover { background: linear-gradient(135deg, #0f4d3b, #1f6d52); box-shadow: 0 10px 24px rgba(11, 59, 47, 0.3); transform: translateY(-1px); }
-        #loginScreen .login-error { color: var(--danger); font-size: 0.82rem; margin-top: 8px; min-height: 20px; font-weight: 500; }
+        .btn-login:hover {
+            background: linear-gradient(135deg, #0f4d3b, #1f6d52);
+            box-shadow: 0 10px 24px rgba(11, 59, 47, 0.3);
+            transform: translateY(-1px);
+        }
+        #loginScreen .login-error {
+            color: var(--danger);
+            font-size: 0.82rem;
+            margin-top: 8px;
+            min-height: 20px;
+            font-weight: 500;
+        }
 
         #appContainer {
             display: flex;
@@ -158,7 +222,10 @@
             visibility: hidden;
             transition: opacity 0.35s ease;
         }
-        #appContainer.visible { opacity: 1; visibility: visible; }
+        #appContainer.visible {
+            opacity: 1;
+            visibility: visible;
+        }
 
         #visitanteContainer {
             display: none;
@@ -170,7 +237,11 @@
             padding: 20px;
             font-family: 'Inter', sans-serif;
         }
-        #visitanteContainer.visible { display: flex; align-items: center; justify-content: center; }
+        #visitanteContainer.visible {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         #visitanteContainer .visitante-card {
             background: #fff;
             border-radius: var(--radius-xl);
@@ -180,7 +251,14 @@
             box-shadow: var(--shadow-lg);
             position: relative;
         }
-        #visitanteContainer .visitante-card h2 { color: var(--primary); margin-bottom: 16px; font-size: 1.4rem; display: flex; align-items: center; gap: 8px; }
+        #visitanteContainer .visitante-card h2 {
+            color: var(--primary);
+            margin-bottom: 16px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         .detail-row {
             padding: 10px 0;
             border-bottom: 1px solid #eef2f0;
@@ -188,14 +266,43 @@
             gap: 14px;
             font-size: 0.9rem;
         }
-        .detail-row strong { min-width: 140px; color: var(--text-secondary); font-weight: 600; }
-        .badge { display: inline-block; padding: 5px 14px; border-radius: 20px; font-size: 0.73rem; font-weight: 600; letter-spacing: 0.02em; }
-        .badge-open { background: #fce8e8; color: #b53b3b; }
-        .badge-resolved { background: #e1f0e7; color: #2d7a4f; }
-        .badge-pendente { background: #fef3e6; color: #b5792a; }
-        .badge-concluido { background: #e1f0e7; color: #2d7a4f; }
-        .badge-assinado { background: #d9f2f0; color: #1a6b63; }
-        .badge-nao-assinado { background: #fce8e8; color: #b53b3b; }
+        .detail-row strong {
+            min-width: 140px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        .badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.73rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .badge-open {
+            background: #fce8e8;
+            color: #b53b3b;
+        }
+        .badge-resolved {
+            background: #e1f0e7;
+            color: #2d7a4f;
+        }
+        .badge-pendente {
+            background: #fef3e6;
+            color: #b5792a;
+        }
+        .badge-concluido {
+            background: #e1f0e7;
+            color: #2d7a4f;
+        }
+        .badge-assinado {
+            background: #d9f2f0;
+            color: #1a6b63;
+        }
+        .badge-nao-assinado {
+            background: #fce8e8;
+            color: #b53b3b;
+        }
         .btn-fechar-visitante {
             position: absolute;
             top: 14px;
@@ -209,7 +316,9 @@
             font-size: 1rem;
             transition: var(--transition);
         }
-        .btn-fechar-visitante:hover { background: #e0e0e0; }
+        .btn-fechar-visitante:hover {
+            background: #e0e0e0;
+        }
 
         .sidebar {
             width: var(--sidebar-width);
@@ -226,7 +335,11 @@
             transition: transform 0.3s ease;
             border-right: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .sidebar-header { padding: 28px 22px 20px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .sidebar-header {
+            padding: 28px 22px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
         .sidebar-header .logo-icon {
             width: 54px;
             height: 54px;
@@ -239,9 +352,23 @@
             margin-bottom: 10px;
             backdrop-filter: blur(4px);
         }
-        .sidebar-header h3 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; }
-        .sidebar-header .sys-name { font-size: 0.68rem; opacity: 0.65; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
-        .sidebar-nav { flex: 1; padding: 14px 12px; overflow-y: auto; }
+        .sidebar-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .sidebar-header .sys-name {
+            font-size: 0.68rem;
+            opacity: 0.65;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        .sidebar-nav {
+            flex: 1;
+            padding: 14px 12px;
+            overflow-y: auto;
+        }
         .nav-item {
             display: flex;
             align-items: center;
@@ -262,11 +389,38 @@
             font-family: 'Inter', sans-serif;
             letter-spacing: -0.01em;
         }
-        .nav-item:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
-        .nav-item.active { background: rgba(255, 255, 255, 0.16); color: #fff; font-weight: 600; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); backdrop-filter: blur(4px); }
-        .nav-item i { width: 20px; text-align: center; font-size: 1.1rem; opacity: 0.9; }
-        .sidebar-footer { padding: 18px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.76rem; color: rgba(255, 255, 255, 0.55); text-align: center; }
-        .sidebar-footer .user-info { display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 10px; color: #fff; }
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.16);
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(4px);
+        }
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .sidebar-footer {
+            padding: 18px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.76rem;
+            color: rgba(255, 255, 255, 0.55);
+            text-align: center;
+        }
+        .sidebar-footer .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 10px;
+            color: #fff;
+        }
         .sidebar-footer .user-avatar {
             width: 32px;
             height: 32px;
@@ -292,21 +446,62 @@
             width: 100%;
             font-weight: 500;
         }
-        .btn-logout:hover { background: rgba(255, 255, 255, 0.15); }
-
-        .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 30px 34px; min-height: 100vh; transition: margin-left 0.3s ease; }
-        .page { display: none; animation: fadeIn 0.3s ease; }
-        .page.active { display: block; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.15);
         }
-        .page-header { margin-bottom: 26px; }
-        .page-header h1 { font-size: 1.7rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 10px; letter-spacing: -0.02em; }
-        .page-header h1 i { color: var(--primary-light); font-size: 1.4rem; }
-        .page-header .breadcrumb { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-bottom: 26px; }
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 30px 34px;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .page-header {
+            margin-bottom: 26px;
+        }
+        .page-header h1 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.02em;
+        }
+        .page-header h1 i {
+            color: var(--primary-light);
+            font-size: 1.4rem;
+        }
+        .page-header .breadcrumb {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 18px;
+            margin-bottom: 26px;
+        }
         .stat-card {
             background: var(--surface);
             backdrop-filter: var(--backdrop-blur);
@@ -319,7 +514,11 @@
             transition: var(--transition);
             border: 1px solid rgba(220, 229, 225, 0.6);
         }
-        .stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: #c8d6cf; }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+            border-color: #c8d6cf;
+        }
         .stat-icon {
             width: 52px;
             height: 52px;
@@ -330,17 +529,55 @@
             font-size: 1.4rem;
             flex-shrink: 0;
         }
-        .stat-icon.green { background: #e1f0e7; color: #1f6d52; }
-        .stat-icon.red { background: #fce8e8; color: #b53b3b; }
-        .stat-icon.blue { background: #e2eff7; color: #386e8c; }
-        .stat-icon.orange { background: #fcf0e1; color: #b5792a; }
-        .stat-icon.purple { background: #f0e6f6; color: #7b4b9a; }
-        .stat-icon.teal { background: #d9f2f0; color: #1a6b63; }
-        .stat-info h3 { font-size: 1.9rem; font-weight: 700; line-height: 1; color: var(--text); font-family: 'JetBrains Mono', 'Inter', monospace; letter-spacing: -0.03em; }
-        .stat-info span { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+        .stat-icon.green {
+            background: #e1f0e7;
+            color: #1f6d52;
+        }
+        .stat-icon.red {
+            background: #fce8e8;
+            color: #b53b3b;
+        }
+        .stat-icon.blue {
+            background: #e2eff7;
+            color: #386e8c;
+        }
+        .stat-icon.orange {
+            background: #fcf0e1;
+            color: #b5792a;
+        }
+        .stat-icon.purple {
+            background: #f0e6f6;
+            color: #7b4b9a;
+        }
+        .stat-icon.teal {
+            background: #d9f2f0;
+            color: #1a6b63;
+        }
+        .stat-info h3 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--text);
+            font-family: 'JetBrains Mono', 'Inter', monospace;
+            letter-spacing: -0.03em;
+        }
+        .stat-info span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
 
-        .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 26px; }
-        @media (max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 26px;
+        }
+        @media (max-width: 900px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
         .chart-card {
             background: var(--surface);
             backdrop-filter: var(--backdrop-blur);
@@ -349,8 +586,15 @@
             box-shadow: var(--shadow-sm);
             border: 1px solid rgba(220, 229, 225, 0.6);
         }
-        .chart-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 14px; color: var(--text); }
-        .chart-card canvas { max-height: 260px; }
+        .chart-card h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 14px;
+            color: var(--text);
+        }
+        .chart-card canvas {
+            max-height: 260px;
+        }
 
         .table-card {
             background: var(--surface);
@@ -360,13 +604,47 @@
             overflow: hidden;
             border: 1px solid rgba(220, 229, 225, 0.6);
         }
-        .table-card .table-header { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-        .table-card .table-header h3 { font-weight: 600; font-size: 1rem; color: var(--text); }
-        .table-card table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
-        .table-card table th { background: #f6f9f7; padding: 13px 16px; text-align: left; font-weight: 600; color: var(--text-secondary); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 2px solid var(--border); }
-        .table-card table td { padding: 13px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-        .table-card table tbody tr { transition: var(--transition); }
-        .table-card table tbody tr:hover { background: #f9fbfa; }
+        .table-card .table-header {
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .table-card .table-header h3 {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text);
+        }
+        .table-card table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.84rem;
+        }
+        .table-card table th {
+            background: #f6f9f7;
+            padding: 13px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.74rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 2px solid var(--border);
+        }
+        .table-card table td {
+            padding: 13px 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        .table-card table tbody tr {
+            transition: var(--transition);
+        }
+        .table-card table tbody tr:hover {
+            background: #f9fbfa;
+        }
 
         .btn {
             padding: 9px 16px;
@@ -383,26 +661,94 @@
             letter-spacing: -0.01em;
             white-space: nowrap;
         }
-        .btn-sm { padding: 6px 11px; font-size: 0.73rem; border-radius: 16px; }
-        .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(11, 59, 47, 0.2); }
-        .btn-primary:hover { background: #0f4d3b; box-shadow: 0 6px 16px rgba(11, 59, 47, 0.3); }
-        .btn-accent { background: var(--accent); color: #1e1e1e; font-weight: 600; }
-        .btn-accent:hover { background: #b88735; }
-        .btn-outline { background: transparent; border: 1.5px solid #cdd6d1; color: var(--text); }
-        .btn-outline:hover { border-color: var(--primary-light); background: #f5f9f7; }
-        .btn-danger { background: var(--danger); color: #fff; }
-        .btn-danger:hover { background: #a13232; }
-        .btn-success { background: var(--success); color: #fff; }
-        .btn-success:hover { background: #256b43; }
-        .btn-info { background: var(--info); color: #fff; }
-        .btn-info:hover { background: #2f5f78; }
-        .btn-whatsapp { background: var(--whatsapp); color: #fff; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35); font-weight: 600; }
-        .btn-whatsapp:hover { background: var(--whatsapp-dark); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45); transform: translateY(-1px); }
-        .btn-assinar { background: #1a6b63; color: #fff; font-weight: 600; box-shadow: 0 4px 12px rgba(26, 107, 99, 0.3); }
-        .btn-assinar:hover { background: #145750; box-shadow: 0 6px 18px rgba(26, 107, 99, 0.4); }
-        .actions-cell { display: flex; gap: 5px; flex-wrap: wrap; }
-        .empty-state { text-align: center; padding: 48px; color: var(--text-muted); }
-        .empty-state i { font-size: 2.8rem; margin-bottom: 12px; opacity: 0.5; }
+        .btn-sm {
+            padding: 6px 11px;
+            font-size: 0.73rem;
+            border-radius: 16px;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(11, 59, 47, 0.2);
+        }
+        .btn-primary:hover {
+            background: #0f4d3b;
+            box-shadow: 0 6px 16px rgba(11, 59, 47, 0.3);
+        }
+        .btn-accent {
+            background: var(--accent);
+            color: #1e1e1e;
+            font-weight: 600;
+        }
+        .btn-accent:hover {
+            background: #b88735;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #cdd6d1;
+            color: var(--text);
+        }
+        .btn-outline:hover {
+            border-color: var(--primary-light);
+            background: #f5f9f7;
+        }
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+        .btn-danger:hover {
+            background: #a13232;
+        }
+        .btn-success {
+            background: var(--success);
+            color: #fff;
+        }
+        .btn-success:hover {
+            background: #256b43;
+        }
+        .btn-info {
+            background: var(--info);
+            color: #fff;
+        }
+        .btn-info:hover {
+            background: #2f5f78;
+        }
+        .btn-whatsapp {
+            background: var(--whatsapp);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+            font-weight: 600;
+        }
+        .btn-whatsapp:hover {
+            background: var(--whatsapp-dark);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+            transform: translateY(-1px);
+        }
+        .btn-assinar {
+            background: #1a6b63;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(26, 107, 99, 0.3);
+        }
+        .btn-assinar:hover {
+            background: #145750;
+            box-shadow: 0 6px 18px rgba(26, 107, 99, 0.4);
+        }
+        .actions-cell {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 48px;
+            color: var(--text-muted);
+        }
+        .empty-state i {
+            font-size: 2.8rem;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
 
         .form-card {
             background: var(--surface);
@@ -413,8 +759,18 @@
             max-width: 820px;
             border: 1px solid rgba(220, 229, 225, 0.6);
         }
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.82rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.03em; }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
         .form-group input,
         .form-group select,
         .form-group textarea {
@@ -429,13 +785,46 @@
         }
         .form-group input:focus,
         .form-group select:focus,
-        .form-group textarea:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(31, 109, 82, 0.06); background: #fff; }
-        .form-group textarea { resize: vertical; min-height: 80px; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
-        .photo-preview-container { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
-        .photo-preview { width: 85px; height: 85px; border-radius: var(--radius-sm); object-fit: cover; border: 2px solid var(--border); cursor: pointer; transition: var(--transition); }
-        .photo-preview:hover { border-color: var(--primary-light); transform: scale(1.04); box-shadow: var(--shadow-sm); }
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(31, 109, 82, 0.06);
+            background: #fff;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        .photo-preview-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .photo-preview {
+            width: 85px;
+            height: 85px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .photo-preview:hover {
+            border-color: var(--primary-light);
+            transform: scale(1.04);
+            box-shadow: var(--shadow-sm);
+        }
         .photo-upload-area {
             border: 2px dashed #c8d6cf;
             border-radius: var(--radius);
@@ -445,12 +834,37 @@
             transition: var(--transition);
             background: #fafbfa;
         }
-        .photo-upload-area:hover { border-color: var(--primary-light); background: #f4f9f6; }
-        .photo-upload-area i { font-size: 1.8rem; color: var(--primary-light); margin-bottom: 6px; }
+        .photo-upload-area:hover {
+            border-color: var(--primary-light);
+            background: #f4f9f6;
+        }
+        .photo-upload-area i {
+            font-size: 1.8rem;
+            color: var(--primary-light);
+            margin-bottom: 6px;
+        }
 
-        .pessoa-card { background: #f9fbfa; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px; position: relative; transition: var(--transition); }
-        .pessoa-card:hover { border-color: #bcc9c2; box-shadow: var(--shadow-xs); }
-        .pessoa-card .pessoa-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+        .pessoa-card {
+            background: #f9fbfa;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            position: relative;
+            transition: var(--transition);
+        }
+        .pessoa-card:hover {
+            border-color: #bcc9c2;
+            box-shadow: var(--shadow-xs);
+        }
+        .pessoa-card .pessoa-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
         .pessoa-numero {
             background: var(--primary);
             color: #fff;
@@ -464,14 +878,51 @@
             font-size: 0.8rem;
             flex-shrink: 0;
         }
-        .btn-remover-pessoa { background: #fce8e8; border: none; color: #b53b3b; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 0.8rem; transition: var(--transition); }
-        .btn-remover-pessoa:hover { background: #f5c8c8; }
-        .assinatura-status { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 16px; }
-        .assinatura-status.assinado { background: #d9f2f0; color: #1a6b63; }
-        .assinatura-status.pendente { background: #fef3e6; color: #b5792a; }
-        .assinatura-status i { font-size: 1rem; }
+        .btn-remover-pessoa {
+            background: #fce8e8;
+            border: none;
+            color: #b53b3b;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+        .btn-remover-pessoa:hover {
+            background: #f5c8c8;
+        }
+        .assinatura-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 16px;
+        }
+        .assinatura-status.assinado {
+            background: #d9f2f0;
+            color: #1a6b63;
+        }
+        .assinatura-status.pendente {
+            background: #fef3e6;
+            color: #b5792a;
+        }
+        .assinatura-status i {
+            font-size: 1rem;
+        }
 
-        .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         .modal {
             background: var(--surface-solid);
             border-radius: var(--radius-xl);
@@ -483,7 +934,11 @@
             box-shadow: var(--shadow-lg);
             position: relative;
         }
-        .modal h2 { font-size: 1.3rem; margin-bottom: 16px; color: var(--primary); }
+        .modal h2 {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
         .close-btn {
             position: absolute;
             top: 14px;
@@ -501,11 +956,25 @@
             justify-content: center;
             transition: var(--transition);
         }
-        .close-btn:hover { background: #f0f0f0; color: #333; }
+        .close-btn:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
 
-        .filtro-relatorio { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-bottom: 24px; }
-        .filtro-relatorio .form-group { margin-bottom: 0; min-width: 160px; }
-        .filtro-relatorio .form-group label { font-size: 0.72rem; }
+        .filtro-relatorio {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-end;
+            margin-bottom: 24px;
+        }
+        .filtro-relatorio .form-group {
+            margin-bottom: 0;
+            min-width: 160px;
+        }
+        .filtro-relatorio .form-group label {
+            font-size: 0.72rem;
+        }
 
         #printArea,
         #relatorioPrintArea,
@@ -541,7 +1010,13 @@
             flex-wrap: wrap;
             gap: 8px;
         }
-        .print-header h2 { font-size: 22px; font-weight: 800; color: #0b3b2f; margin: 0; letter-spacing: -0.02em; }
+        .print-header h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0b3b2f;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
         .print-badge {
             display: inline-block;
             font-size: 15px;
@@ -551,20 +1026,80 @@
             text-transform: uppercase;
             letter-spacing: 0.04em;
         }
-        .badge-print-open { background: #fce8e8; color: #b53b3b; border: 2px solid #b53b3b; }
-        .badge-print-resolved { background: #e1f0e7; color: #2d7a4f; border: 2px solid #2d7a4f; }
-        .badge-print-concluido { background: #e1f0e7; color: #2d7a4f; border: 2px solid #2d7a4f; }
-        .badge-print-pendente { background: #fef3e6; color: #b5792a; border: 2px solid #b5792a; }
-        .print-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; margin-bottom: 14px; }
-        .print-field { padding: 8px 0; border-bottom: 1px dashed #ccc; }
-        .print-field.full-width { grid-column: 1 / -1; }
-        .print-label { font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; display: block; }
-        .print-value { font-size: 16px; font-weight: 700; color: #111; word-break: break-word; }
-        .print-value.highlight { font-size: 20px; font-weight: 800; }
-        .print-fotos-section { margin-top: 10px; border-top: 2px solid #0b3b2f; padding-top: 10px; }
-        .print-fotos-section h3 { font-size: 15px; margin-bottom: 8px; color: #0b3b2f; }
-        .print-fotos-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-        .print-fotos-grid img { width: 120px; height: 120px; object-fit: cover; border: 1px solid #ccc; border-radius: 6px; }
+        .badge-print-open {
+            background: #fce8e8;
+            color: #b53b3b;
+            border: 2px solid #b53b3b;
+        }
+        .badge-print-resolved {
+            background: #e1f0e7;
+            color: #2d7a4f;
+            border: 2px solid #2d7a4f;
+        }
+        .badge-print-concluido {
+            background: #e1f0e7;
+            color: #2d7a4f;
+            border: 2px solid #2d7a4f;
+        }
+        .badge-print-pendente {
+            background: #fef3e6;
+            color: #b5792a;
+            border: 2px solid #b5792a;
+        }
+        .print-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 20px;
+            margin-bottom: 14px;
+        }
+        .print-field {
+            padding: 8px 0;
+            border-bottom: 1px dashed #ccc;
+        }
+        .print-field.full-width {
+            grid-column: 1 / -1;
+        }
+        .print-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .print-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111;
+            word-break: break-word;
+        }
+        .print-value.highlight {
+            font-size: 20px;
+            font-weight: 800;
+        }
+        .print-fotos-section {
+            margin-top: 10px;
+            border-top: 2px solid #0b3b2f;
+            padding-top: 10px;
+        }
+        .print-fotos-section h3 {
+            font-size: 15px;
+            margin-bottom: 8px;
+            color: #0b3b2f;
+        }
+        .print-fotos-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .print-fotos-grid img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
         .print-qr-section {
             display: flex;
             align-items: center;
@@ -575,11 +1110,28 @@
             border-radius: 8px;
             background: #fafafa;
         }
-        .print-qr-section .qr-print { flex-shrink: 0; }
-        .print-qr-section .qr-info { font-size: 14px; color: #333; }
-        .print-footer { margin-top: auto; padding-top: 10px; text-align: center; font-size: 11px; color: #888; border-top: 1px solid #ddd; }
+        .print-qr-section .qr-print {
+            flex-shrink: 0;
+        }
+        .print-qr-section .qr-info {
+            font-size: 14px;
+            color: #333;
+        }
+        .print-footer {
+            margin-top: auto;
+            padding-top: 10px;
+            text-align: center;
+            font-size: 11px;
+            color: #888;
+            border-top: 1px solid #ddd;
+        }
 
-        .print-pessoas-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 12px; }
+        .print-pessoas-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 12px;
+        }
         .print-pessoas-table th {
             background: #f0f4f1;
             padding: 8px 10px;
@@ -590,42 +1142,171 @@
             letter-spacing: 0.03em;
             border: 1px solid #dce5e1;
         }
-        .print-pessoas-table td { padding: 8px 10px; border: 1px solid #dce5e1; vertical-align: top; }
-        .print-pessoas-table .assinatura-linha { height: 50px; text-align: center; font-style: italic; color: #888; font-size: 10px; }
-        .print-pessoas-table .assinatura-linha.assinado-print { color: #1a6b63; font-weight: 700; font-style: normal; font-size: 11px; }
-
-        @media print {
-            @page { size: A4; margin: 2mm; }
-            html, body { width: 100%; height: 100%; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; font-size: 14px; line-height: 1.5; background: #fff !important; }
-            body>*:not(#printArea):not(#relatorioPrintArea):not(#planoPrintArea) { display: none !important; }
-            #printArea, #relatorioPrintArea, #planoPrintArea { display: block !important; position: static !important; width: 100% !important; min-height: 0 !important; height: auto !important; overflow: visible !important; padding: 0 !important; margin: 0 !important; background: #fff !important; box-shadow: none !important; border-radius: 0 !important; page-break-after: avoid; }
-            .no-print { display: none !important; }
-            .print-sheet { padding: 3mm 5mm !important; min-height: 0 !important; width: 100% !important; font-size: 10px !important; line-height: 1.2 !important; }
-            .print-header { padding-bottom: 4px !important; margin-bottom: 6px !important; border-bottom-width: 2px !important; }
-            .print-header h2 { font-size: 15px !important; letter-spacing: -0.02em !important; }
-            .print-header p { font-size: 9px !important; margin: 1px 0 0 !important; }
-            .print-badge { font-size: 10px !important; padding: 2px 8px !important; }
-            .print-grid { gap: 2px 10px !important; margin-bottom: 6px !important; }
-            .print-field { padding: 2px 0 !important; }
-            .print-label { font-size: 7px !important; margin-bottom: 1px !important; }
-            .print-value { font-size: 11px !important; font-weight: 700 !important; }
-            .print-value.highlight { font-size: 13px !important; font-weight: 800 !important; }
-            .print-fotos-section { margin-top: 6px !important; padding-top: 4px !important; border-top-width: 1px !important; }
-            .print-fotos-section h3 { font-size: 10px !important; margin-bottom: 4px !important; }
-            .print-fotos-grid { gap: 4px !important; }
-            .print-fotos-grid img { width: 60px !important; height: 60px !important; border-radius: 4px !important; }
-            .print-qr-section { margin-top: 6px !important; padding: 6px !important; gap: 10px !important; }
-            .print-qr-section .qr-print img, .print-qr-section .qr-print canvas { width: 60px !important; height: 60px !important; }
-            .print-qr-section .qr-info strong { font-size: 11px !important; }
-            .print-qr-section .qr-info p { font-size: 9px !important; margin: 1px 0 !important; }
-            .print-footer { font-size: 7px !important; padding-top: 4px !important; margin-top: 6px !important; }
-            .print-pessoas-table { font-size: 8px !important; }
-            .print-pessoas-table th { font-size: 7px !important; padding: 4px 5px !important; }
-            .print-pessoas-table td { padding: 4px 5px !important; }
-            .print-pessoas-table .assinatura-linha { height: 30px !important; font-size: 7px !important; }
+        .print-pessoas-table td {
+            padding: 8px 10px;
+            border: 1px solid #dce5e1;
+            vertical-align: top;
+        }
+        .print-pessoas-table .assinatura-linha {
+            height: 50px;
+            text-align: center;
+            font-style: italic;
+            color: #888;
+            font-size: 10px;
+        }
+        .print-pessoas-table .assinatura-linha.assinado-print {
+            color: #1a6b63;
+            font-weight: 700;
+            font-style: normal;
+            font-size: 11px;
         }
 
-        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+        @media print {
+            @page {
+                size: A4;
+                margin: 2mm;
+            }
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                font-size: 14px;
+                line-height: 1.5;
+                background: #fff !important;
+            }
+            body>*:not(#printArea):not(#relatorioPrintArea):not(#planoPrintArea) {
+                display: none !important;
+            }
+            #printArea,
+            #relatorioPrintArea,
+            #planoPrintArea {
+                display: block !important;
+                position: static !important;
+                width: 100% !important;
+                min-height: 0 !important;
+                height: auto !important;
+                overflow: visible !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                background: #fff !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                page-break-after: avoid;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-sheet {
+                padding: 3mm 5mm !important;
+                min-height: 0 !important;
+                width: 100% !important;
+                font-size: 10px !important;
+                line-height: 1.2 !important;
+            }
+            .print-header {
+                padding-bottom: 4px !important;
+                margin-bottom: 6px !important;
+                border-bottom-width: 2px !important;
+            }
+            .print-header h2 {
+                font-size: 15px !important;
+                letter-spacing: -0.02em !important;
+            }
+            .print-header p {
+                font-size: 9px !important;
+                margin: 1px 0 0 !important;
+            }
+            .print-badge {
+                font-size: 10px !important;
+                padding: 2px 8px !important;
+            }
+            .print-grid {
+                gap: 2px 10px !important;
+                margin-bottom: 6px !important;
+            }
+            .print-field {
+                padding: 2px 0 !important;
+            }
+            .print-label {
+                font-size: 7px !important;
+                margin-bottom: 1px !important;
+            }
+            .print-value {
+                font-size: 11px !important;
+                font-weight: 700 !important;
+            }
+            .print-value.highlight {
+                font-size: 13px !important;
+                font-weight: 800 !important;
+            }
+            .print-fotos-section {
+                margin-top: 6px !important;
+                padding-top: 4px !important;
+                border-top-width: 1px !important;
+            }
+            .print-fotos-section h3 {
+                font-size: 10px !important;
+                margin-bottom: 4px !important;
+            }
+            .print-fotos-grid {
+                gap: 4px !important;
+            }
+            .print-fotos-grid img {
+                width: 60px !important;
+                height: 60px !important;
+                border-radius: 4px !important;
+            }
+            .print-qr-section {
+                margin-top: 6px !important;
+                padding: 6px !important;
+                gap: 10px !important;
+            }
+            .print-qr-section .qr-print img,
+            .print-qr-section .qr-print canvas {
+                width: 60px !important;
+                height: 60px !important;
+            }
+            .print-qr-section .qr-info strong {
+                font-size: 11px !important;
+            }
+            .print-qr-section .qr-info p {
+                font-size: 9px !important;
+                margin: 1px 0 !important;
+            }
+            .print-footer {
+                font-size: 7px !important;
+                padding-top: 4px !important;
+                margin-top: 6px !important;
+            }
+            .print-pessoas-table {
+                font-size: 8px !important;
+            }
+            .print-pessoas-table th {
+                font-size: 7px !important;
+                padding: 4px 5px !important;
+            }
+            .print-pessoas-table td {
+                padding: 4px 5px !important;
+            }
+            .print-pessoas-table .assinatura-linha {
+                height: 30px !important;
+                font-size: 7px !important;
+            }
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
         .toast {
             padding: 12px 22px;
             border-radius: 20px;
@@ -636,10 +1317,25 @@
             animation: slideInRight 0.3s ease;
             max-width: 400px;
         }
-        @keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
-        .toast.success { background: #2d7a4f; }
-        .toast.error { background: #b53b3b; }
-        .toast.info { background: #386e8c; }
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .toast.success {
+            background: #2d7a4f;
+        }
+        .toast.error {
+            background: #b53b3b;
+        }
+        .toast.info {
+            background: #386e8c;
+        }
 
         .live-timer {
             font-family: 'JetBrains Mono', monospace;
@@ -654,14 +1350,33 @@
             gap: 6px;
             letter-spacing: -0.02em;
         }
-        .live-timer i { font-size: 0.8rem; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .live-timer i {
+            font-size: 0.8rem;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
 
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); }
-            .sidebar.open { transform: translateX(0); }
-            .main-content { margin-left: 0; }
-            .mobile-menu-btn { display: block !important; }
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .mobile-menu-btn {
+                display: block !important;
+            }
         }
         .mobile-menu-btn {
             display: none;
@@ -679,8 +1394,382 @@
             cursor: pointer;
             box-shadow: var(--shadow);
         }
-        .highlight-box { background: #fefdf6; border: 2px solid #e8d58b; border-radius: var(--radius); padding: 16px 20px; margin: 12px 0; font-size: 0.85rem; color: #6b5a1e; }
-        .highlight-box i { color: #c8963e; margin-right: 6px; }
+        .highlight-box {
+            background: #fefdf6;
+            border: 2px solid #e8d58b;
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin: 12px 0;
+            font-size: 0.85rem;
+            color: #6b5a1e;
+        }
+        .highlight-box i {
+            color: #c8963e;
+            margin-right: 6px;
+        }
+
+        /* ============ NOVOS ESTILOS: ISHIKAWA & 5 PORQUÊS ============ */
+        .tool-toggle-card {
+            background: #f8faf9;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px 22px;
+            margin-top: 20px;
+            transition: var(--transition);
+        }
+        .tool-toggle-card.active-tool {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 4px rgba(31, 109, 82, 0.06);
+            background: #fafdfb;
+        }
+        .tool-toggle-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+        .tool-toggle-header .tool-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        .tool-toggle-header .tool-icon.ishikawa-icon {
+            background: #e2eff7;
+            color: #386e8c;
+        }
+        .tool-toggle-header .tool-icon.fivewhys-icon {
+            background: #fef3e6;
+            color: #b5792a;
+        }
+        .tool-toggle-header .tool-info {
+            flex: 1;
+            margin-left: 14px;
+        }
+        .tool-toggle-header .tool-info h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.01em;
+        }
+        .tool-toggle-header .tool-info span {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .tool-toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+        .tool-toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .tool-toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #cdd6d1;
+            border-radius: 28px;
+            transition: 0.3s;
+        }
+        .tool-toggle-slider::before {
+            content: '';
+            position: absolute;
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+        .tool-toggle-switch input:checked+.tool-toggle-slider {
+            background: var(--primary-light);
+        }
+        .tool-toggle-switch input:checked+.tool-toggle-slider::before {
+            transform: translateX(22px);
+        }
+        .tool-body {
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px dashed var(--border);
+            display: none;
+        }
+        .tool-toggle-card.active-tool .tool-body {
+            display: block;
+        }
+
+        /* Ishikawa Diagram */
+        .ishikawa-diagram {
+            position: relative;
+            background: #fff;
+            border: 2px solid #e0e8e4;
+            border-radius: var(--radius-lg);
+            padding: 30px 20px 20px;
+            overflow-x: auto;
+            min-height: 420px;
+        }
+        .ishikawa-svg-container {
+            width: 100%;
+            min-width: 700px;
+            display: flex;
+            justify-content: center;
+        }
+        .ishikawa-svg-container svg {
+            width: 100%;
+            max-width: 750px;
+            height: auto;
+        }
+        .ishikawa-category-label {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            fill: #1e2b26;
+        }
+        .ishikawa-cause-input-group {
+            margin-top: 8px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .ishikawa-cause-input-group input {
+            flex: 1;
+            padding: 7px 10px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-family: 'Inter', sans-serif;
+            background: #fafbfa;
+            transition: var(--transition);
+        }
+        .ishikawa-cause-input-group input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 2px rgba(31, 109, 82, 0.05);
+            background: #fff;
+        }
+        .ishikawa-cause-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #e9f3ef;
+            color: #0b3b2f;
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            margin: 3px 4px;
+            white-space: nowrap;
+        }
+        .ishikawa-cause-tag .remove-cause {
+            cursor: pointer;
+            color: #b53b3b;
+            font-size: 0.85rem;
+            line-height: 1;
+            margin-left: 2px;
+            transition: var(--transition);
+        }
+        .ishikawa-cause-tag .remove-cause:hover {
+            color: #8b2a2a;
+        }
+        .ishikawa-causes-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            margin-top: 4px;
+            min-height: 28px;
+        }
+        .ishikawa-category-box {
+            background: #f9fbfa;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            margin-bottom: 10px;
+        }
+        .ishikawa-category-box h5 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .ishikawa-category-box h5 .cat-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* 5 Porquês */
+        .five-whys-container {
+            background: #fff;
+            border: 2px solid #e0e8e4;
+            border-radius: var(--radius-lg);
+            padding: 24px 20px;
+        }
+        .five-whys-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .five-whys-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 22px;
+            top: 48px;
+            bottom: -20px;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--accent), #e0d5c0);
+            border-radius: 2px;
+        }
+        .five-whys-number {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #d4a54a);
+            color: #1e1e1e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(200, 150, 62, 0.3);
+            z-index: 1;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .five-whys-content {
+            flex: 1;
+            background: #fafbfa;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            transition: var(--transition);
+        }
+        .five-whys-content:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(200, 150, 62, 0.08);
+            background: #fff;
+        }
+        .five-whys-content label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .five-whys-content textarea {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            resize: vertical;
+            min-height: 38px;
+            color: var(--text);
+            padding: 4px 0;
+        }
+        .five-whys-content textarea:focus {
+            outline: none;
+        }
+        .five-whys-root-cause {
+            background: linear-gradient(135deg, #fef9f0, #fef3e6);
+            border: 2px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-top: 10px;
+        }
+        .five-whys-root-cause label {
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: #6b4f1a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+        .five-whys-root-cause textarea {
+            width: 100%;
+            border: 1.5px solid #e0d5c0;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            padding: 10px 14px;
+            resize: vertical;
+            min-height: 50px;
+            background: #fffefb;
+        }
+        .five-whys-root-cause textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(200, 150, 62, 0.1);
+        }
+
+        /* print styles for tools */
+        .print-tool-section {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 2px solid #0b3b2f;
+            page-break-inside: avoid;
+        }
+        .print-tool-section h3 {
+            font-size: 16px;
+            color: #0b3b2f;
+            margin-bottom: 10px;
+        }
+        .print-ishikawa-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+        .print-ishikawa-table th {
+            background: #f0f4f1;
+            padding: 6px 8px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 9px;
+            text-transform: uppercase;
+            border: 1px solid #dce5e1;
+            width: 16%;
+        }
+        .print-ishikawa-table td {
+            padding: 6px 8px;
+            border: 1px solid #dce5e1;
+            vertical-align: top;
+            font-size: 10px;
+        }
+        .print-whys-list {
+            list-style: none;
+            padding: 0;
+        }
+        .print-whys-list li {
+            padding: 6px 10px;
+            margin-bottom: 4px;
+            background: #fafafa;
+            border-left: 4px solid #c8963e;
+            border-radius: 0 6px 6px 0;
+            font-size: 11px;
+        }
+        .print-whys-list li strong {
+            color: #b5792a;
+        }
     </style>
 </head>
 <body>
@@ -830,11 +1919,60 @@
             <!-- PÁGINA FORMULÁRIO PLANO DE AÇÃO -->
             <div class="page" id="page-novo-plano">
                 <div class="page-header"><h1 id="tituloFormPlano"><i class="fas fa-tasks"></i> Plano de Ação</h1><p class="breadcrumb" id="subtituloFormPlano">Criar novo plano de ação</p></div>
-                <div class="form-card" style="max-width:900px;">
+                <div class="form-card" style="max-width:960px;">
                     <input type="hidden" id="editPlanoId" value=""><input type="hidden" id="planoNcId" value="">
                     <div class="form-group"><label><i class="fas fa-hashtag"></i> NC Referente</label><input type="text" id="planoNcInfo" disabled style="background:#f0f4f1;font-weight:600;"></div>
                     <div class="form-group"><label><i class="fas fa-file-alt"></i> Resumo da Reunião / Pauta *</label><textarea id="planoResumo" placeholder="Descreva o resumo da reunião, pauta discutida e encaminhamentos..." style="min-height:120px;"></textarea></div>
                     <div class="form-group"><label><i class="fas fa-users"></i> Pessoas Envolvidas</label><div id="containerPessoas"></div><button class="btn btn-outline" onclick="adicionarPessoa()" style="margin-top:8px;"><i class="fas fa-user-plus"></i> Adicionar Pessoa</button></div>
+
+                    <!-- ============ FERRAMENTAS OPCIONAIS ============ -->
+                    <div style="margin-top:8px;">
+                        <!-- Diagrama de Ishikawa -->
+                        <div class="tool-toggle-card" id="toolIshikawaCard">
+                            <div class="tool-toggle-header" onclick="toggleTool('ishikawa')">
+                                <div class="tool-icon ishikawa-icon"><i class="fas fa-fish"></i></div>
+                                <div class="tool-info">
+                                    <h4>Diagrama de Ishikawa (Espinha de Peixe)</h4>
+                                    <span>Análise de causa e efeito — 6Ms</span>
+                                </div>
+                                <label class="tool-toggle-switch" onclick="event.stopPropagation()">
+                                    <input type="checkbox" id="toggleIshikawa" onchange="toggleTool('ishikawa', this.checked)">
+                                    <span class="tool-toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="tool-body" id="bodyIshikawa">
+                                <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;">
+                                    <i class="fas fa-info-circle"></i> Preencha as causas em cada categoria (6Ms). Adicione quantas causas quiser.
+                                </p>
+                                <div class="ishikawa-diagram" id="ishikawaDiagram">
+                                    <div class="ishikawa-svg-container" id="ishikawaSvgContainer"></div>
+                                </div>
+                                <div class="form-row" style="margin-top:16px;" id="ishikawaCategoryBoxes"></div>
+                            </div>
+                        </div>
+
+                        <!-- 5 Porquês -->
+                        <div class="tool-toggle-card" id="toolFiveWhysCard" style="margin-top:14px;">
+                            <div class="tool-toggle-header" onclick="toggleTool('fivewhys')">
+                                <div class="tool-icon fivewhys-icon"><i class="fas fa-question-circle"></i></div>
+                                <div class="tool-info">
+                                    <h4>5 Porquês</h4>
+                                    <span>Análise de causa raiz — perguntas encadeadas</span>
+                                </div>
+                                <label class="tool-toggle-switch" onclick="event.stopPropagation()">
+                                    <input type="checkbox" id="toggleFiveWhys" onchange="toggleTool('fivewhys', this.checked)">
+                                    <span class="tool-toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="tool-body" id="bodyFiveWhys">
+                                <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;">
+                                    <i class="fas fa-info-circle"></i> Pergunte "Por quê?" cinco vezes para encontrar a causa raiz do problema.
+                                </p>
+                                <div class="five-whys-container" id="fiveWhysContainer"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
                         <button class="btn btn-primary" onclick="salvarPlanoAcao()"><i class="fas fa-save"></i> Salvar Plano de Ação</button>
                         <button class="btn btn-outline" onclick="cancelarPlano()"><i class="fas fa-arrow-left"></i> Voltar</button>
@@ -910,7 +2048,7 @@
         </div>
     </div>
     <div id="modalVerPlano" class="modal-overlay" style="display:none;" onclick="fecharModalVerPlano()">
-        <div class="modal" style="max-width:850px;" onclick="event.stopPropagation()">
+        <div class="modal" style="max-width:900px;" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="fecharModalVerPlano()"><i class="fas fa-times"></i></button>
             <div id="verPlanoInner"></div>
         </div>
@@ -936,6 +2074,8 @@
         const collNCs = db.collection('ncs');
         const collUsuarios = db.collection('usuarios');
         const collPlanos = db.collection('planos_acao');
+        const collIshikawa = db.collection('ishikawa_diagrams');
+        const collFiveWhys = db.collection('five_whys');
 
         // ==================== ESTADO GLOBAL ====================
         let currentUser = null;
@@ -943,13 +2083,58 @@
         let fotosExistentes = [];
         let pessoasPlano = [];
         let liveTimers = {};
-        let ncsCache = null;           // cache otimizado de NCs
-        let planosCache = null;        // cache de planos
-        const charts = {};             // referências dos gráficos
+        let ncsCache = null;
+        let planosCache = null;
+        const charts = {};
+
+        // Estado das ferramentas
+        let ishikawaData = {
+            ativo: false,
+            problema: '',
+            categorias: {
+                'Método': [],
+                'Máquina': [],
+                'Medida': [],
+                'Meio Ambiente': [],
+                'Mão de Obra': [],
+                'Material': []
+            }
+        };
+        let fiveWhysData = {
+            ativo: false,
+            problema: '',
+            whys: [
+                { pergunta: 'Por quê? (1º)', resposta: '' },
+                { pergunta: 'Por quê? (2º)', resposta: '' },
+                { pergunta: 'Por quê? (3º)', resposta: '' },
+                { pergunta: 'Por quê? (4º)', resposta: '' },
+                { pergunta: 'Por quê? (5º)', resposta: '' }
+            ],
+            causaRaiz: ''
+        };
+
+        // Cores das categorias Ishikawa
+        const ishikawaColors = {
+            'Método': '#386e8c',
+            'Máquina': '#b53b3b',
+            'Medida': '#7b4b9a',
+            'Meio Ambiente': '#2d7a4f',
+            'Mão de Obra': '#b5792a',
+            'Material': '#1f6d52'
+        };
+        const ishikawaIcons = {
+            'Método': 'fa-gears',
+            'Máquina': 'fa-cogs',
+            'Medida': 'fa-ruler',
+            'Meio Ambiente': 'fa-leaf',
+            'Mão de Obra': 'fa-user-gear',
+            'Material': 'fa-boxes'
+        };
 
         // ==================== HELPERS ====================
         const el = (id) => document.getElementById(id);
-        const escapeHtml = (str) => { const d = document.createElement('div'); d.textContent = str || ''; return d.innerHTML; };
+        const escapeHtml = (str) => { const d = document.createElement('div');
+            d.textContent = str || ''; return d.innerHTML; };
         const fmtDataISO = (iso) => iso ? new Date(iso).toLocaleString('pt-BR') : '-';
         const fmtDataCurta = (iso) => iso ? new Date(iso).toLocaleDateString('pt-BR') : '-';
 
@@ -991,7 +2176,8 @@
             t.className = 'toast ' + tipo;
             t.textContent = msg;
             container.appendChild(t);
-            setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; }, 2800);
+            setTimeout(() => { t.style.opacity = '0';
+                t.style.transition = 'opacity 0.3s'; }, 2800);
             setTimeout(() => t.remove(), 3200);
         }
 
@@ -1047,9 +2233,12 @@
             const nc = ncs.find(n => n.id === id);
             const inner = el('visitanteInner');
             if (!nc) {
-                inner.innerHTML = `<h2><i class="fas fa-exclamation-triangle"></i> NC não encontrada</h2><p>A NC #${id} não foi localizada.</p><button class="btn btn-primary" onclick="fecharModoVisitante()">Fechar</button>`;
+                inner.innerHTML =
+                    `<h2><i class="fas fa-exclamation-triangle"></i> NC não encontrada</h2><p>A NC #${id} não foi localizada.</p><button class="btn btn-primary" onclick="fecharModoVisitante()">Fechar</button>`;
             } else {
-                const fotosHtml = (nc.fotos || []).map(f => `<img src="${f}" class="photo-preview" style="width:120px;height:120px;" onclick="abrirModalFoto('${f}')">`).join('');
+                const fotosHtml = (nc.fotos || []).map(f =>
+                    `<img src="${f}" class="photo-preview" style="width:120px;height:120px;" onclick="abrirModalFoto('${f}')">`
+                    ).join('');
                 inner.innerHTML = `
                     <h2><i class="fas fa-info-circle"></i> Detalhes da NC #${nc.id}</h2>
                     <div class="detail-row"><strong>Produto:</strong><span>${escapeHtml(nc.produto)}</span></div>
@@ -1086,7 +2275,8 @@
 
         function fecharModoVisitante() {
             el('visitanteContainer').classList.remove('visible');
-            if (liveTimers['visitante']) { clearInterval(liveTimers['visitante']); delete liveTimers['visitante']; }
+            if (liveTimers['visitante']) { clearInterval(liveTimers['visitante']);
+                delete liveTimers['visitante']; }
             location.href = location.href.split('?')[0];
         }
 
@@ -1127,6 +2317,7 @@
             fotosNovas = [];
             fotosExistentes = [];
             pessoasPlano = [];
+            resetarFerramentas();
             invalidateCache();
             el('photoPreviewContainer').innerHTML = el('existingPhotosContainer').innerHTML = '';
             el('editNcId').value = el('editPlanoId').value = '';
@@ -1151,14 +2342,13 @@
             if (btn) btn.classList.add('active');
 
             if (page === 'dashboard') await renderDashboard();
-            else if (page === 'lista') { await renderListaNCs(); ativarCronometrosLista(); }
-            else if (page === 'planos') await renderPlanosAcao();
+            else if (page === 'lista') { await renderListaNCs();
+                ativarCronometrosLista(); } else if (page === 'planos') await renderPlanosAcao();
             else if (page === 'relatorio') {
                 if (currentUser.role !== 'admin') { mostrarToast('Acesso restrito!', 'error'); return navegar('dashboard'); }
                 el('relatorioPrintArea').style.display = 'none';
                 el('relatorioVazio').style.display = 'block';
-            }
-            else if (page === 'usuarios') await renderUsuarios();
+            } else if (page === 'usuarios') await renderUsuarios();
             if (window.innerWidth <= 768) el('sidebar').classList.remove('open');
         }
 
@@ -1172,7 +2362,8 @@
                 if (nc.status === 'aberto') {
                     const tel = el('timer-' + nc.id);
                     if (tel) {
-                        const upd = () => { tel.innerHTML = `<span class="live-timer"><i class="fas fa-clock"></i> ${calcularTempoDetalhado(nc).texto}</span>`; };
+                        const upd = () => { tel.innerHTML =
+                                `<span class="live-timer"><i class="fas fa-clock"></i> ${calcularTempoDetalhado(nc).texto}</span>`; };
                         upd();
                         liveTimers[nc.id] = setInterval(upd, 1000);
                     }
@@ -1186,7 +2377,8 @@
             const planos = await getPlanosAcao();
             const abertas = ncs.filter(n => n.status === 'aberto');
             const resolvidas = ncs.filter(n => n.status === 'resolvido');
-            const diasMedio = abertas.length ? Math.round(abertas.reduce((s, n) => s + calcularDias(n), 0) / abertas.length) : 0;
+            const diasMedio = abertas.length ? Math.round(abertas.reduce((s, n) => s + calcularDias(n), 0) / abertas
+                .length) : 0;
             const planosPendentes = planos.filter(p => p.status === 'aberto').length;
             const planosConcluidos = planos.filter(p => p.status === 'concluido').length;
 
@@ -1197,30 +2389,45 @@
                 { icon: 'orange', i: 'fa-clock', val: diasMedio, label: 'Média Dias Abertos' },
                 { icon: 'teal', i: 'fa-tasks', val: planosPendentes, label: 'Planos Pendentes' },
                 { icon: 'purple', i: 'fa-clipboard-check', val: planosConcluidos, label: 'Planos Concluídos' }
-            ].map(s => `<div class="stat-card"><div class="stat-icon ${s.icon}"><i class="fas ${s.i}"></i></div><div class="stat-info"><h3>${s.val}</h3><span>${s.label}</span></div></div>`).join('');
+            ].map(s =>
+                `<div class="stat-card"><div class="stat-icon ${s.icon}"><i class="fas ${s.i}"></i></div><div class="stat-info"><h3>${s.val}</h3><span>${s.label}</span></div></div>`
+                ).join('');
 
             const motivosMap = {};
-            ncs.forEach(n => { const c = (n.motivo || 'Sem motivo').substring(0, 50); motivosMap[c] = (motivosMap[c] || 0) + 1; });
+            ncs.forEach(n => { const c = (n.motivo || 'Sem motivo').substring(0, 50);
+                motivosMap[c] = (motivosMap[c] || 0) + 1; });
             const mKeys = Object.keys(motivosMap);
             const mData = Object.values(motivosMap);
-            const cores = ['#1f6d52','#c8963e','#386e8c','#b53b3b','#8e5c4a','#b5792a','#2d7a4f','#5b3a6e','#2f5f78','#a65d3d'];
+            const cores = ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a', '#2d7a4f', '#5b3a6e',
+                '#2f5f78', '#a65d3d'
+            ];
 
-            const ctx1 = el('chartMotivos'), ctx2 = el('chartStatus'), ctx3 = el('chartDias');
+            const ctx1 = el('chartMotivos'),
+                ctx2 = el('chartStatus'),
+                ctx3 = el('chartDias');
             Object.values(charts).forEach(c => c?.destroy?.());
 
             if (ctx1 && mKeys.length) {
                 charts.motivos = new Chart(ctx1, {
                     type: 'doughnut',
-                    data: { labels: mKeys, datasets: [{ data: mData, backgroundColor: cores.slice(0, mKeys.length), borderWidth: 2, borderColor: '#fff' }] },
-                    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 14, usePointStyle: true, font: { size: 11 } } } } }
+                    data: { labels: mKeys, datasets: [{ data: mData, backgroundColor: cores.slice(0, mKeys
+                                .length), borderWidth: 2, borderColor: '#fff' }] },
+                    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 14,
+                                usePointStyle: true, font: { size: 11 } } } } }
                 });
-            } else if (ctx1) ctx1.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhum motivo registrado</p>';
+            } else if (ctx1) ctx1.parentNode.innerHTML =
+                '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhum motivo registrado</p>';
 
             if (ctx2) {
                 charts.status = new Chart(ctx2, {
                     type: 'bar',
-                    data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ label: 'Quantidade', data: [abertas.length, resolvidas.length], backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8, borderWidth: 0, barThickness: 50 }] },
-                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                    data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ label: 'Quantidade', data: [abertas
+                                .length, resolvidas.length
+                            ], backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8,
+                            borderWidth: 0, barThickness: 50
+                        }] },
+                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true,
+                                ticks: { stepSize: 1 } } } }
                 });
             }
 
@@ -1228,10 +2435,14 @@
             if (ctx3 && topAbertas.length) {
                 charts.dias = new Chart(ctx3, {
                     type: 'bar',
-                    data: { labels: topAbertas.map(n => `NC #${n.id}`), datasets: [{ label: 'Dias em Aberto', data: topAbertas.map(n => calcularDias(n)), backgroundColor: '#c8963e', borderRadius: 6 }] },
-                    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, title: { display: true, text: 'Dias' }, ticks: { stepSize: 1 } } } }
+                    data: { labels: topAbertas.map(n => `NC #${n.id}`), datasets: [{ label: 'Dias em Aberto',
+                            data: topAbertas.map(n => calcularDias(n)), backgroundColor: '#c8963e',
+                            borderRadius: 6 }] },
+                    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } },
+                        scales: { x: { beginAtZero: true, title: { display: true, text: 'Dias' }, ticks: { stepSize: 1 } } } }
                 });
-            } else if (ctx3) ctx3.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhuma NC em aberto</p>';
+            } else if (ctx3) ctx3.parentNode.innerHTML =
+                '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhuma NC em aberto</p>';
         }
 
         // ==================== LISTA NCs ====================
@@ -1244,14 +2455,17 @@
             const sel = el('filtroPalete');
             if (sel) {
                 const cur = sel.value;
-                sel.innerHTML = '<option value="todos">Todos os Paletes</option>' + paletesUnicos.map(p => `<option value="${p}">${p}</option>`).join('');
+                sel.innerHTML = '<option value="todos">Todos os Paletes</option>' + paletesUnicos.map(p =>
+                    `<option value="${p}">${p}</option>`).join('');
                 sel.value = paletesUnicos.includes(cur) ? cur : 'todos';
             }
 
             let filtradas = ncs;
             if (status !== 'todos') filtradas = filtradas.filter(n => n.status === status);
             if (palete !== 'todos') filtradas = filtradas.filter(n => n.palete === palete);
-            if (busca) filtradas = filtradas.filter(n => (n.produto||'').toLowerCase().includes(busca) || (n.motivo||'').toLowerCase().includes(busca) || (n.palete||'').toLowerCase().includes(busca) || String(n.id).includes(busca));
+            if (busca) filtradas = filtradas.filter(n => (n.produto || '').toLowerCase().includes(busca) || (n.motivo ||
+                '').toLowerCase().includes(busca) || (n.palete || '').toLowerCase().includes(busca) || String(n.id)
+                .includes(busca));
 
             const tbody = el('tbodyNCs');
             const empty = el('emptyLista');
@@ -1263,9 +2477,9 @@
             } else {
                 empty.style.display = 'none';
                 tbody.innerHTML = filtradas.map(nc => {
-                    const tempoHtml = nc.status === 'aberto'
-                        ? `<span id="timer-${nc.id}">${calcularTempoDetalhado(nc).texto}</span>`
-                        : `<span style="color:#8b9a94;">${calcularDias(nc)}d (fechado)</span>`;
+                    const tempoHtml = nc.status === 'aberto' ?
+                        `<span id="timer-${nc.id}">${calcularTempoDetalhado(nc).texto}</span>` :
+                        `<span style="color:#8b9a94;">${calcularDias(nc)}d (fechado)</span>`;
                     return `<tr>
                         <td><strong>#${nc.id}</strong></td>
                         <td>${escapeHtml(nc.produto||'-')}</td>
@@ -1293,7 +2507,9 @@
             el('editNcId').value = '';
             el('tituloFormNC').innerHTML = '<i class="fas fa-plus-circle"></i> Nova Não Conformidade';
             el('subtituloFormNC').textContent = 'Preencha os dados abaixo';
-            ['ncProduto','ncPalete','ncMotivo','ncQtdCaixas','ncQtdItens','ncQtdRetrabalhadas','ncQtdDescartada','ncAcao','ncIdManual'].forEach(id => {
+            ['ncProduto', 'ncPalete', 'ncMotivo', 'ncQtdCaixas', 'ncQtdItens', 'ncQtdRetrabalhadas', 'ncQtdDescartada',
+                'ncAcao', 'ncIdManual'
+            ].forEach(id => {
                 const inp = el(id);
                 if (inp) inp.value = (id === 'ncQtdRetrabalhadas' || id === 'ncQtdDescartada') ? '0' : '';
             });
@@ -1310,7 +2526,8 @@
         function previewFotos() {
             const files = el('inputFotos').files;
             const vagas = 5 - (fotosNovas.length + fotosExistentes.length);
-            if (files.length > vagas) { mostrarToast(`Máximo de 5 fotos. Você ainda pode adicionar ${vagas}.`, 'error'); el('inputFotos').value = ''; return; }
+            if (files.length > vagas) { mostrarToast(`Máximo de 5 fotos. Você ainda pode adicionar ${vagas}.`, 'error');
+                el('inputFotos').value = ''; return; }
             Array.from(files).forEach(file => {
                 if (fotosNovas.length + fotosExistentes.length >= 5) return;
                 const reader = new FileReader();
@@ -1319,8 +2536,10 @@
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
                         const maxW = 600;
-                        let w = img.width, h = img.height;
-                        if (w > maxW) { h = h * (maxW / w); w = maxW; }
+                        let w = img.width,
+                            h = img.height;
+                        if (w > maxW) { h = h * (maxW / w);
+                            w = maxW; }
                         canvas.width = w;
                         canvas.height = h;
                         const ctx = canvas.getContext('2d');
@@ -1340,16 +2559,19 @@
         function atualizarPreviews() {
             el('photoPreviewContainer').innerHTML = fotosNovas.map((b64, i) =>
                 `<div style="position:relative;display:inline-block;"><img src="${b64}" class="photo-preview" onclick="abrirModalFoto('${b64}')"><button onclick="removerFotoNova(${i})" style="position:absolute;top:-8px;right:-8px;background:#b53b3b;color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:0.7rem;">✕</button></div>`
-            ).join('');
+                ).join('');
         }
 
-        function removerFotoNova(i) { fotosNovas.splice(i, 1); atualizarPreviews(); }
-        function removerFotoExistente(i) { fotosExistentes.splice(i, 1); renderFotosExistentes(); }
+        function removerFotoNova(i) { fotosNovas.splice(i, 1);
+            atualizarPreviews(); }
+
+        function removerFotoExistente(i) { fotosExistentes.splice(i, 1);
+            renderFotosExistentes(); }
 
         function renderFotosExistentes() {
             el('existingPhotosContainer').innerHTML = fotosExistentes.map((b64, i) =>
                 `<div style="position:relative;display:inline-block;"><img src="${b64}" class="photo-preview" onclick="abrirModalFoto('${b64}')"><button onclick="removerFotoExistente(${i})" style="position:absolute;top:-8px;right:-8px;background:#b53b3b;color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;">✕</button></div>`
-            ).join('');
+                ).join('');
         }
 
         async function salvarNC() {
@@ -1363,7 +2585,8 @@
             const qtdRetrabalhadas = parseInt(el('ncQtdRetrabalhadas').value) || 0;
             const qtdDescartada = parseInt(el('ncQtdDescartada').value) || 0;
             const acao = el('ncAcao').value.trim();
-            if (!produto || !palete || !motivo || !qtdCaixas || !qtdItens || !acao) return mostrarToast('Preencha todos os campos obrigatórios!', 'error');
+            if (!produto || !palete || !motivo || !qtdCaixas || !qtdItens || !acao) return mostrarToast(
+                'Preencha todos os campos obrigatórios!', 'error');
             if (qtdCaixas < 1 || qtdItens < 1) return mostrarToast('Quantidades devem ser maiores que zero!', 'error');
             const todasFotos = [...fotosExistentes, ...fotosNovas];
             if (editId) {
@@ -1371,19 +2594,37 @@
                 if (!doc.exists) return mostrarToast('NC não encontrada!', 'error');
                 const ant = doc.data();
                 const historico = ant.historico || [];
-                historico.push({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'editou', detalhes: 'NC atualizada' });
-                await collNCs.doc(editId).update({ produto, palete, motivo, quantidadeCaixas: qtdCaixas, quantidadeItens: qtdItens, quantidadeRetrabalhadas: qtdRetrabalhadas, quantidadeDescartada: qtdDescartada, acao, fotos: todasFotos, historico });
+                historico.push({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'editou',
+                    detalhes: 'NC atualizada' });
+                await collNCs.doc(editId).update({ produto, palete, motivo, quantidadeCaixas: qtdCaixas,
+                    quantidadeItens: qtdItens, quantidadeRetrabalhadas: qtdRetrabalhadas, quantidadeDescartada: qtdDescartada,
+                    acao, fotos: todasFotos, historico });
                 mostrarToast('NC #' + editId + ' atualizada!', 'success');
             } else {
                 const idRaw = el('ncIdManual').value.trim();
                 if (!idRaw) return mostrarToast('Informe o número da NC!', 'error');
                 const idManual = parseInt(idRaw, 10);
-                if (isNaN(idManual) || idManual < 1 || String(idManual) !== idRaw) return mostrarToast('Número inválido!', 'error');
-                if ((await collNCs.doc(String(idManual)).get()).exists) return mostrarToast(`A NC #${idManual} já existe!`, 'error');
+                if (isNaN(idManual) || idManual < 1 || String(idManual) !== idRaw) return mostrarToast('Número inválido!',
+                    'error');
+                if ((await collNCs.doc(String(idManual)).get()).exists) return mostrarToast(
+                `A NC #${idManual} já existe!`, 'error');
                 await collNCs.doc(String(idManual)).set({
-                    id: String(idManual), produto, palete, motivo, quantidadeCaixas: qtdCaixas, quantidadeItens: qtdItens, quantidadeRetrabalhadas: qtdRetrabalhadas, quantidadeDescartada: qtdDescartada, acao, fotos: todasFotos,
-                    status: 'aberto', dataAbertura: new Date().toISOString(), dataResolucao: null, criadoPor: currentUser.username,
-                    historico: [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou', detalhes: 'NC aberta' }]
+                    id: String(idManual),
+                    produto,
+                    palete,
+                    motivo,
+                    quantidadeCaixas: qtdCaixas,
+                    quantidadeItens: qtdItens,
+                    quantidadeRetrabalhadas: qtdRetrabalhadas,
+                    quantidadeDescartada: qtdDescartada,
+                    acao,
+                    fotos: todasFotos,
+                    status: 'aberto',
+                    dataAbertura: new Date().toISOString(),
+                    dataResolucao: null,
+                    criadoPor: currentUser.username,
+                    historico: [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou',
+                        detalhes: 'NC aberta' }]
                 });
                 mostrarToast('NC #' + idManual + ' criada!', 'success');
             }
@@ -1409,7 +2650,8 @@
             el('ncQtdDescartada').value = nc.quantidadeDescartada || '0';
             el('ncAcao').value = nc.acao || '';
             const campoId = el('ncIdManual');
-            if (campoId) { campoId.value = id; campoId.disabled = true; }
+            if (campoId) { campoId.value = id;
+                campoId.disabled = true; }
             el('grupoIdNC').style.display = 'block';
             fotosNovas = [];
             fotosExistentes = [...(nc.fotos || [])];
@@ -1418,28 +2660,36 @@
             navegar('nova', document.querySelector('[data-page="nova"]'));
         }
 
-        function cancelarEdicao() { prepararFormNova(); navegar('lista'); }
+        function cancelarEdicao() { prepararFormNova();
+            navegar('lista'); }
 
         async function excluirNC(id) {
             if (currentUser.role !== 'admin') return mostrarToast('Apenas administradores!', 'error');
             if (!confirm('Excluir NC #' + id + '?')) return;
             await collNCs.doc(id).delete();
             invalidateCache();
-            await renderListaNCs(); await renderDashboard();
+            await renderListaNCs();
+            await renderDashboard();
             mostrarToast('NC #' + id + ' excluída.', 'info');
         }
 
         async function resolverNC(id) {
-            await collNCs.doc(id).update({ status: 'resolvido', dataResolucao: new Date().toISOString(), historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'resolveu', detalhes: 'NC resolvida' }) });
+            await collNCs.doc(id).update({ status: 'resolvido', dataResolucao: new Date().toISOString(),
+                historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser
+                        .username, acao: 'resolveu', detalhes: 'NC resolvida' }) });
             invalidateCache();
-            await renderListaNCs(); await renderDashboard();
+            await renderListaNCs();
+            await renderDashboard();
             mostrarToast('NC #' + id + ' resolvida!', 'success');
         }
 
         async function reabrirNC(id) {
-            await collNCs.doc(id).update({ status: 'aberto', dataResolucao: null, historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'reabriu', detalhes: 'NC reaberta' }) });
+            await collNCs.doc(id).update({ status: 'aberto', dataResolucao: null,
+                historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser
+                        .username, acao: 'reabriu', detalhes: 'NC reaberta' }) });
             invalidateCache();
-            await renderListaNCs(); await renderDashboard();
+            await renderListaNCs();
+            await renderDashboard();
             mostrarToast('NC #' + id + ' reaberta.', 'info');
         }
 
@@ -1469,14 +2719,21 @@
             el('modalDetalhes').style.display = 'flex';
             if (nc.status === 'aberto') {
                 if (liveTimers['detalhe']) clearInterval(liveTimers['detalhe']);
-                const upd = () => { const t = calcularTempoDetalhado(nc); const span = el('liveTimerDetalhe'); if (span) span.innerHTML = `<span class="live-timer"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
+                const upd = () => { const t = calcularTempoDetalhado(nc); const span = el('liveTimerDetalhe'); if (span) span
+                        .innerHTML =
+                        `<span class="live-timer"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
                 upd();
                 liveTimers['detalhe'] = setInterval(upd, 1000);
             }
         }
 
-        function fecharModalDetalhes() { el('modalDetalhes').style.display = 'none'; if (liveTimers['detalhe']) { clearInterval(liveTimers['detalhe']); delete liveTimers['detalhe']; } }
-        function abrirModalFoto(src) { el('modalFotoImg').src = src; el('modalFoto').style.display = 'flex'; }
+        function fecharModalDetalhes() { el('modalDetalhes').style.display = 'none'; if (liveTimers['detalhe']) { clearInterval(
+                liveTimers['detalhe']);
+            delete liveTimers['detalhe']; } }
+
+        function abrirModalFoto(src) { el('modalFotoImg').src = src;
+            el('modalFoto').style.display = 'flex'; }
+
         function fecharModalFoto() { el('modalFoto').style.display = 'none'; }
 
         // ==================== QR CODE ====================
@@ -1487,9 +2744,11 @@
             container.innerHTML = '';
             const base = location.href.split('?')[0];
             const qrUrl = base + '?view=readonly&id=' + id;
-            if (typeof QRCode !== 'undefined') new QRCode(container, { text: qrUrl, width: 200, height: 200, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+            if (typeof QRCode !== 'undefined') new QRCode(container, { text: qrUrl, width: 200, height: 200,
+                colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
             else container.innerHTML = '<p style="color:#b53b3b;">Erro ao carregar QRCode.js</p>';
         }
+
         function fecharModalQR() { el('modalQR').style.display = 'none'; }
 
         // ==================== IMPRESSÃO NC ====================
@@ -1504,7 +2763,9 @@
                 const qrUrl = base + '?view=readonly&id=' + id;
                 const badgeClass = nc.status === 'aberto' ? 'badge-print-open' : 'badge-print-resolved';
                 const statusTexto = nc.status === 'aberto' ? 'ABERTO' : 'RESOLVIDO';
-                const fotosHtml = (nc.fotos && nc.fotos.length) ? `<div class="print-fotos-section"><h3>📸 FOTOS</h3><div class="print-fotos-grid">${nc.fotos.map(f=>`<img src="${f}">`).join('')}</div></div>` : '';
+                const fotosHtml = (nc.fotos && nc.fotos.length) ?
+                    `<div class="print-fotos-section"><h3>📸 FOTOS</h3><div class="print-fotos-grid">${nc.fotos.map(f=>`<img src="${f}">`).join('')}</div></div>` :
+                    '';
                 const printArea = el('printArea');
                 printArea.innerHTML = `
                     <div class="print-sheet">
@@ -1539,21 +2800,26 @@
                 printArea.scrollIntoView({ behavior: 'smooth' });
                 setTimeout(() => {
                     const qrCont = el('qrCodePrintContainer');
-                    if (qrCont && typeof QRCode !== 'undefined') { qrCont.innerHTML = ''; new QRCode(qrCont, { text: qrUrl, width: 80, height: 80, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M }); }
+                    if (qrCont && typeof QRCode !== 'undefined') { qrCont.innerHTML = ''; new QRCode(qrCont, { text: qrUrl,
+                            width: 80, height: 80, colorDark: '#0b3b2f', colorLight: '#ffffff',
+                            correctLevel: QRCode.CorrectLevel.M }); }
                 }, 300);
             } catch (e) { mostrarToast('Erro ao imprimir.', 'error'); }
         }
-        function fecharPrint() { el('printArea').style.display = 'none'; el('printArea').innerHTML = ''; }
+
+        function fecharPrint() { el('printArea').style.display = 'none';
+            el('printArea').innerHTML = ''; }
 
         // ==================== WHATSAPP ====================
         function enviarAlertaWhatsApp(id) {
             const nc = (ncsCache || []).find(n => n.id === id);
             if (!nc) return mostrarToast('NC não encontrada!', 'error');
             const tempo = nc.status === 'aberto' ? calcularTempoDetalhado(nc).texto : `${calcularDias(nc)}d (fechado)`;
-            const msg = `🚨 *ALERTA DE RETRABALHO*\n🏭 Dona Rita Embalagens\n\n📋 NC #${nc.id}\n📦 ${nc.produto}\n🏷️ ${nc.palete}\n⚠️ ${nc.motivo}\n📊 Caixas: ${nc.quantidadeCaixas??0} | Itens: ${nc.quantidadeItens??0} | Retrab.: ${nc.quantidadeRetrabalhadas||0} | Desc.: ${nc.quantidadeDescartada||0}\n🔧 Ação: ${nc.acao}\n⏱️ Tempo: ${tempo}\n📎 ${location.href.split('?')[0]}?view=readonly&id=${nc.id}`;
-            const url = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
-                ? `whatsapp://send?text=${encodeURIComponent(msg)}`
-                : `https://web.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
+            const msg =
+                `🚨 *ALERTA DE RETRABALHO*\n🏭 Dona Rita Embalagens\n\n📋 NC #${nc.id}\n📦 ${nc.produto}\n🏷️ ${nc.palete}\n⚠️ ${nc.motivo}\n📊 Caixas: ${nc.quantidadeCaixas??0} | Itens: ${nc.quantidadeItens??0} | Retrab.: ${nc.quantidadeRetrabalhadas||0} | Desc.: ${nc.quantidadeDescartada||0}\n🔧 Ação: ${nc.acao}\n⏱️ Tempo: ${tempo}\n📎 ${location.href.split('?')[0]}?view=readonly&id=${nc.id}`;
+            const url = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ?
+                `whatsapp://send?text=${encodeURIComponent(msg)}` :
+                `https://web.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
             window.open(url, '_blank');
             mostrarToast('📱 Abrindo WhatsApp...', 'info');
         }
@@ -1573,31 +2839,36 @@
                 const meus = planos.filter(p => p.pessoas?.some(pp => pp.username === currentUser.username));
                 itens = meus.map(pl => ({ nc: ncs.find(n => n.id === pl.ncId) || {}, plano: pl }));
             }
-            if (!itens.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+            if (!itens.length) { tbody.innerHTML = '';
+                empty.style.display = 'block'; return; }
             empty.style.display = 'none';
             tbody.innerHTML = itens.map(({ nc, plano }) => {
-                let statusHtml = '', acoes = '';
+                let statusHtml = '',
+                    acoes = '';
                 if (plano) {
                     const assinadas = (plano.pessoas || []).filter(p => p.assinado).length;
                     const total = (plano.pessoas || []).length;
-                    statusHtml = plano.status === 'concluido'
-                        ? '<span class="badge badge-concluido">✅ Concluído</span>'
-                        : `<span class="badge badge-pendente">⏳ Pendente (${assinadas}/${total})</span>`;
+                    statusHtml = plano.status === 'concluido' ?
+                        '<span class="badge badge-concluido">✅ Concluído</span>' :
+                        `<span class="badge badge-pendente">⏳ Pendente (${assinadas}/${total})</span>`;
                     if (isAdmin) {
-                        acoes = `<button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i></button>
+                        acoes =
+                            `<button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i></button>
                                  <button class="btn btn-sm btn-accent" onclick="imprimirPlanoAcao('${plano.id}')"><i class="fas fa-print"></i></button>
                                  <button class="btn btn-sm btn-outline" onclick="editarPlanoAcao('${plano.id}')"><i class="fas fa-edit"></i></button>
                                  <button class="btn btn-sm btn-danger" onclick="excluirPlanoAcao('${plano.id}')"><i class="fas fa-trash"></i></button>`;
                     } else {
                         const minha = (plano.pessoas || []).find(p => p.username === currentUser.username);
-                        acoes = minha && !minha.assinado
-                            ? `<button class="btn btn-sm btn-assinar" onclick="assinarPlanoAcao('${plano.id}')"><i class="fas fa-signature"></i> Assinar</button>
-                               <button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i></button>`
-                            : `<button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i> Ver</button>`;
+                        acoes = minha && !minha.assinado ?
+                            `<button class="btn btn-sm btn-assinar" onclick="assinarPlanoAcao('${plano.id}')"><i class="fas fa-signature"></i> Assinar</button>
+                               <button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i></button>` :
+                            `<button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i> Ver</button>`;
                     }
                 } else {
                     statusHtml = '<span class="badge badge-nao-assinado">⚠️ Sem plano</span>';
-                    acoes = isAdmin ? `<button class="btn btn-sm btn-primary" onclick="criarPlanoParaNC('${nc.id}')"><i class="fas fa-plus"></i> Criar Plano</button>` : '<span style="color:#8b9a94;">Aguardando</span>';
+                    acoes = isAdmin ?
+                        `<button class="btn btn-sm btn-primary" onclick="criarPlanoParaNC('${nc.id}')"><i class="fas fa-plus"></i> Criar Plano</button>` :
+                        '<span style="color:#8b9a94;">Aguardando</span>';
                 }
                 return `<tr><td><strong>#${nc.id}</strong></td><td>${escapeHtml(nc.produto||'-')}</td><td>${escapeHtml((nc.motivo||'').substring(0,40))}</td><td>${plano ? escapeHtml((plano.resumoReuniao||'').substring(0,50))+'...' : '-'}</td><td>${statusHtml}</td><td class="actions-cell">${acoes}</td></tr>`;
             }).join('');
@@ -1613,7 +2884,9 @@
             el('planoNcInfo').value = `NC #${ncId} - ${nc.produto} - ${nc.palete}`;
             el('planoResumo').value = '';
             pessoasPlano = [];
+            resetarFerramentas();
             renderPessoasPlano();
+            renderizarFerramentasUI();
             navegar('novo-plano', document.querySelector('[data-page="planos"]'));
         }
 
@@ -1627,28 +2900,43 @@
             el('planoNcInfo').value = `NC #${plano.ncId} - ${plano.ncProduto}`;
             el('planoResumo').value = plano.resumoReuniao || '';
             pessoasPlano = JSON.parse(JSON.stringify(plano.pessoas || []));
+            resetarFerramentas();
+            // Carregar dados das ferramentas do Firestore
+            await carregarFerramentasDoPlano(id);
             renderPessoasPlano();
+            renderizarFerramentasUI();
             navegar('novo-plano', document.querySelector('[data-page="planos"]'));
         }
 
         function cancelarPlano() {
             pessoasPlano = [];
-            ['editPlanoId','planoNcId','planoResumo'].forEach(id => el(id).value = '');
+            resetarFerramentas();
+            ['editPlanoId', 'planoNcId', 'planoResumo'].forEach(id => el(id).value = '');
             el('containerPessoas').innerHTML = '';
+            el('ishikawaCategoryBoxes').innerHTML = '';
+            el('fiveWhysContainer').innerHTML = '';
             navegar('planos');
         }
 
-        function adicionarPessoa() { pessoasPlano.push({ username:'', acao:'', prazo:'', assinado:false, dataAssinatura:null, justificativa:'' }); renderPessoasPlano(); }
-        function removerPessoa(i) { pessoasPlano.splice(i,1); renderPessoasPlano(); }
+        function adicionarPessoa() { pessoasPlano.push({ username: '', acao: '', prazo: '', assinado: false,
+                dataAssinatura: null, justificativa: '' });
+            renderPessoasPlano(); }
+
+        function removerPessoa(i) { pessoasPlano.splice(i, 1);
+            renderPessoasPlano(); }
 
         async function renderPessoasPlano() {
             const container = el('containerPessoas');
             const usuarios = await getUsuarios();
             const usernames = usuarios.map(u => u.username);
-            if (!pessoasPlano.length) { container.innerHTML = '<p style="color:#8b9a94;text-align:center;">Nenhuma pessoa adicionada.</p>'; return; }
+            if (!pessoasPlano.length) { container.innerHTML =
+                    '<p style="color:#8b9a94;text-align:center;">Nenhuma pessoa adicionada.</p>'; return; }
             container.innerHTML = pessoasPlano.map((p, i) => {
-                const opts = usernames.map(u => `<option value="${u}" ${p.username===u?'selected':''}>${u}</option>`).join('');
-                const status = p.assinado ? '<span class="assinatura-status assinado"><i class="fas fa-check-circle"></i> Assinado</span>' : '<span class="assinatura-status pendente"><i class="fas fa-clock"></i> Pendente</span>';
+                const opts = usernames.map(u =>
+                    `<option value="${u}" ${p.username===u?'selected':''}>${u}</option>`).join('');
+                const status = p.assinado ?
+                    '<span class="assinatura-status assinado"><i class="fas fa-check-circle"></i> Assinado</span>' :
+                    '<span class="assinatura-status pendente"><i class="fas fa-clock"></i> Pendente</span>';
                 return `<div class="pessoa-card">
                     <div class="pessoa-header"><div class="pessoa-numero">${i+1}</div> ${status} <button class="btn-remover-pessoa" onclick="removerPessoa(${i})"><i class="fas fa-times"></i></button></div>
                     <div class="form-row">
@@ -1667,24 +2955,38 @@
             const resumo = el('planoResumo').value.trim();
             if (!ncId || !resumo) return mostrarToast('Preencha o resumo!', 'error');
             if (!pessoasPlano.length) return mostrarToast('Adicione pelo menos uma pessoa!', 'error');
-            for (let i = 0; i < pessoasPlano.length; i++) if (!pessoasPlano[i].username || !pessoasPlano[i].acao || !pessoasPlano[i].prazo) return mostrarToast(`Preencha todos os campos da pessoa ${i+1}!`, 'error');
+            for (let i = 0; i < pessoasPlano.length; i++)
+                if (!pessoasPlano[i].username || !pessoasPlano[i].acao || !pessoasPlano[i].prazo) return mostrarToast(
+                    `Preencha todos os campos da pessoa ${i+1}!`, 'error');
+            const ncDoc = await collNCs.doc(ncId).get();
             const dados = {
-                ncId, resumoReuniao: resumo,
-                pessoas: pessoasPlano.map(p => ({...p})),
-                status: 'aberto', criadoPor: currentUser.username,
-                ncProduto: (await collNCs.doc(ncId).get()).data()?.produto || '',
-                ncMotivo: (await collNCs.doc(ncId).get()).data()?.motivo || '',
-                ncPalete: (await collNCs.doc(ncId).get()).data()?.palete || '',
+                ncId,
+                resumoReuniao: resumo,
+                pessoas: pessoasPlano.map(p => ({ ...p })),
+                status: 'aberto',
+                criadoPor: currentUser.username,
+                ncProduto: ncDoc.data()?.produto || '',
+                ncMotivo: ncDoc.data()?.motivo || '',
+                ncPalete: ncDoc.data()?.palete || '',
+                temIshikawa: ishikawaData.ativo,
+                temFiveWhys: fiveWhysData.ativo,
             };
+            let planoId = editId;
             if (editId) {
                 await collPlanos.doc(editId).update(dados);
                 mostrarToast('Plano atualizado!', 'success');
             } else {
                 dados.dataCriacao = new Date().toISOString();
-                dados.historico = [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou', detalhes: 'Plano criado' }];
-                await collPlanos.add(dados);
+                dados.historico = [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou',
+                    detalhes: 'Plano criado' }];
+                const ref = await collPlanos.add(dados);
+                planoId = ref.id;
                 mostrarToast('Plano criado!', 'success');
             }
+
+            // Salvar ferramentas no Firestore
+            await salvarFerramentasNoFirestore(planoId);
+
             invalidateCache();
             cancelarPlano();
             await navegar('planos');
@@ -1696,13 +2998,51 @@
             if (!doc.exists) return mostrarToast('Plano não encontrado!', 'error');
             const plano = doc.data();
             const isAdmin = currentUser?.role === 'admin';
-            const minha = (plano.pessoas||[]).find(p => p.username === currentUser.username);
-            const pessoasHtml = (plano.pessoas||[]).map((p,i) => `
+            const minha = (plano.pessoas || []).find(p => p.username === currentUser.username);
+            const pessoasHtml = (plano.pessoas || []).map((p, i) => `
                 <div class="pessoa-card">
                     <div class="pessoa-header"><div class="pessoa-numero">${i+1}</div> <strong>${escapeHtml(p.username)}</strong> ${p.assinado?'✅':'⏳'}</div>
                     <p>📋 ${escapeHtml(p.acao)}</p><p>📅 ${fmtDataCurta(p.prazo)}</p>
                     ${p.justificativa?`<p><i class="fas fa-exclamation-triangle"></i> ${escapeHtml(p.justificativa)}</p>`:''}
                 </div>`).join('');
+
+            // Buscar dados das ferramentas
+            let ishikawaHtml = '';
+            let fiveWhysHtml = '';
+            if (plano.temIshikawa) {
+                const ishSnap = await collIshikawa.where('planoId', '==', id).limit(1).get();
+                if (!ishSnap.empty) {
+                    const ish = ishSnap.docs[0].data();
+                    const catsHtml = Object.keys(ish.categorias || {}).map(cat => {
+                        const causas = (ish.categorias[cat] || []).map(c =>
+                            `<span class="ishikawa-cause-tag">${escapeHtml(c)}</span>`).join(' ') ||
+                        '<span style="color:#8b9a94;">—</span>';
+                        return `<div class="ishikawa-category-box"><h5><span class="cat-dot" style="background:${ishikawaColors[cat]||'#888'}"></span> ${cat}</h5><div class="ishikawa-causes-list">${causas}</div></div>`;
+                    }).join('');
+                    ishikawaHtml = `
+                        <div style="margin-top:16px;padding:16px;background:#f8faf9;border-radius:14px;border:2px solid #e0e8e4;">
+                            <h4 style="color:#386e8c;margin-bottom:10px;"><i class="fas fa-fish"></i> Diagrama de Ishikawa</h4>
+                            <p><strong>Problema:</strong> ${escapeHtml(ish.problema||'N/A')}</p>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">${catsHtml}</div>
+                        </div>`;
+                }
+            }
+            if (plano.temFiveWhys) {
+                const fwSnap = await collFiveWhys.where('planoId', '==', id).limit(1).get();
+                if (!fwSnap.empty) {
+                    const fw = fwSnap.docs[0].data();
+                    const whysHtml = (fw.whys || []).map((w, i) =>
+                        `<li><strong>${i+1}º Por quê:</strong> ${escapeHtml(w.resposta||'—')}</li>`).join('');
+                    fiveWhysHtml = `
+                        <div style="margin-top:16px;padding:16px;background:#fefdf6;border-radius:14px;border:2px solid #e8d58b;">
+                            <h4 style="color:#b5792a;margin-bottom:10px;"><i class="fas fa-question-circle"></i> 5 Porquês</h4>
+                            <p><strong>Problema:</strong> ${escapeHtml(fw.problema||'N/A')}</p>
+                            <ol style="margin:8px 0;padding-left:20px;">${whysHtml}</ol>
+                            <p style="background:#fff;padding:10px;border-radius:8px;border:2px solid #c8963e;margin-top:8px;"><strong>🎯 Causa Raiz:</strong> ${escapeHtml(fw.causaRaiz||'Não identificada')}</p>
+                        </div>`;
+                }
+            }
+
             el('verPlanoInner').innerHTML = `
                 <h2>Plano de Ação - NC #${plano.ncId}</h2>
                 <p>Produto: ${escapeHtml(plano.ncProduto)} | Palete: ${escapeHtml(plano.ncPalete)}</p>
@@ -1710,6 +3050,8 @@
                 <p>Status: <span class="badge ${plano.status==='concluido'?'badge-concluido':'badge-pendente'}">${plano.status==='concluido'?'Concluído':'Pendente'}</span></p>
                 <h4>Resumo</h4><p style="white-space:pre-wrap;">${escapeHtml(plano.resumoReuniao)}</p>
                 <h4>Pessoas</h4>${pessoasHtml}
+                ${ishikawaHtml}
+                ${fiveWhysHtml}
                 <div style="margin-top:16px;">
                     ${isAdmin ? `<button class="btn btn-accent" onclick="imprimirPlanoAcao('${id}')"><i class="fas fa-print"></i></button>` : ''}
                     ${minha && !minha.assinado ? `<button class="btn btn-assinar" onclick="assinarPlanoAcao('${id}')"><i class="fas fa-signature"></i> Assinar</button>` : ''}
@@ -1724,7 +3066,7 @@
             const doc = await collPlanos.doc(id).get();
             if (!doc.exists) return mostrarToast('Plano não encontrado!', 'error');
             const plano = doc.data();
-            const idx = (plano.pessoas||[]).findIndex(p => p.username === currentUser.username);
+            const idx = (plano.pessoas || []).findIndex(p => p.username === currentUser.username);
             if (idx === -1) return mostrarToast('Você não está designado!', 'error');
             if (plano.pessoas[idx].assinado) return mostrarToast('Já assinado!', 'info');
             const prazo = new Date(plano.pessoas[idx].prazo + 'T23:59:59');
@@ -1735,21 +3077,30 @@
             }
             if (!confirm('Confirma sua assinatura eletrônica?')) return;
             const pessoas = [...plano.pessoas];
-            pessoas[idx] = {...pessoas[idx], assinado: true, dataAssinatura: new Date().toISOString(), justificativa: just };
+            pessoas[idx] = { ...pessoas[idx], assinado: true, dataAssinatura: new Date().toISOString(), justificativa: just };
             const concluido = pessoas.every(p => p.assinado);
-            await collPlanos.doc(id).update({ pessoas, status: concluido ? 'concluido' : 'aberto', historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'assinou', detalhes: just || 'Assinatura eletrônica' }) });
+            await collPlanos.doc(id).update({ pessoas, status: concluido ? 'concluido' : 'aberto',
+                historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser
+                        .username, acao: 'assinou', detalhes: just || 'Assinatura eletrônica' }) });
             invalidateCache();
-            await renderPlanosAcao(); await renderDashboard();
+            await renderPlanosAcao();
+            await renderDashboard();
             mostrarToast('✅ Assinatura registrada!', 'success');
         }
 
         async function excluirPlanoAcao(id) {
             if (currentUser.role !== 'admin') return mostrarToast('Apenas administradores!', 'error');
-            if (!confirm('Excluir este plano?')) return;
+            if (!confirm('Excluir este plano? Isso também removerá as ferramentas vinculadas.')) return;
             await collPlanos.doc(id).delete();
+            // Remover ferramentas vinculadas
+            const ishSnap = await collIshikawa.where('planoId', '==', id).get();
+            ishSnap.forEach(d => d.ref.delete());
+            const fwSnap = await collFiveWhys.where('planoId', '==', id).get();
+            fwSnap.forEach(d => d.ref.delete());
             invalidateCache();
-            await renderPlanosAcao(); await renderDashboard();
-            mostrarToast('Plano excluído.', 'info');
+            await renderPlanosAcao();
+            await renderDashboard();
+            mostrarToast('Plano e ferramentas excluídos.', 'info');
         }
 
         async function imprimirPlanoAcao(id) {
@@ -1758,9 +3109,46 @@
                 if (!doc.exists) return mostrarToast('Plano não encontrado!', 'error');
                 const plano = doc.data();
                 const agora = new Date();
-                const assinadas = (plano.pessoas||[]).filter(p=>p.assinado).length;
-                const total = (plano.pessoas||[]).length;
-                const tabela = (plano.pessoas||[]).map((p,i)=>`<tr><td>${i+1}</td><td>${escapeHtml(p.username)}</td><td>${escapeHtml(p.acao)}</td><td>${fmtDataCurta(p.prazo)}</td><td>${p.assinado?'✅':'⏳'}</td><td>${p.justificativa||'-'}</td><td class="assinatura-linha ${p.assinado?'assinado-print':''}">${p.assinado?'ASSINATURA ELETRÔNICA':'________________'}</td></tr>`).join('');
+                const assinadas = (plano.pessoas || []).filter(p => p.assinado).length;
+                const total = (plano.pessoas || []).length;
+                const tabela = (plano.pessoas || []).map((p, i) =>
+                    `<tr><td>${i+1}</td><td>${escapeHtml(p.username)}</td><td>${escapeHtml(p.acao)}</td><td>${fmtDataCurta(p.prazo)}</td><td>${p.assinado?'✅':'⏳'}</td><td>${p.justificativa||'-'}</td><td class="assinatura-linha ${p.assinado?'assinado-print':''}">${p.assinado?'ASSINATURA ELETRÔNICA':'________________'}</td></tr>`
+                    ).join('');
+
+                // Buscar ferramentas para impressão
+                let ishikawaPrintHtml = '';
+                let fiveWhysPrintHtml = '';
+                if (plano.temIshikawa) {
+                    const ishSnap = await collIshikawa.where('planoId', '==', id).limit(1).get();
+                    if (!ishSnap.empty) {
+                        const ish = ishSnap.docs[0].data();
+                        const catKeys = Object.keys(ish.categorias || {});
+                        const tabelaIsh = catKeys.map(cat =>
+                            `<tr><th>${cat}</th><td>${(ish.categorias[cat]||[]).join(', ')||'—'}</td></tr>`).join('');
+                        ishikawaPrintHtml = `
+                            <div class="print-tool-section">
+                                <h3>🐟 Diagrama de Ishikawa</h3>
+                                <p><strong>Problema:</strong> ${escapeHtml(ish.problema||'N/A')}</p>
+                                <table class="print-ishikawa-table"><thead><tr>${catKeys.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody><tr>${catKeys.map(c=>`<td>${(ish.categorias[c]||[]).join(', ')||'—'}</td>`).join('')}</tr></tbody></table>
+                            </div>`;
+                    }
+                }
+                if (plano.temFiveWhys) {
+                    const fwSnap = await collFiveWhys.where('planoId', '==', id).limit(1).get();
+                    if (!fwSnap.empty) {
+                        const fw = fwSnap.docs[0].data();
+                        const whysLi = (fw.whys || []).map((w, i) =>
+                            `<li><strong>${i+1}º Por quê:</strong> ${escapeHtml(w.resposta||'—')}</li>`).join('');
+                        fiveWhysPrintHtml = `
+                            <div class="print-tool-section">
+                                <h3>❓ 5 Porquês</h3>
+                                <p><strong>Problema:</strong> ${escapeHtml(fw.problema||'N/A')}</p>
+                                <ul class="print-whys-list">${whysLi}</ul>
+                                <p style="margin-top:8px;padding:8px;border:2px solid #c8963e;border-radius:6px;background:#fefdf6;"><strong>🎯 Causa Raiz:</strong> ${escapeHtml(fw.causaRaiz||'Não identificada')}</p>
+                            </div>`;
+                    }
+                }
+
                 const conteudo = el('planoPrintConteudo');
                 conteudo.innerHTML = `
                     <div class="print-header"><div><h2>🏭 DONA RITA EMBALAGENS</h2><p>Plano de Ação</p></div><div><span class="print-badge ${plano.status==='concluido'?'badge-print-concluido':'badge-print-pendente'}">${plano.status==='concluido'?'CONCLUÍDO':'PENDENTE'}</span><p>Assinaturas: ${assinadas}/${total}</p></div></div>
@@ -1772,6 +3160,8 @@
                     </div>
                     <h3>👥 PESSOAS ENVOLVIDAS</h3>
                     <table class="print-pessoas-table"><thead><tr><th>#</th><th>Responsável</th><th>Ação</th><th>Prazo</th><th>Status</th><th>Justificativa</th><th>Assinatura</th></tr></thead><tbody>${tabela}</tbody></table>
+                    ${ishikawaPrintHtml}
+                    ${fiveWhysPrintHtml}
                     <p style="margin-top:12px;"><strong>📌 Termo:</strong> Cada responsável concorda com as ações designadas.</p>
                     <div class="print-footer">Dona Rita Embalagens © ${agora.getFullYear()} · Plano gerado em ${agora.toLocaleString('pt-BR')}</div>
                     <div class="no-print" style="text-align:center;margin-top:20px;">
@@ -1780,10 +3170,257 @@
                     </div>`;
                 el('planoPrintArea').style.display = 'block';
                 el('planoPrintArea').scrollIntoView({ behavior: 'smooth' });
-            } catch(e) { mostrarToast('Erro ao imprimir plano.', 'error'); }
+            } catch (e) { mostrarToast('Erro ao imprimir plano.', 'error'); }
         }
 
-        function fecharPlanoPrint() { el('planoPrintArea').style.display = 'none'; el('planoPrintConteudo').innerHTML = ''; }
+        function fecharPlanoPrint() { el('planoPrintArea').style.display = 'none';
+            el('planoPrintConteudo').innerHTML = ''; }
+
+        // ==================== FERRAMENTAS: ISHIKAWA & 5 PORQUÊS ====================
+        function resetarFerramentas() {
+            ishikawaData = {
+                ativo: false,
+                problema: '',
+                categorias: {
+                    'Método': [],
+                    'Máquina': [],
+                    'Medida': [],
+                    'Meio Ambiente': [],
+                    'Mão de Obra': [],
+                    'Material': []
+                }
+            };
+            fiveWhysData = {
+                ativo: false,
+                problema: '',
+                whys: [
+                    { pergunta: 'Por quê? (1º)', resposta: '' },
+                    { pergunta: 'Por quê? (2º)', resposta: '' },
+                    { pergunta: 'Por quê? (3º)', resposta: '' },
+                    { pergunta: 'Por quê? (4º)', resposta: '' },
+                    { pergunta: 'Por quê? (5º)', resposta: '' }
+                ],
+                causaRaiz: ''
+            };
+            el('toggleIshikawa').checked = false;
+            el('toggleFiveWhys').checked = false;
+            el('toolIshikawaCard').classList.remove('active-tool');
+            el('toolFiveWhysCard').classList.remove('active-tool');
+        }
+
+        async function carregarFerramentasDoPlano(planoId) {
+            // Carregar Ishikawa
+            const ishSnap = await collIshikawa.where('planoId', '==', planoId).limit(1).get();
+            if (!ishSnap.empty) {
+                const data = ishSnap.docs[0].data();
+                ishikawaData.ativo = true;
+                ishikawaData.problema = data.problema || '';
+                ishikawaData.categorias = data.categorias || JSON.parse(JSON.stringify({
+                    'Método': [],
+                    'Máquina': [],
+                    'Medida': [],
+                    'Meio Ambiente': [],
+                    'Mão de Obra': [],
+                    'Material': []
+                }));
+                ishikawaData._docId = ishSnap.docs[0].id;
+            }
+            // Carregar 5 Porquês
+            const fwSnap = await collFiveWhys.where('planoId', '==', planoId).limit(1).get();
+            if (!fwSnap.empty) {
+                const data = fwSnap.docs[0].data();
+                fiveWhysData.ativo = true;
+                fiveWhysData.problema = data.problema || '';
+                fiveWhysData.whys = data.whys || [
+                    { pergunta: 'Por quê? (1º)', resposta: '' },
+                    { pergunta: 'Por quê? (2º)', resposta: '' },
+                    { pergunta: 'Por quê? (3º)', resposta: '' },
+                    { pergunta: 'Por quê? (4º)', resposta: '' },
+                    { pergunta: 'Por quê? (5º)', resposta: '' }
+                ];
+                fiveWhysData.causaRaiz = data.causaRaiz || '';
+                fiveWhysData._docId = fwSnap.docs[0].id;
+            }
+        }
+
+        async function salvarFerramentasNoFirestore(planoId) {
+            // Salvar Ishikawa
+            if (ishikawaData.ativo) {
+                const dadosIsh = {
+                    planoId,
+                    problema: ishikawaData.problema,
+                    categorias: ishikawaData.categorias,
+                    dataCriacao: new Date().toISOString(),
+                    criadoPor: currentUser.username
+                };
+                if (ishikawaData._docId) {
+                    await collIshikawa.doc(ishikawaData._docId).update(dadosIsh);
+                } else {
+                    const ref = await collIshikawa.add(dadosIsh);
+                    ishikawaData._docId = ref.id;
+                }
+            } else if (ishikawaData._docId) {
+                // Se estava ativo mas foi desmarcado, remove
+                await collIshikawa.doc(ishikawaData._docId).delete();
+                ishikawaData._docId = null;
+            }
+
+            // Salvar 5 Porquês
+            if (fiveWhysData.ativo) {
+                const dadosFw = {
+                    planoId,
+                    problema: fiveWhysData.problema,
+                    whys: fiveWhysData.whys,
+                    causaRaiz: fiveWhysData.causaRaiz,
+                    dataCriacao: new Date().toISOString(),
+                    criadoPor: currentUser.username
+                };
+                if (fiveWhysData._docId) {
+                    await collFiveWhys.doc(fiveWhysData._docId).update(dadosFw);
+                } else {
+                    const ref = await collFiveWhys.add(dadosFw);
+                    fiveWhysData._docId = ref.id;
+                }
+            } else if (fiveWhysData._docId) {
+                await collFiveWhys.doc(fiveWhysData._docId).delete();
+                fiveWhysData._docId = null;
+            }
+        }
+
+        function toggleTool(tool, checked) {
+            if (tool === 'ishikawa') {
+                if (checked === undefined) {
+                    // toggle via clique no header
+                    const checkbox = el('toggleIshikawa');
+                    checkbox.checked = !checkbox.checked;
+                    ishikawaData.ativo = checkbox.checked;
+                } else {
+                    ishikawaData.ativo = checked;
+                    el('toggleIshikawa').checked = checked;
+                }
+                if (ishikawaData.ativo) {
+                    el('toolIshikawaCard').classList.add('active-tool');
+                    renderizarIshikawa();
+                } else {
+                    el('toolIshikawaCard').classList.remove('active-tool');
+                }
+            } else if (tool === 'fivewhys') {
+                if (checked === undefined) {
+                    const checkbox = el('toggleFiveWhys');
+                    checkbox.checked = !checkbox.checked;
+                    fiveWhysData.ativo = checkbox.checked;
+                } else {
+                    fiveWhysData.ativo = checked;
+                    el('toggleFiveWhys').checked = checked;
+                }
+                if (fiveWhysData.ativo) {
+                    el('toolFiveWhysCard').classList.add('active-tool');
+                    renderizarFiveWhys();
+                } else {
+                    el('toolFiveWhysCard').classList.remove('active-tool');
+                }
+            }
+        }
+
+        function renderizarFerramentasUI() {
+            el('toggleIshikawa').checked = ishikawaData.ativo;
+            el('toggleFiveWhys').checked = fiveWhysData.ativo;
+            if (ishikawaData.ativo) {
+                el('toolIshikawaCard').classList.add('active-tool');
+                renderizarIshikawa();
+            } else {
+                el('toolIshikawaCard').classList.remove('active-tool');
+            }
+            if (fiveWhysData.ativo) {
+                el('toolFiveWhysCard').classList.add('active-tool');
+                renderizarFiveWhys();
+            } else {
+                el('toolFiveWhysCard').classList.remove('active-tool');
+            }
+        }
+
+        function renderizarIshikawa() {
+            const catKeys = Object.keys(ishikawaData.categorias);
+            // Renderizar SVG da espinha de peixe
+            const svgContainer = el('ishikawaSvgContainer');
+            svgContainer.innerHTML = `
+                <svg viewBox="0 0 750 380" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Linha central (espinha) -->
+                    <line x1="40" y1="190" x2="620" y2="190" stroke="#0b3b2f" stroke-width="4" stroke-linecap="round"/>
+                    <!-- Cabeça do peixe (problema) -->
+                    <polygon points="620,190 680,150 700,190 680,230" fill="#0b3b2f" stroke="#0b3b2f" stroke-width="2"/>
+                    <text x="660" y="195" fill="#fff" font-size="11" font-weight="800" text-anchor="middle" font-family="Inter,sans-serif">PROBLEMA</text>
+                    <!-- Espinhas superiores -->
+                    <line x1="120" y1="190" x2="90" y2="60" stroke="${ishikawaColors['Método']}" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="220" y1="190" x2="190" y2="60" stroke="${ishikawaColors['Máquina']}" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="320" y1="190" x2="290" y2="60" stroke="${ishikawaColors['Medida']}" stroke-width="2.5" stroke-linecap="round"/>
+                    <!-- Espinhas inferiores -->
+                    <line x1="120" y1="190" x2="90" y2="320" stroke="${ishikawaColors['Meio Ambiente']}" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="220" y1="190" x2="190" y2="320" stroke="${ishikawaColors['Mão de Obra']}" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="320" y1="190" x2="290" y2="320" stroke="${ishikawaColors['Material']}" stroke-width="2.5" stroke-linecap="round"/>
+                    <!-- Labels -->
+                    <text x="85" y="50" fill="${ishikawaColors['Método']}" font-size="12" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">MÉTODO</text>
+                    <text x="185" y="50" fill="${ishikawaColors['Máquina']}" font-size="12" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">MÁQUINA</text>
+                    <text x="285" y="50" fill="${ishikawaColors['Medida']}" font-size="12" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">MEDIDA</text>
+                    <text x="85" y="340" fill="${ishikawaColors['Meio Ambiente']}" font-size="12" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">MEIO AMB.</text>
+                    <text x="185" y="340" fill="${ishikawaColors['Mão de Obra']}" font-size="12" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">MÃO DE OBRA</text>
+                    <text x="285" y="340" fill="${ishikawaColors['Material']}" font-size="12" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">MATERIAL</text>
+                </svg>`;
+
+            // Renderizar caixas de categoria com inputs
+            const boxesContainer = el('ishikawaCategoryBoxes');
+            boxesContainer.innerHTML = catKeys.map(cat => `
+                <div class="ishikawa-category-box">
+                    <h5><span class="cat-dot" style="background:${ishikawaColors[cat]}"></span> ${cat}</h5>
+                    <div class="ishikawa-causes-list" id="ishikawaCauses_${cat.replace(/\s+/g,'_')}">
+                        ${(ishikawaData.categorias[cat]||[]).map((causa,i) => `
+                            <span class="ishikawa-cause-tag">${escapeHtml(causa)} <span class="remove-cause" onclick="removerCausaIshikawa('${cat}',${i})">×</span></span>
+                        `).join('')}
+                    </div>
+                    <div class="ishikawa-cause-input-group">
+                        <input type="text" id="ishikawaInput_${cat.replace(/\s+/g,'_')}" placeholder="Nova causa para ${cat}..." onkeydown="if(event.key==='Enter')adicionarCausaIshikawa('${cat}')">
+                        <button class="btn btn-sm btn-primary" onclick="adicionarCausaIshikawa('${cat}')"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function adicionarCausaIshikawa(categoria) {
+            const inputId = 'ishikawaInput_' + categoria.replace(/\s+/g, '_');
+            const input = el(inputId);
+            if (!input) return;
+            const valor = input.value.trim();
+            if (!valor) return;
+            if (!ishikawaData.categorias[categoria]) ishikawaData.categorias[categoria] = [];
+            ishikawaData.categorias[categoria].push(valor);
+            input.value = '';
+            renderizarIshikawa();
+        }
+
+        function removerCausaIshikawa(categoria, index) {
+            if (ishikawaData.categorias[categoria]) {
+                ishikawaData.categorias[categoria].splice(index, 1);
+                renderizarIshikawa();
+            }
+        }
+
+        function renderizarFiveWhys() {
+            const container = el('fiveWhysContainer');
+            container.innerHTML = `
+                ${fiveWhysData.whys.map((w, i) => `
+                    <div class="five-whys-item">
+                        <div class="five-whys-number">${i+1}</div>
+                        <div class="five-whys-content">
+                            <label>${w.pergunta}</label>
+                            <textarea placeholder="Resposta do ${i+1}º por quê..." oninput="fiveWhysData.whys[${i}].resposta=this.value">${escapeHtml(w.resposta||'')}</textarea>
+                        </div>
+                    </div>
+                `).join('')}
+                <div class="five-whys-root-cause">
+                    <label><i class="fas fa-bullseye"></i> Causa Raiz Identificada</label>
+                    <textarea placeholder="Descreva a causa raiz encontrada..." oninput="fiveWhysData.causaRaiz=this.value">${escapeHtml(fiveWhysData.causaRaiz||'')}</textarea>
+                </div>`;
+        }
 
         // ==================== RELATÓRIO ====================
         function atualizarPeriodoRelatorio() {
@@ -1794,17 +3431,38 @@
 
         function obterIntervaloDatas() {
             const periodo = el('relatorioPeriodo').value;
-            const hoje = new Date(); hoje.setHours(23,59,59,999);
+            const hoje = new Date();
+            hoje.setHours(23, 59, 59, 999);
             let ini, fim;
-            switch(periodo) {
-                case 'diario': ini = new Date(hoje); ini.setHours(0,0,0,0); fim = new Date(hoje); break;
-                case 'semanal': fim = new Date(hoje); ini = new Date(hoje); ini.setDate(ini.getDate()-6); ini.setHours(0,0,0,0); break;
-                case 'mensal': fim = new Date(hoje); ini = new Date(hoje); ini.setDate(ini.getDate()-29); ini.setHours(0,0,0,0); break;
+            switch (periodo) {
+                case 'diario':
+                    ini = new Date(hoje);
+                    ini.setHours(0, 0, 0, 0);
+                    fim = new Date(hoje);
+                    break;
+                case 'semanal':
+                    fim = new Date(hoje);
+                    ini = new Date(hoje);
+                    ini.setDate(ini.getDate() - 6);
+                    ini.setHours(0, 0, 0, 0);
+                    break;
+                case 'mensal':
+                    fim = new Date(hoje);
+                    ini = new Date(hoje);
+                    ini.setDate(ini.getDate() - 29);
+                    ini.setHours(0, 0, 0, 0);
+                    break;
                 case 'personalizado':
-                    const di = el('relatorioDataInicio').value, df = el('relatorioDataFim').value;
+                    const di = el('relatorioDataInicio').value,
+                        df = el('relatorioDataFim').value;
                     if (!di || !df) { mostrarToast('Selecione as datas.', 'error'); return null; }
-                    ini = new Date(di+'T00:00:00'); fim = new Date(df+'T23:59:59'); break;
-                default: ini = new Date(hoje); ini.setDate(ini.getDate()-29); fim = new Date(hoje);
+                    ini = new Date(di + 'T00:00:00');
+                    fim = new Date(df + 'T23:59:59');
+                    break;
+                default:
+                    ini = new Date(hoje);
+                    ini.setDate(ini.getDate() - 29);
+                    fim = new Date(hoje);
             }
             return { inicio: ini, fim };
         }
@@ -1819,19 +3477,21 @@
             const abertas = filtradas.filter(n => n.status === 'aberto').length;
             const resolvidas = filtradas.filter(n => n.status === 'resolvido').length;
             const total = filtradas.length;
-            const totalRetrabalhadas = filtradas.reduce((s,n) => s + (parseInt(n.quantidadeRetrabalhadas)||0), 0);
-            const totalDescartada = filtradas.reduce((s,n) => s + (parseInt(n.quantidadeDescartada)||0), 0);
+            const totalRetrabalhadas = filtradas.reduce((s, n) => s + (parseInt(n.quantidadeRetrabalhadas) || 0), 0);
+            const totalDescartada = filtradas.reduce((s, n) => s + (parseInt(n.quantidadeDescartada) || 0), 0);
             const motivoAgrupado = {};
             filtradas.forEach(nc => {
-                const c = (nc.motivo||'Sem motivo').substring(0,50);
-                if (!motivoAgrupado[c]) motivoAgrupado[c] = { ncs:0, caixas:0, itens:0, retrabalhadas:0, descartada:0 };
+                const c = (nc.motivo || 'Sem motivo').substring(0, 50);
+                if (!motivoAgrupado[c]) motivoAgrupado[c] = { ncs: 0, caixas: 0, itens: 0, retrabalhadas: 0,
+                    descartada: 0 };
                 motivoAgrupado[c].ncs++;
-                motivoAgrupado[c].caixas += parseInt(nc.quantidadeCaixas)||0;
-                motivoAgrupado[c].itens += parseInt(nc.quantidadeItens)||0;
-                motivoAgrupado[c].retrabalhadas += parseInt(nc.quantidadeRetrabalhadas)||0;
-                motivoAgrupado[c].descartada += parseInt(nc.quantidadeDescartada)||0;
+                motivoAgrupado[c].caixas += parseInt(nc.quantidadeCaixas) || 0;
+                motivoAgrupado[c].itens += parseInt(nc.quantidadeItens) || 0;
+                motivoAgrupado[c].retrabalhadas += parseInt(nc.quantidadeRetrabalhadas) || 0;
+                motivoAgrupado[c].descartada += parseInt(nc.quantidadeDescartada) || 0;
             });
-            const motivosDetalhados = Object.keys(motivoAgrupado).sort((a,b)=>motivoAgrupado[b].caixas - motivoAgrupado[a].caixas);
+            const motivosDetalhados = Object.keys(motivoAgrupado).sort((a, b) => motivoAgrupado[b].caixas - motivoAgrupado[a]
+                .caixas);
             const agora = new Date();
             const conteudo = el('relatorioConteudo');
             conteudo.innerHTML = `
@@ -1869,10 +3529,21 @@
             setTimeout(() => {
                 Object.values(charts).forEach(c => c?.destroy?.());
                 if (motivosDetalhados.length) {
-                    const ctxM = el('chartRelMotivos'), ctxS = el('chartRelStatus'), ctxC = el('chartRelCaixas');
-                    if (ctxM) charts.relMotivos = new Chart(ctxM, { type: 'doughnut', data: { labels: motivosDetalhados, datasets: [{ data: motivosDetalhados.map(m=>motivoAgrupado[m].ncs), backgroundColor: ['#1f6d52','#c8963e','#386e8c','#b53b3b','#8e5c4a','#b5792a','#2d7a4f','#5b3a6e'] }] } });
-                    if (ctxS) charts.relStatus = new Chart(ctxS, { type: 'bar', data: { labels: ['Abertas','Resolvidas'], datasets: [{ data: [abertas, resolvidas], backgroundColor: ['#b53b3b','#2d7a4f'] }] } });
-                    if (ctxC) charts.relCaixas = new Chart(ctxC, { type: 'bar', data: { labels: motivosDetalhados, datasets: [{ label:'Caixas', data: motivosDetalhados.map(m=>motivoAgrupado[m].caixas), backgroundColor: '#1f6d52' }] } });
+                    const ctxM = el('chartRelMotivos'),
+                        ctxS = el('chartRelStatus'),
+                        ctxC = el('chartRelCaixas');
+                    if (ctxM) charts.relMotivos = new Chart(ctxM, { type: 'doughnut', data: { labels: motivosDetalhados,
+                            datasets: [{ data: motivosDetalhados.map(m => motivoAgrupado[m].ncs),
+                                backgroundColor: ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a',
+                                    '#b5792a', '#2d7a4f', '#5b3a6e'
+                                ] }] } });
+                    if (ctxS) charts.relStatus = new Chart(ctxS, { type: 'bar', data: { labels: ['Abertas',
+                            'Resolvidas'
+                        ], datasets: [{ data: [abertas, resolvidas], backgroundColor: ['#b53b3b',
+                                '#2d7a4f'] }] } });
+                    if (ctxC) charts.relCaixas = new Chart(ctxC, { type: 'bar', data: { labels: motivosDetalhados,
+                            datasets: [{ label: 'Caixas', data: motivosDetalhados.map(m => motivoAgrupado[m]
+                                    .caixas), backgroundColor: '#1f6d52' }] } });
                 }
             }, 200);
         }
@@ -1914,8 +3585,10 @@
             const username = el('newUsername').value.trim();
             const password = el('newPassword').value.trim();
             const role = el('newRole').value;
-            if (!username || !password || username.length < 3 || password.length < 3) return mostrarToast('Preencha corretamente!', 'error');
-            if ((await getUsuarios()).find(u => u.username === username)) return mostrarToast('Usuário já existe!', 'error');
+            if (!username || !password || username.length < 3 || password.length < 3) return mostrarToast(
+                'Preencha corretamente!', 'error');
+            if ((await getUsuarios()).find(u => u.username === username)) return mostrarToast('Usuário já existe!',
+            'error');
             await criarUsuarioFirestore(username, password, role);
             el('newUsername').value = el('newPassword').value = '';
             await renderUsuarios();
@@ -1933,7 +3606,10 @@
         // ==================== EVENTOS GLOBAIS ====================
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
-                fecharModalDetalhes(); fecharModalFoto(); fecharModalQR(); fecharModalVerPlano();
+                fecharModalDetalhes();
+                fecharModalFoto();
+                fecharModalQR();
+                fecharModalVerPlano();
                 if (el('printArea').style.display === 'block') fecharPrint();
                 if (el('relatorioPrintArea').style.display === 'block') fecharRelatorio();
                 if (el('planoPrintArea').style.display === 'block') fecharPlanoPrint();
