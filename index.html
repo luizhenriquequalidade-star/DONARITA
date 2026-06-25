@@ -10,16 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js">
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
     <!-- Chart.js + QRCode.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
     <style>
         :root {
@@ -2994,70 +2990,76 @@
         }
 
         async function verPlanoAcao(id) {
-            const doc = await collPlanos.doc(id).get();
-            if (!doc.exists) return mostrarToast('Plano não encontrado!', 'error');
-            const plano = doc.data();
-            const isAdmin = currentUser?.role === 'admin';
-            const minha = (plano.pessoas || []).find(p => p.username === currentUser.username);
-            const pessoasHtml = (plano.pessoas || []).map((p, i) => `
-                <div class="pessoa-card">
-                    <div class="pessoa-header"><div class="pessoa-numero">${i+1}</div> <strong>${escapeHtml(p.username)}</strong> ${p.assinado?'✅':'⏳'}</div>
-                    <p>📋 ${escapeHtml(p.acao)}</p><p>📅 ${fmtDataCurta(p.prazo)}</p>
-                    ${p.justificativa?`<p><i class="fas fa-exclamation-triangle"></i> ${escapeHtml(p.justificativa)}</p>`:''}
-                </div>`).join('');
+            try {
+                const doc = await collPlanos.doc(id).get();
+                if (!doc.exists) return mostrarToast('Plano não encontrado!', 'error');
+                const plano = doc.data();
+                const isAdmin = currentUser?.role === 'admin';
+                const minha = (plano.pessoas || []).find(p => p.username === currentUser.username);
+                const pessoasHtml = (plano.pessoas || []).map((p, i) => `
+                    <div class="pessoa-card">
+                        <div class="pessoa-header"><div class="pessoa-numero">${i+1}</div> <strong>${escapeHtml(p.username)}</strong> ${p.assinado?'✅':'⏳'}</div>
+                        <p>📋 ${escapeHtml(p.acao)}</p><p>📅 ${fmtDataCurta(p.prazo)}</p>
+                        ${p.justificativa?`<p><i class="fas fa-exclamation-triangle"></i> ${escapeHtml(p.justificativa)}</p>`:''}
+                    </div>`).join('');
 
-            // Buscar dados das ferramentas
-            let ishikawaHtml = '';
-            let fiveWhysHtml = '';
-            if (plano.temIshikawa) {
-                const ishSnap = await collIshikawa.where('planoId', '==', id).limit(1).get();
-                if (!ishSnap.empty) {
-                    const ish = ishSnap.docs[0].data();
-                    const catsHtml = Object.keys(ish.categorias || {}).map(cat => {
-                        const causas = (ish.categorias[cat] || []).map(c =>
-                            `<span class="ishikawa-cause-tag">${escapeHtml(c)}</span>`).join(' ') ||
-                        '<span style="color:#8b9a94;">—</span>';
-                        return `<div class="ishikawa-category-box"><h5><span class="cat-dot" style="background:${ishikawaColors[cat]||'#888'}"></span> ${cat}</h5><div class="ishikawa-causes-list">${causas}</div></div>`;
-                    }).join('');
-                    ishikawaHtml = `
-                        <div style="margin-top:16px;padding:16px;background:#f8faf9;border-radius:14px;border:2px solid #e0e8e4;">
-                            <h4 style="color:#386e8c;margin-bottom:10px;"><i class="fas fa-fish"></i> Diagrama de Ishikawa</h4>
-                            <p><strong>Problema:</strong> ${escapeHtml(ish.problema||'N/A')}</p>
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">${catsHtml}</div>
-                        </div>`;
+                // Buscar dados das ferramentas
+                let ishikawaHtml = '';
+                let fiveWhysHtml = '';
+                
+                if (plano.temIshikawa) {
+                    const ishSnap = await collIshikawa.where('planoId', '==', id).limit(1).get();
+                    if (!ishSnap.empty) {
+                        const ish = ishSnap.docs[0].data();
+                        const catsHtml = Object.keys(ish.categorias || {}).map(cat => {
+                            const causas = (ish.categorias[cat] || []).map(c =>
+                                `<span class="ishikawa-cause-tag">${escapeHtml(c)}</span>`).join(' ') ||
+                            '<span style="color:#8b9a94;">—</span>';
+                            return `<div class="ishikawa-category-box"><h5><span class="cat-dot" style="background:${ishikawaColors[cat]||'#888'}"></span> ${cat}</h5><div class="ishikawa-causes-list">${causas}</div></div>`;
+                        }).join('');
+                        ishikawaHtml = `
+                            <div style="margin-top:16px;padding:16px;background:#f8faf9;border-radius:14px;border:2px solid #e0e8e4;">
+                                <h4 style="color:#386e8c;margin-bottom:10px;"><i class="fas fa-fish"></i> Diagrama de Ishikawa</h4>
+                                <p><strong>Problema:</strong> ${escapeHtml(ish.problema||'N/A')}</p>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">${catsHtml}</div>
+                            </div>`;
+                    }
                 }
-            }
-            if (plano.temFiveWhys) {
-                const fwSnap = await collFiveWhys.where('planoId', '==', id).limit(1).get();
-                if (!fwSnap.empty) {
-                    const fw = fwSnap.docs[0].data();
-                    const whysHtml = (fw.whys || []).map((w, i) =>
-                        `<li><strong>${i+1}º Por quê:</strong> ${escapeHtml(w.resposta||'—')}</li>`).join('');
-                    fiveWhysHtml = `
-                        <div style="margin-top:16px;padding:16px;background:#fefdf6;border-radius:14px;border:2px solid #e8d58b;">
-                            <h4 style="color:#b5792a;margin-bottom:10px;"><i class="fas fa-question-circle"></i> 5 Porquês</h4>
-                            <p><strong>Problema:</strong> ${escapeHtml(fw.problema||'N/A')}</p>
-                            <ol style="margin:8px 0;padding-left:20px;">${whysHtml}</ol>
-                            <p style="background:#fff;padding:10px;border-radius:8px;border:2px solid #c8963e;margin-top:8px;"><strong>🎯 Causa Raiz:</strong> ${escapeHtml(fw.causaRaiz||'Não identificada')}</p>
-                        </div>`;
+                if (plano.temFiveWhys) {
+                    const fwSnap = await collFiveWhys.where('planoId', '==', id).limit(1).get();
+                    if (!fwSnap.empty) {
+                        const fw = fwSnap.docs[0].data();
+                        const whysHtml = (fw.whys || []).map((w, i) =>
+                            `<li><strong>${i+1}º Por quê:</strong> ${escapeHtml(w.resposta||'—')}</li>`).join('');
+                        fiveWhysHtml = `
+                            <div style="margin-top:16px;padding:16px;background:#fefdf6;border-radius:14px;border:2px solid #e8d58b;">
+                                <h4 style="color:#b5792a;margin-bottom:10px;"><i class="fas fa-question-circle"></i> 5 Porquês</h4>
+                                <p><strong>Problema:</strong> ${escapeHtml(fw.problema||'N/A')}</p>
+                                <ol style="margin:8px 0;padding-left:20px;">${whysHtml}</ol>
+                                <p style="background:#fff;padding:10px;border-radius:8px;border:2px solid #c8963e;margin-top:8px;"><strong>🎯 Causa Raiz:</strong> ${escapeHtml(fw.causaRaiz||'Não identificada')}</p>
+                            </div>`;
+                    }
                 }
-            }
 
-            el('verPlanoInner').innerHTML = `
-                <h2>Plano de Ação - NC #${plano.ncId}</h2>
-                <p>Produto: ${escapeHtml(plano.ncProduto)} | Palete: ${escapeHtml(plano.ncPalete)}</p>
-                <p>Motivo: ${escapeHtml(plano.ncMotivo)}</p>
-                <p>Status: <span class="badge ${plano.status==='concluido'?'badge-concluido':'badge-pendente'}">${plano.status==='concluido'?'Concluído':'Pendente'}</span></p>
-                <h4>Resumo</h4><p style="white-space:pre-wrap;">${escapeHtml(plano.resumoReuniao)}</p>
-                <h4>Pessoas</h4>${pessoasHtml}
-                ${ishikawaHtml}
-                ${fiveWhysHtml}
-                <div style="margin-top:16px;">
-                    ${isAdmin ? `<button class="btn btn-accent" onclick="imprimirPlanoAcao('${id}')"><i class="fas fa-print"></i></button>` : ''}
-                    ${minha && !minha.assinado ? `<button class="btn btn-assinar" onclick="assinarPlanoAcao('${id}')"><i class="fas fa-signature"></i> Assinar</button>` : ''}
-                    <button class="btn btn-outline" onclick="fecharModalVerPlano()">Fechar</button>
-                </div>`;
-            el('modalVerPlano').style.display = 'flex';
+                el('verPlanoInner').innerHTML = `
+                    <h2>Plano de Ação - NC #${plano.ncId}</h2>
+                    <p>Produto: ${escapeHtml(plano.ncProduto)} | Palete: ${escapeHtml(plano.ncPalete)}</p>
+                    <p>Motivo: ${escapeHtml(plano.ncMotivo)}</p>
+                    <p>Status: <span class="badge ${plano.status==='concluido'?'badge-concluido':'badge-pendente'}">${plano.status==='concluido'?'Concluído':'Pendente'}</span></p>
+                    <h4>Resumo</h4><p style="white-space:pre-wrap;">${escapeHtml(plano.resumoReuniao)}</p>
+                    <h4>Pessoas</h4>${pessoasHtml}
+                    ${ishikawaHtml}
+                    ${fiveWhysHtml}
+                    <div style="margin-top:16px;">
+                        ${isAdmin ? `<button class="btn btn-accent" onclick="imprimirPlanoAcao('${id}')"><i class="fas fa-print"></i></button>` : ''}
+                        ${minha && !minha.assinado ? `<button class="btn btn-assinar" onclick="assinarPlanoAcao('${id}')"><i class="fas fa-signature"></i> Assinar</button>` : ''}
+                        <button class="btn btn-outline" onclick="fecharModalVerPlano()">Fechar</button>
+                    </div>`;
+                el('modalVerPlano').style.display = 'flex';
+            } catch (error) {
+                console.error("Erro ao ver plano:", error);
+                mostrarToast('Erro ao carregar detalhes do plano.', 'error');
+            }
         }
 
         function fecharModalVerPlano() { el('modalVerPlano').style.display = 'none'; }
@@ -3150,6 +3152,11 @@
                 }
 
                 const conteudo = el('planoPrintConteudo');
+                if (!conteudo) {
+                    mostrarToast('Erro interno: área de impressão não encontrada.', 'error');
+                    return;
+                }
+
                 conteudo.innerHTML = `
                     <div class="print-header"><div><h2>🏭 DONA RITA EMBALAGENS</h2><p>Plano de Ação</p></div><div><span class="print-badge ${plano.status==='concluido'?'badge-print-concluido':'badge-print-pendente'}">${plano.status==='concluido'?'CONCLUÍDO':'PENDENTE'}</span><p>Assinaturas: ${assinadas}/${total}</p></div></div>
                     <div class="print-grid">
@@ -3168,9 +3175,13 @@
                         <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir</button>
                         <button class="btn btn-outline" onclick="fecharPlanoPrint()"><i class="fas fa-times"></i> Fechar</button>
                     </div>`;
+                    
                 el('planoPrintArea').style.display = 'block';
                 el('planoPrintArea').scrollIntoView({ behavior: 'smooth' });
-            } catch (e) { mostrarToast('Erro ao imprimir plano.', 'error'); }
+            } catch (e) { 
+                console.error(e); 
+                mostrarToast('Erro ao imprimir plano: ' + e.message, 'error'); 
+            }
         }
 
         function fecharPlanoPrint() { el('planoPrintArea').style.display = 'none';
