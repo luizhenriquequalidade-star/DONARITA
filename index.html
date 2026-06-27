@@ -106,8 +106,14 @@
             animation: slideUp 0.5s ease;
         }
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .login-logo {
             width: 80px;
@@ -269,12 +275,30 @@
             font-weight: 600;
             letter-spacing: 0.02em;
         }
-        .badge-open { background: #fce8e8; color: #b53b3b; }
-        .badge-resolved { background: #e1f0e7; color: #2d7a4f; }
-        .badge-pendente { background: #fef3e6; color: #b5792a; }
-        .badge-concluido { background: #e1f0e7; color: #2d7a4f; }
-        .badge-assinado { background: #d9f2f0; color: #1a6b63; }
-        .badge-nao-assinado { background: #fce8e8; color: #b53b3b; }
+        .badge-open {
+            background: #fce8e8;
+            color: #b53b3b;
+        }
+        .badge-resolved {
+            background: #e1f0e7;
+            color: #2d7a4f;
+        }
+        .badge-pendente {
+            background: #fef3e6;
+            color: #b5792a;
+        }
+        .badge-concluido {
+            background: #e1f0e7;
+            color: #2d7a4f;
+        }
+        .badge-assinado {
+            background: #d9f2f0;
+            color: #1a6b63;
+        }
+        .badge-nao-assinado {
+            background: #fce8e8;
+            color: #b53b3b;
+        }
         .btn-fechar-visitante {
             position: absolute;
             top: 14px;
@@ -288,7 +312,9 @@
             font-size: 1rem;
             transition: var(--transition);
         }
-        .btn-fechar-visitante:hover { background: #e0e0e0; }
+        .btn-fechar-visitante:hover {
+            background: #e0e0e0;
+        }
 
         .sidebar {
             width: var(--sidebar-width);
@@ -427,13 +453,26 @@
             min-height: 100vh;
             transition: margin-left 0.3s ease;
         }
-        .page { display: none; animation: fadeIn 0.3s ease; }
-        .page.active { display: block; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
         }
-        .page-header { margin-bottom: 26px; }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .page-header {
+            margin-bottom: 26px;
+        }
         .page-header h1 {
             font-size: 1.7rem;
             font-weight: 700;
@@ -443,7 +482,10 @@
             gap: 10px;
             letter-spacing: -0.02em;
         }
-        .page-header h1 i { color: var(--primary-light); font-size: 1.4rem; }
+        .page-header h1 i {
+            color: var(--primary-light);
+            font-size: 1.4rem;
+        }
         .page-header .breadcrumb {
             font-size: 0.82rem;
             color: var(--text-muted);
@@ -483,12 +525,30 @@
             font-size: 1.4rem;
             flex-shrink: 0;
         }
-        .stat-icon.green { background: #e1f0e7; color: #1f6d52; }
-        .stat-icon.red { background: #fce8e8; color: #b53b3b; }
-        .stat-icon.blue { background: #e2eff7; color: #386e8c; }
-        .stat-icon.orange { background: #fcf0e1; color: #b5792a; }
-        .stat-icon.purple { background: #f0e6f6; color: #7b4b9a; }
-        .stat-icon.teal { background: #d9f2f0; color: #1a6b63; }
+        .stat-icon.green {
+            background: #e1f0e7;
+            color: #1f6d52;
+        }
+        .stat-icon.red {
+            background: #fce8e8;
+            color: #b53b3b;
+        }
+        .stat-icon.blue {
+            background: #e2eff7;
+            color: #386e8c;
+        }
+        .stat-icon.orange {
+            background: #fcf0e1;
+            color: #b5792a;
+        }
+        .stat-icon.purple {
+            background: #f0e6f6;
+            color: #7b4b9a;
+        }
+        .stat-icon.teal {
+            background: #d9f2f0;
+            color: #1a6b63;
+        }
         .stat-info h3 {
             font-size: 1.9rem;
             font-weight: 700;
@@ -509,7 +569,11 @@
             gap: 18px;
             margin-bottom: 26px;
         }
-        @media (max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 900px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
         .chart-card {
             background: var(--surface);
             backdrop-filter: var(--backdrop-blur);
@@ -524,7 +588,9 @@
             margin-bottom: 14px;
             color: var(--text);
         }
-        .chart-card canvas { max-height: 260px; }
+        .chart-card canvas {
+            max-height: 260px;
+        }
 
         .table-card {
             background: var(--surface);
@@ -543,7 +609,11 @@
             flex-wrap: wrap;
             gap: 12px;
         }
-        .table-card .table-header h3 { font-weight: 600; font-size: 1rem; color: var(--text); }
+        .table-card .table-header h3 {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text);
+        }
         .table-card table {
             width: 100%;
             border-collapse: collapse;
@@ -565,8 +635,12 @@
             border-bottom: 1px solid var(--border);
             vertical-align: middle;
         }
-        .table-card table tbody tr { transition: var(--transition); }
-        .table-card table tbody tr:hover { background: #f9fbfa; }
+        .table-card table tbody tr {
+            transition: var(--transition);
+        }
+        .table-card table tbody tr:hover {
+            background: #f9fbfa;
+        }
 
         .btn {
             padding: 9px 16px;
@@ -583,19 +657,58 @@
             letter-spacing: -0.01em;
             white-space: nowrap;
         }
-        .btn-sm { padding: 6px 11px; font-size: 0.73rem; border-radius: 16px; }
-        .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(11, 59, 47, 0.2); }
-        .btn-primary:hover { background: #0f4d3b; box-shadow: 0 6px 16px rgba(11, 59, 47, 0.3); }
-        .btn-accent { background: var(--accent); color: #1e1e1e; font-weight: 600; }
-        .btn-accent:hover { background: #b88735; }
-        .btn-outline { background: transparent; border: 1.5px solid #cdd6d1; color: var(--text); }
-        .btn-outline:hover { border-color: var(--primary-light); background: #f5f9f7; }
-        .btn-danger { background: var(--danger); color: #fff; }
-        .btn-danger:hover { background: #a13232; }
-        .btn-success { background: var(--success); color: #fff; }
-        .btn-success:hover { background: #256b43; }
-        .btn-info { background: var(--info); color: #fff; }
-        .btn-info:hover { background: #2f5f78; }
+        .btn-sm {
+            padding: 6px 11px;
+            font-size: 0.73rem;
+            border-radius: 16px;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(11, 59, 47, 0.2);
+        }
+        .btn-primary:hover {
+            background: #0f4d3b;
+            box-shadow: 0 6px 16px rgba(11, 59, 47, 0.3);
+        }
+        .btn-accent {
+            background: var(--accent);
+            color: #1e1e1e;
+            font-weight: 600;
+        }
+        .btn-accent:hover {
+            background: #b88735;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #cdd6d1;
+            color: var(--text);
+        }
+        .btn-outline:hover {
+            border-color: var(--primary-light);
+            background: #f5f9f7;
+        }
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+        .btn-danger:hover {
+            background: #a13232;
+        }
+        .btn-success {
+            background: var(--success);
+            color: #fff;
+        }
+        .btn-success:hover {
+            background: #256b43;
+        }
+        .btn-info {
+            background: var(--info);
+            color: #fff;
+        }
+        .btn-info:hover {
+            background: #2f5f78;
+        }
         .btn-whatsapp {
             background: var(--whatsapp);
             color: #fff;
@@ -617,9 +730,29 @@
             background: #145750;
             box-shadow: 0 6px 18px rgba(26, 107, 99, 0.4);
         }
-        .actions-cell { display: flex; gap: 5px; flex-wrap: wrap; }
-        .empty-state { text-align: center; padding: 48px; color: var(--text-muted); }
-        .empty-state i { font-size: 2.8rem; margin-bottom: 12px; opacity: 0.5; }
+        .btn-refazer {
+            background: #b5792a;
+            color: #fff;
+            font-weight: 600;
+        }
+        .btn-refazer:hover {
+            background: #9a5f1e;
+        }
+        .actions-cell {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 48px;
+            color: var(--text-muted);
+        }
+        .empty-state i {
+            font-size: 2.8rem;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
 
         .form-card {
             background: var(--surface);
@@ -630,7 +763,9 @@
             max-width: 820px;
             border: 1px solid rgba(220, 229, 225, 0.6);
         }
-        .form-group { margin-bottom: 18px; }
+        .form-group {
+            margin-bottom: 18px;
+        }
         .form-group label {
             display: block;
             font-weight: 600;
@@ -660,10 +795,26 @@
             box-shadow: 0 0 0 3px rgba(31, 109, 82, 0.06);
             background: #fff;
         }
-        .form-group textarea { resize: vertical; min-height: 80px; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
-        .photo-preview-container { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        .photo-preview-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
         .photo-preview {
             width: 85px;
             height: 85px;
@@ -706,7 +857,10 @@
             position: relative;
             transition: var(--transition);
         }
-        .pessoa-card:hover { border-color: #bcc9c2; box-shadow: var(--shadow-xs); }
+        .pessoa-card:hover {
+            border-color: #bcc9c2;
+            box-shadow: var(--shadow-xs);
+        }
         .pessoa-card .pessoa-header {
             display: flex;
             justify-content: space-between;
@@ -739,7 +893,9 @@
             font-size: 0.8rem;
             transition: var(--transition);
         }
-        .btn-remover-pessoa:hover { background: #f5c8c8; }
+        .btn-remover-pessoa:hover {
+            background: #f5c8c8;
+        }
         .assinatura-status {
             display: flex;
             align-items: center;
@@ -749,9 +905,24 @@
             padding: 6px 12px;
             border-radius: 16px;
         }
-        .assinatura-status.assinado { background: #d9f2f0; color: #1a6b63; }
-        .assinatura-status.pendente { background: #fef3e6; color: #b5792a; }
-        .assinatura-status i { font-size: 1rem; }
+        .assinatura-status.assinado {
+            background: #d9f2f0;
+            color: #1a6b63;
+        }
+        .assinatura-status.pendente {
+            background: #fef3e6;
+            color: #b5792a;
+        }
+        .assinatura-status i {
+            font-size: 1rem;
+        }
+        .assinatura-preview {
+            max-width: 200px;
+            max-height: 60px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-top: 4px;
+        }
 
         .modal-overlay {
             position: fixed;
@@ -774,7 +945,11 @@
             box-shadow: var(--shadow-lg);
             position: relative;
         }
-        .modal h2 { font-size: 1.3rem; margin-bottom: 16px; color: var(--primary); }
+        .modal h2 {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
         .close-btn {
             position: absolute;
             top: 14px;
@@ -792,20 +967,32 @@
             justify-content: center;
             transition: var(--transition);
         }
-        .close-btn:hover { background: #f0f0f0; color: #333; }
-
-        .assinatura-canvas-container {
-            border: 2px solid #dce5e1;
-            border-radius: var(--radius);
-            background: #fff;
-            touch-action: none;
-            margin-bottom: 12px;
+        .close-btn:hover {
+            background: #f0f0f0;
+            color: #333;
         }
-        .assinatura-canvas-container canvas {
+
+        /* Estilos para o Canvas de Assinatura */
+        .canvas-assinatura-container {
+            position: relative;
+            display: inline-block;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        .canvas-assinatura-container canvas {
             display: block;
-            width: 100%;
-            height: auto;
             cursor: crosshair;
+            background: #fff;
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+        }
+        .canvas-assinatura-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .filtro-relatorio {
@@ -815,8 +1002,13 @@
             align-items: flex-end;
             margin-bottom: 24px;
         }
-        .filtro-relatorio .form-group { margin-bottom: 0; min-width: 160px; }
-        .filtro-relatorio .form-group label { font-size: 0.72rem; }
+        .filtro-relatorio .form-group {
+            margin-bottom: 0;
+            min-width: 160px;
+        }
+        .filtro-relatorio .form-group label {
+            font-size: 0.72rem;
+        }
 
         #printArea,
         #relatorioPrintArea,
@@ -852,7 +1044,13 @@
             flex-wrap: wrap;
             gap: 8px;
         }
-        .print-header h2 { font-size: 22px; font-weight: 800; color: #0b3b2f; margin: 0; letter-spacing: -0.02em; }
+        .print-header h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0b3b2f;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
         .print-badge {
             display: inline-block;
             font-size: 15px;
@@ -862,13 +1060,39 @@
             text-transform: uppercase;
             letter-spacing: 0.04em;
         }
-        .badge-print-open { background: #fce8e8; color: #b53b3b; border: 2px solid #b53b3b; }
-        .badge-print-resolved { background: #e1f0e7; color: #2d7a4f; border: 2px solid #2d7a4f; }
-        .badge-print-concluido { background: #e1f0e7; color: #2d7a4f; border: 2px solid #2d7a4f; }
-        .badge-print-pendente { background: #fef3e6; color: #b5792a; border: 2px solid #b5792a; }
-        .print-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; margin-bottom: 14px; }
-        .print-field { padding: 8px 0; border-bottom: 1px dashed #ccc; }
-        .print-field.full-width { grid-column: 1 / -1; }
+        .badge-print-open {
+            background: #fce8e8;
+            color: #b53b3b;
+            border: 2px solid #b53b3b;
+        }
+        .badge-print-resolved {
+            background: #e1f0e7;
+            color: #2d7a4f;
+            border: 2px solid #2d7a4f;
+        }
+        .badge-print-concluido {
+            background: #e1f0e7;
+            color: #2d7a4f;
+            border: 2px solid #2d7a4f;
+        }
+        .badge-print-pendente {
+            background: #fef3e6;
+            color: #b5792a;
+            border: 2px solid #b5792a;
+        }
+        .print-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 20px;
+            margin-bottom: 14px;
+        }
+        .print-field {
+            padding: 8px 0;
+            border-bottom: 1px dashed #ccc;
+        }
+        .print-field.full-width {
+            grid-column: 1 / -1;
+        }
         .print-label {
             font-size: 11px;
             font-weight: 700;
@@ -878,12 +1102,38 @@
             margin-bottom: 4px;
             display: block;
         }
-        .print-value { font-size: 16px; font-weight: 700; color: #111; word-break: break-word; }
-        .print-value.highlight { font-size: 20px; font-weight: 800; }
-        .print-fotos-section { margin-top: 10px; border-top: 2px solid #0b3b2f; padding-top: 10px; }
-        .print-fotos-section h3 { font-size: 15px; margin-bottom: 8px; color: #0b3b2f; }
-        .print-fotos-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-        .print-fotos-grid img { width: 120px; height: 120px; object-fit: cover; border: 1px solid #ccc; border-radius: 6px; }
+        .print-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111;
+            word-break: break-word;
+        }
+        .print-value.highlight {
+            font-size: 20px;
+            font-weight: 800;
+        }
+        .print-fotos-section {
+            margin-top: 10px;
+            border-top: 2px solid #0b3b2f;
+            padding-top: 10px;
+        }
+        .print-fotos-section h3 {
+            font-size: 15px;
+            margin-bottom: 8px;
+            color: #0b3b2f;
+        }
+        .print-fotos-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .print-fotos-grid img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
         .print-qr-section {
             display: flex;
             align-items: center;
@@ -894,8 +1144,13 @@
             border-radius: 8px;
             background: #fafafa;
         }
-        .print-qr-section .qr-print { flex-shrink: 0; }
-        .print-qr-section .qr-info { font-size: 14px; color: #333; }
+        .print-qr-section .qr-print {
+            flex-shrink: 0;
+        }
+        .print-qr-section .qr-info {
+            font-size: 14px;
+            color: #333;
+        }
         .print-footer {
             margin-top: auto;
             padding-top: 10px;
@@ -926,11 +1181,6 @@
             border: 1px solid #dce5e1;
             vertical-align: top;
         }
-        .print-pessoas-table .assinatura-img {
-            max-width: 120px;
-            max-height: 40px;
-            display: block;
-        }
         .print-pessoas-table .assinatura-linha {
             height: 50px;
             text-align: center;
@@ -944,10 +1194,18 @@
             font-style: normal;
             font-size: 11px;
         }
+        .print-pessoas-table .assinatura-img-print {
+            max-width: 150px;
+            max-height: 50px;
+        }
 
         @media print {
-            @page { size: A4; margin: 2mm; }
-            html, body {
+            @page {
+                size: A4;
+                margin: 2mm;
+            }
+            html,
+            body {
                 width: 100%;
                 height: 100%;
                 margin: 0;
@@ -958,8 +1216,12 @@
                 line-height: 1.5;
                 background: #fff !important;
             }
-            body > *:not(#printArea):not(#relatorioPrintArea):not(#planoPrintArea) { display: none !important; }
-            #printArea, #relatorioPrintArea, #planoPrintArea {
+            body>*:not(#printArea):not(#relatorioPrintArea):not(#planoPrintArea) {
+                display: none !important;
+            }
+            #printArea,
+            #relatorioPrintArea,
+            #planoPrintArea {
                 display: block !important;
                 position: static !important;
                 width: 100% !important;
@@ -973,7 +1235,9 @@
                 border-radius: 0 !important;
                 page-break-after: avoid;
             }
-            .no-print { display: none !important; }
+            .no-print {
+                display: none !important;
+            }
             .print-sheet {
                 padding: 3mm 5mm !important;
                 min-height: 0 !important;
@@ -981,29 +1245,99 @@
                 font-size: 10px !important;
                 line-height: 1.2 !important;
             }
-            .print-header { padding-bottom: 4px !important; margin-bottom: 6px !important; border-bottom-width: 2px !important; }
-            .print-header h2 { font-size: 15px !important; }
-            .print-header p { font-size: 9px !important; margin: 1px 0 0 !important; }
-            .print-badge { font-size: 10px !important; padding: 2px 8px !important; }
-            .print-grid { gap: 2px 10px !important; margin-bottom: 6px !important; }
-            .print-field { padding: 2px 0 !important; }
-            .print-label { font-size: 7px !important; margin-bottom: 1px !important; }
-            .print-value { font-size: 11px !important; font-weight: 700 !important; }
-            .print-value.highlight { font-size: 13px !important; font-weight: 800 !important; }
-            .print-fotos-section { margin-top: 6px !important; padding-top: 4px !important; border-top-width: 1px !important; }
-            .print-fotos-section h3 { font-size: 10px !important; margin-bottom: 4px !important; }
-            .print-fotos-grid { gap: 4px !important; }
-            .print-fotos-grid img { width: 60px !important; height: 60px !important; border-radius: 4px !important; }
-            .print-qr-section { margin-top: 6px !important; padding: 6px !important; gap: 10px !important; }
-            .print-qr-section .qr-print img, .print-qr-section .qr-print canvas { width: 60px !important; height: 60px !important; }
-            .print-qr-section .qr-info strong { font-size: 11px !important; }
-            .print-qr-section .qr-info p { font-size: 9px !important; margin: 1px 0 !important; }
-            .print-footer { font-size: 7px !important; padding-top: 4px !important; margin-top: 6px !important; }
-            .print-pessoas-table { font-size: 8px !important; }
-            .print-pessoas-table th { font-size: 7px !important; padding: 4px 5px !important; }
-            .print-pessoas-table td { padding: 4px 5px !important; }
-            .print-pessoas-table .assinatura-linha { height: 30px !important; font-size: 7px !important; }
-            .print-pessoas-table .assinatura-img { max-width: 80px !important; max-height: 25px !important; }
+            .print-header {
+                padding-bottom: 4px !important;
+                margin-bottom: 6px !important;
+                border-bottom-width: 2px !important;
+            }
+            .print-header h2 {
+                font-size: 15px !important;
+                letter-spacing: -0.02em !important;
+            }
+            .print-header p {
+                font-size: 9px !important;
+                margin: 1px 0 0 !important;
+            }
+            .print-badge {
+                font-size: 10px !important;
+                padding: 2px 8px !important;
+            }
+            .print-grid {
+                gap: 2px 10px !important;
+                margin-bottom: 6px !important;
+            }
+            .print-field {
+                padding: 2px 0 !important;
+            }
+            .print-label {
+                font-size: 7px !important;
+                margin-bottom: 1px !important;
+            }
+            .print-value {
+                font-size: 11px !important;
+                font-weight: 700 !important;
+            }
+            .print-value.highlight {
+                font-size: 13px !important;
+                font-weight: 800 !important;
+            }
+            .print-fotos-section {
+                margin-top: 6px !important;
+                padding-top: 4px !important;
+                border-top-width: 1px !important;
+            }
+            .print-fotos-section h3 {
+                font-size: 10px !important;
+                margin-bottom: 4px !important;
+            }
+            .print-fotos-grid {
+                gap: 4px !important;
+            }
+            .print-fotos-grid img {
+                width: 60px !important;
+                height: 60px !important;
+                border-radius: 4px !important;
+            }
+            .print-qr-section {
+                margin-top: 6px !important;
+                padding: 6px !important;
+                gap: 10px !important;
+            }
+            .print-qr-section .qr-print img,
+            .print-qr-section .qr-print canvas {
+                width: 60px !important;
+                height: 60px !important;
+            }
+            .print-qr-section .qr-info strong {
+                font-size: 11px !important;
+            }
+            .print-qr-section .qr-info p {
+                font-size: 9px !important;
+                margin: 1px 0 !important;
+            }
+            .print-footer {
+                font-size: 7px !important;
+                padding-top: 4px !important;
+                margin-top: 6px !important;
+            }
+            .print-pessoas-table {
+                font-size: 8px !important;
+            }
+            .print-pessoas-table th {
+                font-size: 7px !important;
+                padding: 4px 5px !important;
+            }
+            .print-pessoas-table td {
+                padding: 4px 5px !important;
+            }
+            .print-pessoas-table .assinatura-linha {
+                height: 30px !important;
+                font-size: 7px !important;
+            }
+            .print-pessoas-table .assinatura-img-print {
+                max-width: 80px !important;
+                max-height: 30px !important;
+            }
         }
 
         .toast-container {
@@ -1026,12 +1360,24 @@
             max-width: 400px;
         }
         @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
-        .toast.success { background: #2d7a4f; }
-        .toast.error { background: #b53b3b; }
-        .toast.info { background: #386e8c; }
+        .toast.success {
+            background: #2d7a4f;
+        }
+        .toast.error {
+            background: #b53b3b;
+        }
+        .toast.info {
+            background: #386e8c;
+        }
 
         .live-timer {
             font-family: 'JetBrains Mono', monospace;
@@ -1046,14 +1392,33 @@
             gap: 6px;
             letter-spacing: -0.02em;
         }
-        .live-timer i { font-size: 0.8rem; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .live-timer i {
+            font-size: 0.8rem;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
 
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); }
-            .sidebar.open { transform: translateX(0); }
-            .main-content { margin-left: 0; }
-            .mobile-menu-btn { display: block !important; }
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .mobile-menu-btn {
+                display: block !important;
+            }
         }
         .mobile-menu-btn {
             display: none;
@@ -1080,8 +1445,12 @@
             font-size: 0.85rem;
             color: #6b5a1e;
         }
-        .highlight-box i { color: #c8963e; margin-right: 6px; }
+        .highlight-box i {
+            color: #c8963e;
+            margin-right: 6px;
+        }
 
+        /* ============ NOVOS ESTILOS: ISHIKAWA & 5 PORQUÊS ============ */
         .tool-toggle-card {
             background: #f8faf9;
             border: 2px solid var(--border);
@@ -1112,13 +1481,40 @@
             font-size: 1.3rem;
             flex-shrink: 0;
         }
-        .tool-toggle-header .tool-icon.ishikawa-icon { background: #e2eff7; color: #386e8c; }
-        .tool-toggle-header .tool-icon.fivewhys-icon { background: #fef3e6; color: #b5792a; }
-        .tool-toggle-header .tool-info { flex: 1; margin-left: 14px; }
-        .tool-toggle-header .tool-info h4 { font-size: 0.95rem; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
-        .tool-toggle-header .tool-info span { font-size: 0.74rem; color: var(--text-muted); font-weight: 500; }
-        .tool-toggle-switch { position: relative; width: 50px; height: 28px; flex-shrink: 0; }
-        .tool-toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .tool-toggle-header .tool-icon.ishikawa-icon {
+            background: #e2eff7;
+            color: #386e8c;
+        }
+        .tool-toggle-header .tool-icon.fivewhys-icon {
+            background: #fef3e6;
+            color: #b5792a;
+        }
+        .tool-toggle-header .tool-info {
+            flex: 1;
+            margin-left: 14px;
+        }
+        .tool-toggle-header .tool-info h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.01em;
+        }
+        .tool-toggle-header .tool-info span {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .tool-toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+        .tool-toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
         .tool-toggle-slider {
             position: absolute;
             cursor: pointer;
@@ -1137,13 +1533,25 @@
             background: #fff;
             border-radius: 50%;
             transition: 0.3s;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
-        .tool-toggle-switch input:checked + .tool-toggle-slider { background: var(--primary-light); }
-        .tool-toggle-switch input:checked + .tool-toggle-slider::before { transform: translateX(22px); }
-        .tool-body { margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--border); display: none; }
-        .tool-toggle-card.active-tool .tool-body { display: block; }
+        .tool-toggle-switch input:checked+.tool-toggle-slider {
+            background: var(--primary-light);
+        }
+        .tool-toggle-switch input:checked+.tool-toggle-slider::before {
+            transform: translateX(22px);
+        }
+        .tool-body {
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px dashed var(--border);
+            display: none;
+        }
+        .tool-toggle-card.active-tool .tool-body {
+            display: block;
+        }
 
+        /* Ishikawa Diagram */
         .ishikawa-diagram {
             position: relative;
             background: #fff;
@@ -1153,10 +1561,29 @@
             overflow-x: auto;
             min-height: 420px;
         }
-        .ishikawa-svg-container { width: 100%; min-width: 700px; display: flex; justify-content: center; }
-        .ishikawa-svg-container svg { width: 100%; max-width: 750px; height: auto; }
-        .ishikawa-category-label { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px; fill: #1e2b26; }
-        .ishikawa-cause-input-group { margin-top: 8px; display: flex; gap: 6px; align-items: center; }
+        .ishikawa-svg-container {
+            width: 100%;
+            min-width: 700px;
+            display: flex;
+            justify-content: center;
+        }
+        .ishikawa-svg-container svg {
+            width: 100%;
+            max-width: 750px;
+            height: auto;
+        }
+        .ishikawa-category-label {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            fill: #1e2b26;
+        }
+        .ishikawa-cause-input-group {
+            margin-top: 8px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
         .ishikawa-cause-input-group input {
             flex: 1;
             padding: 7px 10px;
@@ -1194,8 +1621,16 @@
             margin-left: 2px;
             transition: var(--transition);
         }
-        .ishikawa-cause-tag .remove-cause:hover { color: #8b2a2a; }
-        .ishikawa-causes-list { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 4px; min-height: 28px; }
+        .ishikawa-cause-tag .remove-cause:hover {
+            color: #8b2a2a;
+        }
+        .ishikawa-causes-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            margin-top: 4px;
+            min-height: 28px;
+        }
         .ishikawa-category-box {
             background: #f9fbfa;
             border: 1.5px solid var(--border);
@@ -1203,11 +1638,36 @@
             padding: 12px 14px;
             margin-bottom: 10px;
         }
-        .ishikawa-category-box h5 { font-size: 0.8rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-        .ishikawa-category-box h5 .cat-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+        .ishikawa-category-box h5 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .ishikawa-category-box h5 .cat-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
 
-        .five-whys-container { background: #fff; border: 2px solid #e0e8e4; border-radius: var(--radius-lg); padding: 24px 20px; }
-        .five-whys-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; position: relative; }
+        /* 5 Porquês */
+        .five-whys-container {
+            background: #fff;
+            border: 2px solid #e0e8e4;
+            border-radius: var(--radius-lg);
+            padding: 24px 20px;
+        }
+        .five-whys-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+            position: relative;
+        }
         .five-whys-item:not(:last-child)::after {
             content: '';
             position: absolute;
@@ -1267,7 +1727,9 @@
             color: var(--text);
             padding: 4px 0;
         }
-        .five-whys-content textarea:focus { outline: none; }
+        .five-whys-content textarea:focus {
+            outline: none;
+        }
         .five-whys-root-cause {
             background: linear-gradient(135deg, #fef9f0, #fef3e6);
             border: 2px solid var(--accent);
@@ -1275,7 +1737,15 @@
             padding: 16px 20px;
             margin-top: 10px;
         }
-        .five-whys-root-cause label { font-weight: 700; font-size: 0.82rem; color: #6b4f1a; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+        .five-whys-root-cause label {
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: #6b4f1a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
         .five-whys-root-cause textarea {
             width: 100%;
             border: 1.5px solid #e0d5c0;
@@ -1287,41 +1757,107 @@
             min-height: 50px;
             background: #fffefb;
         }
-        .five-whys-root-cause textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200, 150, 62, 0.1); }
+        .five-whys-root-cause textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(200, 150, 62, 0.1);
+        }
 
-        .print-tool-section { margin-top: 16px; padding-top: 12px; border-top: 2px solid #0b3b2f; page-break-inside: avoid; }
-        .print-tool-section h3 { font-size: 16px; color: #0b3b2f; margin-bottom: 10px; }
-        .print-ishikawa-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 8px; }
-        .print-ishikawa-table th { background: #f0f4f1; padding: 6px 8px; text-align: left; font-weight: 700; font-size: 9px; text-transform: uppercase; border: 1px solid #dce5e1; width: 16%; }
-        .print-ishikawa-table td { padding: 6px 8px; border: 1px solid #dce5e1; vertical-align: top; font-size: 10px; }
-        .print-whys-list { list-style: none; padding: 0; }
-        .print-whys-list li { padding: 6px 10px; margin-bottom: 4px; background: #fafafa; border-left: 4px solid #c8963e; border-radius: 0 6px 6px 0; font-size: 11px; }
-        .print-whys-list li strong { color: #b5792a; }
+        /* print styles for tools */
+        .print-tool-section {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 2px solid #0b3b2f;
+            page-break-inside: avoid;
+        }
+        .print-tool-section h3 {
+            font-size: 16px;
+            color: #0b3b2f;
+            margin-bottom: 10px;
+        }
+        .print-ishikawa-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+        .print-ishikawa-table th {
+            background: #f0f4f1;
+            padding: 6px 8px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 9px;
+            text-transform: uppercase;
+            border: 1px solid #dce5e1;
+            width: 16%;
+        }
+        .print-ishikawa-table td {
+            padding: 6px 8px;
+            border: 1px solid #dce5e1;
+            vertical-align: top;
+            font-size: 10px;
+        }
+        .print-whys-list {
+            list-style: none;
+            padding: 0;
+        }
+        .print-whys-list li {
+            padding: 6px 10px;
+            margin-bottom: 4px;
+            background: #fafafa;
+            border-left: 4px solid #c8963e;
+            border-radius: 0 6px 6px 0;
+            font-size: 11px;
+        }
+        .print-whys-list li strong {
+            color: #b5792a;
+        }
     </style>
 </head>
 <body>
 
-    <!-- LOGIN -->
+    <!-- ==================== LOGIN ==================== -->
     <div id="loginScreen">
         <div class="login-bg-pattern"></div>
         <div class="login-card">
             <div class="login-logo"><i class="fas fa-shield-halved"></i></div>
             <h2>Dona Rita Embalagens</h2>
             <p class="login-subtitle">Controle de Não Conformidades</p>
-            <div class="input-group"><label>Usuário</label><div class="input-icon"><i class="fas fa-user"></i><input type="text" id="loginUser" placeholder="Digite seu usuário" autocomplete="username"></div></div>
-            <div class="input-group"><label>Senha</label><div class="input-icon"><i class="fas fa-lock"></i><input type="password" id="loginPass" placeholder="Digite sua senha" autocomplete="current-password"></div></div>
+            <div class="input-group">
+                <label>Usuário</label>
+                <div class="input-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="loginUser" placeholder="Digite seu usuário" autocomplete="username">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Senha</label>
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="loginPass" placeholder="Digite sua senha" autocomplete="current-password">
+                </div>
+            </div>
             <button class="btn-login" onclick="fazerLogin()"><i class="fas fa-sign-in-alt"></i> Entrar</button>
             <p class="login-error" id="loginError"></p>
         </div>
     </div>
 
-    <!-- VISITANTE -->
-    <div id="visitanteContainer"><div class="visitante-card" id="visitanteCard"><button class="btn-fechar-visitante" onclick="fecharModoVisitante()" title="Fechar"><i class="fas fa-times"></i></button><div id="visitanteInner"></div></div></div>
+    <!-- MODO VISITANTE -->
+    <div id="visitanteContainer">
+        <div class="visitante-card" id="visitanteCard">
+            <button class="btn-fechar-visitante" onclick="fecharModoVisitante()" title="Fechar"><i class="fas fa-times"></i></button>
+            <div id="visitanteInner"></div>
+        </div>
+    </div>
 
-    <!-- APP -->
+    <!-- APP CONTAINER -->
     <div id="appContainer">
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header"><div class="logo-icon"><i class="fas fa-boxes-stacked"></i></div><h3>Dona Rita</h3><span class="sys-name">Qualidade</span></div>
+            <div class="sidebar-header">
+                <div class="logo-icon"><i class="fas fa-boxes-stacked"></i></div>
+                <h3>Dona Rita</h3>
+                <span class="sys-name">Qualidade</span>
+            </div>
             <nav class="sidebar-nav">
                 <button class="nav-item active" data-page="dashboard" onclick="navegar('dashboard', this)"><i class="fas fa-chart-pie"></i> Dashboard</button>
                 <button class="nav-item" data-page="lista" onclick="navegar('lista', this)"><i class="fas fa-clipboard-list"></i> Não Conformidades</button>
@@ -1330,8 +1866,15 @@
                 <button class="nav-item" data-page="relatorio" id="navRelatorios" style="display:none;" onclick="navegar('relatorio', this)"><i class="fas fa-file-alt"></i> Relatórios</button>
                 <button class="nav-item" data-page="usuarios" id="navUsuarios" onclick="navegar('usuarios', this)" style="display:none;"><i class="fas fa-users-cog"></i> Usuários</button>
             </nav>
-            <div class="sidebar-footer"><div class="user-info"><div class="user-avatar" id="userAvatar">A</div><span id="userDisplay">Admin</span></div><button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button></div>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <span id="userDisplay">Admin</span>
+                </div>
+                <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button>
+            </div>
         </aside>
+
         <main class="main-content" id="mainContent">
             <button class="mobile-menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
 
@@ -1339,7 +1882,10 @@
             <div class="page active" id="page-dashboard">
                 <div class="page-header"><h1><i class="fas fa-chart-pie"></i> Dashboard</h1><p class="breadcrumb">Visão geral das não conformidades</p></div>
                 <div class="stats-grid" id="statsGrid"></div>
-                <div class="charts-grid"><div class="chart-card"><h3><i class="fas fa-tags"></i> NCs por Motivo</h3><canvas id="chartMotivos"></canvas></div><div class="chart-card"><h3><i class="fas fa-chart-bar"></i> Status das NCs</h3><canvas id="chartStatus"></canvas></div></div>
+                <div class="charts-grid">
+                    <div class="chart-card"><h3><i class="fas fa-tags"></i> NCs por Motivo</h3><canvas id="chartMotivos"></canvas></div>
+                    <div class="chart-card"><h3><i class="fas fa-chart-bar"></i> Status das NCs</h3><canvas id="chartStatus"></canvas></div>
+                </div>
                 <div class="chart-card" style="margin-top:18px;"><h3><i class="fas fa-chart-line"></i> Dias em Aberto (Top 10)</h3><canvas id="chartDias"></canvas></div>
             </div>
 
@@ -1347,8 +1893,17 @@
             <div class="page" id="page-lista">
                 <div class="page-header"><h1><i class="fas fa-clipboard-list"></i> Não Conformidades</h1><p class="breadcrumb">Lista completa de registros</p></div>
                 <div class="table-card">
-                    <div class="table-header"><h3>Todos os Registros</h3><div style="display:flex;gap:8px;flex-wrap:wrap;"><select id="filtroStatus" onchange="renderListaNCs()"><option value="todos">Todos os Status</option><option value="aberto">Abertos</option><option value="resolvido">Resolvidos</option></select><select id="filtroPalete" onchange="renderListaNCs()"><option value="todos">Todos os Paletes</option></select><input type="text" id="filtroBusca" placeholder="Buscar..." oninput="renderListaNCs()" style="padding:8px 14px;border-radius:20px;border:1.5px solid #dce5e1;font-family:Inter,sans-serif;"></div></div>
-                    <div style="overflow-x:auto;"><table><thead><tr><th>ID</th><th>Produto</th><th>Motivo</th><th>Quantidades</th><th>Palete</th><th>Status</th><th>Tempo</th><th>Ações</th></tr></thead><tbody id="tbodyNCs"></tbody></table></div>
+                    <div class="table-header">
+                        <h3>Todos os Registros</h3>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                            <select id="filtroStatus" onchange="renderListaNCs()"><option value="todos">Todos os Status</option><option value="aberto">Abertos</option><option value="resolvido">Resolvidos</option></select>
+                            <select id="filtroPalete" onchange="renderListaNCs()"><option value="todos">Todos os Paletes</option></select>
+                            <input type="text" id="filtroBusca" placeholder="Buscar..." oninput="renderListaNCs()" style="padding:8px 14px;border-radius:20px;border:1.5px solid #dce5e1;font-family:Inter,sans-serif;">
+                        </div>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table><thead><tr><th>ID</th><th>Produto</th><th>Motivo</th><th>Quantidades</th><th>Palete</th><th>Status</th><th>Tempo</th><th>Ações</th></tr></thead><tbody id="tbodyNCs"></tbody></table>
+                    </div>
                     <div class="empty-state" id="emptyLista" style="display:none;"><i class="fas fa-inbox"></i><p>Nenhuma não conformidade encontrada.</p></div>
                 </div>
             </div>
@@ -1358,11 +1913,24 @@
                 <div class="page-header"><h1 id="tituloFormNC"><i class="fas fa-plus-circle"></i> Nova Não Conformidade</h1><p class="breadcrumb" id="subtituloFormNC">Preencha os dados abaixo</p></div>
                 <div class="form-card">
                     <input type="hidden" id="editNcId" value="">
-                    <div class="form-group" id="grupoIdNC"><label><i class="fas fa-hashtag"></i> Número da NC *</label><input type="number" id="ncIdManual" placeholder="Digite o número desejado para a NC" min="1" step="1"></div>
-                    <div class="form-row"><div class="form-group"><label><i class="fas fa-box"></i> Produto *</label><input type="text" id="ncProduto" placeholder="Nome do produto"></div><div class="form-group"><label><i class="fas fa-pallet"></i> Palete (PLT) *</label><input type="text" id="ncPalete" placeholder="Ex: PLT 01"></div></div>
+                    <div class="form-group" id="grupoIdNC">
+                        <label><i class="fas fa-hashtag"></i> Número da NC *</label>
+                        <input type="number" id="ncIdManual" placeholder="Digite o número desejado para a NC" min="1" step="1">
+                        <small style="color:#5b6b64;font-size:0.72rem;display:block;margin-top:4px;">Este número será o identificador único da NC.</small>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label><i class="fas fa-box"></i> Produto *</label><input type="text" id="ncProduto" placeholder="Nome do produto"></div>
+                        <div class="form-group"><label><i class="fas fa-pallet"></i> Palete (PLT) *</label><input type="text" id="ncPalete" placeholder="Ex: PLT 01"></div>
+                    </div>
                     <div class="form-group"><label><i class="fas fa-exclamation-triangle"></i> Motivo da Não Conformidade *</label><textarea id="ncMotivo" placeholder="Descreva o motivo..."></textarea></div>
-                    <div class="form-row"><div class="form-group"><label><i class="fas fa-boxes"></i> Qtd. Caixas *</label><input type="number" id="ncQtdCaixas" placeholder="Número de caixas" min="1" step="1"></div><div class="form-group"><label><i class="fas fa-cubes"></i> Qtd. Itens *</label><input type="number" id="ncQtdItens" placeholder="Total de itens" min="1" step="1"></div></div>
-                    <div class="form-row"><div class="form-group"><label><i class="fas fa-redo-alt"></i> Qtd. Retrabalhadas</label><input type="number" id="ncQtdRetrabalhadas" placeholder="Quantidade retrabalhada" min="0" step="1" value="0"></div><div class="form-group"><label><i class="fas fa-trash-alt"></i> Qtd. Descartada</label><input type="number" id="ncQtdDescartada" placeholder="Quantidade descartada" min="0" step="1" value="0"></div></div>
+                    <div class="form-row">
+                        <div class="form-group"><label><i class="fas fa-boxes"></i> Qtd. Caixas *</label><input type="number" id="ncQtdCaixas" placeholder="Número de caixas" min="1" step="1"></div>
+                        <div class="form-group"><label><i class="fas fa-cubes"></i> Qtd. Itens *</label><input type="number" id="ncQtdItens" placeholder="Total de itens" min="1" step="1"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label><i class="fas fa-redo-alt"></i> Qtd. Retrabalhadas</label><input type="number" id="ncQtdRetrabalhadas" placeholder="Quantidade retrabalhada" min="0" step="1" value="0"></div>
+                        <div class="form-group"><label><i class="fas fa-trash-alt"></i> Qtd. Descartada</label><input type="number" id="ncQtdDescartada" placeholder="Quantidade descartada" min="0" step="1" value="0"></div>
+                    </div>
                     <div class="form-group"><label><i class="fas fa-tools"></i> O que será feito? *</label><input type="text" id="ncAcao" placeholder="Ação a ser tomada"></div>
                     <div class="form-group">
                         <label><i class="fas fa-camera"></i> Fotos (até 5)</label>
@@ -1371,7 +1939,10 @@
                         <div class="photo-preview-container" id="photoPreviewContainer"></div>
                         <div id="existingPhotosContainer" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;"></div>
                     </div>
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;"><button class="btn btn-primary" onclick="salvarNC()"><i class="fas fa-save"></i> Salvar</button><button class="btn btn-outline" onclick="cancelarEdicao()"><i class="fas fa-times"></i> Cancelar</button></div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
+                        <button class="btn btn-primary" onclick="salvarNC()"><i class="fas fa-save"></i> Salvar</button>
+                        <button class="btn btn-outline" onclick="cancelarEdicao()"><i class="fas fa-times"></i> Cancelar</button>
+                    </div>
                 </div>
             </div>
 
@@ -1380,7 +1951,9 @@
                 <div class="page-header"><h1><i class="fas fa-tasks"></i> Planos de Ação</h1><p class="breadcrumb" id="breadcrumbPlanos">Gestão de planos de ação para todas as NCs</p></div>
                 <div class="table-card" id="tabelaPlanosCard">
                     <div class="table-header"><h3 id="tituloTabelaPlanos">NCs e Planos de Ação</h3></div>
-                    <div style="overflow-x:auto;"><table><thead><tr><th>NC</th><th>Produto</th><th>Motivo</th><th>Plano de Ação</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tbodyPlanos"></tbody></table></div>
+                    <div style="overflow-x:auto;">
+                        <table><thead><tr><th>NC</th><th>Produto</th><th>Motivo</th><th>Plano de Ação</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tbodyPlanos"></tbody></table>
+                    </div>
                     <div class="empty-state" id="emptyPlanos" style="display:none;"><i class="fas fa-tasks"></i><p>Nenhuma NC encontrada.</p></div>
                 </div>
             </div>
@@ -1394,19 +1967,56 @@
                     <div class="form-group"><label><i class="fas fa-file-alt"></i> Resumo da Reunião / Pauta *</label><textarea id="planoResumo" placeholder="Descreva o resumo da reunião, pauta discutida e encaminhamentos..." style="min-height:120px;"></textarea></div>
                     <div class="form-group"><label><i class="fas fa-users"></i> Pessoas Envolvidas</label><div id="containerPessoas"></div><button class="btn btn-outline" onclick="adicionarPessoa()" style="margin-top:8px;"><i class="fas fa-user-plus"></i> Adicionar Pessoa</button></div>
 
-                    <!-- FERRAMENTAS -->
+                    <!-- ============ FERRAMENTAS OPCIONAIS ============ -->
                     <div style="margin-top:8px;">
                         <div class="tool-toggle-card" id="toolIshikawaCard">
-                            <div class="tool-toggle-header" onclick="toggleTool('ishikawa')"><div class="tool-icon ishikawa-icon"><i class="fas fa-fish"></i></div><div class="tool-info"><h4>Diagrama de Ishikawa (Espinha de Peixe)</h4><span>Análise de causa e efeito — 6Ms</span></div><label class="tool-toggle-switch" onclick="event.stopPropagation()"><input type="checkbox" id="toggleIshikawa" onchange="toggleTool('ishikawa', this.checked)"><span class="tool-toggle-slider"></span></label></div>
-                            <div class="tool-body" id="bodyIshikawa"><p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;"><i class="fas fa-info-circle"></i> Preencha as causas em cada categoria (6Ms).</p><div class="ishikawa-diagram" id="ishikawaDiagram"><div class="ishikawa-svg-container" id="ishikawaSvgContainer"></div></div><div class="form-row" style="margin-top:16px;" id="ishikawaCategoryBoxes"></div></div>
+                            <div class="tool-toggle-header" onclick="toggleTool('ishikawa')">
+                                <div class="tool-icon ishikawa-icon"><i class="fas fa-fish"></i></div>
+                                <div class="tool-info">
+                                    <h4>Diagrama de Ishikawa (Espinha de Peixe)</h4>
+                                    <span>Análise de causa e efeito — 6Ms</span>
+                                </div>
+                                <label class="tool-toggle-switch" onclick="event.stopPropagation()">
+                                    <input type="checkbox" id="toggleIshikawa" onchange="toggleTool('ishikawa', this.checked)">
+                                    <span class="tool-toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="tool-body" id="bodyIshikawa">
+                                <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;">
+                                    <i class="fas fa-info-circle"></i> Preencha as causas em cada categoria (6Ms).
+                                </p>
+                                <div class="ishikawa-diagram" id="ishikawaDiagram">
+                                    <div class="ishikawa-svg-container" id="ishikawaSvgContainer"></div>
+                                </div>
+                                <div class="form-row" style="margin-top:16px;" id="ishikawaCategoryBoxes"></div>
+                            </div>
                         </div>
+
                         <div class="tool-toggle-card" id="toolFiveWhysCard" style="margin-top:14px;">
-                            <div class="tool-toggle-header" onclick="toggleTool('fivewhys')"><div class="tool-icon fivewhys-icon"><i class="fas fa-question-circle"></i></div><div class="tool-info"><h4>5 Porquês</h4><span>Análise de causa raiz — perguntas encadeadas</span></div><label class="tool-toggle-switch" onclick="event.stopPropagation()"><input type="checkbox" id="toggleFiveWhys" onchange="toggleTool('fivewhys', this.checked)"><span class="tool-toggle-slider"></span></label></div>
-                            <div class="tool-body" id="bodyFiveWhys"><p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;"><i class="fas fa-info-circle"></i> Pergunte "Por quê?" cinco vezes.</p><div class="five-whys-container" id="fiveWhysContainer"></div></div>
+                            <div class="tool-toggle-header" onclick="toggleTool('fivewhys')">
+                                <div class="tool-icon fivewhys-icon"><i class="fas fa-question-circle"></i></div>
+                                <div class="tool-info">
+                                    <h4>5 Porquês</h4>
+                                    <span>Análise de causa raiz — perguntas encadeadas</span>
+                                </div>
+                                <label class="tool-toggle-switch" onclick="event.stopPropagation()">
+                                    <input type="checkbox" id="toggleFiveWhys" onchange="toggleTool('fivewhys', this.checked)">
+                                    <span class="tool-toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="tool-body" id="bodyFiveWhys">
+                                <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;">
+                                    <i class="fas fa-info-circle"></i> Pergunte "Por quê?" cinco vezes.
+                                </p>
+                                <div class="five-whys-container" id="fiveWhysContainer"></div>
+                            </div>
                         </div>
                     </div>
 
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;"><button class="btn btn-primary" onclick="salvarPlanoAcao()"><i class="fas fa-save"></i> Salvar Plano de Ação</button><button class="btn btn-outline" onclick="cancelarPlano()"><i class="fas fa-arrow-left"></i> Voltar</button></div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
+                        <button class="btn btn-primary" onclick="salvarPlanoAcao()"><i class="fas fa-save"></i> Salvar Plano de Ação</button>
+                        <button class="btn btn-outline" onclick="cancelarPlano()"><i class="fas fa-arrow-left"></i> Voltar</button>
+                    </div>
                 </div>
             </div>
 
@@ -1414,7 +2024,15 @@
             <div class="page" id="page-relatorio">
                 <div class="page-header"><h1><i class="fas fa-file-alt"></i> Relatório Gerencial</h1><p class="breadcrumb">Geração de relatórios de não conformidades por período</p></div>
                 <div class="filtro-relatorio">
-                    <div class="form-group"><label>Período</label><select id="relatorioPeriodo" onchange="atualizarPeriodoRelatorio()"><option value="diario">Diário (hoje)</option><option value="semanal">Semanal (últimos 7 dias)</option><option value="mensal" selected>Mensal (últimos 30 dias)</option><option value="personalizado">Personalizado</option></select></div>
+                    <div class="form-group">
+                        <label>Período</label>
+                        <select id="relatorioPeriodo" onchange="atualizarPeriodoRelatorio()">
+                            <option value="diario">Diário (hoje)</option>
+                            <option value="semanal">Semanal (últimos 7 dias)</option>
+                            <option value="mensal" selected>Mensal (últimos 30 dias)</option>
+                            <option value="personalizado">Personalizado</option>
+                        </select>
+                    </div>
                     <div class="form-group" id="grupoDataInicio" style="display:none;"><label>Data Início</label><input type="date" id="relatorioDataInicio"></div>
                     <div class="form-group" id="grupoDataFim" style="display:none;"><label>Data Fim</label><input type="date" id="relatorioDataFim"></div>
                     <div class="form-group"><label>&nbsp;</label><button class="btn btn-primary" onclick="gerarRelatorio()"><i class="fas fa-chart-bar"></i> Gerar Relatório</button></div>
@@ -1427,11 +2045,17 @@
                 <div class="page-header"><h1><i class="fas fa-users-cog"></i> Gerenciar Usuários</h1><p class="breadcrumb">Criação e gestão de usuários do sistema</p></div>
                 <div class="form-card" style="margin-bottom:22px;">
                     <h3 style="margin-bottom:14px;"><i class="fas fa-user-plus"></i> Criar Novo Usuário</h3>
-                    <div class="form-row"><div class="form-group"><label>Usuário *</label><input type="text" id="newUsername" placeholder="Nome de usuário"></div><div class="form-group"><label>Senha *</label><input type="password" id="newPassword" placeholder="Senha"></div></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Usuário *</label><input type="text" id="newUsername" placeholder="Nome de usuário"></div>
+                        <div class="form-group"><label>Senha *</label><input type="password" id="newPassword" placeholder="Senha"></div>
+                    </div>
                     <div class="form-group"><label>Tipo *</label><select id="newRole"><option value="padrao">Padrão</option><option value="admin">Administrador</option></select></div>
                     <button class="btn btn-accent" onclick="criarUsuario()"><i class="fas fa-check"></i> Criar Usuário</button>
                 </div>
-                <div class="table-card"><div class="table-header"><h3>Usuários Cadastrados</h3></div><table><thead><tr><th>Usuário</th><th>Tipo</th><th>Criado em</th><th>Ações</th></tr></thead><tbody id="tbodyUsuarios"></tbody></table></div>
+                <div class="table-card">
+                    <div class="table-header"><h3>Usuários Cadastrados</h3></div>
+                    <table><thead><tr><th>Usuário</th><th>Tipo</th><th>Criado em</th><th>Ações</th></tr></thead><tbody id="tbodyUsuarios"></tbody></table>
+                </div>
             </div>
         </main>
     </div>
@@ -1442,24 +2066,46 @@
     <div id="printArea"></div>
 
     <!-- MODAIS -->
-    <div id="modalFoto" class="modal-overlay" style="display:none;" onclick="fecharModalFoto()"><div class="modal" style="text-align:center;background:transparent;box-shadow:none;max-width:90vw;" onclick="event.stopPropagation()"><button class="close-btn" style="color:#fff;top:-10px;right:-10px;" onclick="fecharModalFoto()"><i class="fas fa-times"></i></button><img id="modalFotoImg" src="" style="max-width:100%;max-height:80vh;border-radius:16px;box-shadow:0 24px 56px rgba(0,0,0,0.5);" alt="Foto ampliada"></div></div>
-    <div id="modalDetalhes" class="modal-overlay" style="display:none;" onclick="fecharModalDetalhes()"><div class="modal" onclick="event.stopPropagation()" id="modalDetalhesContent"><button class="close-btn" onclick="fecharModalDetalhes()"><i class="fas fa-times"></i></button><div id="detalhesInner"></div></div></div>
-    <div id="modalQR" class="modal-overlay" style="display:none;" onclick="fecharModalQR()"><div class="modal" style="text-align:center;" onclick="event.stopPropagation()"><button class="close-btn" onclick="fecharModalQR()"><i class="fas fa-times"></i></button><h3><i class="fas fa-qrcode"></i> QR Code da NC <span id="qrNcIdLabel"></span></h3><div id="qrCodeContainer" style="display:inline-block;padding:16px;background:#fff;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);"></div></div></div>
-    <div id="modalVerPlano" class="modal-overlay" style="display:none;" onclick="fecharModalVerPlano()"><div class="modal" style="max-width:900px;" onclick="event.stopPropagation()"><button class="close-btn" onclick="fecharModalVerPlano()"><i class="fas fa-times"></i></button><div id="verPlanoInner"></div></div></div>
+    <div id="modalFoto" class="modal-overlay" style="display:none;" onclick="fecharModalFoto()">
+        <div class="modal" style="text-align:center;background:transparent;box-shadow:none;max-width:90vw;" onclick="event.stopPropagation()">
+            <button class="close-btn" style="color:#fff;top:-10px;right:-10px;" onclick="fecharModalFoto()"><i class="fas fa-times"></i></button>
+            <img id="modalFotoImg" src="" style="max-width:100%;max-height:80vh;border-radius:16px;box-shadow:0 24px 56px rgba(0,0,0,0.5);" alt="Foto ampliada">
+        </div>
+    </div>
+    <div id="modalDetalhes" class="modal-overlay" style="display:none;" onclick="fecharModalDetalhes()">
+        <div class="modal" onclick="event.stopPropagation()" id="modalDetalhesContent">
+            <button class="close-btn" onclick="fecharModalDetalhes()"><i class="fas fa-times"></i></button>
+            <div id="detalhesInner"></div>
+        </div>
+    </div>
+    <div id="modalQR" class="modal-overlay" style="display:none;" onclick="fecharModalQR()">
+        <div class="modal" style="text-align:center;" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="fecharModalQR()"><i class="fas fa-times"></i></button>
+            <h3><i class="fas fa-qrcode"></i> QR Code da NC <span id="qrNcIdLabel"></span></h3>
+            <p style="font-size:0.82rem;color:#5b6b64;margin-bottom:12px;">Escaneie para visualizar os detalhes (somente leitura)</p>
+            <div id="qrCodeContainer" style="display:inline-block;padding:16px;background:#fff;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);"></div>
+            <p style="font-size:0.7rem;color:#8b9a94;margin-top:10px;">Este QR Code dá acesso somente à visualização, sem permissão para alterações.</p>
+        </div>
+    </div>
+    <div id="modalVerPlano" class="modal-overlay" style="display:none;" onclick="fecharModalVerPlano()">
+        <div class="modal" style="max-width:900px;" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="fecharModalVerPlano()"><i class="fas fa-times"></i></button>
+            <div id="verPlanoInner"></div>
+        </div>
+    </div>
 
     <!-- MODAL DE ASSINATURA DIGITAL -->
-    <div id="modalAssinatura" class="modal-overlay" style="display:none;">
-        <div class="modal" style="max-width:600px; text-align:center;" onclick="event.stopPropagation()">
+    <div id="modalAssinatura" class="modal-overlay" style="display:none;" onclick="fecharModalAssinatura()">
+        <div class="modal" style="text-align:center;max-width:550px;" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="fecharModalAssinatura()"><i class="fas fa-times"></i></button>
-            <h3><i class="fas fa-signature"></i> Assinatura Digital</h3>
-            <p style="color:var(--text-secondary);margin-bottom:16px;" id="assinaturaInstrucao">Desenhe sua assinatura no quadro abaixo.</p>
-            <div class="assinatura-canvas-container">
-                <canvas id="assinaturaCanvas" width="500" height="180"></canvas>
+            <h3 id="tituloModalAssinatura"><i class="fas fa-signature"></i> Assinatura Digital</h3>
+            <p id="infoModalAssinatura" style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px;"></p>
+            <div class="canvas-assinatura-container">
+                <canvas id="canvasAssinatura" width="450" height="180"></canvas>
             </div>
-            <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-                <button class="btn btn-outline" onclick="limparAssinatura()"><i class="fas fa-eraser"></i> Limpar</button>
-                <button class="btn btn-primary" onclick="confirmarAssinatura()"><i class="fas fa-check"></i> Confirmar</button>
-                <button class="btn btn-outline" onclick="fecharModalAssinatura()">Cancelar</button>
+            <div class="canvas-assinatura-actions">
+                <button class="btn btn-outline" onclick="limparCanvasAssinatura()"><i class="fas fa-eraser"></i> Limpar</button>
+                <button class="btn btn-assinar" onclick="confirmarAssinaturaDigital()"><i class="fas fa-check"></i> Confirmar Assinatura</button>
             </div>
         </div>
     </div>
@@ -1496,20 +2142,62 @@
         let ncsCache = null;
         let planosCache = null;
         const charts = {};
-        let ishikawaData = { ativo: false, problema: '', categorias: { 'Método': [], 'Máquina': [], 'Medida': [], 'Meio Ambiente': [], 'Mão de Obra': [], 'Material': [] } };
-        let fiveWhysData = { ativo: false, problema: '', whys: [ { pergunta: 'Por quê? (1º)', resposta: '' }, { pergunta: 'Por quê? (2º)', resposta: '' }, { pergunta: 'Por quê? (3º)', resposta: '' }, { pergunta: 'Por quê? (4º)', resposta: '' }, { pergunta: 'Por quê? (5º)', resposta: '' } ], causaRaiz: '' };
-        const ishikawaColors = { 'Método': '#386e8c', 'Máquina': '#b53b3b', 'Medida': '#7b4b9a', 'Meio Ambiente': '#2d7a4f', 'Mão de Obra': '#b5792a', 'Material': '#1f6d52' };
 
-        // Assinatura digital state
+        // Estado da assinatura digital
         let assinaturaPlanoId = null;
-        let assinaturaPessoaIndex = null;
-        let assinaturaCanvasCtx = null;
-        let assinaturaDesenhando = false;
-        let assinaturaCallback = null;
+        let assinaturaPessoaIndex = -1;
+        let assinaturaCanvas = null;
+        let assinaturaCtx = null;
+        let assinaturaDrawing = false;
+        let assinaturaOldDataUrl = '';
+
+        // Estado das ferramentas
+        let ishikawaData = {
+            ativo: false,
+            problema: '',
+            categorias: {
+                'Método': [],
+                'Máquina': [],
+                'Medida': [],
+                'Meio Ambiente': [],
+                'Mão de Obra': [],
+                'Material': []
+            }
+        };
+        let fiveWhysData = {
+            ativo: false,
+            problema: '',
+            whys: [
+                { pergunta: 'Por quê? (1º)', resposta: '' },
+                { pergunta: 'Por quê? (2º)', resposta: '' },
+                { pergunta: 'Por quê? (3º)', resposta: '' },
+                { pergunta: 'Por quê? (4º)', resposta: '' },
+                { pergunta: 'Por quê? (5º)', resposta: '' }
+            ],
+            causaRaiz: ''
+        };
+
+        const ishikawaColors = {
+            'Método': '#386e8c',
+            'Máquina': '#b53b3b',
+            'Medida': '#7b4b9a',
+            'Meio Ambiente': '#2d7a4f',
+            'Mão de Obra': '#b5792a',
+            'Material': '#1f6d52'
+        };
+        const ishikawaIcons = {
+            'Método': 'fa-gears',
+            'Máquina': 'fa-cogs',
+            'Medida': 'fa-ruler',
+            'Meio Ambiente': 'fa-leaf',
+            'Mão de Obra': 'fa-user-gear',
+            'Material': 'fa-boxes'
+        };
 
         // ==================== HELPERS ====================
         const el = (id) => document.getElementById(id);
-        const escapeHtml = (str) => { const d = document.createElement('div'); d.textContent = str || ''; return d.innerHTML; };
+        const escapeHtml = (str) => { const d = document.createElement('div');
+            d.textContent = str || ''; return d.innerHTML; };
         const fmtDataISO = (iso) => iso ? new Date(iso).toLocaleString('pt-BR') : '-';
         const fmtDataCurta = (iso) => iso ? new Date(iso).toLocaleDateString('pt-BR') : '-';
 
@@ -1544,17 +2232,19 @@
             return { texto: txt.trim() };
         }
 
+        // ==================== TOAST ====================
         function mostrarToast(msg, tipo) {
             const container = el('toastContainer');
             const t = document.createElement('div');
             t.className = 'toast ' + tipo;
             t.textContent = msg;
             container.appendChild(t);
-            setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; }, 2800);
+            setTimeout(() => { t.style.opacity = '0';
+                t.style.transition = 'opacity 0.3s'; }, 2800);
             setTimeout(() => t.remove(), 3200);
         }
 
-        // ==================== DADOS ====================
+        // ==================== DADOS (COM CACHE) ====================
         async function getNCs(forceRefresh = false) {
             if (!forceRefresh && ncsCache) return ncsCache;
             const snap = await collNCs.orderBy('dataAbertura', 'desc').get();
@@ -1645,7 +2335,8 @@
 
         function fecharModoVisitante() {
             el('visitanteContainer').classList.remove('visible');
-            if (liveTimers['visitante']) { clearInterval(liveTimers['visitante']); delete liveTimers['visitante']; }
+            if (liveTimers['visitante']) { clearInterval(liveTimers['visitante']);
+                delete liveTimers['visitante']; }
             location.href = location.href.split('?')[0];
         }
 
@@ -1711,14 +2402,13 @@
             if (btn) btn.classList.add('active');
 
             if (page === 'dashboard') await renderDashboard();
-            else if (page === 'lista') { await renderListaNCs(); ativarCronometrosLista(); }
-            else if (page === 'planos') await renderPlanosAcao();
+            else if (page === 'lista') { await renderListaNCs();
+                ativarCronometrosLista(); } else if (page === 'planos') await renderPlanosAcao();
             else if (page === 'relatorio') {
                 if (currentUser.role !== 'admin') { mostrarToast('Acesso restrito!', 'error'); return navegar('dashboard'); }
                 el('relatorioPrintArea').style.display = 'none';
                 el('relatorioVazio').style.display = 'block';
-            }
-            else if (page === 'usuarios') await renderUsuarios();
+            } else if (page === 'usuarios') await renderUsuarios();
             if (window.innerWidth <= 768) el('sidebar').classList.remove('open');
         }
 
@@ -1760,25 +2450,40 @@
             ].map(s => `<div class="stat-card"><div class="stat-icon ${s.icon}"><i class="fas ${s.i}"></i></div><div class="stat-info"><h3>${s.val}</h3><span>${s.label}</span></div></div>`).join('');
 
             const motivosMap = {};
-            ncs.forEach(n => { const c = (n.motivo || 'Sem motivo').substring(0, 50); motivosMap[c] = (motivosMap[c] || 0) + 1; });
+            ncs.forEach(n => { const c = (n.motivo || 'Sem motivo').substring(0, 50);
+                motivosMap[c] = (motivosMap[c] || 0) + 1; });
             const mKeys = Object.keys(motivosMap);
             const mData = Object.values(motivosMap);
             const cores = ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a', '#2d7a4f', '#5b3a6e', '#2f5f78', '#a65d3d'];
 
-            const ctx1 = el('chartMotivos'), ctx2 = el('chartStatus'), ctx3 = el('chartDias');
+            const ctx1 = el('chartMotivos'),
+                ctx2 = el('chartStatus'),
+                ctx3 = el('chartDias');
             Object.values(charts).forEach(c => c?.destroy?.());
 
             if (ctx1 && mKeys.length) {
-                charts.motivos = new Chart(ctx1, { type: 'doughnut', data: { labels: mKeys, datasets: [{ data: mData, backgroundColor: cores.slice(0, mKeys.length), borderWidth: 2, borderColor: '#fff' }] }, options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 14, usePointStyle: true, font: { size: 11 } } } } } });
+                charts.motivos = new Chart(ctx1, {
+                    type: 'doughnut',
+                    data: { labels: mKeys, datasets: [{ data: mData, backgroundColor: cores.slice(0, mKeys.length), borderWidth: 2, borderColor: '#fff' }] },
+                    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 14, usePointStyle: true, font: { size: 11 } } } } }
+                });
             } else if (ctx1) ctx1.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhum motivo registrado</p>';
 
             if (ctx2) {
-                charts.status = new Chart(ctx2, { type: 'bar', data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ label: 'Quantidade', data: [abertas.length, resolvidas.length], backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8, borderWidth: 0, barThickness: 50 }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } } });
+                charts.status = new Chart(ctx2, {
+                    type: 'bar',
+                    data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ label: 'Quantidade', data: [abertas.length, resolvidas.length], backgroundColor: ['#b53b3b', '#2d7a4f'], borderRadius: 8, borderWidth: 0, barThickness: 50 }] },
+                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                });
             }
 
             const topAbertas = [...abertas].sort((a, b) => calcularDias(b) - calcularDias(a)).slice(0, 10);
             if (ctx3 && topAbertas.length) {
-                charts.dias = new Chart(ctx3, { type: 'bar', data: { labels: topAbertas.map(n => `NC #${n.id}`), datasets: [{ label: 'Dias em Aberto', data: topAbertas.map(n => calcularDias(n)), backgroundColor: '#c8963e', borderRadius: 6 }] }, options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, title: { display: true, text: 'Dias' }, ticks: { stepSize: 1 } } } } });
+                charts.dias = new Chart(ctx3, {
+                    type: 'bar',
+                    data: { labels: topAbertas.map(n => `NC #${n.id}`), datasets: [{ label: 'Dias em Aberto', data: topAbertas.map(n => calcularDias(n)), backgroundColor: '#c8963e', borderRadius: 6 }] },
+                    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, title: { display: true, text: 'Dias' }, ticks: { stepSize: 1 } } } }
+                });
             } else if (ctx3) ctx3.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhuma NC em aberto</p>';
         }
 
@@ -1805,11 +2510,15 @@
             const empty = el('emptyLista');
             const isAdmin = currentUser?.role === 'admin';
 
-            if (!filtradas.length) { tbody.innerHTML = ''; empty.style.display = 'block'; }
-            else {
+            if (!filtradas.length) {
+                tbody.innerHTML = '';
+                empty.style.display = 'block';
+            } else {
                 empty.style.display = 'none';
                 tbody.innerHTML = filtradas.map(nc => {
-                    const tempoHtml = nc.status === 'aberto' ? `<span id="timer-${nc.id}">${calcularTempoDetalhado(nc).texto}</span>` : `<span style="color:#8b9a94;">${calcularDias(nc)}d (fechado)</span>`;
+                    const tempoHtml = nc.status === 'aberto' ?
+                        `<span id="timer-${nc.id}">${calcularTempoDetalhado(nc).texto}</span>` :
+                        `<span style="color:#8b9a94;">${calcularDias(nc)}d (fechado)</span>`;
                     return `<tr>
                         <td><strong>#${nc.id}</strong></td>
                         <td>${escapeHtml(nc.produto||'-')}</td>
@@ -1837,10 +2546,16 @@
             el('editNcId').value = '';
             el('tituloFormNC').innerHTML = '<i class="fas fa-plus-circle"></i> Nova Não Conformidade';
             el('subtituloFormNC').textContent = 'Preencha os dados abaixo';
-            ['ncProduto', 'ncPalete', 'ncMotivo', 'ncQtdCaixas', 'ncQtdItens', 'ncQtdRetrabalhadas', 'ncQtdDescartada', 'ncAcao', 'ncIdManual'].forEach(id => { const inp = el(id); if (inp) inp.value = (id === 'ncQtdRetrabalhadas' || id === 'ncQtdDescartada') ? '0' : ''; });
-            const campoId = el('ncIdManual'); if (campoId) campoId.disabled = false;
-            const grupoId = el('grupoIdNC'); if (grupoId) grupoId.style.display = 'block';
-            fotosNovas = []; fotosExistentes = [];
+            ['ncProduto', 'ncPalete', 'ncMotivo', 'ncQtdCaixas', 'ncQtdItens', 'ncQtdRetrabalhadas', 'ncQtdDescartada', 'ncAcao', 'ncIdManual'].forEach(id => {
+                const inp = el(id);
+                if (inp) inp.value = (id === 'ncQtdRetrabalhadas' || id === 'ncQtdDescartada') ? '0' : '';
+            });
+            const campoId = el('ncIdManual');
+            if (campoId) campoId.disabled = false;
+            const grupoId = el('grupoIdNC');
+            if (grupoId) grupoId.style.display = 'block';
+            fotosNovas = [];
+            fotosExistentes = [];
             el('photoPreviewContainer').innerHTML = el('existingPhotosContainer').innerHTML = '';
             el('inputFotos').value = '';
         }
@@ -1848,7 +2563,8 @@
         function previewFotos() {
             const files = el('inputFotos').files;
             const vagas = 5 - (fotosNovas.length + fotosExistentes.length);
-            if (files.length > vagas) { mostrarToast(`Máximo de 5 fotos. Você ainda pode adicionar ${vagas}.`, 'error'); el('inputFotos').value = ''; return; }
+            if (files.length > vagas) { mostrarToast(`Máximo de 5 fotos. Você ainda pode adicionar ${vagas}.`, 'error');
+                el('inputFotos').value = ''; return; }
             Array.from(files).forEach(file => {
                 if (fotosNovas.length + fotosExistentes.length >= 5) return;
                 const reader = new FileReader();
@@ -1856,11 +2572,16 @@
                     const img = new Image();
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
-                        const maxW = 600; let w = img.width, h = img.height;
-                        if (w > maxW) { h = h * (maxW / w); w = maxW; }
-                        canvas.width = w; canvas.height = h;
+                        const maxW = 600;
+                        let w = img.width,
+                            h = img.height;
+                        if (w > maxW) { h = h * (maxW / w);
+                            w = maxW; }
+                        canvas.width = w;
+                        canvas.height = h;
                         const ctx = canvas.getContext('2d');
-                        ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, w, h);
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.fillRect(0, 0, w, h);
                         ctx.drawImage(img, 0, 0, w, h);
                         fotosNovas.push(canvas.toDataURL('image/jpeg', 0.6));
                         atualizarPreviews();
@@ -1872,10 +2593,19 @@
             el('inputFotos').value = '';
         }
 
-        function atualizarPreviews() { el('photoPreviewContainer').innerHTML = fotosNovas.map((b64, i) => `<div style="position:relative;display:inline-block;"><img src="${b64}" class="photo-preview" onclick="abrirModalFoto('${b64}')"><button onclick="removerFotoNova(${i})" style="position:absolute;top:-8px;right:-8px;background:#b53b3b;color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:0.7rem;">✕</button></div>`).join(''); }
-        function removerFotoNova(i) { fotosNovas.splice(i, 1); atualizarPreviews(); }
-        function removerFotoExistente(i) { fotosExistentes.splice(i, 1); renderFotosExistentes(); }
-        function renderFotosExistentes() { el('existingPhotosContainer').innerHTML = fotosExistentes.map((b64, i) => `<div style="position:relative;display:inline-block;"><img src="${b64}" class="photo-preview" onclick="abrirModalFoto('${b64}')"><button onclick="removerFotoExistente(${i})" style="position:absolute;top:-8px;right:-8px;background:#b53b3b;color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;">✕</button></div>`).join(''); }
+        function atualizarPreviews() {
+            el('photoPreviewContainer').innerHTML = fotosNovas.map((b64, i) => `<div style="position:relative;display:inline-block;"><img src="${b64}" class="photo-preview" onclick="abrirModalFoto('${b64}')"><button onclick="removerFotoNova(${i})" style="position:absolute;top:-8px;right:-8px;background:#b53b3b;color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:0.7rem;">✕</button></div>`).join('');
+        }
+
+        function removerFotoNova(i) { fotosNovas.splice(i, 1);
+            atualizarPreviews(); }
+
+        function removerFotoExistente(i) { fotosExistentes.splice(i, 1);
+            renderFotosExistentes(); }
+
+        function renderFotosExistentes() {
+            el('existingPhotosContainer').innerHTML = fotosExistentes.map((b64, i) => `<div style="position:relative;display:inline-block;"><img src="${b64}" class="photo-preview" onclick="abrirModalFoto('${b64}')"><button onclick="removerFotoExistente(${i})" style="position:absolute;top:-8px;right:-8px;background:#b53b3b;color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;">✕</button></div>`).join('');
+        }
 
         async function salvarNC() {
             const editId = el('editNcId').value;
@@ -1906,7 +2636,20 @@
                 if (isNaN(idManual) || idManual < 1 || String(idManual) !== idRaw) return mostrarToast('Número inválido!', 'error');
                 if ((await collNCs.doc(String(idManual)).get()).exists) return mostrarToast(`A NC #${idManual} já existe!`, 'error');
                 await collNCs.doc(String(idManual)).set({
-                    id: String(idManual), produto, palete, motivo, quantidadeCaixas: qtdCaixas, quantidadeItens: qtdItens, quantidadeRetrabalhadas: qtdRetrabalhadas, quantidadeDescartada: qtdDescartada, acao, fotos: todasFotos, status: 'aberto', dataAbertura: new Date().toISOString(), dataResolucao: null, criadoPor: currentUser.username,
+                    id: String(idManual),
+                    produto,
+                    palete,
+                    motivo,
+                    quantidadeCaixas: qtdCaixas,
+                    quantidadeItens: qtdItens,
+                    quantidadeRetrabalhadas: qtdRetrabalhadas,
+                    quantidadeDescartada: qtdDescartada,
+                    acao,
+                    fotos: todasFotos,
+                    status: 'aberto',
+                    dataAbertura: new Date().toISOString(),
+                    dataResolucao: null,
+                    criadoPor: currentUser.username,
                     historico: [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou', detalhes: 'NC aberta' }]
                 });
                 mostrarToast('NC #' + idManual + ' criada!', 'success');
@@ -1924,35 +2667,52 @@
             const nc = doc.data();
             el('editNcId').value = id;
             el('tituloFormNC').innerHTML = '<i class="fas fa-edit"></i> Editar Não Conformidade #' + id;
-            el('ncProduto').value = nc.produto || ''; el('ncPalete').value = nc.palete || ''; el('ncMotivo').value = nc.motivo || '';
-            el('ncQtdCaixas').value = nc.quantidadeCaixas || ''; el('ncQtdItens').value = nc.quantidadeItens || ''; el('ncQtdRetrabalhadas').value = nc.quantidadeRetrabalhadas || '0'; el('ncQtdDescartada').value = nc.quantidadeDescartada || '0';
+            el('ncProduto').value = nc.produto || '';
+            el('ncPalete').value = nc.palete || '';
+            el('ncMotivo').value = nc.motivo || '';
+            el('ncQtdCaixas').value = nc.quantidadeCaixas || '';
+            el('ncQtdItens').value = nc.quantidadeItens || '';
+            el('ncQtdRetrabalhadas').value = nc.quantidadeRetrabalhadas || '0';
+            el('ncQtdDescartada').value = nc.quantidadeDescartada || '0';
             el('ncAcao').value = nc.acao || '';
-            const campoId = el('ncIdManual'); if (campoId) { campoId.value = id; campoId.disabled = true; }
+            const campoId = el('ncIdManual');
+            if (campoId) { campoId.value = id;
+                campoId.disabled = true; }
             el('grupoIdNC').style.display = 'block';
-            fotosNovas = []; fotosExistentes = [...(nc.fotos || [])];
-            el('photoPreviewContainer').innerHTML = ''; renderFotosExistentes();
+            fotosNovas = [];
+            fotosExistentes = [...(nc.fotos || [])];
+            el('photoPreviewContainer').innerHTML = '';
+            renderFotosExistentes();
             navegar('nova', document.querySelector('[data-page="nova"]'));
         }
 
-        function cancelarEdicao() { prepararFormNova(); navegar('lista'); }
+        function cancelarEdicao() { prepararFormNova();
+            navegar('lista'); }
 
         async function excluirNC(id) {
             if (currentUser.role !== 'admin') return mostrarToast('Apenas administradores!', 'error');
             if (!confirm('Excluir NC #' + id + '?')) return;
             await collNCs.doc(id).delete();
             invalidateCache();
-            await renderListaNCs(); await renderDashboard();
+            await renderListaNCs();
+            await renderDashboard();
             mostrarToast('NC #' + id + ' excluída.', 'info');
         }
 
         async function resolverNC(id) {
             await collNCs.doc(id).update({ status: 'resolvido', dataResolucao: new Date().toISOString(), historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'resolveu', detalhes: 'NC resolvida' }) });
-            invalidateCache(); await renderListaNCs(); await renderDashboard(); mostrarToast('NC #' + id + ' resolvida!', 'success');
+            invalidateCache();
+            await renderListaNCs();
+            await renderDashboard();
+            mostrarToast('NC #' + id + ' resolvida!', 'success');
         }
 
         async function reabrirNC(id) {
             await collNCs.doc(id).update({ status: 'aberto', dataResolucao: null, historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'reabriu', detalhes: 'NC reaberta' }) });
-            invalidateCache(); await renderListaNCs(); await renderDashboard(); mostrarToast('NC #' + id + ' reaberta.', 'info');
+            invalidateCache();
+            await renderListaNCs();
+            await renderDashboard();
+            mostrarToast('NC #' + id + ' reaberta.', 'info');
         }
 
         // ==================== MODAIS / DETALHES ====================
@@ -1982,24 +2742,31 @@
             if (nc.status === 'aberto') {
                 if (liveTimers['detalhe']) clearInterval(liveTimers['detalhe']);
                 const upd = () => { const t = calcularTempoDetalhado(nc); const span = el('liveTimerDetalhe'); if (span) span.innerHTML = `<span class="live-timer"><i class="fas fa-clock"></i> ${t.texto}</span>`; };
-                upd(); liveTimers['detalhe'] = setInterval(upd, 1000);
+                upd();
+                liveTimers['detalhe'] = setInterval(upd, 1000);
             }
         }
 
-        function fecharModalDetalhes() { el('modalDetalhes').style.display = 'none'; if (liveTimers['detalhe']) { clearInterval(liveTimers['detalhe']); delete liveTimers['detalhe']; } }
-        function abrirModalFoto(src) { el('modalFotoImg').src = src; el('modalFoto').style.display = 'flex'; }
+        function fecharModalDetalhes() { el('modalDetalhes').style.display = 'none'; if (liveTimers['detalhe']) { clearInterval(liveTimers['detalhe']);
+            delete liveTimers['detalhe']; } }
+
+        function abrirModalFoto(src) { el('modalFotoImg').src = src;
+            el('modalFoto').style.display = 'flex'; }
+
         function fecharModalFoto() { el('modalFoto').style.display = 'none'; }
 
         // ==================== QR CODE ====================
         async function gerarQRCode(id) {
             el('qrNcIdLabel').textContent = '#' + id;
             el('modalQR').style.display = 'flex';
-            const container = el('qrCodeContainer'); container.innerHTML = '';
+            const container = el('qrCodeContainer');
+            container.innerHTML = '';
             const base = location.href.split('?')[0];
             const qrUrl = base + '?view=readonly&id=' + id;
             if (typeof QRCode !== 'undefined') new QRCode(container, { text: qrUrl, width: 200, height: 200, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
             else container.innerHTML = '<p style="color:#b53b3b;">Erro ao carregar QRCode.js</p>';
         }
+
         function fecharModalQR() { el('modalQR').style.display = 'none'; }
 
         // ==================== IMPRESSÃO NC ====================
@@ -2018,7 +2785,10 @@
                 const printArea = el('printArea');
                 printArea.innerHTML = `
                     <div class="print-sheet">
-                        <div class="print-header"><div><h2>🏭 DONA RITA EMBALAGENS</h2><p>Relatório de Não Conformidade</p></div><div style="text-align:right;"><span class="print-badge ${badgeClass}">${statusTexto}</span><p>Impresso: ${agora.toLocaleString('pt-BR')}</p><p>Por: ${escapeHtml(currentUser.username)}</p></div></div>
+                        <div class="print-header">
+                            <div><h2>🏭 DONA RITA EMBALAGENS</h2><p>Relatório de Não Conformidade</p></div>
+                            <div style="text-align:right;"><span class="print-badge ${badgeClass}">${statusTexto}</span><p>Impresso: ${agora.toLocaleString('pt-BR')}</p><p>Por: ${escapeHtml(currentUser.username)}</p></div>
+                        </div>
                         <div class="print-grid">
                             <div class="print-field"><span class="print-label">NÚMERO DA NC</span><span class="print-value highlight">#${id}</span></div>
                             <div class="print-field"><span class="print-label">PRODUTO</span><span class="print-value highlight">${escapeHtml(nc.produto)}</span></div>
@@ -2037,13 +2807,22 @@
                         ${fotosHtml}
                         <div class="print-qr-section"><div id="qrCodePrintContainer" class="qr-print"></div><div class="qr-info"><strong>📱 QR Code</strong><p>Acesse os detalhes completos</p></div></div>
                         <div class="print-footer">Dona Rita Embalagens © ${agora.getFullYear()} · Documento gerado em ${agora.toLocaleString('pt-BR')}</div>
-                        <div class="no-print" style="text-align:center;margin-top:24px;"><button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir</button><button class="btn btn-outline" onclick="fecharPrint()"><i class="fas fa-times"></i> Fechar</button></div>
+                        <div class="no-print" style="text-align:center;margin-top:24px;">
+                            <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir</button>
+                            <button class="btn btn-outline" onclick="fecharPrint()"><i class="fas fa-times"></i> Fechar</button>
+                        </div>
                     </div>`;
-                printArea.style.display = 'block'; printArea.scrollIntoView({ behavior: 'smooth' });
-                setTimeout(() => { const qrCont = el('qrCodePrintContainer'); if (qrCont && typeof QRCode !== 'undefined') { qrCont.innerHTML = ''; new QRCode(qrCont, { text: qrUrl, width: 80, height: 80, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M }); } }, 300);
+                printArea.style.display = 'block';
+                printArea.scrollIntoView({ behavior: 'smooth' });
+                setTimeout(() => {
+                    const qrCont = el('qrCodePrintContainer');
+                    if (qrCont && typeof QRCode !== 'undefined') { qrCont.innerHTML = ''; new QRCode(qrCont, { text: qrUrl, width: 80, height: 80, colorDark: '#0b3b2f', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M }); }
+                }, 300);
             } catch (e) { mostrarToast('Erro ao imprimir.', 'error'); }
         }
-        function fecharPrint() { el('printArea').style.display = 'none'; el('printArea').innerHTML = ''; }
+
+        function fecharPrint() { el('printArea').style.display = 'none';
+            el('printArea').innerHTML = ''; }
 
         // ==================== WHATSAPP ====================
         function enviarAlertaWhatsApp(id) {
@@ -2065,12 +2844,18 @@
             const empty = el('emptyPlanos');
             el('tituloTabelaPlanos').textContent = isAdmin ? 'NCs e Planos de Ação' : 'Meus Planos Pendentes';
             let itens;
-            if (isAdmin) itens = ncs.map(nc => ({ nc, plano: planos.find(p => p.ncId === nc.id) || null }));
-            else { const meus = planos.filter(p => p.pessoas?.some(pp => pp.username === currentUser.username)); itens = meus.map(pl => ({ nc: ncs.find(n => n.id === pl.ncId) || {}, plano: pl })); }
-            if (!itens.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+            if (isAdmin) {
+                itens = ncs.map(nc => ({ nc, plano: planos.find(p => p.ncId === nc.id) || null }));
+            } else {
+                const meus = planos.filter(p => p.pessoas?.some(pp => pp.username === currentUser.username));
+                itens = meus.map(pl => ({ nc: ncs.find(n => n.id === pl.ncId) || {}, plano: pl }));
+            }
+            if (!itens.length) { tbody.innerHTML = '';
+                empty.style.display = 'block'; return; }
             empty.style.display = 'none';
             tbody.innerHTML = itens.map(({ nc, plano }) => {
-                let statusHtml = '', acoes = '';
+                let statusHtml = '',
+                    acoes = '';
                 if (plano) {
                     const assinadas = (plano.pessoas || []).filter(p => p.assinado).length;
                     const total = (plano.pessoas || []).length;
@@ -2082,11 +2867,8 @@
                                  <button class="btn btn-sm btn-danger" onclick="excluirPlanoAcao('${plano.id}')"><i class="fas fa-trash"></i></button>`;
                     } else {
                         const minha = (plano.pessoas || []).find(p => p.username === currentUser.username);
-                        acoes = minha && !minha.assinado ? `<button class="btn btn-sm btn-assinar" onclick="iniciarAssinaturaDigital('${plano.id}')"><i class="fas fa-signature"></i> Assinar</button>
-                               <button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i></button>` :
-                               minha ? `<button class="btn btn-sm btn-assinar" onclick="iniciarAssinaturaDigital('${plano.id}')"><i class="fas fa-redo"></i> Refazer</button>
-                               <button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i></button>` :
-                               `<button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i> Ver</button>`;
+                        acoes = minha && !minha.assinado ? `<button class="btn btn-sm btn-assinar" onclick="abrirAssinaturaDigital('${plano.id}')"><i class="fas fa-signature"></i> Assinar</button>` : minha && minha.assinado ? `<button class="btn btn-sm btn-refazer" onclick="abrirAssinaturaDigital('${plano.id}', true)"><i class="fas fa-redo"></i> Refazer</button>` : '';
+                        acoes += `<button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i> Ver</button>`;
                     }
                 } else {
                     statusHtml = '<span class="badge badge-nao-assinado">⚠️ Sem plano</span>';
@@ -2101,8 +2883,14 @@
             const doc = await collNCs.doc(ncId).get();
             if (!doc.exists) return mostrarToast('NC não encontrada!', 'error');
             const nc = doc.data();
-            el('editPlanoId').value = ''; el('planoNcId').value = ncId; el('planoNcInfo').value = `NC #${ncId} - ${nc.produto} - ${nc.palete}`; el('planoResumo').value = '';
-            pessoasPlano = []; resetarFerramentas(); renderPessoasPlano(); renderizarFerramentasUI();
+            el('editPlanoId').value = '';
+            el('planoNcId').value = ncId;
+            el('planoNcInfo').value = `NC #${ncId} - ${nc.produto} - ${nc.palete}`;
+            el('planoResumo').value = '';
+            pessoasPlano = [];
+            resetarFerramentas();
+            renderPessoasPlano();
+            renderizarFerramentasUI();
             navegar('novo-plano', document.querySelector('[data-page="planos"]'));
         }
 
@@ -2111,18 +2899,33 @@
             const doc = await collPlanos.doc(id).get();
             if (!doc.exists) return mostrarToast('Plano não encontrado!', 'error');
             const plano = doc.data();
-            el('editPlanoId').value = id; el('planoNcId').value = plano.ncId; el('planoNcInfo').value = `NC #${plano.ncId} - ${plano.ncProduto}`; el('planoResumo').value = plano.resumoReuniao || '';
+            el('editPlanoId').value = id;
+            el('planoNcId').value = plano.ncId;
+            el('planoNcInfo').value = `NC #${plano.ncId} - ${plano.ncProduto}`;
+            el('planoResumo').value = plano.resumoReuniao || '';
             pessoasPlano = JSON.parse(JSON.stringify(plano.pessoas || []));
             resetarFerramentas();
             await carregarFerramentasDoPlano(id);
-            renderPessoasPlano(); renderizarFerramentasUI();
+            renderPessoasPlano();
+            renderizarFerramentasUI();
             navegar('novo-plano', document.querySelector('[data-page="planos"]'));
         }
 
-        function cancelarPlano() { pessoasPlano = []; resetarFerramentas(); ['editPlanoId', 'planoNcId', 'planoResumo'].forEach(id => el(id).value = ''); el('containerPessoas').innerHTML = ''; el('ishikawaCategoryBoxes').innerHTML = ''; el('fiveWhysContainer').innerHTML = ''; navegar('planos'); }
+        function cancelarPlano() {
+            pessoasPlano = [];
+            resetarFerramentas();
+            ['editPlanoId', 'planoNcId', 'planoResumo'].forEach(id => el(id).value = '');
+            el('containerPessoas').innerHTML = '';
+            el('ishikawaCategoryBoxes').innerHTML = '';
+            el('fiveWhysContainer').innerHTML = '';
+            navegar('planos');
+        }
 
-        function adicionarPessoa() { pessoasPlano.push({ username: '', acao: '', prazo: '', assinado: false, dataAssinatura: null, justificativa: '', assinaturaDigital: null }); renderPessoasPlano(); }
-        function removerPessoa(i) { pessoasPlano.splice(i, 1); renderPessoasPlano(); }
+        function adicionarPessoa() { pessoasPlano.push({ username: '', acao: '', prazo: '', assinado: false, dataAssinatura: null, justificativa: '', assinaturaDigital: '' });
+            renderPessoasPlano(); }
+
+        function removerPessoa(i) { pessoasPlano.splice(i, 1);
+            renderPessoasPlano(); }
 
         async function renderPessoasPlano() {
             const container = el('containerPessoas');
@@ -2132,9 +2935,13 @@
             container.innerHTML = pessoasPlano.map((p, i) => {
                 const opts = usernames.map(u => `<option value="${u}" ${p.username===u?'selected':''}>${u}</option>`).join('');
                 const status = p.assinado ? '<span class="assinatura-status assinado"><i class="fas fa-check-circle"></i> Assinado</span>' : '<span class="assinatura-status pendente"><i class="fas fa-clock"></i> Pendente</span>';
+                const assinaturaPreview = p.assinaturaDigital ? `<img src="${p.assinaturaDigital}" class="assinatura-preview" alt="Assinatura de ${escapeHtml(p.username)}">` : '';
                 return `<div class="pessoa-card">
-                    <div class="pessoa-header"><div class="pessoa-numero">${i+1}</div> ${status} <button class="btn-remover-pessoa" onclick="removerPessoa(${i})"><i class="fas fa-times"></i></button></div>
-                    <div class="form-row"><div class="form-group"><label>Usuário</label><select onchange="pessoasPlano[${i}].username=this.value" ${p.assinado?'disabled':''}><option value="">Selecione...</option>${opts}</select></div><div class="form-group"><label>Prazo</label><input type="date" value="${p.prazo||''}" onchange="pessoasPlano[${i}].prazo=this.value" ${p.assinado?'disabled':''}></div></div>
+                    <div class="pessoa-header"><div class="pessoa-numero">${i+1}</div> ${status} ${assinaturaPreview} <button class="btn-remover-pessoa" onclick="removerPessoa(${i})"><i class="fas fa-times"></i></button></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Usuário</label><select onchange="pessoasPlano[${i}].username=this.value" ${p.assinado?'disabled':''}><option value="">Selecione...</option>${opts}</select></div>
+                        <div class="form-group"><label>Prazo</label><input type="date" value="${p.prazo||''}" onchange="pessoasPlano[${i}].prazo=this.value" ${p.assinado?'disabled':''}></div>
+                    </div>
                     <div class="form-group"><label>Ação</label><textarea onchange="pessoasPlano[${i}].acao=this.value" ${p.assinado?'disabled':''}>${escapeHtml(p.acao||'')}</textarea></div>
                 </div>`;
             }).join('');
@@ -2142,17 +2949,42 @@
 
         async function salvarPlanoAcao() {
             if (currentUser.role !== 'admin') return mostrarToast('Apenas administradores!', 'error');
-            const editId = el('editPlanoId').value, ncId = el('planoNcId').value, resumo = el('planoResumo').value.trim();
+            const editId = el('editPlanoId').value;
+            const ncId = el('planoNcId').value;
+            const resumo = el('planoResumo').value.trim();
             if (!ncId || !resumo) return mostrarToast('Preencha o resumo!', 'error');
             if (!pessoasPlano.length) return mostrarToast('Adicione pelo menos uma pessoa!', 'error');
-            for (let i = 0; i < pessoasPlano.length; i++) if (!pessoasPlano[i].username || !pessoasPlano[i].acao || !pessoasPlano[i].prazo) return mostrarToast(`Preencha todos os campos da pessoa ${i+1}!`, 'error');
+            for (let i = 0; i < pessoasPlano.length; i++)
+                if (!pessoasPlano[i].username || !pessoasPlano[i].acao || !pessoasPlano[i].prazo) return mostrarToast(`Preencha todos os campos da pessoa ${i+1}!`, 'error');
             const ncDoc = await collNCs.doc(ncId).get();
-            const dados = { ncId, resumoReuniao: resumo, pessoas: pessoasPlano.map(p => ({ ...p })), status: 'aberto', criadoPor: currentUser.username, ncProduto: ncDoc.data()?.produto || '', ncMotivo: ncDoc.data()?.motivo || '', ncPalete: ncDoc.data()?.palete || '', temIshikawa: ishikawaData.ativo, temFiveWhys: fiveWhysData.ativo };
+            const dados = {
+                ncId,
+                resumoReuniao: resumo,
+                pessoas: pessoasPlano.map(p => ({ ...p })),
+                status: 'aberto',
+                criadoPor: currentUser.username,
+                ncProduto: ncDoc.data()?.produto || '',
+                ncMotivo: ncDoc.data()?.motivo || '',
+                ncPalete: ncDoc.data()?.palete || '',
+                temIshikawa: ishikawaData.ativo,
+                temFiveWhys: fiveWhysData.ativo,
+            };
             let planoId = editId;
-            if (editId) { await collPlanos.doc(editId).update(dados); mostrarToast('Plano atualizado!', 'success'); }
-            else { dados.dataCriacao = new Date().toISOString(); dados.historico = [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou', detalhes: 'Plano criado' }]; const ref = await collPlanos.add(dados); planoId = ref.id; mostrarToast('Plano criado!', 'success'); }
+            if (editId) {
+                await collPlanos.doc(editId).update(dados);
+                mostrarToast('Plano atualizado!', 'success');
+            } else {
+                dados.dataCriacao = new Date().toISOString();
+                dados.historico = [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou', detalhes: 'Plano criado' }];
+                const ref = await collPlanos.add(dados);
+                planoId = ref.id;
+                mostrarToast('Plano criado!', 'success');
+            }
             await salvarFerramentasNoFirestore(planoId);
-            invalidateCache(); cancelarPlano(); await navegar('planos'); await renderDashboard();
+            invalidateCache();
+            cancelarPlano();
+            await navegar('planos');
+            await renderDashboard();
         }
 
         async function verPlanoAcao(id) {
@@ -2163,16 +2995,25 @@
                 const isAdmin = currentUser?.role === 'admin';
                 const minha = (plano.pessoas || []).find(p => p.username === currentUser.username);
                 const pessoasHtml = (plano.pessoas || []).map((p, i) => {
-                    const assinaturaImg = p.assinaturaDigital ? `<img src="${p.assinaturaDigital}" style="max-width:120px;max-height:40px;display:block;margin-top:4px;" alt="Assinatura">` : '';
-                    return `<div class="pessoa-card"><div class="pessoa-header"><div class="pessoa-numero">${i+1}</div> <strong>${escapeHtml(p.username)}</strong> ${p.assinado?'✅':'⏳'}</div><p>📋 ${escapeHtml(p.acao)}</p><p>📅 ${fmtDataCurta(p.prazo)}</p>${p.justificativa?`<p><i class="fas fa-exclamation-triangle"></i> ${escapeHtml(p.justificativa)}</p>`:''}${assinaturaImg}</div>`;
+                    const assinaturaImg = p.assinaturaDigital ? `<br><img src="${p.assinaturaDigital}" class="assinatura-preview" alt="Assinatura">` : '';
+                    return `<div class="pessoa-card">
+                        <div class="pessoa-header"><div class="pessoa-numero">${i+1}</div> <strong>${escapeHtml(p.username)}</strong> ${p.assinado?'✅':'⏳'}</div>
+                        <p>📋 ${escapeHtml(p.acao)}</p><p>📅 ${fmtDataCurta(p.prazo)}</p>
+                        ${p.justificativa?`<p><i class="fas fa-exclamation-triangle"></i> ${escapeHtml(p.justificativa)}</p>`:''}
+                        ${assinaturaImg}
+                    </div>`;
                 }).join('');
-                // Ferramentas...
-                let ishikawaHtml = '', fiveWhysHtml = '';
+
+                let ishikawaHtml = '';
+                let fiveWhysHtml = '';
                 if (plano.temIshikawa) {
                     const ishSnap = await collIshikawa.where('planoId', '==', id).limit(1).get();
                     if (!ishSnap.empty) {
                         const ish = ishSnap.docs[0].data();
-                        const catsHtml = Object.keys(ish.categorias || {}).map(cat => `<div class="ishikawa-category-box"><h5><span class="cat-dot" style="background:${ishikawaColors[cat]||'#888'}"></span> ${cat}</h5><div class="ishikawa-causes-list">${(ish.categorias[cat]||[]).map(c=>`<span class="ishikawa-cause-tag">${escapeHtml(c)}</span>`).join(' ')||'—'}</div></div>`).join('');
+                        const catsHtml = Object.keys(ish.categorias || {}).map(cat => {
+                            const causas = (ish.categorias[cat] || []).map(c => `<span class="ishikawa-cause-tag">${escapeHtml(c)}</span>`).join(' ') || '<span style="color:#8b9a94;">—</span>';
+                            return `<div class="ishikawa-category-box"><h5><span class="cat-dot" style="background:${ishikawaColors[cat]||'#888'}"></span> ${cat}</h5><div class="ishikawa-causes-list">${causas}</div></div>`;
+                        }).join('');
                         ishikawaHtml = `<div style="margin-top:16px;padding:16px;background:#f8faf9;border-radius:14px;border:2px solid #e0e8e4;"><h4 style="color:#386e8c;margin-bottom:10px;"><i class="fas fa-fish"></i> Diagrama de Ishikawa</h4><p><strong>Problema:</strong> ${escapeHtml(ish.problema||'N/A')}</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">${catsHtml}</div></div>`;
                     }
                 }
@@ -2180,126 +3021,185 @@
                     const fwSnap = await collFiveWhys.where('planoId', '==', id).limit(1).get();
                     if (!fwSnap.empty) {
                         const fw = fwSnap.docs[0].data();
-                        const whysHtml = (fw.whys || []).map((w,i) => `<li><strong>${i+1}º Por quê:</strong> ${escapeHtml(w.resposta||'—')}</li>`).join('');
+                        const whysHtml = (fw.whys || []).map((w, i) => `<li><strong>${i+1}º Por quê:</strong> ${escapeHtml(w.resposta||'—')}</li>`).join('');
                         fiveWhysHtml = `<div style="margin-top:16px;padding:16px;background:#fefdf6;border-radius:14px;border:2px solid #e8d58b;"><h4 style="color:#b5792a;margin-bottom:10px;"><i class="fas fa-question-circle"></i> 5 Porquês</h4><p><strong>Problema:</strong> ${escapeHtml(fw.problema||'N/A')}</p><ol style="margin:8px 0;padding-left:20px;">${whysHtml}</ol><p style="background:#fff;padding:10px;border-radius:8px;border:2px solid #c8963e;margin-top:8px;"><strong>🎯 Causa Raiz:</strong> ${escapeHtml(fw.causaRaiz||'Não identificada')}</p></div>`;
                     }
                 }
+
                 el('verPlanoInner').innerHTML = `
-                    <h2>Plano de Ação - NC #${plano.ncId}</h2><p>Produto: ${escapeHtml(plano.ncProduto)} | Palete: ${escapeHtml(plano.ncPalete)}</p><p>Motivo: ${escapeHtml(plano.ncMotivo)}</p>
+                    <h2>Plano de Ação - NC #${plano.ncId}</h2>
+                    <p>Produto: ${escapeHtml(plano.ncProduto)} | Palete: ${escapeHtml(plano.ncPalete)}</p>
+                    <p>Motivo: ${escapeHtml(plano.ncMotivo)}</p>
                     <p>Status: <span class="badge ${plano.status==='concluido'?'badge-concluido':'badge-pendente'}">${plano.status==='concluido'?'Concluído':'Pendente'}</span></p>
                     <h4>Resumo</h4><p style="white-space:pre-wrap;">${escapeHtml(plano.resumoReuniao)}</p>
                     <h4>Pessoas</h4>${pessoasHtml}
-                    ${ishikawaHtml}${fiveWhysHtml}
+                    ${ishikawaHtml}
+                    ${fiveWhysHtml}
                     <div style="margin-top:16px;">
                         ${isAdmin ? `<button class="btn btn-accent" onclick="imprimirPlanoAcao('${id}')"><i class="fas fa-print"></i></button>` : ''}
-                        ${minha ? (minha.assinado ? `<button class="btn btn-assinar" onclick="iniciarAssinaturaDigital('${id}')"><i class="fas fa-redo"></i> Refazer Assinatura</button>` : `<button class="btn btn-assinar" onclick="iniciarAssinaturaDigital('${id}')"><i class="fas fa-signature"></i> Assinar Digitalmente</button>`) : ''}
+                        ${minha && !minha.assinado ? `<button class="btn btn-assinar" onclick="abrirAssinaturaDigital('${id}')"><i class="fas fa-signature"></i> Assinar</button>` : minha && minha.assinado ? `<button class="btn btn-refazer" onclick="abrirAssinaturaDigital('${id}', true)"><i class="fas fa-redo"></i> Refazer Assinatura</button>` : ''}
                         <button class="btn btn-outline" onclick="fecharModalVerPlano()">Fechar</button>
                     </div>`;
                 el('modalVerPlano').style.display = 'flex';
-            } catch (e) { console.error(e); mostrarToast('Erro ao carregar detalhes do plano.', 'error'); }
+            } catch (error) {
+                console.error("Erro ao ver plano:", error);
+                mostrarToast('Erro ao carregar detalhes do plano.', 'error');
+            }
         }
 
         function fecharModalVerPlano() { el('modalVerPlano').style.display = 'none'; }
 
-        // ==================== ASSINATURA DIGITAL ====================
-        function iniciarAssinaturaDigital(planoId) {
-            if (!currentUser) return mostrarToast('Faça login primeiro.', 'error');
-            db.collection('planos_acao').doc(planoId).get().then(doc => {
-                if (!doc.exists) return mostrarToast('Plano não encontrado.', 'error');
-                const plano = doc.data();
-                const idx = (plano.pessoas || []).findIndex(p => p.username === currentUser.username);
-                if (idx === -1) return mostrarToast('Você não está designado neste plano.', 'error');
-                const pessoa = plano.pessoas[idx];
-                if (pessoa.assinado && !confirm('Você já assinou este plano. Deseja refazer sua assinatura?')) return;
-                assinaturaPlanoId = planoId;
-                assinaturaPessoaIndex = idx;
-                abrirModalAssinatura(pessoa.assinaturaDigital || null, (novaAssinatura) => {
-                    if (novaAssinatura) registrarAssinaturaDigital(planoId, idx, novaAssinatura);
-                });
-            }).catch(e => mostrarToast('Erro ao carregar plano.', 'error'));
-        }
+        // ==================== ASSINATURA DIGITAL COM CANVAS ====================
+        function abrirAssinaturaDigital(planoId, refazer = false) {
+            assinaturaPlanoId = planoId;
+            assinaturaOldDataUrl = '';
+            el('modalAssinatura').style.display = 'flex';
+            el('tituloModalAssinatura').innerHTML = '<i class="fas fa-signature"></i> ' + (refazer ? 'Refazer Assinatura Digital' : 'Assinatura Digital');
+            el('infoModalAssinatura').textContent = refazer ? 'Desenhe sua nova assinatura no quadro abaixo.' : 'Desenhe sua assinatura no quadro abaixo.';
 
-        function abrirModalAssinatura(assinaturaExistente, callback) {
-            const modal = el('modalAssinatura');
-            const canvas = el('assinaturaCanvas');
+            const canvas = el('canvasAssinatura');
+            canvas.width = 450;
+            canvas.height = 180;
             const ctx = canvas.getContext('2d');
-            assinaturaCanvasCtx = ctx;
-            assinaturaCallback = callback;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            if (assinaturaExistente) {
-                const img = new Image();
-                img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                img.src = assinaturaExistente;
-                el('assinaturaInstrucao').textContent = 'Redesenhe sua assinatura ou limpe para refazer.';
-            } else el('assinaturaInstrucao').textContent = 'Desenhe sua assinatura no quadro abaixo.';
-            canvas.onmousedown = (e) => { assinaturaDesenhando = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); };
-            canvas.onmousemove = (e) => { if (assinaturaDesenhando) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); } };
-            canvas.onmouseup = () => { assinaturaDesenhando = false; ctx.closePath(); };
-            canvas.onmouseleave = () => { assinaturaDesenhando = false; };
-            canvas.ontouchstart = (e) => { e.preventDefault(); const t = e.touches[0]; assinaturaDesenhando = true; ctx.beginPath(); ctx.moveTo(t.clientX - canvas.getBoundingClientRect().left, t.clientY - canvas.getBoundingClientRect().top); };
-            canvas.ontouchmove = (e) => { e.preventDefault(); if (assinaturaDesenhando) { const t = e.touches[0]; ctx.lineTo(t.clientX - canvas.getBoundingClientRect().left, t.clientY - canvas.getBoundingClientRect().top); ctx.stroke(); } };
-            canvas.ontouchend = () => { assinaturaDesenhando = false; ctx.closePath(); };
-            ctx.strokeStyle = '#0b3b2f'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-            modal.style.display = 'flex';
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#0b3b2f';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            assinaturaCanvas = canvas;
+            assinaturaCtx = ctx;
+            assinaturaDrawing = false;
+
+            // Se for refazer, carregar assinatura existente como fundo?
+            // Não, melhor começar limpo.
+
+            canvas.onmousedown = (e) => { assinaturaDrawing = true;
+                assinaturaCtx.beginPath();
+                assinaturaCtx.moveTo(e.offsetX, e.offsetY); };
+            canvas.onmousemove = (e) => { if (!assinaturaDrawing) return;
+                assinaturaCtx.lineTo(e.offsetX, e.offsetY);
+                assinaturaCtx.stroke(); };
+            canvas.onmouseup = () => { assinaturaDrawing = false;
+                assinaturaCtx.closePath(); };
+            canvas.onmouseleave = () => { assinaturaDrawing = false; };
+
+            // Touch events
+            canvas.ontouchstart = (e) => { e.preventDefault();
+                assinaturaDrawing = true; const t = e.touches[0]; const rect = canvas.getBoundingClientRect();
+                assinaturaCtx.beginPath();
+                assinaturaCtx.moveTo(t.clientX - rect.left, t.clientY - rect.top); };
+            canvas.ontouchmove = (e) => { e.preventDefault(); if (!assinaturaDrawing) return; const t = e.touches[0]; const rect = canvas.getBoundingClientRect();
+                assinaturaCtx.lineTo(t.clientX - rect.left, t.clientY - rect.top);
+                assinaturaCtx.stroke(); };
+            canvas.ontouchend = () => { assinaturaDrawing = false;
+                assinaturaCtx.closePath(); };
         }
 
-        function limparAssinatura() {
-            const canvas = el('assinaturaCanvas');
-            assinaturaCanvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-            assinaturaCanvasCtx.fillStyle = '#ffffff'; assinaturaCanvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+        function limparCanvasAssinatura() {
+            if (!assinaturaCtx || !assinaturaCanvas) return;
+            assinaturaCtx.fillStyle = '#fff';
+            assinaturaCtx.fillRect(0, 0, assinaturaCanvas.width, assinaturaCanvas.height);
         }
 
-        function confirmarAssinatura() {
-            const canvas = el('assinaturaCanvas');
-            const dataURL = canvas.toDataURL('image/png');
-            const imageData = assinaturaCanvasCtx.getImageData(0, 0, canvas.width, canvas.height).data;
-            let hasDrawing = false;
-            for (let i = 0; i < imageData.length; i += 4) { if (imageData[i] !== 255 || imageData[i+1] !== 255 || imageData[i+2] !== 255) { hasDrawing = true; break; } }
-            if (!hasDrawing) { mostrarToast('Desenhe sua assinatura antes de confirmar.', 'error'); return; }
-            if (assinaturaCallback) assinaturaCallback(dataURL);
-            fecharModalAssinatura();
+        function fecharModalAssinatura() {
+            el('modalAssinatura').style.display = 'none';
+            assinaturaPlanoId = null;
+            assinaturaCanvas = null;
+            assinaturaCtx = null;
         }
 
-        function fecharModalAssinatura() { el('modalAssinatura').style.display = 'none'; assinaturaPlanoId = null; assinaturaPessoaIndex = null; assinaturaCallback = null; }
+        async function confirmarAssinaturaDigital() {
+            if (!assinaturaCanvas || !assinaturaPlanoId) return;
+            // Verificar se o canvas está vazio (todo branco)
+            const imageData = assinaturaCtx.getImageData(0, 0, assinaturaCanvas.width, assinaturaCanvas.height).data;
+            let isEmpty = true;
+            for (let i = 0; i < imageData.length; i += 4) {
+                if (imageData[i] < 255 || imageData[i+1] < 255 || imageData[i+2] < 255) {
+                    isEmpty = false;
+                    break;
+                }
+            }
+            if (isEmpty) {
+                mostrarToast('Desenhe sua assinatura antes de confirmar.', 'error');
+                return;
+            }
 
-        async function registrarAssinaturaDigital(planoId, pessoaIndex, assinaturaBase64) {
-            const doc = await db.collection('planos_acao').doc(planoId).get();
-            if (!doc.exists) return mostrarToast('Plano não encontrado.', 'error');
+            const dataUrl = assinaturaCanvas.toDataURL('image/png');
+            const planoId = assinaturaPlanoId;
+            const docRef = collPlanos.doc(planoId);
+            const doc = await docRef.get();
+            if (!doc.exists) { mostrarToast('Plano não encontrado.', 'error');
+                fecharModalAssinatura(); return; }
             const plano = doc.data();
+            const idx = (plano.pessoas || []).findIndex(p => p.username === currentUser.username);
+            if (idx === -1) { mostrarToast('Você não está designado!', 'error');
+                fecharModalAssinatura(); return; }
+
+            const prazo = new Date(plano.pessoas[idx].prazo + 'T23:59:59');
+            let just = plano.pessoas[idx].justificativa || '';
+            if (new Date() > prazo && !just) {
+                just = prompt('Prazo expirado. Justifique o atraso:');
+                if (!just?.trim()) { mostrarToast('Justificativa obrigatória.', 'error'); return; }
+            }
+
             const pessoas = [...plano.pessoas];
-            const prazo = new Date(pessoas[pessoaIndex].prazo + 'T23:59:59');
-            let just = '';
-            if (new Date() > prazo) { just = prompt('Prazo expirado. Justifique o atraso:'); if (!just?.trim()) return mostrarToast('Justificativa obrigatória.', 'error'); }
-            pessoas[pessoaIndex] = { ...pessoas[pessoaIndex], assinado: true, dataAssinatura: new Date().toISOString(), justificativa: just, assinaturaDigital: assinaturaBase64 };
+            pessoas[idx] = {
+                ...pessoas[idx],
+                assinado: true,
+                dataAssinatura: new Date().toISOString(),
+                justificativa: just,
+                assinaturaDigital: dataUrl
+            };
             const concluido = pessoas.every(p => p.assinado);
-            await db.collection('planos_acao').doc(planoId).update({ pessoas, status: concluido ? 'concluido' : 'aberto', historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: currentUser.username, acao: 'assinou digitalmente', detalhes: just || 'Assinatura digital registrada' }) });
-            invalidateCache(); await renderPlanosAcao(); await renderDashboard();
-            mostrarToast('✅ Assinatura digital registrada!', 'success');
+            await docRef.update({
+                pessoas,
+                status: concluido ? 'concluido' : 'aberto',
+                historico: firebase.firestore.FieldValue.arrayUnion({
+                    data: new Date().toISOString(),
+                    usuario: currentUser.username,
+                    acao: 'assinatura_digital',
+                    detalhes: 'Assinatura digital registrada' + (just ? ' com justificativa' : '')
+                })
+            });
+
+            invalidateCache();
+            fecharModalAssinatura();
+            await renderPlanosAcao();
+            await renderDashboard();
+            mostrarToast('✅ Assinatura digital registrada com sucesso!', 'success');
         }
 
         async function excluirPlanoAcao(id) {
             if (currentUser.role !== 'admin') return mostrarToast('Apenas administradores!', 'error');
-            if (!confirm('Excluir este plano?')) return;
+            if (!confirm('Excluir este plano? Isso também removerá as ferramentas vinculadas.')) return;
             await collPlanos.doc(id).delete();
-            const ishSnap = await collIshikawa.where('planoId', '==', id).get(); ishSnap.forEach(d => d.ref.delete());
-            const fwSnap = await collFiveWhys.where('planoId', '==', id).get(); fwSnap.forEach(d => d.ref.delete());
-            invalidateCache(); await renderPlanosAcao(); await renderDashboard(); mostrarToast('Plano excluído.', 'info');
+            const ishSnap = await collIshikawa.where('planoId', '==', id).get();
+            ishSnap.forEach(d => d.ref.delete());
+            const fwSnap = await collFiveWhys.where('planoId', '==', id).get();
+            fwSnap.forEach(d => d.ref.delete());
+            invalidateCache();
+            await renderPlanosAcao();
+            await renderDashboard();
+            mostrarToast('Plano e ferramentas excluídos.', 'info');
         }
 
         async function imprimirPlanoAcao(id) {
             try {
                 const doc = await collPlanos.doc(id).get();
-                if (!doc.exists) return mostrarToast('Plano não encontrado.', 'error');
+                if (!doc.exists) return mostrarToast('Plano não encontrado!', 'error');
                 const plano = doc.data();
                 const agora = new Date();
                 const assinadas = (plano.pessoas || []).filter(p => p.assinado).length;
                 const total = (plano.pessoas || []).length;
                 const tabela = (plano.pessoas || []).map((p, i) => {
-                    const assinaturaCelula = p.assinaturaDigital ? `<img src="${p.assinaturaDigital}" class="assinatura-img" style="max-width:100px;max-height:35px;" alt="Assinatura">` : '<span class="assinatura-linha">________________</span>';
+                    const assinaturaCelula = p.assinaturaDigital ? `<img src="${p.assinaturaDigital}" class="assinatura-img-print" alt="Assinatura">` : '<span class="assinatura-linha">________________</span>';
                     return `<tr><td>${i+1}</td><td>${escapeHtml(p.username)}</td><td>${escapeHtml(p.acao)}</td><td>${fmtDataCurta(p.prazo)}</td><td>${p.assinado?'✅':'⏳'}</td><td>${p.justificativa||'-'}</td><td>${assinaturaCelula}</td></tr>`;
                 }).join('');
-                let ishikawaPrintHtml = '', fiveWhysPrintHtml = '';
+
+                let ishikawaPrintHtml = '';
+                let fiveWhysPrintHtml = '';
                 if (plano.temIshikawa) {
                     const ishSnap = await collIshikawa.where('planoId', '==', id).limit(1).get();
                     if (!ishSnap.empty) {
@@ -2312,77 +3212,283 @@
                     const fwSnap = await collFiveWhys.where('planoId', '==', id).limit(1).get();
                     if (!fwSnap.empty) {
                         const fw = fwSnap.docs[0].data();
-                        const whysLi = (fw.whys || []).map((w,i) => `<li><strong>${i+1}º Por quê:</strong> ${escapeHtml(w.resposta||'—')}</li>`).join('');
+                        const whysLi = (fw.whys || []).map((w, i) => `<li><strong>${i+1}º Por quê:</strong> ${escapeHtml(w.resposta||'—')}</li>`).join('');
                         fiveWhysPrintHtml = `<div class="print-tool-section"><h3>❓ 5 Porquês</h3><p><strong>Problema:</strong> ${escapeHtml(fw.problema||'N/A')}</p><ul class="print-whys-list">${whysLi}</ul><p style="margin-top:8px;padding:8px;border:2px solid #c8963e;border-radius:6px;background:#fefdf6;"><strong>🎯 Causa Raiz:</strong> ${escapeHtml(fw.causaRaiz||'Não identificada')}</p></div>`;
                     }
                 }
+
                 const conteudo = el('planoPrintConteudo');
                 conteudo.innerHTML = `
                     <div class="print-header"><div><h2>🏭 DONA RITA EMBALAGENS</h2><p>Plano de Ação</p></div><div><span class="print-badge ${plano.status==='concluido'?'badge-print-concluido':'badge-print-pendente'}">${plano.status==='concluido'?'CONCLUÍDO':'PENDENTE'}</span><p>Assinaturas: ${assinadas}/${total}</p></div></div>
-                    <div class="print-grid"><div class="print-field"><span class="print-label">NC</span><span class="print-value highlight">#${plano.ncId}</span></div><div class="print-field"><span class="print-label">Produto</span><span class="print-value">${escapeHtml(plano.ncProduto)}</span></div><div class="print-field full-width"><span class="print-label">Motivo</span><span class="print-value">${escapeHtml(plano.ncMotivo)}</span></div><div class="print-field full-width"><span class="print-label">Resumo</span><span class="print-value" style="white-space:pre-wrap;">${escapeHtml(plano.resumoReuniao)}</span></div></div>
+                    <div class="print-grid">
+                        <div class="print-field"><span class="print-label">NC</span><span class="print-value highlight">#${plano.ncId}</span></div>
+                        <div class="print-field"><span class="print-label">Produto</span><span class="print-value">${escapeHtml(plano.ncProduto)}</span></div>
+                        <div class="print-field full-width"><span class="print-label">Motivo</span><span class="print-value">${escapeHtml(plano.ncMotivo)}</span></div>
+                        <div class="print-field full-width"><span class="print-label">Resumo</span><span class="print-value" style="white-space:pre-wrap;">${escapeHtml(plano.resumoReuniao)}</span></div>
+                    </div>
                     <h3>👥 PESSOAS ENVOLVIDAS</h3>
                     <table class="print-pessoas-table"><thead><tr><th>#</th><th>Responsável</th><th>Ação</th><th>Prazo</th><th>Status</th><th>Justificativa</th><th>Assinatura</th></tr></thead><tbody>${tabela}</tbody></table>
-                    ${ishikawaPrintHtml}${fiveWhysPrintHtml}
+                    ${ishikawaPrintHtml}
+                    ${fiveWhysPrintHtml}
                     <p style="margin-top:12px;"><strong>📌 Termo:</strong> Cada responsável concorda com as ações designadas.</p>
                     <div class="print-footer">Dona Rita Embalagens © ${agora.getFullYear()} · Plano gerado em ${agora.toLocaleString('pt-BR')}</div>
-                    <div class="no-print" style="text-align:center;margin-top:20px;"><button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir</button><button class="btn btn-outline" onclick="fecharPlanoPrint()"><i class="fas fa-times"></i> Fechar</button></div>`;
-                el('planoPrintArea').style.display = 'block'; el('planoPrintArea').scrollIntoView({ behavior: 'smooth' });
-            } catch (e) { console.error(e); mostrarToast('Erro ao imprimir plano.', 'error'); }
+                    <div class="no-print" style="text-align:center;margin-top:20px;">
+                        <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir</button>
+                        <button class="btn btn-outline" onclick="fecharPlanoPrint()"><i class="fas fa-times"></i> Fechar</button>
+                    </div>`;
+                el('planoPrintArea').style.display = 'block';
+                el('planoPrintArea').scrollIntoView({ behavior: 'smooth' });
+            } catch (e) {
+                console.error(e);
+                mostrarToast('Erro ao imprimir plano: ' + e.message, 'error');
+            }
         }
 
-        function fecharPlanoPrint() { el('planoPrintArea').style.display = 'none'; el('planoPrintConteudo').innerHTML = ''; }
+        function fecharPlanoPrint() { el('planoPrintArea').style.display = 'none';
+            el('planoPrintConteudo').innerHTML = ''; }
 
-        // ==================== FERRAMENTAS ====================
-        function resetarFerramentas() { ishikawaData = { ativo: false, problema: '', categorias: { 'Método':[], 'Máquina':[], 'Medida':[], 'Meio Ambiente':[], 'Mão de Obra':[], 'Material':[] } }; fiveWhysData = { ativo: false, problema: '', whys: [ { pergunta:'Por quê? (1º)', resposta:'' }, { pergunta:'Por quê? (2º)', resposta:'' }, { pergunta:'Por quê? (3º)', resposta:'' }, { pergunta:'Por quê? (4º)', resposta:'' }, { pergunta:'Por quê? (5º)', resposta:'' } ], causaRaiz: '' }; el('toggleIshikawa').checked = false; el('toggleFiveWhys').checked = false; el('toolIshikawaCard').classList.remove('active-tool'); el('toolFiveWhysCard').classList.remove('active-tool'); }
-        async function carregarFerramentasDoPlano(id) {
-            const ishSnap = await collIshikawa.where('planoId', '==', id).limit(1).get();
-            if (!ishSnap.empty) { const d = ishSnap.docs[0].data(); ishikawaData = { ativo: true, problema: d.problema||'', categorias: d.categorias||{}, _docId: ishSnap.docs[0].id }; }
-            const fwSnap = await collFiveWhys.where('planoId', '==', id).limit(1).get();
-            if (!fwSnap.empty) { const d = fwSnap.docs[0].data(); fiveWhysData = { ativo: true, problema: d.problema||'', whys: d.whys||[], causaRaiz: d.causaRaiz||'', _docId: fwSnap.docs[0].id }; }
+        // ==================== FERRAMENTAS: ISHIKAWA & 5 PORQUÊS ====================
+        function resetarFerramentas() {
+            ishikawaData = { ativo: false, problema: '', categorias: { 'Método': [], 'Máquina': [], 'Medida': [], 'Meio Ambiente': [], 'Mão de Obra': [], 'Material': [] } };
+            fiveWhysData = { ativo: false, problema: '', whys: [{ pergunta: 'Por quê? (1º)', resposta: '' }, { pergunta: 'Por quê? (2º)', resposta: '' }, { pergunta: 'Por quê? (3º)', resposta: '' }, { pergunta: 'Por quê? (4º)', resposta: '' }, { pergunta: 'Por quê? (5º)', resposta: '' }], causaRaiz: '' };
+            el('toggleIshikawa').checked = false;
+            el('toggleFiveWhys').checked = false;
+            el('toolIshikawaCard').classList.remove('active-tool');
+            el('toolFiveWhysCard').classList.remove('active-tool');
         }
-        async function salvarFerramentasNoFirestore(planoId) { /* simplificado para já funcionar */ }
-        function toggleTool(tool, checked) { if (tool==='ishikawa') { ishikawaData.ativo = checked??!ishikawaData.ativo; el('toggleIshikawa').checked = ishikawaData.ativo; el('toolIshikawaCard').classList.toggle('active-tool', ishikawaData.ativo); if (ishikawaData.ativo) renderizarIshikawa(); } else { fiveWhysData.ativo = checked??!fiveWhysData.ativo; el('toggleFiveWhys').checked = fiveWhysData.ativo; el('toolFiveWhysCard').classList.toggle('active-tool', fiveWhysData.ativo); if (fiveWhysData.ativo) renderizarFiveWhys(); } }
-        function renderizarFerramentasUI() { el('toggleIshikawa').checked = ishikawaData.ativo; el('toggleFiveWhys').checked = fiveWhysData.ativo; el('toolIshikawaCard').classList.toggle('active-tool', ishikawaData.ativo); el('toolFiveWhysCard').classList.toggle('active-tool', fiveWhysData.ativo); if (ishikawaData.ativo) renderizarIshikawa(); if (fiveWhysData.ativo) renderizarFiveWhys(); }
+
+        async function carregarFerramentasDoPlano(planoId) {
+            const ishSnap = await collIshikawa.where('planoId', '==', planoId).limit(1).get();
+            if (!ishSnap.empty) {
+                const data = ishSnap.docs[0].data();
+                ishikawaData.ativo = true;
+                ishikawaData.problema = data.problema || '';
+                ishikawaData.categorias = data.categorias || JSON.parse(JSON.stringify({ 'Método': [], 'Máquina': [], 'Medida': [], 'Meio Ambiente': [], 'Mão de Obra': [], 'Material': [] }));
+                ishikawaData._docId = ishSnap.docs[0].id;
+            }
+            const fwSnap = await collFiveWhys.where('planoId', '==', planoId).limit(1).get();
+            if (!fwSnap.empty) {
+                const data = fwSnap.docs[0].data();
+                fiveWhysData.ativo = true;
+                fiveWhysData.problema = data.problema || '';
+                fiveWhysData.whys = data.whys || [{ pergunta: 'Por quê? (1º)', resposta: '' }, { pergunta: 'Por quê? (2º)', resposta: '' }, { pergunta: 'Por quê? (3º)', resposta: '' }, { pergunta: 'Por quê? (4º)', resposta: '' }, { pergunta: 'Por quê? (5º)', resposta: '' }];
+                fiveWhysData.causaRaiz = data.causaRaiz || '';
+                fiveWhysData._docId = fwSnap.docs[0].id;
+            }
+        }
+
+        async function salvarFerramentasNoFirestore(planoId) {
+            if (ishikawaData.ativo) {
+                const dadosIsh = { planoId, problema: ishikawaData.problema, categorias: ishikawaData.categorias, dataCriacao: new Date().toISOString(), criadoPor: currentUser.username };
+                if (ishikawaData._docId) await collIshikawa.doc(ishikawaData._docId).update(dadosIsh);
+                else { const ref = await collIshikawa.add(dadosIsh);
+                    ishikawaData._docId = ref.id; }
+            } else if (ishikawaData._docId) { await collIshikawa.doc(ishikawaData._docId).delete();
+                ishikawaData._docId = null; }
+
+            if (fiveWhysData.ativo) {
+                const dadosFw = { planoId, problema: fiveWhysData.problema, whys: fiveWhysData.whys, causaRaiz: fiveWhysData.causaRaiz, dataCriacao: new Date().toISOString(), criadoPor: currentUser.username };
+                if (fiveWhysData._docId) await collFiveWhys.doc(fiveWhysData._docId).update(dadosFw);
+                else { const ref = await collFiveWhys.add(dadosFw);
+                    fiveWhysData._docId = ref.id; }
+            } else if (fiveWhysData._docId) { await collFiveWhys.doc(fiveWhysData._docId).delete();
+                fiveWhysData._docId = null; }
+        }
+
+        function toggleTool(tool, checked) {
+            if (tool === 'ishikawa') {
+                if (checked === undefined) { const checkbox = el('toggleIshikawa');
+                    checkbox.checked = !checkbox.checked;
+                    ishikawaData.ativo = checkbox.checked; } else { ishikawaData.ativo = checked;
+                    el('toggleIshikawa').checked = checked; }
+                if (ishikawaData.ativo) { el('toolIshikawaCard').classList.add('active-tool');
+                    renderizarIshikawa(); } else el('toolIshikawaCard').classList.remove('active-tool');
+            } else if (tool === 'fivewhys') {
+                if (checked === undefined) { const checkbox = el('toggleFiveWhys');
+                    checkbox.checked = !checkbox.checked;
+                    fiveWhysData.ativo = checkbox.checked; } else { fiveWhysData.ativo = checked;
+                    el('toggleFiveWhys').checked = checked; }
+                if (fiveWhysData.ativo) { el('toolFiveWhysCard').classList.add('active-tool');
+                    renderizarFiveWhys(); } else el('toolFiveWhysCard').classList.remove('active-tool');
+            }
+        }
+
+        function renderizarFerramentasUI() {
+            el('toggleIshikawa').checked = ishikawaData.ativo;
+            el('toggleFiveWhys').checked = fiveWhysData.ativo;
+            if (ishikawaData.ativo) { el('toolIshikawaCard').classList.add('active-tool');
+                renderizarIshikawa(); } else el('toolIshikawaCard').classList.remove('active-tool');
+            if (fiveWhysData.ativo) { el('toolFiveWhysCard').classList.add('active-tool');
+                renderizarFiveWhys(); } else el('toolFiveWhysCard').classList.remove('active-tool');
+        }
+
         function renderizarIshikawa() {
-            const svg = `<svg viewBox="0 0 750 380" xmlns="http://www.w3.org/2000/svg"><line x1="40" y1="190" x2="620" y2="190" stroke="#0b3b2f" stroke-width="4"/><polygon points="620,190 680,150 700,190 680,230" fill="#0b3b2f"/><text x="660" y="195" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">PROBLEMA</text>${['Método','Máquina','Medida','Meio Ambiente','Mão de Obra','Material'].map((c,i)=>`<line x1="${120+100*i}" y1="190" x2="${90+100*i}" y2="${i<3?60:320}" stroke="${ishikawaColors[c]}" stroke-width="2.5"/><text x="${85+100*i}" y="${i<3?50:340}" fill="${ishikawaColors[c]}" font-size="12" font-weight="700" text-anchor="middle">${c.toUpperCase().replace(' ',' ')}</text>`).join('')}</svg>`;
-            el('ishikawaSvgContainer').innerHTML = svg;
-            el('ishikawaCategoryBoxes').innerHTML = Object.keys(ishikawaData.categorias).map(cat => `<div class="ishikawa-category-box"><h5><span class="cat-dot" style="background:${ishikawaColors[cat]}"></span> ${cat}</h5><div class="ishikawa-causes-list">${(ishikawaData.categorias[cat]||[]).map((c,i)=>`<span class="ishikawa-cause-tag">${escapeHtml(c)} <span class="remove-cause" onclick="removerCausaIshikawa('${cat}',${i})">×</span></span>`).join('')}</div><div class="ishikawa-cause-input-group"><input type="text" id="ishikawaInput_${cat.replace(/\s+/g,'_')}" placeholder="Nova causa..." onkeydown="if(event.key==='Enter')adicionarCausaIshikawa('${cat}')"><button class="btn btn-sm btn-primary" onclick="adicionarCausaIshikawa('${cat}')"><i class="fas fa-plus"></i></button></div></div>`).join('');
+            const catKeys = Object.keys(ishikawaData.categorias);
+            const svgContainer = el('ishikawaSvgContainer');
+            svgContainer.innerHTML = `<svg viewBox="0 0 750 380" xmlns="http://www.w3.org/2000/svg"><line x1="40" y1="190" x2="620" y2="190" stroke="#0b3b2f" stroke-width="4" stroke-linecap="round"/><polygon points="620,190 680,150 700,190 680,230" fill="#0b3b2f" stroke="#0b3b2f" stroke-width="2"/><text x="660" y="195" fill="#fff" font-size="11" font-weight="800" text-anchor="middle" font-family="Inter,sans-serif">PROBLEMA</text><line x1="120" y1="190" x2="90" y2="60" stroke="${ishikawaColors['Método']}" stroke-width="2.5" stroke-linecap="round"/><line x1="220" y1="190" x2="190" y2="60" stroke="${ishikawaColors['Máquina']}" stroke-width="2.5" stroke-linecap="round"/><line x1="320" y1="190" x2="290" y2="60" stroke="${ishikawaColors['Medida']}" stroke-width="2.5" stroke-linecap="round"/><line x1="120" y1="190" x2="90" y2="320" stroke="${ishikawaColors['Meio Ambiente']}" stroke-width="2.5" stroke-linecap="round"/><line x1="220" y1="190" x2="190" y2="320" stroke="${ishikawaColors['Mão de Obra']}" stroke-width="2.5" stroke-linecap="round"/><line x1="320" y1="190" x2="290" y2="320" stroke="${ishikawaColors['Material']}" stroke-width="2.5" stroke-linecap="round"/><text x="85" y="50" fill="${ishikawaColors['Método']}" font-size="12" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">MÉTODO</text><text x="185" y="50" fill="${ishikawaColors['Máquina']}" font-size="12" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">MÁQUINA</text><text x="285" y="50" fill="${ishikawaColors['Medida']}" font-size="12" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">MEDIDA</text><text x="85" y="340" fill="${ishikawaColors['Meio Ambiente']}" font-size="12" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">MEIO AMB.</text><text x="185" y="340" fill="${ishikawaColors['Mão de Obra']}" font-size="12" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">MÃO DE OBRA</text><text x="285" y="340" fill="${ishikawaColors['Material']}" font-size="12" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">MATERIAL</text></svg>`;
+            const boxesContainer = el('ishikawaCategoryBoxes');
+            boxesContainer.innerHTML = catKeys.map(cat => {
+                const catId = cat.replace(/\s+/g, '_');
+                return `<div class="ishikawa-category-box"><h5><span class="cat-dot" style="background:${ishikawaColors[cat]}"></span> ${cat}</h5><div class="ishikawa-causes-list" id="ishikawaCauses_${catId}">${(ishikawaData.categorias[cat]||[]).map((causa,i) => `<span class="ishikawa-cause-tag">${escapeHtml(causa)} <span class="remove-cause" onclick="removerCausaIshikawa('${cat}',${i})">×</span></span>`).join('')}</div><div class="ishikawa-cause-input-group"><input type="text" id="ishikawaInput_${catId}" placeholder="Nova causa para ${cat}..." onkeydown="if(event.key==='Enter')adicionarCausaIshikawa('${cat}')"><button class="btn btn-sm btn-primary" onclick="adicionarCausaIshikawa('${cat}')"><i class="fas fa-plus"></i></button></div></div>`;
+            }).join('');
         }
-        function adicionarCausaIshikawa(cat) { const inp = el('ishikawaInput_'+cat.replace(/\s+/g,'_')); if (inp && inp.value.trim()) { ishikawaData.categorias[cat].push(inp.value.trim()); inp.value = ''; renderizarIshikawa(); } }
-        function removerCausaIshikawa(cat, i) { ishikawaData.categorias[cat].splice(i,1); renderizarIshikawa(); }
-        function renderizarFiveWhys() { el('fiveWhysContainer').innerHTML = fiveWhysData.whys.map((w,i)=>`<div class="five-whys-item"><div class="five-whys-number">${i+1}</div><div class="five-whys-content"><label>${w.pergunta}</label><textarea oninput="fiveWhysData.whys[${i}].resposta=this.value">${escapeHtml(w.resposta||'')}</textarea></div></div>`).join('')+`<div class="five-whys-root-cause"><label><i class="fas fa-bullseye"></i> Causa Raiz</label><textarea oninput="fiveWhysData.causaRaiz=this.value">${escapeHtml(fiveWhysData.causaRaiz||'')}</textarea></div>`; }
+
+        function adicionarCausaIshikawa(categoria) {
+            const inputId = 'ishikawaInput_' + categoria.replace(/\s+/g, '_');
+            const input = el(inputId);
+            if (!input) return;
+            const valor = input.value.trim();
+            if (!valor) return;
+            if (!ishikawaData.categorias[categoria]) ishikawaData.categorias[categoria] = [];
+            ishikawaData.categorias[categoria].push(valor);
+            input.value = '';
+            renderizarIshikawa();
+        }
+
+        function removerCausaIshikawa(categoria, index) {
+            if (ishikawaData.categorias[categoria]) { ishikawaData.categorias[categoria].splice(index, 1);
+                renderizarIshikawa(); }
+        }
+
+        function renderizarFiveWhys() {
+            const container = el('fiveWhysContainer');
+            container.innerHTML = `${fiveWhysData.whys.map((w, i) => `<div class="five-whys-item"><div class="five-whys-number">${i+1}</div><div class="five-whys-content"><label>${w.pergunta}</label><textarea placeholder="Resposta do ${i+1}º por quê..." oninput="fiveWhysData.whys[${i}].resposta=this.value">${escapeHtml(w.resposta||'')}</textarea></div></div>`).join('')}<div class="five-whys-root-cause"><label><i class="fas fa-bullseye"></i> Causa Raiz Identificada</label><textarea placeholder="Descreva a causa raiz encontrada..." oninput="fiveWhysData.causaRaiz=this.value">${escapeHtml(fiveWhysData.causaRaiz||'')}</textarea></div>`;
+        }
 
         // ==================== RELATÓRIO ====================
-        function atualizarPeriodoRelatorio() { el('grupoDataInicio').style.display = el('relatorioPeriodo').value==='personalizado'?'block':'none'; el('grupoDataFim').style.display = el('relatorioPeriodo').value==='personalizado'?'block':'none'; }
-        function obterIntervaloDatas() { /* ... */ }
-        async function gerarRelatorio() { /* ... */ }
-        function fecharRelatorio() { el('relatorioPrintArea').style.display = 'none'; el('appContainer').style.display = 'flex'; el('relatorioVazio').style.display = 'block'; Object.values(charts).forEach(c=>c?.destroy?.()); }
+        function atualizarPeriodoRelatorio() {
+            const periodo = el('relatorioPeriodo').value;
+            el('grupoDataInicio').style.display = periodo === 'personalizado' ? 'block' : 'none';
+            el('grupoDataFim').style.display = periodo === 'personalizado' ? 'block' : 'none';
+        }
+
+        function obterIntervaloDatas() {
+            const periodo = el('relatorioPeriodo').value;
+            const hoje = new Date();
+            hoje.setHours(23, 59, 59, 999);
+            let ini, fim;
+            switch (periodo) {
+                case 'diario':
+                    ini = new Date(hoje);
+                    ini.setHours(0, 0, 0, 0);
+                    fim = new Date(hoje);
+                    break;
+                case 'semanal':
+                    fim = new Date(hoje);
+                    ini = new Date(hoje);
+                    ini.setDate(ini.getDate() - 6);
+                    ini.setHours(0, 0, 0, 0);
+                    break;
+                case 'mensal':
+                    fim = new Date(hoje);
+                    ini = new Date(hoje);
+                    ini.setDate(ini.getDate() - 29);
+                    ini.setHours(0, 0, 0, 0);
+                    break;
+                case 'personalizado':
+                    const di = el('relatorioDataInicio').value,
+                        df = el('relatorioDataFim').value;
+                    if (!di || !df) { mostrarToast('Selecione as datas.', 'error'); return null; }
+                    ini = new Date(di + 'T00:00:00');
+                    fim = new Date(df + 'T23:59:59');
+                    break;
+                default:
+                    ini = new Date(hoje);
+                    ini.setDate(ini.getDate() - 29);
+                    fim = new Date(hoje);
+            }
+            return { inicio: ini, fim };
+        }
+
+        async function gerarRelatorio() {
+            if (currentUser.role !== 'admin') return mostrarToast('Acesso restrito!', 'error');
+            const intervalo = obterIntervaloDatas();
+            if (!intervalo) return;
+            const { inicio, fim } = intervalo;
+            const ncs = await getNCs();
+            const filtradas = ncs.filter(nc => { const d = new Date(nc.dataAbertura); return d >= inicio && d <= fim; });
+            const abertas = filtradas.filter(n => n.status === 'aberto').length;
+            const resolvidas = filtradas.filter(n => n.status === 'resolvido').length;
+            const total = filtradas.length;
+            const totalRetrabalhadas = filtradas.reduce((s, n) => s + (parseInt(n.quantidadeRetrabalhadas) || 0), 0);
+            const totalDescartada = filtradas.reduce((s, n) => s + (parseInt(n.quantidadeDescartada) || 0), 0);
+            const motivoAgrupado = {};
+            filtradas.forEach(nc => { const c = (nc.motivo || 'Sem motivo').substring(0, 50); if (!motivoAgrupado[c]) motivoAgrupado[c] = { ncs: 0, caixas: 0, itens: 0, retrabalhadas: 0, descartada: 0 };
+                motivoAgrupado[c].ncs++;
+                motivoAgrupado[c].caixas += parseInt(nc.quantidadeCaixas) || 0;
+                motivoAgrupado[c].itens += parseInt(nc.quantidadeItens) || 0;
+                motivoAgrupado[c].retrabalhadas += parseInt(nc.quantidadeRetrabalhadas) || 0;
+                motivoAgrupado[c].descartada += parseInt(nc.quantidadeDescartada) || 0; });
+            const motivosDetalhados = Object.keys(motivoAgrupado).sort((a, b) => motivoAgrupado[b].caixas - motivoAgrupado[a].caixas);
+            const agora = new Date();
+            const conteudo = el('relatorioConteudo');
+            conteudo.innerHTML = `<div class="print-header"><div><h2>🏭 DONA RITA EMBALAGENS</h2><p>Relatório Gerencial</p><p>Período: ${fmtDataCurta(inicio)} a ${fmtDataCurta(fim)}</p></div><div><span class="print-badge" style="background:#0b3b2f;color:#fff;">${total} NCs</span><p>Gerado: ${agora.toLocaleString('pt-BR')}</p></div></div><div class="stats-grid" style="margin-bottom:18px;"><div class="stat-card"><div class="stat-icon blue"><i class="fas fa-clipboard-list"></i></div><div class="stat-info"><h3>${total}</h3><span>Total</span></div></div><div class="stat-card"><div class="stat-icon red"><i class="fas fa-exclamation-circle"></i></div><div class="stat-info"><h3>${abertas}</h3><span>Abertas</span></div></div><div class="stat-card"><div class="stat-icon green"><i class="fas fa-check-circle"></i></div><div class="stat-info"><h3>${resolvidas}</h3><span>Resolvidas</span></div></div><div class="stat-card"><div class="stat-icon orange"><i class="fas fa-redo-alt"></i></div><div class="stat-info"><h3>${totalRetrabalhadas}</h3><span>Retrab.</span></div></div><div class="stat-card"><div class="stat-icon purple"><i class="fas fa-trash-alt"></i></div><div class="stat-info"><h3>${totalDescartada}</h3><span>Desc.</span></div></div></div><div class="charts-grid"><div class="chart-card"><h3>NCs por Motivo</h3><canvas id="chartRelMotivos"></canvas></div><div class="chart-card"><h3>Status</h3><canvas id="chartRelStatus"></canvas></div></div><div class="chart-card" style="margin-top:18px;"><h3>Caixas por Motivo</h3><canvas id="chartRelCaixas"></canvas></div><div class="table-card" style="margin-top:18px;"><div class="table-header"><h3>Detalhamento</h3></div><table><thead><tr><th>Motivo</th><th>NCs</th><th>Caixas</th><th>Itens</th><th>Retrab.</th><th>Desc.</th></tr></thead><tbody>${motivosDetalhados.map(m=>`<tr><td>${escapeHtml(m)}</td><td>${motivoAgrupado[m].ncs}</td><td>${motivoAgrupado[m].caixas}</td><td>${motivoAgrupado[m].itens}</td><td>${motivoAgrupado[m].retrabalhadas}</td><td>${motivoAgrupado[m].descartada}</td></tr>`).join('')}</tbody></table></div><div class="print-footer">Dona Rita Embalagens © ${agora.getFullYear()} · Relatório gerencial</div><div class="no-print" style="text-align:center;margin-top:20px;"><button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir / PDF</button><button class="btn btn-outline" onclick="fecharRelatorio()"><i class="fas fa-times"></i> Fechar</button></div>`;
+            el('relatorioPrintArea').style.display = 'block';
+            el('appContainer').style.display = 'none';
+            el('relatorioVazio').style.display = 'none';
+            el('relatorioPrintArea').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                Object.values(charts).forEach(c => c?.destroy?.());
+                if (motivosDetalhados.length) { const ctxM = el('chartRelMotivos'),
+                        ctxS = el('chartRelStatus'),
+                        ctxC = el('chartRelCaixas'); if (ctxM) charts.relMotivos = new Chart(ctxM, { type: 'doughnut', data: { labels: motivosDetalhados, datasets: [{ data: motivosDetalhados.map(m => motivoAgrupado[m].ncs), backgroundColor: ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a', '#2d7a4f', '#5b3a6e'] }] } }); if (ctxS) charts.relStatus = new Chart(ctxS, { type: 'bar', data: { labels: ['Abertas', 'Resolvidas'], datasets: [{ data: [abertas, resolvidas], backgroundColor: ['#b53b3b', '#2d7a4f'] }] } }); if (ctxC) charts.relCaixas = new Chart(ctxC, { type: 'bar', data: { labels: motivosDetalhados, datasets: [{ label: 'Caixas', data: motivosDetalhados.map(m => motivoAgrupado[m].caixas), backgroundColor: '#1f6d52' }] } }); }
+            }, 200);
+        }
+
+        function fecharRelatorio() { el('relatorioPrintArea').style.display = 'none';
+            el('appContainer').style.display = 'flex';
+            el('relatorioVazio').style.display = 'block';
+            Object.values(charts).forEach(c => c?.destroy?.()); }
 
         // ==================== USUÁRIOS ====================
-        async function getUsuarios() { const snap = await collUsuarios.get(); return snap.docs.map(d=>({id:d.id,...d.data()})); }
-        async function criarUsuarioFirestore(u,p,r) { await collUsuarios.add({username:u,password:p,role:r,createdAt:new Date().toISOString()}); }
-        async function excluirUsuarioFirestore(user) { const snap = await collUsuarios.where('username','==',user).get(); snap.forEach(d=>d.ref.delete()); }
+        async function getUsuarios() { const snap = await collUsuarios.get(); return snap.docs.map(d => ({ id: d.id, ...d.data() })); }
+        async function criarUsuarioFirestore(user, pass, role) { await collUsuarios.add({ username: user, password: pass, role, createdAt: new Date().toISOString() }); }
+        async function excluirUsuarioFirestore(user) { const snap = await collUsuarios.where('username', '==', user).get();
+            snap.forEach(d => d.ref.delete()); }
+
         async function renderUsuarios() {
-            if (currentUser?.role!=='admin') return;
+            if (currentUser?.role !== 'admin') return;
             const usuarios = await getUsuarios();
-            el('tbodyUsuarios').innerHTML = usuarios.map(u=>`<tr><td><strong>${escapeHtml(u.username)}</strong></td><td><span class="badge ${u.role==='admin'?'badge-resolved':'badge-open'}">${u.role}</span></td><td>${fmtDataCurta(u.createdAt)}</td><td>${u.username!=='qualidade'?`<button class="btn btn-sm btn-danger" onclick="excluirUsuario('${u.username}')"><i class="fas fa-trash"></i></button>`:'Admin principal'}</td></tr>`).join('');
+            el('tbodyUsuarios').innerHTML = usuarios.map(u => `<tr><td><strong>${escapeHtml(u.username)}</strong></td><td><span class="badge ${u.role==='admin'?'badge-resolved':'badge-open'}">${u.role}</span></td><td>${fmtDataCurta(u.createdAt)}</td><td>${u.username!=='qualidade'?`<button class="btn btn-sm btn-danger" onclick="excluirUsuario('${u.username}')"><i class="fas fa-trash"></i></button>`:'Admin principal'}</td></tr>`).join('');
         }
+
         async function criarUsuario() {
-            if (currentUser?.role!=='admin') return mostrarToast('Apenas administradores!','error');
-            const u = el('newUsername').value.trim(), p = el('newPassword').value.trim(), r = el('newRole').value;
-            if (!u||!p||u.length<3||p.length<3) return mostrarToast('Preencha corretamente!','error');
-            if ((await getUsuarios()).find(us=>us.username===u)) return mostrarToast('Usuário já existe!','error');
-            await criarUsuarioFirestore(u,p,r); el('newUsername').value=el('newPassword').value=''; await renderUsuarios(); mostrarToast('Usuário criado!','success');
+            if (currentUser?.role !== 'admin') return mostrarToast('Apenas administradores!', 'error');
+            const username = el('newUsername').value.trim();
+            const password = el('newPassword').value.trim();
+            const role = el('newRole').value;
+            if (!username || !password || username.length < 3 || password.length < 3) return mostrarToast('Preencha corretamente!', 'error');
+            if ((await getUsuarios()).find(u => u.username === username)) return mostrarToast('Usuário já existe!', 'error');
+            await criarUsuarioFirestore(username, password, role);
+            el('newUsername').value = el('newPassword').value = '';
+            await renderUsuarios();
+            mostrarToast('Usuário criado!', 'success');
         }
+
         async function excluirUsuario(username) {
-            if (username==='qualidade') return mostrarToast('Não é possível excluir o admin principal!','error');
+            if (username === 'qualidade') return mostrarToast('Não é possível excluir o admin principal!', 'error');
             if (!confirm(`Excluir usuário "${username}"?`)) return;
-            await excluirUsuarioFirestore(username); await renderUsuarios(); mostrarToast('Usuário excluído.','info');
+            await excluirUsuarioFirestore(username);
+            await renderUsuarios();
+            mostrarToast('Usuário excluído.', 'info');
         }
 
         // ==================== EVENTOS GLOBAIS ====================
-        document.addEventListener('keydown', e => { if (e.key==='Escape') { fecharModalDetalhes(); fecharModalFoto(); fecharModalQR(); fecharModalVerPlano(); if (el('printArea').style.display==='block') fecharPrint(); if (el('relatorioPrintArea').style.display==='block') fecharRelatorio(); if (el('planoPrintArea').style.display==='block') fecharPlanoPrint(); } });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                fecharModalDetalhes();
+                fecharModalFoto();
+                fecharModalQR();
+                fecharModalVerPlano();
+                fecharModalAssinatura();
+                if (el('printArea').style.display === 'block') fecharPrint();
+                if (el('relatorioPrintArea').style.display === 'block') fecharRelatorio();
+                if (el('planoPrintArea').style.display === 'block') fecharPlanoPrint();
+            }
+        });
+
         setInterval(async () => { if (currentUser && el('page-dashboard').classList.contains('active')) await renderDashboard(); }, 60000);
+
         init();
     </script>
 </body>
