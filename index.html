@@ -1902,7 +1902,7 @@
                         </div>
                     </div>
                     <div style="overflow-x:auto;">
-                        <table><thead><tr><th>ID</th><th>Produto</th><th>Motivo</th><th>Quantidades</th><th>Palete</th><th>Status</th><th>Tempo</th><th>Ações</th></tr></thead><tbody id="tbodyNCs"></tbody></table>
+                        <table><thead><tr><th>ID</th><th>Produto</th><th>Motivo</th><th>Quantidades</th><th>Palete</th><th>Turno</th><th>Status</th><th>Tempo</th><th>Ações</th></tr></thead><tbody id="tbodyNCs"></tbody></table>
                     </div>
                     <div class="empty-state" id="emptyLista" style="display:none;"><i class="fas fa-inbox"></i><p>Nenhuma não conformidade encontrada.</p></div>
                 </div>
@@ -1952,7 +1952,7 @@
                 <div class="table-card" id="tabelaPlanosCard">
                     <div class="table-header"><h3 id="tituloTabelaPlanos">NCs e Planos de Ação</h3></div>
                     <div style="overflow-x:auto;">
-                        <table><thead><tr><th>NC</th><th>Produto</th><th>Motivo</th><th>Plano de Ação</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tbodyPlanos"></tbody></table>
+                        <table><thead><tr><th>NC</th><th>Produto</th><th>Motivo</th><th>Turno</th><th>Plano de Ação</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tbodyPlanos"></tbody></table>
                     </div>
                     <div class="empty-state" id="emptyPlanos" style="display:none;"><i class="fas fa-tasks"></i><p>Nenhuma NC encontrada.</p></div>
                 </div>
@@ -2242,6 +2242,20 @@
             return { texto: txt.trim() };
         }
 
+        // ==================== FUNÇÃO DE TURNO ====================
+        function getTurno() {
+            const agora = new Date();
+            const hora = agora.getHours();
+            const minuto = agora.getMinutes();
+            const totalMinutos = hora * 60 + minuto;
+            // Turno 1: 06:00 (360) até 14:19 (859) -> 14:20 já é turno 2
+            if (totalMinutos >= 6 * 60 && totalMinutos < 14 * 60 + 20) return 'Turno 1';
+            // Turno 2: 14:20 (860) até 22:19 (1339) -> 22:20 é turno 3
+            else if (totalMinutos >= 14 * 60 + 20 && totalMinutos < 22 * 60 + 20) return 'Turno 2';
+            // Turno 3: 22:20 (1340) até 05:59 (359) do dia seguinte
+            else return 'Turno 3';
+        }
+
         // ==================== TOAST ====================
         function mostrarToast(msg, tipo) {
             const container = el('toastContainer');
@@ -2292,15 +2306,6 @@
             }
         }
 
-        function verificarModoVisitante() {
-            const p = new URLSearchParams(location.search);
-            if (p.get('view') === 'readonly' && p.get('id')) {
-                iniciarModoVisitante(p.get('id'));
-                return true;
-            }
-            return false;
-        }
-
         async function iniciarModoVisitante(id) {
             const ncs = await getNCs();
             const nc = ncs.find(n => n.id === id);
@@ -2314,6 +2319,7 @@
                     <div class="detail-row"><strong>Produto:</strong><span>${escapeHtml(nc.produto)}</span></div>
                     <div class="detail-row"><strong>Palete:</strong><span>${escapeHtml(nc.palete)}</span></div>
                     <div class="detail-row"><strong>Motivo:</strong><span>${escapeHtml(nc.motivo)}</span></div>
+                    <div class="detail-row"><strong>Turno:</strong><span>${escapeHtml(nc.turno || '-')}</span></div>
                     <div class="detail-row"><strong>Qtd. Caixas:</strong><span>${nc.quantidadeCaixas ?? '-'}</span></div>
                     <div class="detail-row"><strong>Qtd. Itens:</strong><span>${nc.quantidadeItens ?? '-'}</span></div>
                     <div class="detail-row"><strong>Qtd. Retrabalhadas:</strong><span>${nc.quantidadeRetrabalhadas || 0}</span></div>
@@ -2535,6 +2541,7 @@
                         <td>${escapeHtml((nc.motivo||'').substring(0,40))}${(nc.motivo||'').length>40?'...':''}</td>
                         <td>${formatarQuantidade(nc)}</td>
                         <td><span style="background:#e9f3ef;padding:3px 10px;border-radius:12px;font-weight:600;font-size:0.78rem;">${escapeHtml(nc.palete||'-')}</span></td>
+                        <td><span style="background:#e2eff7;padding:3px 10px;border-radius:12px;font-weight:600;font-size:0.78rem;">${escapeHtml(nc.turno||'-')}</span></td>
                         <td><span class="badge ${nc.status==='aberto'?'badge-open':'badge-resolved'}">${nc.status==='aberto'?'Aberto':'Resolvido'}</span></td>
                         <td>${tempoHtml}</td>
                         <td class="actions-cell">
@@ -2645,6 +2652,7 @@
                 const idManual = parseInt(idRaw, 10);
                 if (isNaN(idManual) || idManual < 1 || String(idManual) !== idRaw) return mostrarToast('Número inválido!', 'error');
                 if ((await collNCs.doc(String(idManual)).get()).exists) return mostrarToast(`A NC #${idManual} já existe!`, 'error');
+                const turnoAtual = getTurno();
                 await collNCs.doc(String(idManual)).set({
                     id: String(idManual),
                     produto,
@@ -2660,7 +2668,8 @@
                     dataAbertura: new Date().toISOString(),
                     dataResolucao: null,
                     criadoPor: currentUser.username,
-                    historico: [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou', detalhes: 'NC aberta' }]
+                    turno: turnoAtual,
+                    historico: [{ data: new Date().toISOString(), usuario: currentUser.username, acao: 'criou', detalhes: `NC aberta no ${turnoAtual}` }]
                 });
                 mostrarToast('NC #' + idManual + ' criada!', 'success');
             }
@@ -2736,6 +2745,7 @@
                 <div class="detail-row"><strong>Produto:</strong><span>${escapeHtml(nc.produto)}</span></div>
                 <div class="detail-row"><strong>Palete:</strong><span>${escapeHtml(nc.palete)}</span></div>
                 <div class="detail-row"><strong>Motivo:</strong><span>${escapeHtml(nc.motivo)}</span></div>
+                <div class="detail-row"><strong>Turno:</strong><span>${escapeHtml(nc.turno||'-')}</span></div>
                 <div class="detail-row"><strong>Qtd. Caixas:</strong><span>${nc.quantidadeCaixas ?? '-'}</span></div>
                 <div class="detail-row"><strong>Qtd. Itens:</strong><span>${nc.quantidadeItens ?? '-'}</span></div>
                 <div class="detail-row"><strong>Qtd. Retrabalhadas:</strong><span>${nc.quantidadeRetrabalhadas || 0}</span></div>
@@ -2803,6 +2813,7 @@
                             <div class="print-field"><span class="print-label">NÚMERO DA NC</span><span class="print-value highlight">#${id}</span></div>
                             <div class="print-field"><span class="print-label">PRODUTO</span><span class="print-value highlight">${escapeHtml(nc.produto)}</span></div>
                             <div class="print-field"><span class="print-label">PALETE</span><span class="print-value highlight">${escapeHtml(nc.palete)}</span></div>
+                            <div class="print-field"><span class="print-label">TURNO</span><span class="print-value highlight">${escapeHtml(nc.turno||'-')}</span></div>
                             <div class="print-field"><span class="print-label">TEMPO EM ABERTO</span><span class="print-value" style="color:#b55a1e;font-size:22px;font-weight:800;">${tempo.texto}</span></div>
                             <div class="print-field"><span class="print-label">QTD. CAIXAS</span><span class="print-value">${nc.quantidadeCaixas ?? '-'}</span></div>
                             <div class="print-field"><span class="print-label">QTD. ITENS</span><span class="print-value">${nc.quantidadeItens ?? '-'}</span></div>
@@ -2839,7 +2850,7 @@
             const nc = (ncsCache || []).find(n => n.id === id);
             if (!nc) return mostrarToast('NC não encontrada!', 'error');
             const tempo = nc.status === 'aberto' ? calcularTempoDetalhado(nc).texto : `${calcularDias(nc)}d (fechado)`;
-            const msg = `🚨 *ALERTA DE RETRABALHO*\n🏭 Dona Rita Embalagens\n\n📋 NC #${nc.id}\n📦 ${nc.produto}\n🏷️ ${nc.palete}\n⚠️ ${nc.motivo}\n📊 Caixas: ${nc.quantidadeCaixas??0} | Itens: ${nc.quantidadeItens??0} | Retrab.: ${nc.quantidadeRetrabalhadas||0} | Desc.: ${nc.quantidadeDescartada||0}\n🔧 Ação: ${nc.acao}\n⏱️ Tempo: ${tempo}\n📎 ${location.href.split('?')[0]}?view=readonly&id=${nc.id}`;
+            const msg = `🚨 *ALERTA DE RETRABALHO*\n🏭 Dona Rita Embalagens\n\n📋 NC #${nc.id}\n📦 ${nc.produto}\n🏷️ ${nc.palete}\n🕒 Turno: ${nc.turno||'-'}\n⚠️ ${nc.motivo}\n📊 Caixas: ${nc.quantidadeCaixas??0} | Itens: ${nc.quantidadeItens??0} | Retrab.: ${nc.quantidadeRetrabalhadas||0} | Desc.: ${nc.quantidadeDescartada||0}\n🔧 Ação: ${nc.acao}\n⏱️ Tempo: ${tempo}\n📎 ${location.href.split('?')[0]}?view=readonly&id=${nc.id}`;
             const url = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? `whatsapp://send?text=${encodeURIComponent(msg)}` : `https://web.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
             window.open(url, '_blank');
             mostrarToast('📱 Abrindo WhatsApp...', 'info');
@@ -2884,7 +2895,8 @@
                     statusHtml = '<span class="badge badge-nao-assinado">⚠️ Sem plano</span>';
                     acoes = isAdmin ? `<button class="btn btn-sm btn-primary" onclick="criarPlanoParaNC('${nc.id}')"><i class="fas fa-plus"></i> Criar Plano</button>` : '<span style="color:#8b9a94;">Aguardando</span>';
                 }
-                return `<tr><td><strong>#${nc.id}</strong></td><td>${escapeHtml(nc.produto||'-')}</td><td>${escapeHtml((nc.motivo||'').substring(0,40))}</td><td>${plano ? escapeHtml((plano.resumoReuniao||'').substring(0,50))+'...' : '-'}</td><td>${statusHtml}</td><td class="actions-cell">${acoes}</td></tr>`;
+                const turnoBadge = `<span style="background:#e2eff7;padding:3px 10px;border-radius:12px;font-weight:600;font-size:0.78rem;">${escapeHtml(nc.turno||'-')}</span>`;
+                return `<tr><td><strong>#${nc.id}</strong></td><td>${escapeHtml(nc.produto||'-')}</td><td>${escapeHtml((nc.motivo||'').substring(0,40))}</td><td>${turnoBadge}</td><td>${plano ? escapeHtml((plano.resumoReuniao||'').substring(0,50))+'...' : '-'}</td><td>${statusHtml}</td><td class="actions-cell">${acoes}</td></tr>`;
             }).join('');
         }
 
@@ -2895,7 +2907,7 @@
             const nc = doc.data();
             el('editPlanoId').value = '';
             el('planoNcId').value = ncId;
-            el('planoNcInfo').value = `NC #${ncId} - ${nc.produto} - ${nc.palete}`;
+            el('planoNcInfo').value = `NC #${ncId} - ${nc.produto} - ${nc.palete} - ${nc.turno||''}`;
             el('planoResumo').value = '';
             pessoasPlano = [];
             resetarFerramentas();
@@ -2976,6 +2988,7 @@
                 ncProduto: ncDoc.data()?.produto || '',
                 ncMotivo: ncDoc.data()?.motivo || '',
                 ncPalete: ncDoc.data()?.palete || '',
+                ncTurno: ncDoc.data()?.turno || '',
                 temIshikawa: ishikawaData.ativo,
                 temFiveWhys: fiveWhysData.ativo,
             };
@@ -3038,7 +3051,7 @@
 
                 el('verPlanoInner').innerHTML = `
                     <h2>Plano de Ação - NC #${plano.ncId}</h2>
-                    <p>Produto: ${escapeHtml(plano.ncProduto)} | Palete: ${escapeHtml(plano.ncPalete)}</p>
+                    <p>Produto: ${escapeHtml(plano.ncProduto)} | Palete: ${escapeHtml(plano.ncPalete)} | Turno: ${escapeHtml(plano.ncTurno||'-')}</p>
                     <p>Motivo: ${escapeHtml(plano.ncMotivo)}</p>
                     <p>Status: <span class="badge ${plano.status==='concluido'?'badge-concluido':'badge-pendente'}">${plano.status==='concluido'?'Concluído':'Pendente'}</span></p>
                     <h4>Resumo</h4><p style="white-space:pre-wrap;">${escapeHtml(plano.resumoReuniao)}</p>
@@ -3228,6 +3241,7 @@
                     <div class="print-grid">
                         <div class="print-field"><span class="print-label">NC</span><span class="print-value highlight">#${plano.ncId}</span></div>
                         <div class="print-field"><span class="print-label">Produto</span><span class="print-value">${escapeHtml(plano.ncProduto)}</span></div>
+                        <div class="print-field"><span class="print-label">Turno</span><span class="print-value">${escapeHtml(plano.ncTurno||'-')}</span></div>
                         <div class="print-field full-width"><span class="print-label">Motivo</span><span class="print-value">${escapeHtml(plano.ncMotivo)}</span></div>
                         <div class="print-field full-width"><span class="print-label">Resumo</span><span class="print-value" style="white-space:pre-wrap;">${escapeHtml(plano.resumoReuniao)}</span></div>
                     </div>
