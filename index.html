@@ -265,6 +265,8 @@
         .print-ishikawa-table th { background:#f0f4f1; padding:6px 8px; text-align:left; font-weight:700; font-size:9px; text-transform:uppercase; border:1px solid #dce5e1; width:16%; }
         .print-ishikawa-table td { padding:6px 8px; border:1px solid #dce5e1; vertical-align:top; font-size:10px; }
         .print-whys-list { list-style:none; padding:0; } .print-whys-list li { padding:6px 10px; margin-bottom:4px; background:#fafafa; border-left:4px solid #c8963e; border-radius:0 6px 6px 0; font-size:11px; } .print-whys-list li strong { color:#b5792a; }
+        .dashboard-refresh-hint { font-size:0.7rem; color:var(--text-muted); margin-left:10px; font-weight:400; letter-spacing:0; }
+        .dashboard-refresh-hint i { font-size:0.65rem; margin-right:3px; }
     </style>
 </head>
 <body>
@@ -297,7 +299,7 @@
         <main class="main-content" id="mainContent">
             <button class="mobile-menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
             <div class="page active" id="page-dashboard">
-                <div class="page-header"><h1><i class="fas fa-chart-pie"></i> Dashboard</h1><p class="breadcrumb">Visão geral das não conformidades</p></div>
+                <div class="page-header"><h1><i class="fas fa-chart-pie"></i> Dashboard <span class="dashboard-refresh-hint"><i class="fas fa-sync-alt"></i> Atualização automática a cada 5 min</span></h1><p class="breadcrumb">Visão geral das não conformidades</p></div>
                 <div class="stats-grid" id="statsGrid"></div>
                 <div class="charts-grid"><div class="chart-card"><h3><i class="fas fa-tags"></i> NCs por Motivo</h3><canvas id="chartMotivos"></canvas></div><div class="chart-card"><h3><i class="fas fa-chart-bar"></i> Status das NCs</h3><canvas id="chartStatus"></canvas></div></div>
                 <div class="chart-card" style="margin-top:18px;"><h3><i class="fas fa-chart-line"></i> Dias em Aberto (Top 10)</h3><canvas id="chartDias"></canvas></div>
@@ -387,6 +389,13 @@
             const collIshikawa = db.collection('ishikawa_diagrams');
             const collFiveWhys = db.collection('five_whys');
 
+            // ============ OTIMIZAÇÃO DE LEITURA: CONSTANTES DE CACHE ============
+            const CACHE_DURATION_NCS = 120000;      // 2 minutos para NCs
+            const CACHE_DURATION_PLANOS = 120000;   // 2 minutos para planos
+            const AUTO_REFRESH_INTERVAL = 300000;   // 5 minutos (reduzido de 60s para economizar leituras)
+            const USUARIOS_CACHE_DURATION = 600000; // 10 minutos para lista de usuários (muda raramente)
+            // ==================================================================
+
             const state = {
                 currentUser: null,
                 fotosNovas: [],
@@ -395,11 +404,14 @@
                 liveTimers: {},
                 ncsCache: null,
                 planosCache: null,
+                usuariosCache: null,
+                cacheTimestamp: { ncs: 0, planos: 0, usuarios: 0 },
                 assinatura: { planoId: null, canvas: null, ctx: null, drawing: false },
                 ferramentas: {
                     ishikawa: { ativo: false, problema: '', categorias: { 'Método':[], 'Máquina':[], 'Medida':[], 'Meio Ambiente':[], 'Mão de Obra':[], 'Material':[] } },
                     fiveWhys: { ativo: false, problema: '', whys: [ { pergunta:'Por quê? (1º)',resposta:'' }, { pergunta:'Por quê? (2º)',resposta:'' }, { pergunta:'Por quê? (3º)',resposta:'' }, { pergunta:'Por quê? (4º)',resposta:'' }, { pergunta:'Por quê? (5º)',resposta:'' } ], causaRaiz: '' }
-                }
+                },
+                autoRefreshIntervalId: null
             };
             const charts = {};
 
@@ -462,32 +474,77 @@
                 setTimeout(() => t.remove(), 3200);
             }
 
+            // ============ FUNÇÕES DE CACHE OTIMIZADAS ============
+            function isCacheValid(tipo) {
+                const agora = Date.now();
+                switch(tipo) {
+                    case 'ncs': return state.ncsCache !== null && (agora - state.cacheTimestamp.ncs) < CACHE_DURATION_NCS;
+                    case 'planos': return state.planosCache !== null && (agora - state.cacheTimestamp.planos) < CACHE_DURATION_PLANOS;
+                    case 'usuarios': return state.usuariosCache !== null && (agora - state.cacheTimestamp.usuarios) < USUARIOS_CACHE_DURATION;
+                    default: return false;
+                }
+            }
+
             async function getNCs(forceRefresh = false) {
-                if (!forceRefresh && state.ncsCache) return state.ncsCache;
+                if (!forceRefresh && isCacheValid('ncs')) {
+                    return state.ncsCache;
+                }
                 const snap = await collNCs.orderBy('dataAbertura', 'desc').get();
                 state.ncsCache = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                state.cacheTimestamp.ncs = Date.now();
                 return state.ncsCache;
             }
 
             async function getPlanosAcao(forceRefresh = false) {
-                if (!forceRefresh && state.planosCache) return state.planosCache;
+                if (!forceRefresh && isCacheValid('planos')) {
+                    return state.planosCache;
+                }
                 const snap = await collPlanos.orderBy('dataCriacao', 'desc').get();
                 state.planosCache = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                state.cacheTimestamp.planos = Date.now();
                 return state.planosCache;
             }
 
-            function invalidateCache() {
-                state.ncsCache = null;
-                state.planosCache = null;
+            async function getUsuarios(forceRefresh = false) {
+                if (!forceRefresh && isCacheValid('usuarios')) {
+                    return state.usuariosCache;
+                }
+                const snap = await collUsuarios.get();
+                state.usuariosCache = snap.docs.map(d=>({ id:d.id, ...d.data() }));
+                state.cacheTimestamp.usuarios = Date.now();
+                return state.usuariosCache;
             }
 
+            function invalidateCache(tipo = null) {
+                if (!tipo || tipo === 'ncs') {
+                    state.ncsCache = null;
+                    state.cacheTimestamp.ncs = 0;
+                }
+                if (!tipo || tipo === 'planos') {
+                    state.planosCache = null;
+                    state.cacheTimestamp.planos = 0;
+                }
+                if (!tipo || tipo === 'usuarios') {
+                    state.usuariosCache = null;
+                    state.cacheTimestamp.usuarios = 0;
+                }
+            }
+
+            function invalidateAllCaches() {
+                invalidateCache('ncs');
+                invalidateCache('planos');
+                invalidateCache('usuarios');
+            }
+            // =====================================================
+
             async function init() {
-                const usuariosExistentes = await getUsuarios();
+                const usuariosExistentes = await getUsuarios(true); // primeira carga força refresh
                 if (!usuariosExistentes.length) {
                     await Promise.all([
                         criarUsuarioFirestore('qualidade', '1304', 'admin'),
                         criarUsuarioFirestore('operador', '1234', 'padrao')
                     ]);
+                    invalidateCache('usuarios');
                 }
                 if (verificarModoVisitante()) return;
                 const saved = localStorage.getItem('sistemaNC_currentUser');
@@ -496,7 +553,28 @@
                     el('loginScreen').classList.add('hidden');
                     el('appContainer').classList.add('visible');
                     atualizarUIUsuario();
+                    iniciarAutoRefresh();
                     await navegar('dashboard', document.querySelector('[data-page="dashboard"]'));
+                }
+            }
+
+            function iniciarAutoRefresh() {
+                if (state.autoRefreshIntervalId) clearInterval(state.autoRefreshIntervalId);
+                state.autoRefreshIntervalId = setInterval(() => {
+                    // Só atualiza se a página estiver visível e o dashboard ativo
+                    if (document.visibilityState === 'visible' && el('page-dashboard').classList.contains('active')) {
+                        // Força refresh apenas se o cache expirou
+                        if (!isCacheValid('ncs') || !isCacheValid('planos')) {
+                            renderDashboard();
+                        }
+                    }
+                }, AUTO_REFRESH_INTERVAL);
+            }
+
+            function pararAutoRefresh() {
+                if (state.autoRefreshIntervalId) {
+                    clearInterval(state.autoRefreshIntervalId);
+                    state.autoRefreshIntervalId = null;
                 }
             }
 
@@ -562,6 +640,7 @@
                     el('loginScreen').classList.add('hidden');
                     el('appContainer').classList.add('visible');
                     atualizarUIUsuario();
+                    iniciarAutoRefresh();
                     await navegar('dashboard', document.querySelector('[data-page="dashboard"]'));
                     err.textContent = '';
                     mostrarToast('Bem-vindo(a), ' + found.username + '!', 'success');
@@ -576,6 +655,7 @@
             window.logout = function() {
                 Object.values(state.liveTimers).forEach(clearInterval);
                 state.liveTimers = {};
+                pararAutoRefresh();
                 state.currentUser = null;
                 localStorage.removeItem('sistemaNC_currentUser');
                 el('appContainer').classList.remove('visible');
@@ -586,7 +666,7 @@
                 state.fotosExistentes = [];
                 state.pessoasPlano = [];
                 resetarFerramentas();
-                invalidateCache();
+                invalidateAllCaches();
                 el('photoPreviewContainer').innerHTML = el('existingPhotosContainer').innerHTML = '';
                 el('editNcId').value = el('editPlanoId').value = '';
             };
@@ -788,7 +868,7 @@
                     });
                     mostrarToast('NC #' + idManual + ' criada!', 'success');
                 }
-                invalidateCache();
+                invalidateCache('ncs');
                 prepararFormNova();
                 await navegar('lista', document.querySelector('[data-page="lista"]'));
                 await renderDashboard();
@@ -823,19 +903,19 @@
                 if (state.currentUser.role !== 'admin') return mostrarToast('Apenas administradores!', 'error');
                 if (!confirm('Excluir NC #' + id + '?')) return;
                 await collNCs.doc(id).delete();
-                invalidateCache();
+                invalidateCache('ncs');
                 await renderListaNCs();
                 await renderDashboard();
                 mostrarToast('NC #' + id + ' excluída.', 'info');
             };
             window.resolverNC = async function(id) {
                 await collNCs.doc(id).update({ status: 'resolvido', dataResolucao: new Date().toISOString(), historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: state.currentUser.username, acao: 'resolveu', detalhes: 'NC resolvida' }) });
-                invalidateCache(); await renderListaNCs(); await renderDashboard();
+                invalidateCache('ncs'); await renderListaNCs(); await renderDashboard();
                 mostrarToast('NC #' + id + ' resolvida!', 'success');
             };
             window.reabrirNC = async function(id) {
                 await collNCs.doc(id).update({ status: 'aberto', dataResolucao: null, historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: state.currentUser.username, acao: 'reabriu', detalhes: 'NC reaberta' }) });
-                invalidateCache(); await renderListaNCs(); await renderDashboard();
+                invalidateCache('ncs'); await renderListaNCs(); await renderDashboard();
                 mostrarToast('NC #' + id + ' reaberta.', 'info');
             };
 
@@ -893,8 +973,9 @@
             window.fecharPrint = () => { el('printArea').style.display = 'none'; el('printArea').innerHTML = ''; };
 
             window.enviarAlertaWhatsApp = function(id) {
+                // Usa o cache sem forçar leitura
                 const nc = (state.ncsCache || []).find(n => n.id === id);
-                if (!nc) return mostrarToast('NC não encontrada!', 'error');
+                if (!nc) return mostrarToast('NC não encontrada no cache!', 'error');
                 const tempo = nc.status === 'aberto' ? calcularTempoDetalhado(nc).texto : `${calcularDias(nc)}d (fechado)`;
                 const msg = `🚨 *ALERTA DE RETRABALHO*\n🏭 Dona Rita Embalagens\n\n📋 NC #${nc.id}\n📦 ${nc.produto}\n🏷️ ${nc.palete}\n🕒 Turno: ${nc.turno||'-'}\n⚠️ ${nc.motivo}\n📊 Caixas: ${nc.quantidadeCaixas??0} | Itens: ${nc.quantidadeItens??0} | Retrab.: ${nc.quantidadeRetrabalhadas||0} | Desc.: ${nc.quantidadeDescartada||0}\n🔧 Ação: ${nc.acao}\n⏱️ Tempo: ${tempo}\n📎 ${location.href.split('?')[0]}?view=readonly&id=${nc.id}`;
                 const url = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? `whatsapp://send?text=${encodeURIComponent(msg)}` : `https://web.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
@@ -1006,7 +1087,7 @@
                 if (editId) { await collPlanos.doc(editId).update(dados); mostrarToast('Plano atualizado!', 'success'); }
                 else { dados.dataCriacao = new Date().toISOString(); dados.historico = [{ data: new Date().toISOString(), usuario: state.currentUser.username, acao:'criou', detalhes:'Plano criado' }]; const ref = await collPlanos.add(dados); planoId = ref.id; mostrarToast('Plano criado!', 'success'); }
                 await salvarFerramentasNoFirestore(planoId);
-                invalidateCache();
+                invalidateCache('planos');
                 cancelarPlano();
                 await navegar('planos');
                 await renderDashboard();
@@ -1081,7 +1162,7 @@
                 pessoas[idx] = { ...pessoas[idx], assinado: true, dataAssinatura: new Date().toISOString(), justificativa: just, assinaturaDigital: dataUrl };
                 const concluido = pessoas.every(p => p.assinado);
                 await docRef.update({ pessoas, status: concluido ? 'concluido' : 'aberto', historico: firebase.firestore.FieldValue.arrayUnion({ data: new Date().toISOString(), usuario: state.currentUser.username, acao: 'assinatura_digital', detalhes: 'Assinatura digital registrada' + (just ? ' com justificativa' : '') }) });
-                invalidateCache();
+                invalidateCache('planos');
                 fecharModalAssinatura();
                 await renderPlanosAcao();
                 await renderDashboard();
@@ -1096,7 +1177,7 @@
                 ishSnap.forEach(d => deleteOps.push(d.ref.delete()));
                 fwSnap.forEach(d => deleteOps.push(d.ref.delete()));
                 await Promise.all(deleteOps);
-                invalidateCache();
+                invalidateCache('planos');
                 await renderPlanosAcao();
                 await renderDashboard();
                 mostrarToast('Plano e ferramentas excluídos.', 'info');
@@ -1252,13 +1333,12 @@
             };
             window.fecharRelatorio = () => { el('relatorioPrintArea').style.display = 'none'; el('appContainer').style.display = 'flex'; el('relatorioVazio').style.display = 'block'; Object.values(charts).forEach(c => c?.destroy?.()); };
 
-            async function getUsuarios() { const snap = await collUsuarios.get(); return snap.docs.map(d=>({ id:d.id, ...d.data() })); }
             async function criarUsuarioFirestore(user, pass, role) { await collUsuarios.add({ username:user, password:pass, role, createdAt: new Date().toISOString() }); }
             async function excluirUsuarioFirestore(user) { const snap = await collUsuarios.where('username','==',user).get(); snap.forEach(d => d.ref.delete()); }
 
             async function renderUsuarios() {
                 if (state.currentUser?.role !== 'admin') return;
-                const usuarios = await getUsuarios();
+                const usuarios = await getUsuarios(true); // sempre refresh na página de usuários
                 el('tbodyUsuarios').innerHTML = usuarios.map(u => `<tr><td><strong>${escapeHtml(u.username)}</strong></td><td><span class="badge ${u.role==='admin'?'badge-resolved':'badge-open'}">${u.role}</span></td><td>${fmtDataCurta(u.createdAt)}</td><td>${u.username!=='qualidade'?`<button class="btn btn-sm btn-danger" onclick="excluirUsuario('${u.username}')"><i class="fas fa-trash"></i></button>`:'Admin principal'}</td></tr>`).join('');
             }
             window.criarUsuario = async function() {
@@ -1267,6 +1347,7 @@
                 if (!username || !password || username.length<3 || password.length<3) return mostrarToast('Preencha corretamente!', 'error');
                 if ((await getUsuarios()).find(u => u.username === username)) return mostrarToast('Usuário já existe!', 'error');
                 await criarUsuarioFirestore(username, password, role);
+                invalidateCache('usuarios');
                 el('newUsername').value = el('newPassword').value = '';
                 await renderUsuarios();
                 mostrarToast('Usuário criado!', 'success');
@@ -1275,6 +1356,7 @@
                 if (username === 'qualidade') return mostrarToast('Não é possível excluir o admin principal!', 'error');
                 if (!confirm(`Excluir usuário "${username}"?`)) return;
                 await excluirUsuarioFirestore(username);
+                invalidateCache('usuarios');
                 await renderUsuarios();
                 mostrarToast('Usuário excluído.', 'info');
             };
@@ -1297,7 +1379,15 @@
                 }
             });
 
-            setInterval(async () => { if (state.currentUser && el('page-dashboard').classList.contains('active')) await renderDashboard(); }, 60000);
+            // Listener para visibilidade da página - pausa o auto-refresh quando a aba não está visível
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible' && state.currentUser) {
+                    // Quando a aba volta a ficar visível, verifica se precisa atualizar
+                    if (el('page-dashboard').classList.contains('active') && !isCacheValid('ncs')) {
+                        renderDashboard();
+                    }
+                }
+            });
 
             init();
         })();
