@@ -6,10 +6,14 @@
     <title>Dona Rita · Controle de Não Conformidades (Firestore)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
+    </script>
     <style>
         :root {
             --primary: #0b3b2f;
@@ -243,6 +247,10 @@
         .ishikawa-causes-list { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 4px; min-height: 28px; }
         .ishikawa-category-box { background: #f9fbfa; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 10px; }
         .ishikawa-category-box h5 { font-size: 0.8rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; } .ishikawa-category-box h5 .cat-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+        .ishikawa-root-cause { background: #fef9f0; border: 2px solid #c8963e; border-radius: var(--radius); padding: 16px 20px; margin-top: 18px; }
+        .ishikawa-root-cause label { font-weight: 700; font-size: 0.82rem; color: #6b4f1a; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+        .ishikawa-root-cause textarea { width: 100%; border: 1.5px solid #e0d5c0; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.85rem; padding: 10px 14px; resize: vertical; min-height: 50px; background: #fffefb; }
+        .ishikawa-root-cause textarea:focus { outline: none; border-color: #c8963e; box-shadow: 0 0 0 3px rgba(200,150,62,0.1); }
         .five-whys-container { background: #fff; border: 2px solid #e0e8e4; border-radius: var(--radius-lg); padding: 24px 20px; }
         .five-whys-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; position: relative; }
         .five-whys-item:not(:last-child)::after { content: ''; position: absolute; left: 22px; top: 48px; bottom: -20px; width: 3px; background: linear-gradient(to bottom, var(--accent), #e0d5c0); border-radius: 2px; }
@@ -297,6 +305,7 @@
                 <div class="stats-grid" id="statsGrid"></div>
                 <div class="charts-grid"><div class="chart-card"><h3><i class="fas fa-tags"></i> NCs por Motivo</h3><canvas id="chartMotivos"></canvas></div><div class="chart-card"><h3><i class="fas fa-chart-bar"></i> Status das NCs</h3><canvas id="chartStatus"></canvas></div></div>
                 <div class="chart-card" style="margin-top:18px;"><h3><i class="fas fa-chart-line"></i> Dias em Aberto (Top 10)</h3><canvas id="chartDias"></canvas></div>
+                <div class="chart-card" style="margin-top:18px;"><h3><i class="fas fa-bullseye"></i> Causas Raiz dos Planos de Ação</h3><canvas id="chartCausasRaiz"></canvas></div>
             </div>
             <div class="page" id="page-lista">
                 <div class="page-header"><h1><i class="fas fa-clipboard-list"></i> Não Conformidades</h1><p class="breadcrumb">Lista completa de registros</p></div>
@@ -334,7 +343,9 @@
                     <div style="margin-top:8px;">
                         <div class="tool-toggle-card" id="toolIshikawaCard">
                             <div class="tool-toggle-header" onclick="toggleTool('ishikawa')"><div class="tool-icon ishikawa-icon"><i class="fas fa-fish"></i></div><div class="tool-info"><h4>Diagrama de Ishikawa (Espinha de Peixe)</h4><span>Análise de causa e efeito — 6Ms</span></div><label class="tool-toggle-switch" onclick="event.stopPropagation()"><input type="checkbox" id="toggleIshikawa" onchange="toggleTool('ishikawa', this.checked)"><span class="tool-toggle-slider"></span></label></div>
-                            <div class="tool-body" id="bodyIshikawa"><p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;"><i class="fas fa-info-circle"></i> Preencha as causas em cada categoria (6Ms).</p><div class="ishikawa-diagram" id="ishikawaDiagram"><div class="ishikawa-svg-container" id="ishikawaSvgContainer"></div></div><div class="form-row" style="margin-top:16px;" id="ishikawaCategoryBoxes"></div></div>
+                            <div class="tool-body" id="bodyIshikawa"><p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;"><i class="fas fa-info-circle"></i> Preencha as causas em cada categoria (6Ms).</p><div class="ishikawa-diagram" id="ishikawaDiagram"><div class="ishikawa-svg-container" id="ishikawaSvgContainer"></div></div><div class="form-row" style="margin-top:16px;" id="ishikawaCategoryBoxes"></div>
+                                <div class="ishikawa-root-cause"><label><i class="fas fa-bullseye"></i> Causa Raiz (Ishikawa)</label><textarea id="ishikawaCausaRaiz" placeholder="Descreva a causa raiz identificada na análise de Ishikawa..." oninput="state.ferramentas.ishikawa.causaRaiz=this.value"></textarea></div>
+                            </div>
                         </div>
                         <div class="tool-toggle-card" id="toolFiveWhysCard" style="margin-top:14px;">
                             <div class="tool-toggle-header" onclick="toggleTool('fivewhys')"><div class="tool-icon fivewhys-icon"><i class="fas fa-question-circle"></i></div><div class="tool-info"><h4>5 Porquês</h4><span>Análise de causa raiz — perguntas encadeadas</span></div><label class="tool-toggle-switch" onclick="event.stopPropagation()"><input type="checkbox" id="toggleFiveWhys" onchange="toggleTool('fivewhys', this.checked)"><span class="tool-toggle-slider"></span></label></div>
@@ -402,7 +413,7 @@
                 docCacheTimestamp: { ncs: {}, planos: {} },
                 assinatura: { planoId: null, canvas: null, ctx: null, drawing: false },
                 ferramentas: {
-                    ishikawa: { ativo: false, problema: '', categorias: { 'Método': [], 'Máquina': [], 'Medida': [], 'Meio Ambiente': [], 'Mão de Obra': [], 'Material': [] } },
+                    ishikawa: { ativo: false, problema: '', categorias: { 'Método': [], 'Máquina': [], 'Medida': [], 'Meio Ambiente': [], 'Mão de Obra': [], 'Material': [] }, causaRaiz: '' },
                     fiveWhys: { ativo: false, problema: '', whys: [{ pergunta: 'Por quê? (1º)', resposta: '' }, { pergunta: 'Por quê? (2º)', resposta: '' }, { pergunta: 'Por quê? (3º)', resposta: '' }, { pergunta: 'Por quê? (4º)', resposta: '' }, { pergunta: 'Por quê? (5º)', resposta: '' }], causaRaiz: '' }
                 },
                 autoRefreshIntervalId: null
@@ -707,6 +718,30 @@
                 });
             }
 
+            async function carregarCausasRaizGrafico() {
+                const causasMap = new Map();
+                const planos = await getPlanosAcao();
+                const planosComFerramentas = planos.filter(p => p.temIshikawa || p.temFiveWhys);
+                const promessas = planosComFerramentas.map(async (plano) => {
+                    const buscas = [];
+                    if (plano.temIshikawa) buscas.push(collIshikawa.where('planoId', '==', plano.id).limit(1).get());
+                    if (plano.temFiveWhys) buscas.push(collFiveWhys.where('planoId', '==', plano.id).limit(1).get());
+                    const resultados = await Promise.all(buscas);
+                    resultados.forEach(snap => {
+                        if (!snap.empty) {
+                            const dados = snap.docs[0].data();
+                            const causa = (dados.causaRaiz || '').trim();
+                            if (causa && causa.length > 2) {
+                                const chave = causa.substring(0, 80);
+                                causasMap.set(chave, (causasMap.get(chave) || 0) + 1);
+                            }
+                        }
+                    });
+                });
+                await Promise.all(promessas);
+                return Array.from(causasMap.entries()).sort((a, b) => b[1] - a[1]).slice(0, 15);
+            }
+
             async function renderDashboard() {
                 const ncs = await getNCs();
                 const planos = await getPlanosAcao();
@@ -726,7 +761,7 @@
                 const motivosMap = {}; ncs.forEach(n => { const c = (n.motivo || 'Sem motivo').substring(0, 50); motivosMap[c] = (motivosMap[c] || 0) + 1; });
                 const mKeys = Object.keys(motivosMap), mData = Object.values(motivosMap);
                 const cores = ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a', '#2d7a4f', '#5b3a6e', '#2f5f78', '#a65d3d'];
-                const ctx1 = el('chartMotivos'), ctx2 = el('chartStatus'), ctx3 = el('chartDias');
+                const ctx1 = el('chartMotivos'), ctx2 = el('chartStatus'), ctx3 = el('chartDias'), ctx4 = el('chartCausasRaiz');
                 Object.values(charts).forEach(c => c?.destroy?.());
                 if (ctx1 && mKeys.length) { charts.motivos = new Chart(ctx1, { type: 'doughnut', data: { labels: mKeys, datasets: [{ data: mData, backgroundColor: cores.slice(0, mKeys.length), borderWidth: 2, borderColor: '#fff' }] }, options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 14, usePointStyle: true, font: { size: 11 } } } } } }); }
                 else if (ctx1) ctx1.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhum motivo registrado</p>';
@@ -734,6 +769,27 @@
                 const topAbertas = [...abertas].sort((a, b) => calcularDias(b) - calcularDias(a)).slice(0, 10);
                 if (ctx3 && topAbertas.length) { charts.dias = new Chart(ctx3, { type: 'bar', data: { labels: topAbertas.map(n => `NC #${n.id}`), datasets: [{ label: 'Dias em Aberto', data: topAbertas.map(n => calcularDias(n)), backgroundColor: '#c8963e', borderRadius: 6 }] }, options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, title: { display: true, text: 'Dias' }, ticks: { stepSize: 1 } } } } }); }
                 else if (ctx3) ctx3.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhuma NC em aberto</p>';
+
+                const causasRaiz = await carregarCausasRaizGrafico();
+                if (ctx4 && causasRaiz.length) {
+                    const labels = causasRaiz.map(c => c[0]);
+                    const valores = causasRaiz.map(c => c[1]);
+                    charts.causasRaiz = new Chart(ctx4, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Ocorrências',
+                                data: valores,
+                                backgroundColor: ['#386e8c', '#b5792a', '#2d7a4f', '#b53b3b', '#7b4b9a', '#1f6d52', '#c8963e', '#8e5c4a', '#2f5f78', '#a65d3d'],
+                                borderRadius: 6
+                            }]
+                        },
+                        options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => ` ${ctx.raw} plano(s)` } } }, scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                    });
+                } else if (ctx4) {
+                    ctx4.parentNode.innerHTML = '<p style="text-align:center;color:#8b9a94;padding:40px;">Nenhuma causa raiz registrada nos planos.</p>';
+                }
             }
 
             async function renderListaNCs() {
@@ -1033,7 +1089,6 @@
                 }).join('');
             }
 
-            // Função crucial corrigida: coleta valores atuais do DOM antes de validar
             window.salvarPlanoAcao = async function() {
                 if (state.currentUser.role !== 'admin') return mostrarToast('Apenas administradores!', 'error');
                 const editId = el('editPlanoId').value;
@@ -1041,8 +1096,6 @@
                 const resumo = el('planoResumo').value.trim();
                 if (!ncId || !resumo) return mostrarToast('Preencha o resumo!', 'error');
                 if (!state.pessoasPlano.length) return mostrarToast('Adicione pelo menos uma pessoa!', 'error');
-
-                // CORREÇÃO: Atualiza o array a partir dos valores atuais dos campos do DOM
                 const cards = document.querySelectorAll('#containerPessoas .pessoa-card');
                 state.pessoasPlano.forEach((p, i) => {
                     if (cards[i]) {
@@ -1054,14 +1107,11 @@
                         if (textarea) p.acao = textarea.value;
                     }
                 });
-
-                // Validação após sincronizar os valores
                 for (let i = 0; i < state.pessoasPlano.length; i++) {
                     if (!state.pessoasPlano[i].username || !state.pessoasPlano[i].acao || !state.pessoasPlano[i].prazo) {
                         return mostrarToast(`Preencha todos os campos da pessoa ${i+1}!`, 'error');
                     }
                 }
-
                 const nc = await getNcById(ncId);
                 const dados = {
                     ncId, resumoReuniao: resumo,
@@ -1105,7 +1155,7 @@
                         plano.temFiveWhys ? collFiveWhys.where('planoId', '==', id).limit(1).get() : Promise.resolve({ empty: true })
                     ]);
                     let ishikawaHtml = '', fiveWhysHtml = '';
-                    if (!ishSnap.empty) { const ish = ishSnap.docs[0].data(); const catsHtml = Object.keys(ish.categorias || {}).map(cat => { const causas = (ish.categorias[cat] || []).map(c => `<span class="ishikawa-cause-tag">${escapeHtml(c)}</span>`).join(' ') || '<span style="color:#8b9a94;">—</span>'; return `<div class="ishikawa-category-box"><h5><span class="cat-dot" style="background:${ishikawaColors[cat]||'#888'}"></span> ${cat}</h5><div class="ishikawa-causes-list">${causas}</div></div>`; }).join(''); ishikawaHtml = `<div style="margin-top:16px;padding:16px;background:#f8faf9;border-radius:14px;border:2px solid #e0e8e4;"><h4 style="color:#386e8c;margin-bottom:10px;"><i class="fas fa-fish"></i> Diagrama de Ishikawa</h4><p><strong>Problema:</strong> ${escapeHtml(ish.problema||'N/A')}</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">${catsHtml}</div></div>`; }
+                    if (!ishSnap.empty) { const ish = ishSnap.docs[0].data(); const catsHtml = Object.keys(ish.categorias || {}).map(cat => { const causas = (ish.categorias[cat] || []).map(c => `<span class="ishikawa-cause-tag">${escapeHtml(c)}</span>`).join(' ') || '<span style="color:#8b9a94;">—</span>'; return `<div class="ishikawa-category-box"><h5><span class="cat-dot" style="background:${ishikawaColors[cat]||'#888'}"></span> ${cat}</h5><div class="ishikawa-causes-list">${causas}</div></div>`; }).join(''); const causaRaizIshikawa = (ish.causaRaiz || '').trim() ? `<div class="ishikawa-root-cause"><label><i class="fas fa-bullseye"></i> Causa Raiz</label><p style="margin:8px 0 0;font-weight:600;">${escapeHtml(ish.causaRaiz)}</p></div>` : ''; ishikawaHtml = `<div style="margin-top:16px;padding:16px;background:#f8faf9;border-radius:14px;border:2px solid #e0e8e4;"><h4 style="color:#386e8c;margin-bottom:10px;"><i class="fas fa-fish"></i> Diagrama de Ishikawa</h4><p><strong>Problema:</strong> ${escapeHtml(ish.problema||'N/A')}</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">${catsHtml}</div>${causaRaizIshikawa}</div>`; }
                     if (!fwSnap.empty) { const fw = fwSnap.docs[0].data(); const whysHtml = (fw.whys || []).map((w, i) => `<li><strong>${i+1}º Por quê:</strong> ${escapeHtml(w.resposta||'—')}</li>`).join(''); fiveWhysHtml = `<div style="margin-top:16px;padding:16px;background:#fefdf6;border-radius:14px;border:2px solid #e8d58b;"><h4 style="color:#b5792a;margin-bottom:10px;"><i class="fas fa-question-circle"></i> 5 Porquês</h4><p><strong>Problema:</strong> ${escapeHtml(fw.problema||'N/A')}</p><ol style="margin:8px 0;padding-left:20px;">${whysHtml}</ol><p style="background:#fff;padding:10px;border-radius:8px;border:2px solid #c8963e;margin-top:8px;"><strong>🎯 Causa Raiz:</strong> ${escapeHtml(fw.causaRaiz||'Não identificada')}</p></div>`; }
                     el('verPlanoInner').innerHTML = `<h2>Plano de Ação - NC #${plano.ncId}</h2><p>Produto: ${escapeHtml(plano.ncProduto)} | Palete: ${escapeHtml(plano.ncPalete)} | Turno: ${escapeHtml(plano.ncTurno||'-')}</p><p>Motivo: ${escapeHtml(plano.ncMotivo)}</p><p>Status: <span class="badge ${plano.status==='concluido'?'badge-concluido':'badge-pendente'}">${plano.status==='concluido'?'Concluído':'Pendente'}</span></p><h4>Resumo</h4><p style="white-space:pre-wrap;">${escapeHtml(plano.resumoReuniao)}</p><h4>Pessoas</h4>${pessoasHtml}${ishikawaHtml}${fiveWhysHtml}<div style="margin-top:16px;">${isAdmin?`<button class="btn btn-accent" onclick="imprimirPlanoAcao('${id}')"><i class="fas fa-print"></i></button>`:''}${minha && !minha.assinado?`<button class="btn btn-assinar" onclick="abrirAssinaturaDigital('${id}')"><i class="fas fa-signature"></i> Assinar</button>`:minha && minha.assinado?`<button class="btn btn-refazer" onclick="abrirAssinaturaDigital('${id}', true)"><i class="fas fa-redo"></i> Refazer Assinatura</button>`:''}<button class="btn btn-outline" onclick="fecharModalVerPlano()">Fechar</button></div>`;
                     el('modalVerPlano').style.display = 'flex';
@@ -1182,7 +1232,7 @@
                         plano.temFiveWhys ? collFiveWhys.where('planoId', '==', id).limit(1).get() : Promise.resolve({ empty: true })
                     ]);
                     let ishikawaPrintHtml = '', fiveWhysPrintHtml = '';
-                    if (!ishSnap.empty) { const ish = ishSnap.docs[0].data(); const catKeys = Object.keys(ish.categorias || {}); ishikawaPrintHtml = `<div class="print-tool-section"><h3>🐟 Diagrama de Ishikawa</h3><p><strong>Problema:</strong> ${escapeHtml(ish.problema||'N/A')}</p><table class="print-ishikawa-table"><thead><tr>${catKeys.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody><tr>${catKeys.map(c=>`<td>${(ish.categorias[c]||[]).join(', ')||'—'}</td>`).join('')}</tr></tbody></table></div>`; }
+                    if (!ishSnap.empty) { const ish = ishSnap.docs[0].data(); const catKeys = Object.keys(ish.categorias || {}); const causaRaizIsh = (ish.causaRaiz || '').trim() ? `<p style="margin-top:8px;padding:8px;border:2px solid #c8963e;border-radius:6px;background:#fefdf6;"><strong>🎯 Causa Raiz (Ishikawa):</strong> ${escapeHtml(ish.causaRaiz)}</p>` : ''; ishikawaPrintHtml = `<div class="print-tool-section"><h3>🐟 Diagrama de Ishikawa</h3><p><strong>Problema:</strong> ${escapeHtml(ish.problema||'N/A')}</p><table class="print-ishikawa-table"><thead><tr>${catKeys.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody><tr>${catKeys.map(c=>`<td>${(ish.categorias[c]||[]).join(', ')||'—'}</td>`).join('')}</tr></tbody></table>${causaRaizIsh}</div>`; }
                     if (!fwSnap.empty) { const fw = fwSnap.docs[0].data(); const whysLi = (fw.whys || []).map((w, i) => `<li><strong>${i+1}º Por quê:</strong> ${escapeHtml(w.resposta||'—')}</li>`).join(''); fiveWhysPrintHtml = `<div class="print-tool-section"><h3>❓ 5 Porquês</h3><p><strong>Problema:</strong> ${escapeHtml(fw.problema||'N/A')}</p><ul class="print-whys-list">${whysLi}</ul><p style="margin-top:8px;padding:8px;border:2px solid #c8963e;border-radius:6px;background:#fefdf6;"><strong>🎯 Causa Raiz:</strong> ${escapeHtml(fw.causaRaiz||'Não identificada')}</p></div>`; }
                     const conteudo = el('planoPrintConteudo');
                     conteudo.innerHTML = `<div class="print-header"><div><h2>🏭 DONA RITA EMBALAGENS</h2><p>Plano de Ação</p></div><div><span class="print-badge ${plano.status==='concluido'?'badge-print-concluido':'badge-print-pendente'}">${plano.status==='concluido'?'CONCLUÍDO':'PENDENTE'}</span><p>Assinaturas: ${assinadas}/${total}</p></div></div><div class="print-grid"><div class="print-field"><span class="print-label">NC</span><span class="print-value highlight">#${plano.ncId}</span></div><div class="print-field"><span class="print-label">Produto</span><span class="print-value">${escapeHtml(plano.ncProduto)}</span></div><div class="print-field"><span class="print-label">Turno</span><span class="print-value">${escapeHtml(plano.ncTurno||'-')}</span></div><div class="print-field full-width"><span class="print-label">Motivo</span><span class="print-value">${escapeHtml(plano.ncMotivo)}</span></div><div class="print-field full-width"><span class="print-label">Resumo</span><span class="print-value" style="white-space:pre-wrap;">${escapeHtml(plano.resumoReuniao)}</span></div></div><h3>👥 PESSOAS ENVOLVIDAS</h3><table class="print-pessoas-table"><thead><tr><th>#</th><th>Responsável</th><th>Ação</th><th>Prazo</th><th>Status</th><th>Justificativa</th><th>Assinatura</th></tr></thead><tbody>${tabela}</tbody></table>${ishikawaPrintHtml}${fiveWhysPrintHtml}<p style="margin-top:12px;"><strong>📌 Termo:</strong> Cada responsável concorda com as ações designadas.</p><div class="print-footer">Dona Rita Embalagens © ${agora.getFullYear()} · Plano gerado em ${agora.toLocaleString('pt-BR')}</div><div class="no-print" style="text-align:center;margin-top:20px;"><button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir</button><button class="btn btn-outline" onclick="fecharPlanoPrint()"><i class="fas fa-times"></i> Fechar</button></div>`;
@@ -1193,21 +1243,22 @@
             window.fecharPlanoPrint = () => { el('planoPrintArea').style.display = 'none'; el('planoPrintConteudo').innerHTML = ''; };
 
             function resetarFerramentas() {
-                state.ferramentas.ishikawa = { ativo: false, problema: '', categorias: { 'Método': [], 'Máquina': [], 'Medida': [], 'Meio Ambiente': [], 'Mão de Obra': [], 'Material': [] } };
+                state.ferramentas.ishikawa = { ativo: false, problema: '', categorias: { 'Método': [], 'Máquina': [], 'Medida': [], 'Meio Ambiente': [], 'Mão de Obra': [], 'Material': [] }, causaRaiz: '' };
                 state.ferramentas.fiveWhys = { ativo: false, problema: '', whys: [{ pergunta: 'Por quê? (1º)', resposta: '' }, { pergunta: 'Por quê? (2º)', resposta: '' }, { pergunta: 'Por quê? (3º)', resposta: '' }, { pergunta: 'Por quê? (4º)', resposta: '' }, { pergunta: 'Por quê? (5º)', resposta: '' }], causaRaiz: '' };
                 el('toggleIshikawa').checked = false; el('toggleFiveWhys').checked = false;
                 el('toolIshikawaCard').classList.remove('active-tool'); el('toolFiveWhysCard').classList.remove('active-tool');
+                const ishCaixa = el('ishikawaCausaRaiz'); if (ishCaixa) ishCaixa.value = '';
             }
 
             async function carregarFerramentasDoPlano(planoId) {
                 const [ishSnap, fwSnap] = await Promise.all([collIshikawa.where('planoId', '==', planoId).limit(1).get(), collFiveWhys.where('planoId', '==', planoId).limit(1).get()]);
-                if (!ishSnap.empty) { const d = ishSnap.docs[0].data(); state.ferramentas.ishikawa.ativo = true; state.ferramentas.ishikawa.problema = d.problema || ''; state.ferramentas.ishikawa.categorias = d.categorias || JSON.parse(JSON.stringify({ 'Método': [], 'Máquina': [], 'Medida': [], 'Meio Ambiente': [], 'Mão de Obra': [], 'Material': [] })); state.ferramentas.ishikawa._docId = ishSnap.docs[0].id; }
+                if (!ishSnap.empty) { const d = ishSnap.docs[0].data(); state.ferramentas.ishikawa.ativo = true; state.ferramentas.ishikawa.problema = d.problema || ''; state.ferramentas.ishikawa.categorias = d.categorias || JSON.parse(JSON.stringify({ 'Método': [], 'Máquina': [], 'Medida': [], 'Meio Ambiente': [], 'Mão de Obra': [], 'Material': [] })); state.ferramentas.ishikawa.causaRaiz = d.causaRaiz || ''; state.ferramentas.ishikawa._docId = ishSnap.docs[0].id; }
                 if (!fwSnap.empty) { const d = fwSnap.docs[0].data(); state.ferramentas.fiveWhys.ativo = true; state.ferramentas.fiveWhys.problema = d.problema || ''; state.ferramentas.fiveWhys.whys = d.whys || [{ pergunta: 'Por quê? (1º)', resposta: '' }, { pergunta: 'Por quê? (2º)', resposta: '' }, { pergunta: 'Por quê? (3º)', resposta: '' }, { pergunta: 'Por quê? (4º)', resposta: '' }, { pergunta: 'Por quê? (5º)', resposta: '' }]; state.ferramentas.fiveWhys.causaRaiz = d.causaRaiz || ''; state.ferramentas.fiveWhys._docId = fwSnap.docs[0].id; }
             }
 
             async function salvarFerramentasNoFirestore(planoId) {
                 const ops = [];
-                if (state.ferramentas.ishikawa.ativo) { const dadosIsh = { planoId, problema: state.ferramentas.ishikawa.problema, categorias: state.ferramentas.ishikawa.categorias, dataCriacao: new Date().toISOString(), criadoPor: state.currentUser.username }; if (state.ferramentas.ishikawa._docId) ops.push(collIshikawa.doc(state.ferramentas.ishikawa._docId).update(dadosIsh)); else { const ref = await collIshikawa.add(dadosIsh); state.ferramentas.ishikawa._docId = ref.id; } }
+                if (state.ferramentas.ishikawa.ativo) { const dadosIsh = { planoId, problema: state.ferramentas.ishikawa.problema, categorias: state.ferramentas.ishikawa.categorias, causaRaiz: state.ferramentas.ishikawa.causaRaiz, dataCriacao: new Date().toISOString(), criadoPor: state.currentUser.username }; if (state.ferramentas.ishikawa._docId) ops.push(collIshikawa.doc(state.ferramentas.ishikawa._docId).update(dadosIsh)); else { const ref = await collIshikawa.add(dadosIsh); state.ferramentas.ishikawa._docId = ref.id; } }
                 else if (state.ferramentas.ishikawa._docId) { ops.push(collIshikawa.doc(state.ferramentas.ishikawa._docId).delete()); state.ferramentas.ishikawa._docId = null; }
                 if (state.ferramentas.fiveWhys.ativo) { const dadosFw = { planoId, problema: state.ferramentas.fiveWhys.problema, whys: state.ferramentas.fiveWhys.whys, causaRaiz: state.ferramentas.fiveWhys.causaRaiz, dataCriacao: new Date().toISOString(), criadoPor: state.currentUser.username }; if (state.ferramentas.fiveWhys._docId) ops.push(collFiveWhys.doc(state.ferramentas.fiveWhys._docId).update(dadosFw)); else { const ref = await collFiveWhys.add(dadosFw); state.ferramentas.fiveWhys._docId = ref.id; } }
                 else if (state.ferramentas.fiveWhys._docId) { ops.push(collFiveWhys.doc(state.ferramentas.fiveWhys._docId).delete()); state.ferramentas.fiveWhys._docId = null; }
@@ -1242,6 +1293,8 @@
                     const catId = cat.replace(/\s+/g, '_');
                     return `<div class="ishikawa-category-box"><h5><span class="cat-dot" style="background:${ishikawaColors[cat]}"></span> ${cat}</h5><p style="font-size:0.72rem;color:var(--text-muted);margin:2px 0 8px;line-height:1.3;">${ishikawaDescriptions[cat]||''}</p><div class="ishikawa-causes-list" id="ishikawaCauses_${catId}">${(state.ferramentas.ishikawa.categorias[cat]||[]).map((causa,i) => `<span class="ishikawa-cause-tag">${escapeHtml(causa)} <span class="remove-cause" onclick="removerCausaIshikawa('${cat}',${i})">×</span></span>`).join('')}</div><div class="ishikawa-cause-input-group"><input type="text" id="ishikawaInput_${catId}" placeholder="Nova causa para ${cat}..." onkeydown="if(event.key==='Enter')adicionarCausaIshikawa('${cat}')"><button class="btn btn-sm btn-primary" onclick="adicionarCausaIshikawa('${cat}')"><i class="fas fa-plus"></i></button></div></div>`;
                 }).join('');
+                const causaRaizInput = el('ishikawaCausaRaiz');
+                if (causaRaizInput) causaRaizInput.value = state.ferramentas.ishikawa.causaRaiz || '';
             }
             window.adicionarCausaIshikawa = function(categoria) {
                 const input = el('ishikawaInput_' + categoria.replace(/\s+/g, '_'));
