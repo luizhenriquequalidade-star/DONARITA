@@ -338,6 +338,20 @@
                 <div class="form-card" style="max-width:960px;">
                     <input type="hidden" id="editPlanoId" value=""><input type="hidden" id="planoNcId" value="">
                     <div class="form-group"><label><i class="fas fa-hashtag"></i> NC Referente</label><input type="text" id="planoNcInfo" disabled style="background:#f0f4f1;font-weight:600;"></div>
+                    <!-- INÍCIO: COPIAR PLANO EXISTENTE -->
+                    <div id="copiarPlanoContainer" style="margin-bottom:18px; display:none;">
+                        <div class="form-group">
+                            <label><i class="fas fa-copy"></i> Copiar de Plano de Ação Existente</label>
+                            <div style="display:flex;gap:8px;">
+                                <select id="selectPlanoCopiar" style="flex:1;">
+                                    <option value="">Selecione um plano para copiar...</option>
+                                </select>
+                                <button class="btn btn-accent" onclick="copiarPlanoExistente()"><i class="fas fa-copy"></i> Copiar</button>
+                            </div>
+                            <small style="color:#5b6b64;font-size:0.72rem;">O resumo, pessoas e ferramentas (Ishikawa, 5 Porquês) serão copiados para este novo plano.</small>
+                        </div>
+                    </div>
+                    <!-- FIM: COPIAR PLANO EXISTENTE -->
                     <div class="form-group"><label><i class="fas fa-file-alt"></i> Resumo da Reunião / Pauta *</label><textarea id="planoResumo" placeholder="Descreva o resumo da reunião, pauta discutida e encaminhamentos..." style="min-height:120px;"></textarea></div>
                     <div class="form-group"><label><i class="fas fa-users"></i> Pessoas Envolvidas</label><div id="containerPessoas"></div><button class="btn btn-outline" onclick="adicionarPessoa()" style="margin-top:8px;"><i class="fas fa-user-plus"></i> Adicionar Pessoa</button></div>
                     <div style="margin-top:8px;">
@@ -752,7 +766,6 @@
                 return Array.from(map.entries()).sort((a, b) => b[1] - a[1]).slice(0, 15);
             }
 
-            // Garante que o canvas exista (recria se necessário)
             function garantirCanvas(canvasId, parentSelector) {
                 let canvas = el(canvasId);
                 if (!canvas) {
@@ -766,7 +779,6 @@
                 return canvas;
             }
 
-            // Exibe mensagem de vazio sem destruir o canvas
             function mostrarMensagemVazio(canvas, mensagem) {
                 if (!canvas) return;
                 canvas.style.display = 'none';
@@ -809,7 +821,6 @@
                 const mKeys = Object.keys(motivosMap), mData = Object.values(motivosMap);
                 const cores = ['#1f6d52', '#c8963e', '#386e8c', '#b53b3b', '#8e5c4a', '#b5792a', '#2d7a4f', '#5b3a6e', '#2f5f78', '#a65d3d'];
 
-                // Garante existência dos canvases
                 const ctx1 = garantirCanvas('chartMotivos', '#page-dashboard .chart-card:first-child');
                 const ctx2 = garantirCanvas('chartStatus', '#page-dashboard .charts-grid .chart-card:nth-child(2)');
                 const ctx3 = garantirCanvas('chartDias', '#page-dashboard .chart-card[style*="margin-top:18px"]');
@@ -1128,6 +1139,8 @@
                 resetarFerramentas();
                 renderPessoasPlano();
                 renderizarFerramentasUI();
+                el('copiarPlanoContainer').style.display = 'block';
+                await popularSelectPlanos();
                 navegar('novo-plano', document.querySelector('[data-page="planos"]'));
             };
 
@@ -1143,6 +1156,7 @@
                 await carregarFerramentasDoPlano(id);
                 renderPessoasPlano();
                 renderizarFerramentasUI();
+                el('copiarPlanoContainer').style.display = 'none';
                 navegar('novo-plano', document.querySelector('[data-page="planos"]'));
             };
 
@@ -1152,6 +1166,7 @@
                 el('containerPessoas').innerHTML = '';
                 el('ishikawaCategoryBoxes').innerHTML = '';
                 el('fiveWhysContainer').innerHTML = '';
+                el('copiarPlanoContainer').style.display = 'none';
                 navegar('planos');
             };
 
@@ -1194,7 +1209,6 @@
                         return mostrarToast(`Preencha todos os campos da pessoa ${i+1}!`, 'error');
                     }
                 }
-                // Ler diretamente da DOM os campos de causa raiz antes de salvar
                 const ishCaixa = el('ishikawaCausaRaiz');
                 if (ishCaixa) state.ferramentas.ishikawa.causaRaiz = ishCaixa.value;
                 const fwContainer = el('fiveWhysContainer');
@@ -1517,6 +1531,73 @@
                 }
                 return false;
             }
+
+            // NOVA FUNCIONALIDADE: COPIAR PLANO EXISTENTE
+            async function popularSelectPlanos() {
+                const select = el('selectPlanoCopiar');
+                select.innerHTML = '<option value="">Selecione um plano para copiar...</option>';
+                const planos = await getPlanosAcao();
+                planos.forEach(p => {
+                    const option = document.createElement('option');
+                    option.value = p.id;
+                    option.textContent = `Plano #${p.id.substring(0,6)} - NC ${p.ncId} (${p.ncProduto}) - ${p.status}`;
+                    select.appendChild(option);
+                });
+            }
+
+            window.copiarPlanoExistente = async function() {
+                const select = el('selectPlanoCopiar');
+                const planoId = select.value;
+                if (!planoId) return mostrarToast('Selecione um plano para copiar.', 'error');
+                const plano = await getPlanoById(planoId);
+                if (!plano) return mostrarToast('Plano não encontrado.', 'error');
+
+                // Preencher resumo
+                el('planoResumo').value = plano.resumoReuniao || '';
+
+                // Copiar pessoas, resetando assinaturas
+                state.pessoasPlano = (plano.pessoas || []).map(p => ({
+                    username: p.username,
+                    acao: p.acao,
+                    prazo: p.prazo,
+                    assinado: false,
+                    dataAssinatura: null,
+                    justificativa: '',
+                    assinaturaDigital: ''
+                }));
+
+                // Resetar ferramentas e carregar do plano copiado
+                resetarFerramentas();
+
+                if (plano.temIshikawa) {
+                    const snap = await collIshikawa.where('planoId', '==', planoId).limit(1).get();
+                    if (!snap.empty) {
+                        const d = snap.docs[0].data();
+                        state.ferramentas.ishikawa.ativo = true;
+                        state.ferramentas.ishikawa.problema = d.problema || '';
+                        state.ferramentas.ishikawa.categorias = d.categorias || JSON.parse(JSON.stringify({ 'Método': [], 'Máquina': [], 'Medida': [], 'Meio Ambiente': [], 'Mão de Obra': [], 'Material': [] }));
+                        state.ferramentas.ishikawa.causaRaiz = d.causaRaiz || '';
+                        state.ferramentas.ishikawa._docId = null; // será criado um novo documento ao salvar
+                    }
+                }
+
+                if (plano.temFiveWhys) {
+                    const snap = await collFiveWhys.where('planoId', '==', planoId).limit(1).get();
+                    if (!snap.empty) {
+                        const d = snap.docs[0].data();
+                        state.ferramentas.fiveWhys.ativo = true;
+                        state.ferramentas.fiveWhys.problema = d.problema || '';
+                        state.ferramentas.fiveWhys.whys = d.whys || state.ferramentas.fiveWhys.whys;
+                        state.ferramentas.fiveWhys.causaRaiz = d.causaRaiz || '';
+                        state.ferramentas.fiveWhys._docId = null;
+                    }
+                }
+
+                // Atualizar UI
+                renderPessoasPlano();
+                renderizarFerramentasUI();
+                mostrarToast('Plano copiado com sucesso! Preencha os dados da NC atual.', 'success');
+            };
 
             document.addEventListener('keydown', e => {
                 if (e.key === 'Escape') {
