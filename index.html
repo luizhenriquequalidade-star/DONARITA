@@ -1105,14 +1105,11 @@
             };
 
             async function renderPlanosAcao() {
-                const isAdmin = state.currentUser?.role === 'admin';
                 const ncs = await getNCs();
                 const planos = await getPlanosAcao();
                 const tbody = el('tbodyPlanos'), empty = el('emptyPlanos');
-                el('tituloTabelaPlanos').textContent = isAdmin ? 'NCs e Planos de Ação' : 'Meus Planos Pendentes';
-                let itens;
-                if (isAdmin) itens = ncs.map(nc => ({ nc, plano: planos.find(p => p.ncId === nc.id) || null }));
-                else { const meus = planos.filter(p => p.pessoas?.some(pp => pp.username === state.currentUser.username)); itens = meus.map(pl => ({ nc: ncs.find(n => n.id === pl.ncId) || {}, plano: pl })); }
+                // Permite que todos os usuários vejam todas as NCs e criem planos
+                const itens = ncs.map(nc => ({ nc, plano: planos.find(p => p.ncId === nc.id) || null }));
                 if (!itens.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
                 empty.style.display = 'none';
                 tbody.innerHTML = itens.map(({ nc, plano }) => {
@@ -1121,15 +1118,25 @@
                         const assinadas = (plano.pessoas || []).filter(p => p.assinado).length;
                         const total = (plano.pessoas || []).length;
                         statusHtml = plano.status === 'concluido' ? '<span class="badge badge-concluido">✅ Concluído</span>' : `<span class="badge badge-pendente">⏳ Pendente (${assinadas}/${total})</span>`;
-                        if (isAdmin) acoes = `<button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i></button><button class="btn btn-sm btn-accent" onclick="imprimirPlanoAcao('${plano.id}')"><i class="fas fa-print"></i></button><button class="btn btn-sm btn-outline" onclick="editarPlanoAcao('${plano.id}')"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger" onclick="excluirPlanoAcao('${plano.id}')"><i class="fas fa-trash"></i></button>`;
-                        else { const minha = (plano.pessoas || []).find(p => p.username === state.currentUser.username); acoes = minha && !minha.assinado ? `<button class="btn btn-sm btn-assinar" onclick="abrirAssinaturaDigital('${plano.id}')"><i class="fas fa-signature"></i> Assinar</button>` : minha && minha.assinado ? `<button class="btn btn-sm btn-refazer" onclick="abrirAssinaturaDigital('${plano.id}', true)"><i class="fas fa-redo"></i> Refazer</button>` : ''; acoes += `<button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i> Ver</button>`; }
-                    } else { statusHtml = '<span class="badge badge-nao-assinado">⚠️ Sem plano</span>'; acoes = isAdmin ? `<button class="btn btn-sm btn-primary" onclick="criarPlanoParaNC('${nc.id}')"><i class="fas fa-plus"></i> Criar Plano</button>` : '<span style="color:#8b9a94;">Aguardando</span>'; }
+                        // Todos podem ver, editar e imprimir planos
+                        acoes = `<button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i></button><button class="btn btn-sm btn-accent" onclick="imprimirPlanoAcao('${plano.id}')"><i class="fas fa-print"></i></button><button class="btn btn-sm btn-outline" onclick="editarPlanoAcao('${plano.id}')"><i class="fas fa-edit"></i></button>`;
+                        // Exclusão apenas para admin
+                        if (state.currentUser?.role === 'admin') acoes += `<button class="btn btn-sm btn-danger" onclick="excluirPlanoAcao('${plano.id}')"><i class="fas fa-trash"></i></button>`;
+                        // Se o usuário atual estiver na lista de pessoas, mostra botão de assinar
+                        const minha = (plano.pessoas || []).find(p => p.username === state.currentUser.username);
+                        if (minha && !minha.assinado) acoes += `<button class="btn btn-sm btn-assinar" onclick="abrirAssinaturaDigital('${plano.id}')"><i class="fas fa-signature"></i> Assinar</button>`;
+                        else if (minha && minha.assinado) acoes += `<button class="btn btn-sm btn-refazer" onclick="abrirAssinaturaDigital('${plano.id}', true)"><i class="fas fa-redo"></i> Refazer</button>`;
+                    } else {
+                        statusHtml = '<span class="badge badge-nao-assinado">⚠️ Sem plano</span>';
+                        // Qualquer usuário pode criar plano
+                        acoes = `<button class="btn btn-sm btn-primary" onclick="criarPlanoParaNC('${nc.id}')"><i class="fas fa-plus"></i> Criar Plano</button>`;
+                    }
                     return `<tr><td><strong>#${nc.id}</strong></td><td>${escapeHtml(nc.produto||'-')}</td><td>${escapeHtml((nc.motivo||'').substring(0,40))}</td><td><span style="background:#e2eff7;padding:3px 10px;border-radius:12px;font-weight:600;font-size:0.78rem;">${escapeHtml(nc.turno||'-')}</span></td><td>${plano ? escapeHtml((plano.resumoReuniao||'').substring(0,50))+'...' : '-'}</td><td>${statusHtml}</td><td class="actions-cell">${acoes}</td></tr>`;
                 }).join('');
             }
 
             window.criarPlanoParaNC = async function(ncId) {
-                if (state.currentUser.role !== 'admin') return mostrarToast('Apenas administradores!', 'error');
+                // Permite criação por qualquer usuário autenticado
                 const nc = await getNcById(ncId);
                 if (!nc) return mostrarToast('NC não encontrada!', 'error');
                 el('editPlanoId').value = ''; el('planoNcId').value = ncId;
@@ -1145,7 +1152,7 @@
             };
 
             window.editarPlanoAcao = async function(id) {
-                if (state.currentUser.role !== 'admin') return mostrarToast('Apenas administradores!', 'error');
+                // Permite edição por qualquer usuário
                 const plano = await getPlanoById(id);
                 if (!plano) return mostrarToast('Plano não encontrado!', 'error');
                 el('editPlanoId').value = id; el('planoNcId').value = plano.ncId;
@@ -1187,7 +1194,7 @@
             }
 
             window.salvarPlanoAcao = async function() {
-                if (state.currentUser.role !== 'admin') return mostrarToast('Apenas administradores!', 'error');
+                // Permite salvar por qualquer usuário
                 const editId = el('editPlanoId').value;
                 const ncId = el('planoNcId').value;
                 const resumo = el('planoResumo').value.trim();
@@ -1577,7 +1584,7 @@
                         state.ferramentas.ishikawa.problema = d.problema || '';
                         state.ferramentas.ishikawa.categorias = d.categorias || JSON.parse(JSON.stringify({ 'Método': [], 'Máquina': [], 'Medida': [], 'Meio Ambiente': [], 'Mão de Obra': [], 'Material': [] }));
                         state.ferramentas.ishikawa.causaRaiz = d.causaRaiz || '';
-                        state.ferramentas.ishikawa._docId = null; // será criado um novo documento ao salvar
+                        state.ferramentas.ishikawa._docId = null;
                     }
                 }
 
