@@ -381,7 +381,7 @@
             </div>
             <div class="page" id="page-usuarios">
                 <div class="page-header"><h1><i class="fas fa-users-cog"></i> Gerenciar Usuários</h1><p class="breadcrumb">Criação e gestão de usuários do sistema</p></div>
-                <div class="form-card" style="margin-bottom:22px;"><h3 style="margin-bottom:14px;"><i class="fas fa-user-plus"></i> Criar Novo Usuário</h3><div class="form-row"><div class="form-group"><label>Usuário *</label><input type="text" id="newUsername" placeholder="Nome de usuário"></div><div class="form-group"><label>Senha *</label><input type="password" id="newPassword" placeholder="Senha"></div></div><div class="form-group"><label>Tipo *</label><select id="newRole"><option value="padrao">Padrão</option><option value="admin">Administrador</option></select></div><button class="btn btn-accent" onclick="criarUsuario()"><i class="fas fa-check"></i> Criar Usuário</button></div>
+                <div class="form-card" style="margin-bottom:22px;"><h3 style="margin-bottom:14px;"><i class="fas fa-user-plus"></i> Criar Novo Usuário</h3><div class="form-row"><div class="form-group"><label>Usuário *</label><input type="text" id="newUsername" placeholder="Nome de usuário"></div><div class="form-group"><label>Senha *</label><input type="password" id="newPassword" placeholder="Senha"></div></div><div class="form-group"><label>Tipo *</label><select id="newRole"><option value="padrao">Padrão</option><option value="admin">Administrador</option><option value="gerencial">Gerencial</option></select></div><button class="btn btn-accent" onclick="criarUsuario()"><i class="fas fa-check"></i> Criar Usuário</button></div>
                 <div class="table-card"><div class="table-header"><h3>Usuários Cadastrados</h3></div><table><thead><tr><th>Usuário</th><th>Tipo</th><th>Criado em</th><th>Ações</th></tr></thead><tbody id="tbodyUsuarios"></tbody></table></div>
             </div>
         </main>
@@ -699,13 +699,23 @@
                 if (!state.currentUser) return;
                 el('userDisplay').textContent = state.currentUser.username;
                 el('userAvatar').textContent = state.currentUser.username.charAt(0).toUpperCase();
-                const admin = state.currentUser.role === 'admin';
-                el('navUsuarios').style.display = admin ? 'flex' : 'none';
-                el('navRelatorios').style.display = admin ? 'flex' : 'none';
+                const role = state.currentUser.role;
+                const isAdmin = role === 'admin';
+                const isGerencial = role === 'gerencial';
+                el('navUsuarios').style.display = isAdmin ? 'flex' : 'none';
+                el('navRelatorios').style.display = isAdmin ? 'flex' : 'none';
                 el('navPlanos').style.display = 'flex';
+                // Oculta "Nova NC" para gerencial
+                const navNova = document.querySelector('[data-page="nova"]');
+                if (navNova) navNova.style.display = isGerencial ? 'none' : 'flex';
+                // Oculta "Planos de Ação" para gerencial? Não, só visualização.
             }
 
             window.navegar = async function(page, btn) {
+                if (state.currentUser?.role === 'gerencial' && ['nova', 'usuarios', 'relatorio', 'novo-plano'].includes(page)) {
+                    mostrarToast('Acesso restrito!', 'error');
+                    return;
+                }
                 document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
                 const target = el('page-' + page);
                 if (target) target.classList.add('active');
@@ -897,19 +907,36 @@
                 if (status !== 'todos') filtradas = filtradas.filter(n => n.status === status);
                 if (palete !== 'todos') filtradas = filtradas.filter(n => n.palete === palete);
                 if (busca) filtradas = filtradas.filter(n => (n.produto || '').toLowerCase().includes(busca) || (n.motivo || '').toLowerCase().includes(busca) || (n.palete || '').toLowerCase().includes(busca) || String(n.id).includes(busca));
-                const tbody = el('tbodyNCs'), empty = el('emptyLista'), isAdmin = state.currentUser?.role === 'admin';
+                const tbody = el('tbodyNCs'), empty = el('emptyLista');
+                const isGerencial = state.currentUser?.role === 'gerencial';
+                const isAdmin = state.currentUser?.role === 'admin';
                 if (!filtradas.length) { tbody.innerHTML = ''; empty.style.display = 'block'; }
                 else {
                     empty.style.display = 'none';
                     tbody.innerHTML = filtradas.map(nc => {
                         const tempoHtml = nc.status === 'aberto' ? `<span id="timer-${nc.id}">${calcularTempoDetalhado(nc).texto}</span>` : `<span style="color:#8b9a94;">${calcularDias(nc)}d (fechado)</span>`;
-                        return `<tr><td><strong>#${nc.id}</strong></td><td>${escapeHtml(nc.produto||'-')}</td><td>${escapeHtml((nc.motivo||'').substring(0,40))}${(nc.motivo||'').length>40?'...':''}</td><td>${formatarQuantidade(nc)}</td><td><span style="background:#e9f3ef;padding:3px 10px;border-radius:12px;font-weight:600;font-size:0.78rem;">${escapeHtml(nc.palete||'-')}</span></td><td><span style="background:#e2eff7;padding:3px 10px;border-radius:12px;font-weight:600;font-size:0.78rem;">${escapeHtml(nc.turno||'-')}</span></td><td><span class="badge ${nc.status==='aberto'?'badge-open':'badge-resolved'}">${nc.status==='aberto'?'Aberto':'Resolvido'}</span></td><td>${tempoHtml}</td><td class="actions-cell"><button class="btn btn-sm btn-info" onclick="verDetalhes('${nc.id}')" title="Detalhes"><i class="fas fa-eye"></i></button>${isAdmin?`<button class="btn btn-sm btn-outline" onclick="editarNC('${nc.id}')" title="Editar"><i class="fas fa-edit"></i></button>`:''}<button class="btn btn-sm btn-accent" onclick="imprimirNC('${nc.id}')" title="Imprimir"><i class="fas fa-print"></i></button><button class="btn btn-sm btn-primary" onclick="gerarQRCode('${nc.id}')" title="QR Code"><i class="fas fa-qrcode"></i></button><button class="btn btn-sm btn-whatsapp" onclick="enviarAlertaWhatsApp('${nc.id}')" title="WhatsApp"><i class="fab fa-whatsapp"></i></button>${isAdmin?`<button class="btn btn-sm btn-danger" onclick="excluirNC('${nc.id}')" title="Excluir"><i class="fas fa-trash"></i></button>`:''}${nc.status==='aberto'?`<button class="btn btn-sm btn-success" onclick="resolverNC('${nc.id}')" title="Resolver"><i class="fas fa-check"></i></button>`:`<button class="btn btn-sm btn-outline" onclick="reabrirNC('${nc.id}')" title="Reabrir"><i class="fas fa-undo"></i></button>`}</td></tr>`;
+                        let acoesHtml = `<button class="btn btn-sm btn-info" onclick="verDetalhes('${nc.id}')" title="Detalhes"><i class="fas fa-eye"></i></button>`;
+                        if (!isGerencial) {
+                            if (isAdmin) acoesHtml += `<button class="btn btn-sm btn-outline" onclick="editarNC('${nc.id}')" title="Editar"><i class="fas fa-edit"></i></button>`;
+                            acoesHtml += `<button class="btn btn-sm btn-accent" onclick="imprimirNC('${nc.id}')" title="Imprimir"><i class="fas fa-print"></i></button>`;
+                            acoesHtml += `<button class="btn btn-sm btn-primary" onclick="gerarQRCode('${nc.id}')" title="QR Code"><i class="fas fa-qrcode"></i></button>`;
+                            acoesHtml += `<button class="btn btn-sm btn-whatsapp" onclick="enviarAlertaWhatsApp('${nc.id}')" title="WhatsApp"><i class="fab fa-whatsapp"></i></button>`;
+                            if (isAdmin) acoesHtml += `<button class="btn btn-sm btn-danger" onclick="excluirNC('${nc.id}')" title="Excluir"><i class="fas fa-trash"></i></button>`;
+                            if (nc.status === 'aberto') acoesHtml += `<button class="btn btn-sm btn-success" onclick="resolverNC('${nc.id}')" title="Resolver"><i class="fas fa-check"></i></button>`;
+                            else acoesHtml += `<button class="btn btn-sm btn-outline" onclick="reabrirNC('${nc.id}')" title="Reabrir"><i class="fas fa-undo"></i></button>`;
+                        } else {
+                            acoesHtml += `<button class="btn btn-sm btn-accent" onclick="imprimirNC('${nc.id}')" title="Imprimir"><i class="fas fa-print"></i></button>`;
+                            acoesHtml += `<button class="btn btn-sm btn-primary" onclick="gerarQRCode('${nc.id}')" title="QR Code"><i class="fas fa-qrcode"></i></button>`;
+                            acoesHtml += `<button class="btn btn-sm btn-whatsapp" onclick="enviarAlertaWhatsApp('${nc.id}')" title="WhatsApp"><i class="fab fa-whatsapp"></i></button>`;
+                        }
+                        return `<tr><td><strong>#${nc.id}</strong></td><td>${escapeHtml(nc.produto||'-')}</td><td>${escapeHtml((nc.motivo||'').substring(0,40))}${(nc.motivo||'').length>40?'...':''}</td><td>${formatarQuantidade(nc)}</td><td><span style="background:#e9f3ef;padding:3px 10px;border-radius:12px;font-weight:600;font-size:0.78rem;">${escapeHtml(nc.palete||'-')}</span></td><td><span style="background:#e2eff7;padding:3px 10px;border-radius:12px;font-weight:600;font-size:0.78rem;">${escapeHtml(nc.turno||'-')}</span></td><td><span class="badge ${nc.status==='aberto'?'badge-open':'badge-resolved'}">${nc.status==='aberto'?'Aberto':'Resolvido'}</span></td><td>${tempoHtml}</td><td class="actions-cell">${acoesHtml}</td></tr>`;
                     }).join('');
                 }
                 ativarCronometrosLista();
             }
 
             window.prepararFormNova = function() {
+                if (state.currentUser?.role === 'gerencial') { mostrarToast('Acesso restrito!', 'error'); return; }
                 el('editNcId').value = '';
                 el('tituloFormNC').innerHTML = '<i class="fas fa-plus-circle"></i> Nova Não Conformidade';
                 el('subtituloFormNC').textContent = 'Preencha os dados abaixo';
@@ -960,6 +987,7 @@
             }
 
             window.salvarNC = async function() {
+                if (state.currentUser?.role === 'gerencial') return mostrarToast('Acesso restrito!', 'error');
                 const editId = el('editNcId').value;
                 if (editId && state.currentUser.role !== 'admin') return mostrarToast('Apenas administradores podem editar!', 'error');
                 const produto = el('ncProduto').value.trim();
@@ -1108,7 +1136,7 @@
                 const ncs = await getNCs();
                 const planos = await getPlanosAcao();
                 const tbody = el('tbodyPlanos'), empty = el('emptyPlanos');
-                // Permite que todos os usuários vejam todas as NCs e criem planos
+                const isGerencial = state.currentUser?.role === 'gerencial';
                 const itens = ncs.map(nc => ({ nc, plano: planos.find(p => p.ncId === nc.id) || null }));
                 if (!itens.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
                 empty.style.display = 'none';
@@ -1118,25 +1146,25 @@
                         const assinadas = (plano.pessoas || []).filter(p => p.assinado).length;
                         const total = (plano.pessoas || []).length;
                         statusHtml = plano.status === 'concluido' ? '<span class="badge badge-concluido">✅ Concluído</span>' : `<span class="badge badge-pendente">⏳ Pendente (${assinadas}/${total})</span>`;
-                        // Todos podem ver, editar e imprimir planos
-                        acoes = `<button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i></button><button class="btn btn-sm btn-accent" onclick="imprimirPlanoAcao('${plano.id}')"><i class="fas fa-print"></i></button><button class="btn btn-sm btn-outline" onclick="editarPlanoAcao('${plano.id}')"><i class="fas fa-edit"></i></button>`;
-                        // Exclusão apenas para admin
-                        if (state.currentUser?.role === 'admin') acoes += `<button class="btn btn-sm btn-danger" onclick="excluirPlanoAcao('${plano.id}')"><i class="fas fa-trash"></i></button>`;
-                        // Se o usuário atual estiver na lista de pessoas, mostra botão de assinar
-                        const minha = (plano.pessoas || []).find(p => p.username === state.currentUser.username);
-                        if (minha && !minha.assinado) acoes += `<button class="btn btn-sm btn-assinar" onclick="abrirAssinaturaDigital('${plano.id}')"><i class="fas fa-signature"></i> Assinar</button>`;
-                        else if (minha && minha.assinado) acoes += `<button class="btn btn-sm btn-refazer" onclick="abrirAssinaturaDigital('${plano.id}', true)"><i class="fas fa-redo"></i> Refazer</button>`;
+                        if (!isGerencial) {
+                            acoes = `<button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i></button><button class="btn btn-sm btn-accent" onclick="imprimirPlanoAcao('${plano.id}')"><i class="fas fa-print"></i></button><button class="btn btn-sm btn-outline" onclick="editarPlanoAcao('${plano.id}')"><i class="fas fa-edit"></i></button>`;
+                            if (state.currentUser?.role === 'admin') acoes += `<button class="btn btn-sm btn-danger" onclick="excluirPlanoAcao('${plano.id}')"><i class="fas fa-trash"></i></button>`;
+                            const minha = (plano.pessoas || []).find(p => p.username === state.currentUser.username);
+                            if (minha && !minha.assinado) acoes += `<button class="btn btn-sm btn-assinar" onclick="abrirAssinaturaDigital('${plano.id}')"><i class="fas fa-signature"></i> Assinar</button>`;
+                            else if (minha && minha.assinado) acoes += `<button class="btn btn-sm btn-refazer" onclick="abrirAssinaturaDigital('${plano.id}', true)"><i class="fas fa-redo"></i> Refazer</button>`;
+                        } else {
+                            acoes = `<button class="btn btn-sm btn-info" onclick="verPlanoAcao('${plano.id}')"><i class="fas fa-eye"></i></button><button class="btn btn-sm btn-accent" onclick="imprimirPlanoAcao('${plano.id}')"><i class="fas fa-print"></i></button>`;
+                        }
                     } else {
                         statusHtml = '<span class="badge badge-nao-assinado">⚠️ Sem plano</span>';
-                        // Qualquer usuário pode criar plano
-                        acoes = `<button class="btn btn-sm btn-primary" onclick="criarPlanoParaNC('${nc.id}')"><i class="fas fa-plus"></i> Criar Plano</button>`;
+                        if (!isGerencial) acoes = `<button class="btn btn-sm btn-primary" onclick="criarPlanoParaNC('${nc.id}')"><i class="fas fa-plus"></i> Criar Plano</button>`;
                     }
                     return `<tr><td><strong>#${nc.id}</strong></td><td>${escapeHtml(nc.produto||'-')}</td><td>${escapeHtml((nc.motivo||'').substring(0,40))}</td><td><span style="background:#e2eff7;padding:3px 10px;border-radius:12px;font-weight:600;font-size:0.78rem;">${escapeHtml(nc.turno||'-')}</span></td><td>${plano ? escapeHtml((plano.resumoReuniao||'').substring(0,50))+'...' : '-'}</td><td>${statusHtml}</td><td class="actions-cell">${acoes}</td></tr>`;
                 }).join('');
             }
 
             window.criarPlanoParaNC = async function(ncId) {
-                // Permite criação por qualquer usuário autenticado
+                if (state.currentUser?.role === 'gerencial') return mostrarToast('Acesso restrito!', 'error');
                 const nc = await getNcById(ncId);
                 if (!nc) return mostrarToast('NC não encontrada!', 'error');
                 el('editPlanoId').value = ''; el('planoNcId').value = ncId;
@@ -1152,7 +1180,7 @@
             };
 
             window.editarPlanoAcao = async function(id) {
-                // Permite edição por qualquer usuário
+                if (state.currentUser?.role === 'gerencial') return mostrarToast('Acesso restrito!', 'error');
                 const plano = await getPlanoById(id);
                 if (!plano) return mostrarToast('Plano não encontrado!', 'error');
                 el('editPlanoId').value = id; el('planoNcId').value = plano.ncId;
@@ -1194,7 +1222,7 @@
             }
 
             window.salvarPlanoAcao = async function() {
-                // Permite salvar por qualquer usuário
+                if (state.currentUser?.role === 'gerencial') return mostrarToast('Acesso restrito!', 'error');
                 const editId = el('editPlanoId').value;
                 const ncId = el('planoNcId').value;
                 const resumo = el('planoResumo').value.trim();
@@ -1263,7 +1291,7 @@
                 try {
                     const plano = await getPlanoById(id);
                     if (!plano) return mostrarToast('Plano não encontrado!', 'error');
-                    const isAdmin = state.currentUser?.role === 'admin';
+                    const isGerencial = state.currentUser?.role === 'gerencial';
                     const minha = (plano.pessoas || []).find(p => p.username === state.currentUser.username);
                     const pessoasHtml = (plano.pessoas || []).map((p, i) => {
                         const assinaturaImg = p.assinaturaDigital ? `<br><img src="${p.assinaturaDigital}" class="assinatura-preview" alt="Assinatura">` : '';
@@ -1276,13 +1304,19 @@
                     let ishikawaHtml = '', fiveWhysHtml = '';
                     if (!ishSnap.empty) { const ish = ishSnap.docs[0].data(); const catsHtml = Object.keys(ish.categorias || {}).map(cat => { const causas = (ish.categorias[cat] || []).map(c => `<span class="ishikawa-cause-tag">${escapeHtml(c)}</span>`).join(' ') || '<span style="color:#8b9a94;">—</span>'; return `<div class="ishikawa-category-box"><h5><span class="cat-dot" style="background:${ishikawaColors[cat]||'#888'}"></span> ${cat}</h5><div class="ishikawa-causes-list">${causas}</div></div>`; }).join(''); const causaRaizIshikawa = (ish.causaRaiz || '').trim() ? `<div class="ishikawa-root-cause"><label><i class="fas fa-bullseye"></i> Causa Raiz</label><p style="margin:8px 0 0;font-weight:600;">${escapeHtml(ish.causaRaiz)}</p></div>` : ''; ishikawaHtml = `<div style="margin-top:16px;padding:16px;background:#f8faf9;border-radius:14px;border:2px solid #e0e8e4;"><h4 style="color:#386e8c;margin-bottom:10px;"><i class="fas fa-fish"></i> Diagrama de Ishikawa</h4><p><strong>Problema:</strong> ${escapeHtml(ish.problema||'N/A')}</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">${catsHtml}</div>${causaRaizIshikawa}</div>`; }
                     if (!fwSnap.empty) { const fw = fwSnap.docs[0].data(); const whysHtml = (fw.whys || []).map((w, i) => `<li><strong>${i+1}º Por quê:</strong> ${escapeHtml(w.resposta||'—')}</li>`).join(''); fiveWhysHtml = `<div style="margin-top:16px;padding:16px;background:#fefdf6;border-radius:14px;border:2px solid #e8d58b;"><h4 style="color:#b5792a;margin-bottom:10px;"><i class="fas fa-question-circle"></i> 5 Porquês</h4><p><strong>Problema:</strong> ${escapeHtml(fw.problema||'N/A')}</p><ol style="margin:8px 0;padding-left:20px;">${whysHtml}</ol><p style="background:#fff;padding:10px;border-radius:8px;border:2px solid #c8963e;margin-top:8px;"><strong>🎯 Causa Raiz:</strong> ${escapeHtml(fw.causaRaiz||'Não identificada')}</p></div>`; }
-                    el('verPlanoInner').innerHTML = `<h2>Plano de Ação - NC #${plano.ncId}</h2><p>Produto: ${escapeHtml(plano.ncProduto)} | Palete: ${escapeHtml(plano.ncPalete)} | Turno: ${escapeHtml(plano.ncTurno||'-')}</p><p>Motivo: ${escapeHtml(plano.ncMotivo)}</p><p>Status: <span class="badge ${plano.status==='concluido'?'badge-concluido':'badge-pendente'}">${plano.status==='concluido'?'Concluído':'Pendente'}</span></p><h4>Resumo</h4><p style="white-space:pre-wrap;">${escapeHtml(plano.resumoReuniao)}</p><h4>Pessoas</h4>${pessoasHtml}${ishikawaHtml}${fiveWhysHtml}<div style="margin-top:16px;">${isAdmin?`<button class="btn btn-accent" onclick="imprimirPlanoAcao('${id}')"><i class="fas fa-print"></i></button>`:''}${minha && !minha.assinado?`<button class="btn btn-assinar" onclick="abrirAssinaturaDigital('${id}')"><i class="fas fa-signature"></i> Assinar</button>`:minha && minha.assinado?`<button class="btn btn-refazer" onclick="abrirAssinaturaDigital('${id}', true)"><i class="fas fa-redo"></i> Refazer Assinatura</button>`:''}<button class="btn btn-outline" onclick="fecharModalVerPlano()">Fechar</button></div>`;
+                    const botoesHtml = isGerencial ? `<button class="btn btn-outline" onclick="fecharModalVerPlano()">Fechar</button>` : `
+                        <button class="btn btn-accent" onclick="imprimirPlanoAcao('${id}')"><i class="fas fa-print"></i></button>
+                        ${minha && !minha.assinado ? `<button class="btn btn-assinar" onclick="abrirAssinaturaDigital('${id}')"><i class="fas fa-signature"></i> Assinar</button>` : ''}
+                        ${minha && minha.assinado ? `<button class="btn btn-refazer" onclick="abrirAssinaturaDigital('${id}', true)"><i class="fas fa-redo"></i> Refazer Assinatura</button>` : ''}
+                        <button class="btn btn-outline" onclick="fecharModalVerPlano()">Fechar</button>`;
+                    el('verPlanoInner').innerHTML = `<h2>Plano de Ação - NC #${plano.ncId}</h2><p>Produto: ${escapeHtml(plano.ncProduto)} | Palete: ${escapeHtml(plano.ncPalete)} | Turno: ${escapeHtml(plano.ncTurno||'-')}</p><p>Motivo: ${escapeHtml(plano.ncMotivo)}</p><p>Status: <span class="badge ${plano.status==='concluido'?'badge-concluido':'badge-pendente'}">${plano.status==='concluido'?'Concluído':'Pendente'}</span></p><h4>Resumo</h4><p style="white-space:pre-wrap;">${escapeHtml(plano.resumoReuniao)}</p><h4>Pessoas</h4>${pessoasHtml}${ishikawaHtml}${fiveWhysHtml}<div style="margin-top:16px;">${botoesHtml}</div>`;
                     el('modalVerPlano').style.display = 'flex';
                 } catch (error) { console.error("Erro ao ver plano:", error); mostrarToast('Erro ao carregar detalhes do plano.', 'error'); }
             };
             window.fecharModalVerPlano = () => { el('modalVerPlano').style.display = 'none'; };
 
             window.abrirAssinaturaDigital = function(planoId, refazer = false) {
+                if (state.currentUser?.role === 'gerencial') return mostrarToast('Acesso restrito!', 'error');
                 state.assinatura.planoId = planoId;
                 el('modalAssinatura').style.display = 'flex';
                 el('tituloModalAssinatura').innerHTML = '<i class="fas fa-signature"></i> ' + (refazer ? 'Refazer Assinatura Digital' : 'Assinatura Digital');
@@ -1304,6 +1338,7 @@
             window.limparCanvasAssinatura = () => { if (!state.assinatura.ctx || !state.assinatura.canvas) return; state.assinatura.ctx.fillStyle = '#fff'; state.assinatura.ctx.fillRect(0, 0, state.assinatura.canvas.width, state.assinatura.canvas.height); };
             window.fecharModalAssinatura = () => { el('modalAssinatura').style.display = 'none'; state.assinatura.planoId = null; state.assinatura.canvas = null; state.assinatura.ctx = null; };
             window.confirmarAssinaturaDigital = async function() {
+                if (state.currentUser?.role === 'gerencial') return mostrarToast('Acesso restrito!', 'error');
                 if (!state.assinatura.canvas || !state.assinatura.planoId) return;
                 const imageData = state.assinatura.ctx.getImageData(0, 0, state.assinatura.canvas.width, state.assinatura.canvas.height).data;
                 let isEmpty = true;
@@ -1508,7 +1543,8 @@
             async function renderUsuarios() {
                 if (state.currentUser?.role !== 'admin') return;
                 const usuarios = await getUsuarios(true);
-                el('tbodyUsuarios').innerHTML = usuarios.map(u => `<tr><td><strong>${escapeHtml(u.username)}</strong></td><td><span class="badge ${u.role==='admin'?'badge-resolved':'badge-open'}">${u.role}</span></td><td>${fmtDataCurta(u.createdAt)}</td><td>${u.username!=='qualidade'?`<button class="btn btn-sm btn-danger" onclick="excluirUsuario('${u.username}')"><i class="fas fa-trash"></i></button>`:'Admin principal'}</td></tr>`).join('');
+                const rolesLabels = { admin: 'Admin', padrao: 'Padrão', gerencial: 'Gerencial' };
+                el('tbodyUsuarios').innerHTML = usuarios.map(u => `<tr><td><strong>${escapeHtml(u.username)}</strong></td><td><span class="badge ${u.role==='admin'?'badge-resolved': (u.role==='gerencial'?'badge-open':'badge-pendente')}">${rolesLabels[u.role] || u.role}</span></td><td>${fmtDataCurta(u.createdAt)}</td><td>${u.username!=='qualidade'?`<button class="btn btn-sm btn-danger" onclick="excluirUsuario('${u.username}')"><i class="fas fa-trash"></i></button>`:'Admin principal'}</td></tr>`).join('');
             }
             window.criarUsuario = async function() {
                 if (state.currentUser?.role !== 'admin') return mostrarToast('Apenas administradores!', 'error');
@@ -1539,7 +1575,6 @@
                 return false;
             }
 
-            // NOVA FUNCIONALIDADE: COPIAR PLANO EXISTENTE
             async function popularSelectPlanos() {
                 const select = el('selectPlanoCopiar');
                 select.innerHTML = '<option value="">Selecione um plano para copiar...</option>';
@@ -1558,11 +1593,7 @@
                 if (!planoId) return mostrarToast('Selecione um plano para copiar.', 'error');
                 const plano = await getPlanoById(planoId);
                 if (!plano) return mostrarToast('Plano não encontrado.', 'error');
-
-                // Preencher resumo
                 el('planoResumo').value = plano.resumoReuniao || '';
-
-                // Copiar pessoas, resetando assinaturas
                 state.pessoasPlano = (plano.pessoas || []).map(p => ({
                     username: p.username,
                     acao: p.acao,
@@ -1572,10 +1603,7 @@
                     justificativa: '',
                     assinaturaDigital: ''
                 }));
-
-                // Resetar ferramentas e carregar do plano copiado
                 resetarFerramentas();
-
                 if (plano.temIshikawa) {
                     const snap = await collIshikawa.where('planoId', '==', planoId).limit(1).get();
                     if (!snap.empty) {
@@ -1587,7 +1615,6 @@
                         state.ferramentas.ishikawa._docId = null;
                     }
                 }
-
                 if (plano.temFiveWhys) {
                     const snap = await collFiveWhys.where('planoId', '==', planoId).limit(1).get();
                     if (!snap.empty) {
@@ -1599,8 +1626,6 @@
                         state.ferramentas.fiveWhys._docId = null;
                     }
                 }
-
-                // Atualizar UI
                 renderPessoasPlano();
                 renderizarFerramentasUI();
                 mostrarToast('Plano copiado com sucesso! Preencha os dados da NC atual.', 'success');
