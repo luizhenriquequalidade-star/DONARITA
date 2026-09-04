@@ -2127,7 +2127,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label><i class="fas fa-redo-alt"></i> Qtd. Retrabalhadas</label>
+                            <label><i class="fas fa-redo-alt"></i> QTD Caixa descartada</label>
                             <input type="text" id="ncQtdRetrabalhadas" placeholder="Quantidade retrabalhada" inputmode="decimal" value="0" oninput="calcularCustoRetrabalho()">
                             <div class="custo-caixa-container" id="custoRetrabalhadasDisplay">
                                 <i class="fas fa-dollar-sign"></i> Custo da Retrabalhagem: <strong id="ncCustoRetrabalhadas">R$ 0,00</strong>
@@ -2558,7 +2558,7 @@
                 const partes = [];
                 if (nc.quantidadeCaixas > 0) partes.push(`${formatarNumero(nc.quantidadeCaixas)} cx`);
                 if (nc.quantidadeItens > 0) partes.push(`${formatarNumero(nc.quantidadeItens)} it`);
-                if (nc.quantidadeRetrabalhadas > 0) partes.push(`${formatarNumero(nc.quantidadeRetrabalhadas)} ret`);
+                if (nc.quantidadeRetrabalhadas > 0) partes.push(`${formatarNumero(nc.quantidadeRetrabalhadas)} desc`);
                 if (nc.quantidadeDescartada > 0) partes.push(`${formatarNumero(nc.quantidadeDescartada)} desc`);
                 if (!partes.length && nc.quantidade != null) partes.push(`${nc.quantidade} (legado)`);
                 return partes.join(' / ') || '-'
@@ -2760,7 +2760,7 @@
                     <div class="detail-row"><strong>Turno:</strong><span>${escapeHtml(nc.turno||'-')}</span></div>
                     <div class="detail-row"><strong>Qtd. Caixas:</strong><span>${formatarNumero(nc.quantidadeCaixas)}</span></div>
                     <div class="detail-row"><strong>Qtd. Itens:</strong><span>${formatarNumero(nc.quantidadeItens)}</span></div>
-                    <div class="detail-row"><strong>Qtd. Retrabalhadas:</strong><span>${formatarNumero(nc.quantidadeRetrabalhadas||0)}</span></div>
+                    <div class="detail-row"><strong>QTD Caixa descartada:</strong><span>${formatarNumero(nc.quantidadeRetrabalhadas||0)}</span></div>
                     <div class="detail-row"><strong>Qtd. Descartada:</strong><span>${formatarNumero(nc.quantidadeDescartada||0)}</span></div>
                     <div class="detail-row"><strong>Custo Retrabalhado:</strong><span style="color:#b55a1e;font-weight:700;">${formatarMoeda(nc.custoRetrabalhadas||0)}</span></div>
                     <div class="detail-row"><strong>Ação:</strong><span>${escapeHtml(nc.acao)}</span></div>
@@ -3427,7 +3427,7 @@
                 <div class="detail-row"><strong>Turno:</strong><span>${escapeHtml(nc.turno||'-')}</span></div>
                 <div class="detail-row"><strong>Qtd. Caixas:</strong><span>${formatarNumero(nc.quantidadeCaixas)}</span></div>
                 <div class="detail-row"><strong>Qtd. Itens:</strong><span>${formatarNumero(nc.quantidadeItens)}</span></div>
-                <div class="detail-row"><strong>Qtd. Retrabalhadas:</strong><span>${formatarNumero(nc.quantidadeRetrabalhadas||0)}</span></div>
+                <div class="detail-row"><strong>QTD Caixa descartada:</strong><span>${formatarNumero(nc.quantidadeRetrabalhadas||0)}</span></div>
                 <div class="detail-row"><strong>Qtd. Descartada:</strong><span>${formatarNumero(nc.quantidadeDescartada||0)}</span></div>
                 <div class="detail-row"><strong>Custo Retrabalhado:</strong><span style="color:#b55a1e;font-weight:700;">${formatarMoeda(nc.custoRetrabalhadas||0)}</span></div>
                 <div class="detail-row"><strong>Ação:</strong><span>${escapeHtml(nc.acao)}</span></div>
@@ -3497,7 +3497,7 @@
                         <div class="print-field"><span class="print-label">TEMPO EM ABERTO</span><span class="print-value" style="color:#b55a1e;font-size:22px;font-weight:800;">${tempo.texto}</span></div>
                         <div class="print-field"><span class="print-label">QTD. CAIXAS</span><span class="print-value">${formatarNumero(nc.quantidadeCaixas)}</span></div>
                         <div class="print-field"><span class="print-label">QTD. ITENS</span><span class="print-value">${formatarNumero(nc.quantidadeItens)}</span></div>
-                        <div class="print-field"><span class="print-label">QTD. RETRABALHADAS</span><span class="print-value">${formatarNumero(nc.quantidadeRetrabalhadas||0)}</span></div>
+                        <div class="print-field"><span class="print-label">QTD CAIXA DESCARTADA</span><span class="print-value">${formatarNumero(nc.quantidadeRetrabalhadas||0)}</span></div>
                         <div class="print-field"><span class="print-label">QTD. DESCARTADA</span><span class="print-value">${formatarNumero(nc.quantidadeDescartada||0)}</span></div>
                         <div class="print-field"><span class="print-label">CUSTO RETRABALHADO</span><span class="print-value" style="color:#b55a1e;font-weight:800;">${formatarMoeda(nc.custoRetrabalhadas||0)}</span></div>
                         <div class="print-field"><span class="print-label">DATA DE ABERTURA</span><span class="print-value">${fmtDataISO(nc.dataAbertura)}</span></div>
@@ -3532,7 +3532,7 @@
                     if (!nc) nc = await getNcById(id);
                     if (!nc) return mostrarToast('NC não encontrada!', 'error');
                     const tempo = nc.status === 'aberto' ? calcularTempoDetalhado(nc).texto : `${calcularDias(nc)}d (fechado)`;
-                    const msg = `🚨 *ALERTA DE RETRABALHO*\n🏭 Dona Rita Embalagens\n\n📋 NC #${nc.id}\n📦 ${nc.produto}\n🏷️ ${nc.palete}\n🕒 Turno: ${nc.turno||'-'}\n⚠️ ${nc.motivo}\n📊 Caixas: ${formatarNumero(nc.quantidadeCaixas||0)} | Itens: ${formatarNumero(nc.quantidadeItens||0)} | Retrab.: ${formatarNumero(nc.quantidadeRetrabalhadas||0)} | Desc.: ${formatarNumero(nc.quantidadeDescartada||0)}\n💰 Custo Retrab.: ${formatarMoeda(nc.custoRetrabalhadas||0)}\n🔧 Ação: ${nc.acao}\n⏱️ Tempo: ${tempo}\n📎 ${location.href.split('?')[0]}?view=readonly&id=${nc.id}`;
+                    const msg = `🚨 *ALERTA DE RETRABALHO*\n🏭 Dona Rita Embalagens\n\n📋 NC #${nc.id}\n📦 ${nc.produto}\n🏷️ ${nc.palete}\n🕒 Turno: ${nc.turno||'-'}\n⚠️ ${nc.motivo}\n📊 Caixas: ${formatarNumero(nc.quantidadeCaixas||0)} | Itens: ${formatarNumero(nc.quantidadeItens||0)} | Desc.: ${formatarNumero(nc.quantidadeRetrabalhadas||0)} | Desc.: ${formatarNumero(nc.quantidadeDescartada||0)}\n💰 Custo Retrab.: ${formatarMoeda(nc.custoRetrabalhadas||0)}\n🔧 Ação: ${nc.acao}\n⏱️ Tempo: ${tempo}\n📎 ${location.href.split('?')[0]}?view=readonly&id=${nc.id}`;
                     const url = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? `whatsapp://send?text=${encodeURIComponent(msg)}` : `https://web.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
                     window.open(url, '_blank');
                     mostrarToast('📱 Abrindo WhatsApp...', 'info')
