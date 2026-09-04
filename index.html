@@ -534,6 +534,12 @@
             background: #d9f2f0;
             color: #1a6b63;
         }
+        .stat-icon.money {
+            background: #fef3e6;
+            color: #b5792a;
+            border: 2px solid #f5e7d3;
+            font-size: 1.5rem;
+        }
         .stat-info h3 {
             font-size: 1.9rem;
             font-weight: 700;
@@ -1826,6 +1832,26 @@
             color: #8b9a94;
             padding: 40px;
         }
+        /* Estilo para o campo de custo calculado */
+        .custo-caixa-container {
+            margin-top: 8px;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            background: #fef3e6;
+            border: 1.5px solid #f5e7d3;
+            color: #6b4f1a;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .custo-caixa-container i {
+            color: #b5792a;
+            margin-right: 6px;
+        }
+        .custo-caixa-container strong {
+            font-size: 1.2rem;
+            color: #b55a1e;
+            font-family: 'JetBrains Mono', monospace;
+        }
     </style>
 </head>
 <body>
@@ -1937,6 +1963,7 @@
                                     <th>Produto</th>
                                     <th>Motivo</th>
                                     <th>Quantidades</th>
+                                    <th>Custo Retrab.</th>
                                     <th>Palete</th>
                                     <th>Turno</th>
                                     <th>Status</th>
@@ -1968,7 +1995,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label><i class="fas fa-box"></i> Produto *</label>
-                            <select id="ncProduto" name="ncProduto">
+                            <select id="ncProduto" name="ncProduto" onchange="calcularCustoRetrabalho()">
                                 <option value="">Selecione o produto...</option>
                                 <option value="D32 R PR">D32 R PR</option>
                                 <option value="D32 R BR">D32 R BR</option>
@@ -2083,7 +2110,10 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label><i class="fas fa-redo-alt"></i> Qtd. Retrabalhadas</label>
-                            <input type="text" id="ncQtdRetrabalhadas" placeholder="Quantidade retrabalhada" inputmode="decimal" value="0">
+                            <input type="text" id="ncQtdRetrabalhadas" placeholder="Quantidade retrabalhada" inputmode="decimal" value="0" oninput="calcularCustoRetrabalho()">
+                            <div class="custo-caixa-container" id="custoRetrabalhadasDisplay">
+                                <i class="fas fa-dollar-sign"></i> Custo da Retrabalhagem: <strong id="ncCustoRetrabalhadas">R$ 0,00</strong>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label><i class="fas fa-trash-alt"></i> Qtd. Descartada</label>
@@ -2351,6 +2381,7 @@
         </div>
     </div>
     <div class="toast-container" id="toastContainer"></div>
+    
     <script>
         (function() {
             const firebaseConfig = {
@@ -2413,6 +2444,33 @@
             // Registrar o plugin de rótulos de dados
             Chart.register(ChartDataLabels);
 
+            // ==========================================
+            // TABELA DE PREÇOS PARA CÁLCULO DE CUSTO
+            // ==========================================
+            const PRECOS_PRODUTOS = {
+                "D32 R PR": 50.85, "D32 R BR": 50.85, "D32 RA PR": 89.25, "D32 RA BR": 89.25,
+                "D32 RB PR": 50.29, "D32 RB BR": 50.29, "D35 RA PR": 50.17, "D35 RA BR": 50.17,
+                "D35 RB PR": 48.03, "D35 RB BR": 48.03, "D37 RA PR": 155.45, "D37 RA BR": 155.45,
+                "D37 RB PR": 147.78, "D37 RB BR": 147.78, "D50 R PR": 62.84, "D50 R BR": 62.84,
+                "D50 RA PR": 81.02, "D50 RA BR": 81.02, "D50 RB PR": 68.67, "D50 RB BR": 68.67,
+                "D56 R PR": 84.48, "D56 R BR": 84.48, "D56 RA PR": 110.69, "D56 RA BR": 110.69,
+                "D56 RB PR": 83.74, "D56 RB BR": 83.74, "D60 R PR": 124.18, "D60 R BR": 124.18,
+                "D60 RA PR": 149.87, "D60 RA BR": 149.87, "D60 RB PR": 118.81, "D60 RB BR": 118.81,
+                "D62 R BR": 97.25, "D62 R PR": 97.25, "D63 R BR": 87.81, "D63 R PR": 87.81,
+                "D63 RA BR": 95.44, "D63 RA PR": 95.44, "D64 RA PR": 84.00, "D64 RA BR": 84.00,
+                "D70 R PR": 104.83, "D70 R BR": 104.83, "D70 RB PR": 102.73, "D70 RB BR": 102.73,
+                "D78 R BR": 169.90, "D78 R PR": 169.90, "D78 RB BR": 163.83, "D80 RA PR": 120.76,
+                "D80 RA BR": 120.76, "D80 RB BR": 113.52, "D32 NY PR": 170.25, "D32 NYB PR": 154.59,
+                "D50 NY PR": 147.48, "D50 NYA PR": 157.53, "D50 NYB PR": 146.21, "D32 H PR": 146.67,
+                "DA 08": 26.70, "DA 10": 24.03, "DA 17": 58.71, "DA 18": 61.70, "DA 20": 55.52,
+                "D630": 143.97, "D681": 146.90, "D640": 49.43, "D645": 42.46, "D650": 66.85,
+                "DA 14": 32.94, "DA 16": 85.53, "DA 88": 70.05, "DA 90": 109.14, "DA 91": 91.92,
+                "D742 R": 65.56, "D742 P": 67.24, "D750 R": 68.77, "D750 P": 70.75,
+                "D771 R": 81.45, "D771 P": 87.87, "D695 CR": 81.43, "D695 PR": 81.43, "D695 BR": 81.43,
+                "D540": 94.77, "D34P": 98.44, "D34": 166.41, "D730": 54.75, "D731": 63.45,
+                "D732": 64.83, "DTP20": 210.35, "DPOF10": 119.05, "DTP30": 221.91
+            };
+
             // CORREÇÃO DO BUG DE PARSE DE NÚMEROS (FORMATO BRASILEIRO)
             function parseNumero(valor) {
                 if (valor === null || valor === undefined || valor === '') return 0;
@@ -2436,6 +2494,24 @@
                 if (num === undefined || num === null || isNaN(num)) return '0';
                 return Number(num).toLocaleString('pt-BR');
             }
+
+            function formatarMoeda(num) {
+                return Number(num).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            }
+
+            // ==========================================
+            // CALCULAR CUSTO DA RETRABALHAGEM (APENAS)
+            // ==========================================
+            window.calcularCustoRetrabalho = function() {
+                const produto = document.getElementById('ncProduto').value;
+                const qtd = parseNumero(document.getElementById('ncQtdRetrabalhadas').value);
+                const preco = PRECOS_PRODUTOS[produto] || 0;
+                const total = qtd * preco;
+                document.getElementById('ncCustoRetrabalhadas').textContent = formatarMoeda(total);
+            };
+
+            // Função removida: calcularCustoDescartado (Não é mais necessária)
+
             const charts = {};
             const ishikawaColors = { 'Método': '#386e8c', 'Máquina': '#b53b3b', 'Medida': '#7b4b9a', 'Meio Ambiente': '#2d7a4f', 'Mão de Obra': '#b5792a', 'Material': '#1f6d52' };
             const ishikawaDescriptions = {
@@ -2662,6 +2738,7 @@
                     <div class="detail-row"><strong>Qtd. Itens:</strong><span>${formatarNumero(nc.quantidadeItens)}</span></div>
                     <div class="detail-row"><strong>Qtd. Retrabalhadas:</strong><span>${formatarNumero(nc.quantidadeRetrabalhadas||0)}</span></div>
                     <div class="detail-row"><strong>Qtd. Descartada:</strong><span>${formatarNumero(nc.quantidadeDescartada||0)}</span></div>
+                    <div class="detail-row"><strong>Custo Retrabalhado:</strong><span style="color:#b55a1e;font-weight:700;">${formatarMoeda(nc.custoRetrabalhadas||0)}</span></div>
                     <div class="detail-row"><strong>Ação:</strong><span>${escapeHtml(nc.acao)}</span></div>
                     <div class="detail-row"><strong>Status:</strong><span class="badge ${nc.status==='aberto'?'badge-open':'badge-resolved'}">${nc.status==='aberto'?'Aberto':'Resolvido'}</span></div>
                     <div class="detail-row"><strong>Tempo:</strong><span id="liveTimerVisitante">${nc.status==='aberto'?calcularTempoDetalhado(nc).texto:calcularDias(nc)+'d (fechado)'}</span></div>
@@ -2865,14 +2942,20 @@
                 const diasMedio = abertas.length ? Math.round(abertas.reduce((s, n) => s + calcularDias(n), 0) / abertas.length) : 0;
                 const planosPendentes = planos.filter(p => p.status === 'aberto').length;
                 const planosConcluidos = planos.filter(p => p.status === 'concluido').length;
+
+                // CÁLCULO DO CUSTO TOTAL DA RETRABALHAGEM
+                const custoRetrabalhadoTotal = ncs.reduce((soma, nc) => soma + (parseFloat(nc.custoRetrabalhadas) || 0), 0);
+
                 el('statsGrid').innerHTML = [
                     { icon: 'blue', i: 'fa-clipboard-list', val: ncs.length, label: 'Total de NCs' },
                     { icon: 'red', i: 'fa-exclamation-circle', val: abertas.length, label: 'NCs Abertas' },
                     { icon: 'green', i: 'fa-check-circle', val: resolvidas.length, label: 'NCs Resolvidas' },
                     { icon: 'orange', i: 'fa-clock', val: diasMedio, label: 'Média Dias Abertos' },
+                    { icon: 'money', i: 'fa-dollar-sign', val: formatarMoeda(custoRetrabalhadoTotal), label: 'Custo Retrabalhado' },
                     { icon: 'teal', i: 'fa-tasks', val: planosPendentes, label: 'Planos Pendentes' },
                     { icon: 'purple', i: 'fa-clipboard-check', val: planosConcluidos, label: 'Planos Concluídos' }
                 ].map(s => `<div class="stat-card"><div class="stat-icon ${s.icon}"><i class="fas ${s.i}"></i></div><div class="stat-info"><h3>${s.val}</h3><span>${s.label}</span></div></div>`).join('');
+                
                 const motivosMap = {};
                 ncs.forEach(n => {
                     const c = (n.motivo || 'Sem motivo').substring(0, 50);
@@ -2891,7 +2974,7 @@
                     esconderMensagemVazio(ctx1);
                     if (mKeys.length) {
                         charts.motivos = new Chart(ctx1, {
-                            type: 'pie', // Alterado para pizza
+                            type: 'pie',
                             data: {
                                 labels: mKeys,
                                 datasets: [{
@@ -3101,11 +3184,13 @@
                             acoesHtml += `<button class="btn btn-sm btn-primary" onclick="gerarQRCode('${nc.id}')" title="QR Code"><i class="fas fa-qrcode"></i></button>`;
                             acoesHtml += `<button class="btn btn-sm btn-whatsapp" onclick="enviarAlertaWhatsApp('${nc.id}')" title="WhatsApp"><i class="fab fa-whatsapp"></i></button>`
                         }
+                        const custoRetrabalhado = formatarMoeda(nc.custoRetrabalhadas || 0);
                         return `<tr>
                         <td><strong>#${nc.id}</strong></td>
                         <td>${escapeHtml(nc.produto||'-')}</td>
                         <td>${escapeHtml((nc.motivo||'').substring(0,40))}${(nc.motivo||'').length>40?'...':''}</td>
                         <td>${formatarQuantidade(nc)}</td>
+                        <td><span style="color:#b55a1e;font-weight:700;">${custoRetrabalhado}</span></td>
                         <td><span style="background:#e9f3ef;padding:3px 10px;border-radius:12px;font-weight:600;font-size:0.78rem;">${escapeHtml(nc.palete||'-')}</span></td>
                         <td><span style="background:#e2eff7;padding:3px 10px;border-radius:12px;font-weight:600;font-size:0.78rem;">${escapeHtml(nc.turno||'-')}</span></td>
                         <td><span class="badge ${nc.status==='aberto'?'badge-open':'badge-resolved'}">${nc.status==='aberto'?'Aberto':'Resolvido'}</span></td>
@@ -3133,7 +3218,9 @@
                 state.fotosNovas = [];
                 state.fotosExistentes = [];
                 el('photoPreviewContainer').innerHTML = el('existingPhotosContainer').innerHTML = '';
-                el('inputFotos').value = ''
+                el('inputFotos').value = '';
+                // Zera o custo calculado ao abrir novo formulário
+                document.getElementById('ncCustoRetrabalhadas').textContent = formatarMoeda(0);
             };
             window.previewFotos = function() {
                 const files = el('inputFotos').files;
@@ -3194,6 +3281,11 @@
                 const qtdRetrabalhadas = parseNumero(el('ncQtdRetrabalhadas').value);
                 const qtdDescartada = parseNumero(el('ncQtdDescartada').value);
                 const acao = el('ncAcao').value.trim();
+                
+                // Cálculo do custo apenas para retrabalhadas
+                const precoUnitario = PRECOS_PRODUTOS[produto] || 0;
+                const custoRetrabalhadas = qtdRetrabalhadas * precoUnitario;
+
                 if (!produto || !palete || !motivo || !qtdCaixas || !qtdItens || !acao) return mostrarToast('Preencha todos os campos obrigatórios!', 'error');
                 if (qtdCaixas < 1 || qtdItens < 1) return mostrarToast('Quantidades devem ser maiores que zero!', 'error');
                 const todasFotos = [...state.fotosExistentes, ...state.fotosNovas];
@@ -3203,7 +3295,7 @@
                     const ant = doc.data();
                     const historico = ant.historico || [];
                     historico.push({ data: new Date().toISOString(), usuario: state.currentUser.username, acao: 'editou', detalhes: 'NC atualizada' });
-                    await collNCs.doc(editId).update({ produto, palete, motivo, quantidadeCaixas: qtdCaixas, quantidadeItens: qtdItens, quantidadeRetrabalhadas: qtdRetrabalhadas, quantidadeDescartada: qtdDescartada, acao, fotos: todasFotos, historico });
+                    await collNCs.doc(editId).update({ produto, palete, motivo, quantidadeCaixas: qtdCaixas, quantidadeItens: qtdItens, quantidadeRetrabalhadas: qtdRetrabalhadas, quantidadeDescartada: qtdDescartada, acao, custoRetrabalhadas, fotos: todasFotos, historico });
                     invalidateSingleDocCache('ncs', editId);
                     mostrarToast('NC #' + editId + ' atualizada!', 'success')
                 } else {
@@ -3223,6 +3315,7 @@
                         quantidadeRetrabalhadas: qtdRetrabalhadas,
                         quantidadeDescartada: qtdDescartada,
                         acao,
+                        custoRetrabalhadas,
                         fotos: todasFotos,
                         status: 'aberto',
                         dataAbertura: new Date().toISOString(),
@@ -3260,7 +3353,8 @@
                 state.fotosExistentes = [...(nc.fotos || [])];
                 el('photoPreviewContainer').innerHTML = '';
                 renderFotosExistentes();
-                navegar('nova', document.querySelector('[data-page="nova"]'))
+                navegar('nova', document.querySelector('[data-page="nova"]'));
+                calcularCustoRetrabalho();
             };
             window.cancelarEdicao = () => { prepararFormNova();
                 navegar('lista') };
@@ -3311,6 +3405,7 @@
                 <div class="detail-row"><strong>Qtd. Itens:</strong><span>${formatarNumero(nc.quantidadeItens)}</span></div>
                 <div class="detail-row"><strong>Qtd. Retrabalhadas:</strong><span>${formatarNumero(nc.quantidadeRetrabalhadas||0)}</span></div>
                 <div class="detail-row"><strong>Qtd. Descartada:</strong><span>${formatarNumero(nc.quantidadeDescartada||0)}</span></div>
+                <div class="detail-row"><strong>Custo Retrabalhado:</strong><span style="color:#b55a1e;font-weight:700;">${formatarMoeda(nc.custoRetrabalhadas||0)}</span></div>
                 <div class="detail-row"><strong>Ação:</strong><span>${escapeHtml(nc.acao)}</span></div>
                 <div class="detail-row"><strong>Status:</strong><span class="badge ${nc.status==='aberto'?'badge-open':'badge-resolved'}">${nc.status==='aberto'?'Aberto':'Resolvido'}</span></div>
                 <div class="detail-row"><strong>Tempo:</strong><span id="liveTimerDetalhe">${nc.status==='aberto'?calcularTempoDetalhado(nc).texto:calcularDias(nc)+'d (fechado)'}</span></div>
@@ -3380,6 +3475,7 @@
                         <div class="print-field"><span class="print-label">QTD. ITENS</span><span class="print-value">${formatarNumero(nc.quantidadeItens)}</span></div>
                         <div class="print-field"><span class="print-label">QTD. RETRABALHADAS</span><span class="print-value">${formatarNumero(nc.quantidadeRetrabalhadas||0)}</span></div>
                         <div class="print-field"><span class="print-label">QTD. DESCARTADA</span><span class="print-value">${formatarNumero(nc.quantidadeDescartada||0)}</span></div>
+                        <div class="print-field"><span class="print-label">CUSTO RETRABALHADO</span><span class="print-value" style="color:#b55a1e;font-weight:800;">${formatarMoeda(nc.custoRetrabalhadas||0)}</span></div>
                         <div class="print-field"><span class="print-label">DATA DE ABERTURA</span><span class="print-value">${fmtDataISO(nc.dataAbertura)}</span></div>
                         <div class="print-field"><span class="print-label">${nc.dataResolucao?'DATA DE RESOLUÇÃO':'STATUS'}</span><span class="print-value">${nc.dataResolucao?fmtDataISO(nc.dataResolucao):'Pendente'}</span></div>
                         <div class="print-field"><span class="print-label">CRIADO POR</span><span class="print-value">${escapeHtml(nc.criadoPor)}</span></div>
@@ -3412,7 +3508,7 @@
                     if (!nc) nc = await getNcById(id);
                     if (!nc) return mostrarToast('NC não encontrada!', 'error');
                     const tempo = nc.status === 'aberto' ? calcularTempoDetalhado(nc).texto : `${calcularDias(nc)}d (fechado)`;
-                    const msg = `🚨 *ALERTA DE RETRABALHO*\n🏭 Dona Rita Embalagens\n\n📋 NC #${nc.id}\n📦 ${nc.produto}\n🏷️ ${nc.palete}\n🕒 Turno: ${nc.turno||'-'}\n⚠️ ${nc.motivo}\n📊 Caixas: ${formatarNumero(nc.quantidadeCaixas||0)} | Itens: ${formatarNumero(nc.quantidadeItens||0)} | Retrab.: ${formatarNumero(nc.quantidadeRetrabalhadas||0)} | Desc.: ${formatarNumero(nc.quantidadeDescartada||0)}\n🔧 Ação: ${nc.acao}\n⏱️ Tempo: ${tempo}\n📎 ${location.href.split('?')[0]}?view=readonly&id=${nc.id}`;
+                    const msg = `🚨 *ALERTA DE RETRABALHO*\n🏭 Dona Rita Embalagens\n\n📋 NC #${nc.id}\n📦 ${nc.produto}\n🏷️ ${nc.palete}\n🕒 Turno: ${nc.turno||'-'}\n⚠️ ${nc.motivo}\n📊 Caixas: ${formatarNumero(nc.quantidadeCaixas||0)} | Itens: ${formatarNumero(nc.quantidadeItens||0)} | Retrab.: ${formatarNumero(nc.quantidadeRetrabalhadas||0)} | Desc.: ${formatarNumero(nc.quantidadeDescartada||0)}\n💰 Custo Retrab.: ${formatarMoeda(nc.custoRetrabalhadas||0)}\n🔧 Ação: ${nc.acao}\n⏱️ Tempo: ${tempo}\n📎 ${location.href.split('?')[0]}?view=readonly&id=${nc.id}`;
                     const url = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? `whatsapp://send?text=${encodeURIComponent(msg)}` : `https://web.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
                     window.open(url, '_blank');
                     mostrarToast('📱 Abrindo WhatsApp...', 'info')
@@ -4000,8 +4096,10 @@
                 const abertas = filtradas.filter(n => n.status === 'aberto').length,
                     resolvidas = filtradas.filter(n => n.status === 'resolvido').length,
                     total = filtradas.length;
-                const totalRetrabalhadas = filtradas.reduce((s, n) => s + (parseNumero(n.quantidadeRetrabalhadas) || 0), 0),
-                    totalDescartada = filtradas.reduce((s, n) => s + (parseNumero(n.quantidadeDescartada) || 0), 0);
+                const totalRetrabalhadas = filtradas.reduce((s, n) => s + (parseNumero(n.quantidadeRetrabalhadas) || 0), 0);
+                const totalDescartada = filtradas.reduce((s, n) => s + (parseNumero(n.quantidadeDescartada) || 0), 0);
+                const custoRetrabalhadoTotal = filtradas.reduce((s, n) => s + (parseFloat(n.custoRetrabalhadas) || 0), 0);
+                
                 const motivoAgrupado = {};
                 filtradas.forEach(nc => {
                     const c = (nc.motivo || 'Sem motivo').substring(0, 50);
@@ -4025,13 +4123,14 @@
                     <div class="stat-card"><div class="stat-icon green"><i class="fas fa-check-circle"></i></div><div class="stat-info"><h3>${resolvidas}</h3><span>Resolvidas</span></div></div>
                     <div class="stat-card"><div class="stat-icon orange"><i class="fas fa-redo-alt"></i></div><div class="stat-info"><h3>${totalRetrabalhadas}</h3><span>Retrab.</span></div></div>
                     <div class="stat-card"><div class="stat-icon purple"><i class="fas fa-trash-alt"></i></div><div class="stat-info"><h3>${totalDescartada}</h3><span>Desc.</span></div></div>
+                    <div class="stat-card"><div class="stat-icon money"><i class="fas fa-dollar-sign"></i></div><div class="stat-info"><h3>${formatarMoeda(custoRetrabalhadoTotal)}</h3><span>Custo Total Retrab.</span></div></div>
                 </div>
                 <div class="charts-grid">
                     <div class="chart-card"><h3>NCs por Motivo</h3><canvas id="chartRelMotivos"></canvas></div>
                     <div class="chart-card"><h3>Status</h3><canvas id="chartRelStatus"></canvas></div>
                 </div>
                 <div class="chart-card" style="margin-top:18px;"><h3>Caixas por Motivo</h3><canvas id="chartRelCaixas"></canvas></div>
-                <div class="table-card" style="margin-top:18px;"><div class="table-header"><h3>Detalhamento</h3></div><table><thead><tr><th>Motivo</th><th>NCs</th><th>Caixas</th><th>Itens</th><th>Retrab.</th><th>Desc.</th></tr></thead><tbody>${motivosDetalhados.map(m=>`<tr><td>${escapeHtml(m)}</td><td>${motivoAgrupado[m].ncs}</td><td>${formatarNumero(motivoAgrupado[m].caixas)}</td><td>${formatarNumero(motivoAgrupado[m].itens)}</td><td>${formatarNumero(motivoAgrupado[m].retrabalhadas)}</td><td>${formatarNumero(motivoAgrupado[m].descartada)}</td></tr>`).join('')}</tbody></table></div>
+                <div class="table-card" style="margin-top:18px;"><div class="table-header"><h3>Detalhamento</h3></div><table><thead><tr><th>Motivo</th><th>NCs</th><th>Caixas</th><th>Itens</th><th>Retrab.</th><th>Desc.</th><th>Custo Retrab.</th></tr></thead><tbody>${motivosDetalhados.map(m=>`<tr><td>${escapeHtml(m)}</td><td>${motivoAgrupado[m].ncs}</td><td>${formatarNumero(motivoAgrupado[m].caixas)}</td><td>${formatarNumero(motivoAgrupado[m].itens)}</td><td>${formatarNumero(motivoAgrupado[m].retrabalhadas)}</td><td>${formatarNumero(motivoAgrupado[m].descartada)}</td><td>${formatarMoeda(motivoAgrupado[m].retrabalhadas * (PRECOS_PRODUTOS[m.split(' ')[0]] || 0))}</td></tr>`).join('')}</tbody></table></div>
                 <div class="print-footer">Dona Rita Embalagens © ${agora.getFullYear()} · Relatório gerencial</div>
                 <div class="no-print" style="text-align:center;margin-top:20px;"><button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir / PDF</button><button class="btn btn-outline" onclick="fecharRelatorio()"><i class="fas fa-times"></i> Fechar</button></div>`;
                 el('relatorioPrintArea').style.display = 'block';
